@@ -31,3 +31,10 @@ libtool
 ltmain.sh
 missing
 stamp-h1
+tests/.deps
+tests/.libs
+tests/test-01
+tests/test-01.o
+tests/test-02
+tests/test-02.o
+.*.swp
