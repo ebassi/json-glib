@@ -12,14 +12,34 @@ INCLUDES = \
 
 LDADD = $(JSON_LT_LDFLAGS) -export-dynamic -rpath $(libdir)
 
-BUILT_SOURCES =
+BUILT_SOURCES = json-marshal.h json-marshal.c
 
-STAMP_FILES =
+STAMP_FILES = stamp-json-marshal.h
+
+json-marshal.h: stamp-json-marshal.h
+	@true
+stamp-json-marshal.h: Makefile json-marshal.list
+	$(GLIB_GENMARSHAL) \
+		--prefix=_json_marshal \
+		--header \
+	$(srcdir)/json-marshal.list > xgen-jmh && \
+	(cmp -s xgen-jmh json-marshal.h || cp -f xgen-jmh json-marshal.h) && \
+	rm -f xgen-jmh && \
+	echo timestamp > $(@F)
+
+json-marshal.c: Makefile json-marshal.list
+	(echo "#include \"json-marshal.h\"" ; \
+	 $(GLIB_GENMARSHAL) \
+		--prefix=_json_marshal \
+		--body \
+	 $(srcdir)/json-marshal.list ) > xgen-jmc && \
+	cp -f xgen-jmc json-marshal.c && \
+	rm -f xgen-jmc
 
 source_h = \
-	json-parser.h \
-	json-types.h \
-	json-version.h \
+	$(srcdir)/json-parser.h \
+	$(srcdir)/json-types.h \
+	$(srcdir)/json-version.h \
 	$(NULL)
 
 source_h_private = json-private.h
