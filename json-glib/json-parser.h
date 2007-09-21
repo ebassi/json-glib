@@ -19,12 +19,18 @@ typedef struct _JsonParserPrivate       JsonParserPrivate;
 typedef struct _JsonParserClass         JsonParserClass;
 
 typedef enum {
-  JSON_PARSER_ERROR_INVALID_OBJECT,
-  JSON_PARSER_ERROR_INVALID_ARRAY,
-  JSON_PARSER_ERROR_INVALID_PAIR,
+  JSON_PARSER_ERROR_PARSE,
   
   JSON_PARSER_ERROR_UNKNOWN
 } JsonParserError;
+
+typedef enum {
+  JSON_TOKEN_INVALID = G_TOKEN_LAST,
+  JSON_TOKEN_TRUE,
+  JSON_TOKEN_FALSE,
+  JSON_TOKEN_NULL,
+  JSON_TOKEN_LAST
+} JsonTokenType;
 
 struct _JsonParser
 {
@@ -36,7 +42,23 @@ struct _JsonParser
 
 struct _JsonParserClass
 {
+  /*< private >*/
   GObjectClass parent_class;
+
+  /*< public  >*/
+  void (* error) (JsonParser   *parser,
+                  const GError *error);
+
+  /*< private >*/
+  /* padding for future expansion */
+  void (* _json_reserved1) (void);
+  void (* _json_reserved2) (void);
+  void (* _json_reserved3) (void);
+  void (* _json_reserved4) (void);
+  void (* _json_reserved5) (void);
+  void (* _json_reserved6) (void);
+  void (* _json_reserved7) (void);
+  void (* _json_reserved8) (void);
 };
 
 GQuark      json_parser_error_quark    (void);
