@@ -135,14 +135,21 @@ static guint
 json_parse_array (JsonParser *parser,
                   GScanner   *scanner)
 {
-  return G_TOKEN_NONE;
-}
+  guint token;
+  guint result = G_TOKEN_NONE;
 
-static guint
-json_parse_pair (JsonParser *parse,
-                 GScanner   *scanner)
-{
-  return G_TOKEN_NONE;
+  token = g_scanner_get_next_token (scanner);
+  if (token != G_TOKEN_LEFT_BRACE)
+    return G_TOKEN_LEFT_BRACE;
+
+  token = g_scanner_get_next_token (scanner);
+  if (token == G_TOKEN_RIGHT_BRACE)
+    return G_TOKEN_NONE;
+  else
+    {
+    }
+
+  return result;
 }
 
 static guint
@@ -180,9 +187,6 @@ json_parse_statement (JsonParser *parser,
 
     case G_TOKEN_LEFT_BRACE:
       return json_parse_array (parser, scanner);
-
-    case G_TOKEN_STRING:
-      return json_parse_pair (parser, scanner);
 
     default:
       g_scanner_get_next_token (scanner);
