@@ -6,6 +6,13 @@
 
 G_BEGIN_DECLS
 
+JsonData   *json_data_new              (JsonDataType  type);
+void        json_data_set_object       (JsonData     *data,
+                                        JsonObject   *object);
+void        json_data_set_array        (JsonData     *data,
+                                        JsonArray    *array);
+void        json_data_free             (JsonData     *data);
+
 JsonObject *json_object_new            (void);
 void        json_object_add_member     (JsonObject   *object,
                                         const gchar  *member_name,
