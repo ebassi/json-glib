@@ -18,6 +18,8 @@ json_parser_error_quark (void)
 struct _JsonParserPrivate
 {
   GList *top_levels;
+
+  gint depth;
 };
 
 static const GScannerConfig json_scanner_config =
@@ -34,13 +36,13 @@ static const GScannerConfig json_scanner_config =
    G_CSET_a_2_z
    G_CSET_A_2_Z
   )			/* cset_identifier_nth */,
-  ( "//\n" )		/* cpair_comment_single */,
+  ( "#\n" )		/* cpair_comment_single */,
   TRUE			/* case_sensitive */,
   TRUE			/* skip_comment_multi */,
   TRUE			/* skip_comment_single */,
-  TRUE			/* scan_comment_multi */,
+  FALSE			/* scan_comment_multi */,
   TRUE			/* scan_identifier */,
-  FALSE			/* scan_identifier_1char */,
+  TRUE			/* scan_identifier_1char */,
   FALSE			/* scan_identifier_NULL */,
   TRUE			/* scan_symbols */,
   TRUE			/* scan_binary */,
@@ -86,6 +88,12 @@ enum
 static guint parser_signals[LAST_SIGNAL] = { 0, };
 
 G_DEFINE_TYPE (JsonParser, json_parser, G_TYPE_OBJECT);
+
+static guint json_parse_array  (JsonParser *parser,
+                                GScanner   *scanner,
+                                gboolean    nested);
+static guint json_parse_object (JsonParser *parser,
+                                GScanner   *scanner);
 
 static void
 json_parser_dispose (GObject *gobject)
@@ -133,23 +141,92 @@ json_parser_init (JsonParser *parser)
 
 static guint
 json_parse_array (JsonParser *parser,
-                  GScanner   *scanner)
+                  GScanner   *scanner,
+                  gboolean    nested)
 {
+  JsonParserPrivate *priv = parser->priv;
+  JsonArray *array;
   guint token;
-  guint result = G_TOKEN_NONE;
 
-  token = g_scanner_get_next_token (scanner);
-  if (token != G_TOKEN_LEFT_BRACE)
-    return G_TOKEN_LEFT_BRACE;
-
-  token = g_scanner_get_next_token (scanner);
-  if (token == G_TOKEN_RIGHT_BRACE)
-    return G_TOKEN_NONE;
-  else
+  if (!nested)
     {
+      /* the caller already swallowed the opening '[' */
+      token = g_scanner_get_next_token (scanner);
+      if (token != G_TOKEN_LEFT_BRACE)
+        return G_TOKEN_LEFT_BRACE;
     }
 
-  return result;
+  array = json_array_new ();
+
+  token = g_scanner_get_next_token (scanner);
+  while (token != G_TOKEN_RIGHT_BRACE)
+    {
+      GValue value = { 0, };
+      
+      /* nested array */
+      if (token == G_TOKEN_LEFT_BRACE)
+        {
+          priv->depth += 1;
+
+          token = json_parse_array (parser, scanner, TRUE);
+
+          priv->depth -= 1;
+
+          if (token != G_TOKEN_NONE)
+            return token;
+
+          token = g_scanner_get_next_token (scanner);
+          if (token == G_TOKEN_RIGHT_BRACE)
+            break;
+        }
+
+      switch (token)
+        {
+        case G_TOKEN_COMMA:
+          /* eat the comma and continue */
+          break;
+        
+        case G_TOKEN_INT:
+          g_value_init (&value, G_TYPE_INT);
+          g_value_set_int (&value, scanner->value.v_int);
+          json_array_append_element (array, &value);
+          break;
+
+        case G_TOKEN_FLOAT:
+          g_value_init (&value, G_TYPE_FLOAT);
+          g_value_set_float (&value, scanner->value.v_float);
+          json_array_append_element (array, &value);
+          break;
+
+        case G_TOKEN_STRING:
+          g_value_init (&value, G_TYPE_STRING);
+          g_value_set_string (&value, scanner->value.v_string);
+          json_array_append_element (array, &value);
+          break;
+
+        case JSON_TOKEN_TRUE:
+        case JSON_TOKEN_FALSE:
+          g_value_init (&value, G_TYPE_BOOLEAN);
+          g_value_set_boolean (&value, token == JSON_TOKEN_TRUE ? TRUE
+                                                                : FALSE);
+          json_array_append_element (array, &value);
+          break;
+
+        case JSON_TOKEN_NULL:
+          /* NULL values are packed as empty GValues */
+          break;
+
+        default:
+          return G_TOKEN_RIGHT_BRACE;
+        }
+
+      token = g_scanner_get_next_token (scanner);
+    }
+
+  if (priv->depth == 0)
+    priv->top_levels = g_list_prepend (priv->top_levels, array);
+
+  return G_TOKEN_NONE;
 }
 
 static guint
@@ -186,7 +263,7 @@ json_parse_statement (JsonParser *parser,
       return json_parse_object (parser, scanner);
 
     case G_TOKEN_LEFT_BRACE:
-      return json_parse_array (parser, scanner);
+      return json_parse_array (parser, scanner, FALSE);
 
     default:
       g_scanner_get_next_token (scanner);
@@ -204,6 +281,8 @@ json_scanner_msg_handler (GScanner *scanner,
   if (error)
     {
       GError *error = NULL;
+
+      g_warning ("Line %d: %s", scanner->line, message);
 
       g_set_error (&error, JSON_PARSER_ERROR,
                    JSON_PARSER_ERROR_PARSE,
@@ -310,7 +389,7 @@ json_parser_load_from_data (JsonParser   *parser,
                             GError      **error)
 {
   GScanner *scanner;
-  gboolean done = FALSE;
+  gboolean done;
   gboolean retval = TRUE;
   gint i;
 
@@ -321,7 +400,7 @@ json_parser_load_from_data (JsonParser   *parser,
     length = strlen (data);
 
   scanner = json_scanner_new (parser);
-  g_scanner_input_text (scanner, data, length);
+  g_scanner_input_text (scanner, data, strlen (data));
 
   for (i = 0; i < n_symbols; i++)
     {
@@ -330,6 +409,7 @@ json_parser_load_from_data (JsonParser   *parser,
                                   GINT_TO_POINTER (symbols[i].token));
     }
 
+  done = FALSE;
   while (!done)
     {
       if (g_scanner_peek_next_token (scanner) == G_TOKEN_EOF)
@@ -384,8 +464,8 @@ json_parser_load_from_data (JsonParser   *parser,
               g_set_error (error, JSON_PARSER_ERROR,
                            JSON_PARSER_ERROR_PARSE,
                            "Invalid token `%s' found: expecting %s",
-                           symbol_name,
-                           msg);
+                           symbol_name ? symbol_name : "???",
+                           msg ? msg : "unknown");
 
               retval = FALSE;
 
