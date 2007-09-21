@@ -178,6 +178,8 @@ json_parse_array (JsonParser *parser,
           token = g_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
+
+          continue;
         }
 
       switch (token)
