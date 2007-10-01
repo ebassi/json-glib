@@ -1,3 +1,22 @@
+/* json-types.h - JSON data types
+ * 
+ * This file is part of JSON-GLib
+ * Copyright (C) 2007  OpenedHand Ltd.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Author:
+ *   Emmanuele Bassi  <ebassi@openedhand.com>
+ */
+
 #ifndef __JSON_TYPES_H__
 #define __JSON_TYPES_H__
 
@@ -13,6 +32,15 @@ typedef struct _JsonObject      JsonObject;
 typedef struct _JsonArray       JsonArray;
 typedef struct _JsonNode        JsonNode;
 
+/**
+ * JsonNodeType:
+ * @JSON_NODE_OBJECT: The node contains a #JsonObject
+ * @JSON_NODE_ARRAY: The node contains a #JsonArray
+ * @JSON_NODE_VALUE: The node contains a #GValue
+ * @JSON_NODE_NULL: Special type, for nodes containing %NULL
+ *
+ * Indicates the content of a #JsonNode.
+ */
 typedef enum {
   JSON_NODE_OBJECT,
   JSON_NODE_ARRAY,
@@ -20,6 +48,13 @@ typedef enum {
   JSON_NODE_NULL
 } JsonNodeType;
 
+/**
+ * JsonNode:
+ *
+ * A generic container of JSON data types. The contents of the #JsonNode
+ * structure are private and should only be accessed via the provided
+ * functions and never directly.
+ */
 struct _JsonNode
 {
   /*< private >*/

@@ -1,3 +1,22 @@
+/* json-array.c - JSON array implementation
+ * 
+ * This file is part of JSON-GLib
+ * Copyright (C) 2007  OpenedHand Ltd.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Author:
+ *   Emmanuele Bassi  <ebassi@openedhand.com>
+ */
+
 #include "config.h"
 
 #include "json-types.h"
@@ -7,6 +26,16 @@
  * SECTION:json-array
  * @short_description: a JSON array representation
  *
+ * #JsonArray is the representation of the array type inside JSON. It contains
+ * #JsonNode<!-- -->s, which may contain fundamental types, other arrays or
+ * objects.
+ *
+ * Since arrays can be expensive, they are reference counted. You can control
+ * the lifetime of a #JsonArray using json_array_ref() and json_array_unref().
+ *
+ * To extract an element at a given index, use json_array_get_element().
+ * To retrieve the entire array in list form, use json_array_get_elements().
+ * To retrieve the length of the array, use json_array_get_length().
  */
 
 struct _JsonArray

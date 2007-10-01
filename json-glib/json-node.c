@@ -1,6 +1,32 @@
+/* json-node.c - JSON object model node
+ * 
+ * This file is part of JSON-GLib
+ * Copyright (C) 2007  OpenedHand Ltd.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Author:
+ *   Emmanuele Bassi  <ebassi@openedhand.com>
+ */
+
+#include "config.h"
+
+#include <glib.h>
+
+#include "json-types.h"
+#include "json-private.h"
+
 /**
  * SECTION:json-node
- * @short_description: Base element in a JSON stream
+ * @short_description: Node in a JSON object model
  *
  * A #JsonNode is a generic container of elements inside a JSON stream.
  * It can contain fundamental types (integers, booleans, floating point
@@ -16,13 +42,6 @@
  * json_node_get_array() respectively, and then retrieve the nodes
  * they contain.
  */
-
-#include "config.h"
-
-#include <glib.h>
-
-#include "json-types.h"
-#include "json-private.h"
 
 JsonNode *
 json_node_new (JsonNodeType type)
@@ -190,6 +209,14 @@ json_node_dup_array (JsonNode *node)
   return NULL;
 }
 
+/**
+ * json_node_get_value:
+ * @node: a #JsonNode
+ * @value: return location for an uninitialized value
+ *
+ * Retrieves a value from a #JsonNode and copies into @value. When done
+ * using it, call g_value_unset() on the #GValue.
+ */
 void
 json_node_get_value (JsonNode *node,
                      GValue   *value)
@@ -245,6 +272,15 @@ json_node_free (JsonNode *node)
     }
 }
 
+/**
+ * json_node_type_name:
+ * @node: a #JsonNode
+ *
+ * Retrieves the user readable name of the data type contained by @node.
+ *
+ * Return value: a string containing the name of the type. The returned string
+ *   is owned by the node and should never be modified or freed
+ */
 G_CONST_RETURN gchar *
 json_node_type_name (JsonNode *node)
 {

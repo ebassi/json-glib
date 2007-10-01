@@ -1,7 +1,28 @@
+/* json-parser.c - JSON streams parser
+ * 
+ * This file is part of JSON-GLib
+ * Copyright (C) 2007  OpenedHand Ltd.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Author:
+ *   Emmanuele Bassi  <ebassi@openedhand.com>
+ */
+
 /**
  * SECTION:json-parser
  * @short_description: Parse JSON data streams
  *
+ * #JsonParser provides an object for parsing a JSON data stream, either
+ * inside a file or inside a static buffer.
  */
 
 #include "config.h"
@@ -586,7 +607,8 @@ json_parser_new (void)
  * @filename: the path for the file to parse
  * @error: return location for a #GError, or %NULL
  *
- * Loads a JSON stream from the content of @filename and parses it.
+ * Loads a JSON stream from the content of @filename and parses it. See
+ * json_parser_load_from_data().
  *
  * Return value: %TRUE if the file was successfully loaded and parsed.
  *   In case of error, @error is set accordingly and %FALSE is returned
@@ -629,7 +651,9 @@ json_parser_load_from_file (JsonParser   *parser,
  * @length: the length of the buffer, or -1
  * @error: return location for a #GError, or %NULL
  *
- * Loads a JSON stream from a buffer and parses it.
+ * Loads a JSON stream from a buffer and parses it. You can call this function
+ * multiple times with the same #JsonParser object, but the contents of the
+ * parser will be destroyed each time.
  *
  * Return value: %TRUE if the buffer was succesfully parser. In case
  *   of error, @error is set accordingly and %FALSE is returned

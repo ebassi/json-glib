@@ -1,3 +1,22 @@
+/* json-object.c - JSON object implementation
+ * 
+ * This file is part of JSON-GLib
+ * Copyright (C) 2007  OpenedHand Ltd.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Author:
+ *   Emmanuele Bassi  <ebassi@openedhand.com>
+ */
+
 #include "config.h"
 
 #include <glib.h>
@@ -9,10 +28,17 @@
  * SECTION:json-object
  * @short_description: a JSON object representation
  *
- * #JsonObject is a boxed type representing a JSON object data type. Each
- * JSON object can have zero or more members, and each member is accessed
- * by name. Each member can contain different values: numbers, strings,
- * arrays (see
+ * #JsonArray is the representation of the object type inside JSON. It contains
+ * #JsonNode<!-- -->s, which may contain fundamental types, arrays or other
+ * objects. Each member of an object is accessed using its name.
+ *
+ * Since objects can be expensive, they are reference counted. You can control
+ * the lifetime of a #JsonObject using json_object_ref() and json_object_unref().
+ *
+ * To extract a member with a given name, use json_object_get_member().
+ * To retrieve the list of members, use json_object_get_members().
+ * To retrieve the size of the object (that is, the number of members it has), use
+ * json_object_get_size().
  */
 
 struct _JsonObject
