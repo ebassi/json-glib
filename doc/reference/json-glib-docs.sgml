@@ -53,7 +53,7 @@
 
   </part>
 
-  <part id="clutterbase">
+  <part id="json-base">
     <title>JSON-GLib Reference</title>
 
     <partintro>
@@ -105,7 +105,7 @@
 
   </part>
 
-  <part id="tools">
+  <part id="json-tools">
     <title>JSON-GLib Additional Reference</title>
 
     <xi:include href="xml/json-version.xml"/>
