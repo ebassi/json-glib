@@ -42,10 +42,20 @@
  * they contain.
  */
 
+/**
+ * json_node_new:
+ * @type: a #JsonNodeType
+ *
+ * Creates a new #JsonNode of @type.
+ *
+ * Return value: the newly created #JsonNode
+ */
 JsonNode *
 json_node_new (JsonNodeType type)
 {
   JsonNode *data;
+
+  g_return_val_if_fail (type >= JSON_NODE_OBJECT && type <= JSON_NODE_NULL, NULL);
 
   data = g_slice_new (JsonNode);
   data->type = type;
@@ -53,6 +63,15 @@ json_node_new (JsonNodeType type)
   return data;
 }
 
+/**
+ * json_node_copy:
+ * @node: a #JsonNode
+ *
+ * Copies @node. If the node contains complex data types then the reference
+ * count of the objects is increased.
+ *
+ * Return value: the copied #JsonNode
+ */
 JsonNode *
 json_node_copy (JsonNode *node)
 {
@@ -84,6 +103,13 @@ json_node_copy (JsonNode *node)
   return copy;
 }
 
+/**
+ * json_node_set_object:
+ * @node: a #JsonNode
+ * @object: a #JsonObject
+ *
+ * Sets @objects inside @node. The reference count of @object is increased.
+ */
 void
 json_node_set_object (JsonNode   *node,
                       JsonObject *object)
@@ -100,6 +126,13 @@ json_node_set_object (JsonNode   *node,
     node->data.object = NULL;
 }
 
+/**
+ * json_node_take_object:
+ * @node: a #JsonNode
+ * @object: a #JsonObject
+ *
+ * Sets @object inside @node. The reference count of @object is not increased.
+ */
 void
 json_node_take_object (JsonNode   *node,
                        JsonObject *object)
@@ -134,6 +167,15 @@ json_node_get_object (JsonNode *node)
   return node->data.object;
 }
 
+/**
+ * json_node_dup_object:
+ * @node: a #JsonNode
+ *
+ * Retrieves the #JsonObject inside @node. The reference count of
+ * the returned object is increased.
+ *
+ * Return value: the #JsonObject
+ */
 JsonObject *
 json_node_dup_object (JsonNode *node)
 {
@@ -146,6 +188,13 @@ json_node_dup_object (JsonNode *node)
   return NULL;
 }
 
+/**
+ * json_node_set_array:
+ * @node: a #JsonNode
+ * @array: a #JsonArray
+ *
+ * Sets @array inside @node and increases the #JsonArray reference count
+ */
 void
 json_node_set_array (JsonNode  *node,
                      JsonArray *array)
@@ -162,6 +211,13 @@ json_node_set_array (JsonNode  *node,
     node->data.array = NULL;
 }
 
+/**
+ * json_node_take_array:
+ * @node: a #JsonNode
+ * @array: a #JsonArray
+ *
+ * Sets @array into @node without increasing the #JsonArray reference count.
+ */
 void
 json_node_take_array (JsonNode  *node,
                       JsonArray *array)
@@ -196,6 +252,15 @@ json_node_get_array (JsonNode *node)
   return node->data.array;
 }
 
+/**
+ * json_node_dup_array
+ * @node: a #JsonNode
+ *
+ * Retrieves the #JsonArray stored inside a #JsonNode and returns it
+ * with its reference count increased by one.
+ *
+ * Return value: the #JsonArray with its reference count increased.
+ */
 JsonArray *
 json_node_dup_array (JsonNode *node)
 {
@@ -230,6 +295,13 @@ json_node_get_value (JsonNode *node,
     }
 }
 
+/**
+ * json_node_set_value:
+ * @node: a #JsonNode
+ * @value: the #GValue to set
+ *
+ * Sets @value inside @node. The passed #GValue is copied into the #JsonNode
+ */
 void
 json_node_set_value (JsonNode     *node,
                      const GValue *value)
@@ -244,6 +316,12 @@ json_node_set_value (JsonNode     *node,
   g_value_copy (value, &(node->data.value));
 }
 
+/**
+ * json_node_free:
+ * @node: a #JsonNode
+ *
+ * Frees the resources allocated by @node.
+ */
 void
 json_node_free (JsonNode *node)
 {

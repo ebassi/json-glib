@@ -44,6 +44,13 @@ struct _JsonArray
   volatile gint ref_count;
 };
 
+/**
+ * json_array_new:
+ *
+ * Creates a new #JsonArray.
+ *
+ * Return value: the newly created #JsonArray
+ */
 JsonArray *
 json_array_new (void)
 {
@@ -57,6 +64,14 @@ json_array_new (void)
   return array;
 }
 
+/**
+ * json_array_sized_new:
+ * @n_elements: number of slots to pre-allocate
+ *
+ * Creates a new #JsonArray with @n_elements slots already allocated.
+ *
+ * Return value: the newly created #JsonArray
+ */
 JsonArray *
 json_array_sized_new (guint n_elements)
 {
@@ -185,6 +200,13 @@ json_array_get_length (JsonArray *array)
   return array->elements->len;
 }
 
+/**
+ * json_array_add_element:
+ * @array: a #JsonArray
+ * @node: a #JsonNode
+ *
+ * Appends @node inside @array.
+ */
 void
 json_array_add_element (JsonArray *array,
                         JsonNode  *node)

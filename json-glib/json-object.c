@@ -47,6 +47,13 @@ struct _JsonObject
   volatile gint ref_count;
 };
 
+/**
+ * json_object_new:
+ * 
+ * Creates a new #JsonObject, an JSON object type representation.
+ *
+ * Return value: the newly created #JsonObject
+ */
 JsonObject *
 json_object_new (void)
 {
@@ -110,6 +117,14 @@ json_object_unref (JsonObject *object)
     }
 }
 
+/**
+ * json_object_add_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @node: the value of the member
+ *
+ * Adds a member named @member_name and containing @node into a #JsonObject.
+ */
 void
 json_object_add_member (JsonObject  *object,
                         const gchar *member_name,

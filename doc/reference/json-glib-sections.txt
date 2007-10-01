@@ -2,10 +2,12 @@
 <FILE>json-object</FILE>
 <TITLE>JsonObject</TITLE>
 JsonObject
+json_object_new
 json_object_ref
 json_object_unref
 
 <SUBSECTION>
+json_object_add_member
 json_object_has_member
 json_object_get_member
 json_object_get_members
@@ -20,10 +22,13 @@ json_object_get_type
 <FILE>json-array</FILE>
 <TITLE>JsonArray</TITLE>
 JsonArray
+json_array_new
+json_array_sized_new
 json_array_ref
 json_array_unref
 
 <SUBSECTION>
+json_array_add_element
 json_array_get_element
 json_array_get_elements
 json_array_get_length
@@ -36,12 +41,30 @@ json_array_get_type
 <SECTION>
 <FILE>json-node</FILE>
 <TITLE>JsonNode</TITLE>
-JsonNode
 JsonNodeType
 JSON_NODE_TYPE
+JsonNode
+json_node_new
+json_node_copy
+json_node_free
+
+<SUBSECTION>
+json_node_set_array
+json_node_take_array
 json_node_get_array
+json_node_dup_array
+
+<SUBSECTION>
+json_node_set_object
+json_node_take_object
 json_node_get_object
+json_node_dup_object
+
+<SUBSECTION>
+json_node_set_value
 json_node_get_value
+
+<SUBSECTION>
 json_node_get_parent
 json_node_type_name
 </SECTION>
@@ -92,7 +115,6 @@ JSON_GENERATOR
 JSON_IS_GENERATOR
 JSON_GENERATOR_CLASS
 JSON_IS_GENERATOR_CLASS
-JSON_GENERATOR_ERROR
 JSON_GENERATOR_GET_CLASS
 
 <SUBSECTION Private>
