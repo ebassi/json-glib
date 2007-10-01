@@ -10,7 +10,11 @@ JsonNode *            json_node_new          (JsonNodeType  type);
 JsonNode *            json_node_copy         (JsonNode     *node);
 void                  json_node_set_object   (JsonNode     *node,
                                               JsonObject   *object);
+void                  json_node_take_object  (JsonNode     *node,
+                                              JsonObject   *object);
 void                  json_node_set_array    (JsonNode     *node,
+                                              JsonArray    *array);
+void                  json_node_take_array   (JsonNode     *node,
                                               JsonArray    *array);
 void                  json_node_set_value    (JsonNode     *node,
                                               const GValue *value);
