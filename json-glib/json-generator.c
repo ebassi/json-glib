@@ -261,6 +261,10 @@ dump_array (JsonGenerator *generator,
           break;
 
         case JSON_NODE_ARRAY:
+          value = dump_array (generator, sub_level, json_node_get_array (cur), NULL);
+          g_string_append (buffer, value);
+          break;
+
         case JSON_NODE_OBJECT:
           break;
         }
@@ -271,6 +275,12 @@ dump_array (JsonGenerator *generator,
       if (pretty)
         g_string_append_c (buffer, '\n');
       else
+        g_string_append_c (buffer, ' ');
+    }
+
+  if (pretty)
+    {
+      for (i = 0; i < (level * indent); i++)
         g_string_append_c (buffer, ' ');
     }
 

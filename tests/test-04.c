@@ -14,6 +14,7 @@ test_empty (JsonGenerator *generator)
 
   json_generator_set_root (generator, root);
 
+  g_object_set (generator, "pretty", FALSE, NULL);
   data = json_generator_to_data (generator, &len);
   g_print ("*** Empty array (len:%d): `%s'\n", len, data);
 
@@ -73,6 +74,7 @@ test_simple (JsonGenerator *generator)
   json_node_take_array (root, array);
   json_generator_set_root (generator, root);
 
+  g_object_set (generator, "pretty", FALSE, NULL);
   data = json_generator_to_data (generator, &len);
   g_print ("*** Simple array (len:%d): `%s'\n", len, data);
   g_free (data);
@@ -80,6 +82,64 @@ test_simple (JsonGenerator *generator)
   g_object_set (generator, "pretty", TRUE, NULL);
   data = json_generator_to_data (generator, &len);
   g_print ("*** Simple array (pretty, len:%d):\n%s\n", len, data);
+  g_free (data);
+}
+
+static void
+test_nested (JsonGenerator *generator)
+{
+  JsonNode *root, *val, *nested_val;
+  JsonArray *array, *nested;
+  GValue value = { 0, };
+  gchar *data;
+  gsize len;
+
+  root = json_node_new (JSON_NODE_ARRAY);
+  array = json_array_sized_new (3);
+
+  val = json_node_new (JSON_NODE_VALUE);
+  g_value_init (&value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&value, TRUE);
+  json_node_set_value (val, &value);
+  json_array_add_element (array, val);
+  g_value_unset (&value);
+
+  {
+    val = json_node_new (JSON_NODE_ARRAY);
+    nested = json_array_new ();
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_BOOLEAN);
+    g_value_set_boolean (&value, FALSE);
+    json_node_set_value (nested_val, &value);
+    json_array_add_element (nested, nested_val);
+    g_value_unset (&value);
+
+    nested_val = json_node_new (JSON_NODE_NULL);
+    json_array_add_element (nested, nested_val);
+  
+    json_node_take_array (val, nested);
+    json_array_add_element (array, val);
+  }
+
+  val = json_node_new (JSON_NODE_VALUE);
+  g_value_init (&value, G_TYPE_INT);
+  g_value_set_int (&value, 42);
+  json_node_set_value (val, &value);
+  json_array_add_element (array, val);
+  g_value_unset (&value);
+
+  json_node_take_array (root, array);
+  json_generator_set_root (generator, root);
+
+  g_object_set (generator, "pretty", FALSE, NULL);
+  data = json_generator_to_data (generator, &len);
+  g_print ("*** Nested array (len:%d): `%s'\n", len, data);
+  g_free (data);
+
+  g_object_set (generator, "pretty", TRUE, NULL);
+  data = json_generator_to_data (generator, &len);
+  g_print ("*** Nested array (pretty, len:%d):\n%s\n", len, data);
   g_free (data);
 }
 
@@ -94,6 +154,7 @@ main (int argc, char *argv[])
   
   test_empty (generator);
   test_simple (generator);
+  test_nested (generator);
 
   g_object_unref (generator);
 
