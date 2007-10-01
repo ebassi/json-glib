@@ -37,6 +37,13 @@ typedef struct _JsonParser              JsonParser;
 typedef struct _JsonParserPrivate       JsonParserPrivate;
 typedef struct _JsonParserClass         JsonParserClass;
 
+/**
+ * JsonParserError:
+ * @JSON_PARSER_ERROR_PARSE: parse error
+ * @JSON_PARSER_ERROR_UNKNOWN: unknown error
+ *
+ * Error enumeration for #JsonParser
+ */
 typedef enum {
   JSON_PARSER_ERROR_PARSE,
   
@@ -51,6 +58,12 @@ typedef enum {
   JSON_TOKEN_LAST
 } JsonTokenType;
 
+/**
+ * JsonParser:
+ * 
+ * JSON data streams parser. The contents of the #JsonParser structure are
+ * private and should only be accessed via the provided API.
+ */
 struct _JsonParser
 {
   /*< private >*/
@@ -59,6 +72,12 @@ struct _JsonParser
   JsonParserPrivate *priv;
 };
 
+/**
+ * JsonParserClass:
+ * @error: signal class handler for the JsonParser::error signal
+ *
+ * #JsonParser class.
+ */
 struct _JsonParserClass
 {
   /*< private >*/

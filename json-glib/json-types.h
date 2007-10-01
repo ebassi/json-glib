@@ -24,12 +24,32 @@
 
 G_BEGIN_DECLS
 
+/**
+ * JSON_NODE_TYPE:
+ * @node: a #JsonNode
+ *
+ * Evaluates to the #JsonNodeType contained by @node
+ */
 #define JSON_NODE_TYPE(node)    (((JsonNode *) (node))->type)
 #define JSON_TYPE_OBJECT        (json_object_get_type ())
 #define JSON_TYPE_ARRAY         (json_array_get_type ())
 
+/**
+ * JsonObject:
+ *
+ * A JSON object type. The contents of the #JsonObject structure are private
+ * and should only be accessed by the provided API
+ */
 typedef struct _JsonObject      JsonObject;
+
+/**
+ * JsonArray:
+ *
+ * A JSON array type. The contents of the #JsonArray structure are private
+ * and should only be accessed by the provided API
+ */
 typedef struct _JsonArray       JsonArray;
+
 typedef struct _JsonNode        JsonNode;
 
 /**
