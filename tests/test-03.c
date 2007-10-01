@@ -5,6 +5,9 @@
 
 static const gchar *test_objects[] = {
   "{ }",
+  "{ \"test\" : 42 }",
+  "{ \"foo\" : \"bar\", \"baz\" : null }",
+  "{ \"array\" : [ false, \"foo\" ], \"test\" : { \"foo\" : true } }"
 };
 
 static guint n_test_objects = G_N_ELEMENTS (test_objects);
