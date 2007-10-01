@@ -22,6 +22,7 @@ json-glib/json-array.lo
 json-glib/json-marshal.c
 json-glib/json-marshal.h
 json-glib/json-marshal.lo
+json-glib/json-node.lo
 json-glib/json-object.lo
 json-glib/json-parser.lo
 json-glib/json-version.h
@@ -37,4 +38,6 @@ tests/test-01
 tests/test-01.o
 tests/test-02
 tests/test-02.o
+tests/test-03
+tests/test-03.o
 .*.swp
