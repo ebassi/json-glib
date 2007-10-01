@@ -1,6 +1,7 @@
-noinst_PROGRAMS = \
-	test-01 \
-	test-02
+noinst_PROGRAMS = 	\
+	test-01 	\
+	test-02		\
+	test-03
 
 INCLUDES = -I$(top_srcdir)
 LDADD = $(top_builddir)/json-glib/libjson-glib-1.0.la
@@ -10,3 +11,4 @@ AM_LDFLAGS = $(JSON_LIBS)
 
 test_01_SOURCES = test-01.c
 test_02_SOURCES = test-02.c
+test_03_SOURCES = test-03.c

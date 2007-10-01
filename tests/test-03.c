@@ -3,19 +3,11 @@
 
 #include <json-glib/json-glib.h>
 
-static const gchar *test_arrays[] = {
-  "[ ]",
-  "[ true ]",
-  "[ true, false, null ]",
-  "[ 1, 2, 3.14, \"test\" ]",
-  "[ 42, [ ], null ]",
-  "[ [ ], [ true, [ true ] ] ]",
-  "[ [ false, true, 42 ], [ true, false, 3.14 ], \"test\" ]"
-  "[ true, { } ]",
-  "[ false, { \"test\" : 42 } ]",
+static const gchar *test_objects[] = {
+  "{ }",
 };
 
-static guint n_test_arrays = G_N_ELEMENTS (test_arrays);
+static guint n_test_objects = G_N_ELEMENTS (test_objects);
 
 static void print_array  (gint indent, JsonArray  *array);
 static void print_value  (gint indent, JsonNode   *node);
@@ -185,18 +177,18 @@ main (int argc, char *argv[])
 
   parser = json_parser_new ();
 
-  for (i = 0; i < n_test_arrays; i++)
+  for (i = 0; i < n_test_objects; i++)
     {
       GError *error = NULL;
       JsonNode *node;
-      JsonArray *array;
+      JsonObject *object;
 
-      if (!json_parser_load_from_data (parser, test_arrays[i], -1, &error))
+      if (!json_parser_load_from_data (parser, test_objects[i], -1, &error))
         {
           g_print ("* Error, test %d:\n"
                    "* \t%s:\n"
                    "* Message: %s\n",
-                   i, test_arrays[i], error->message);
+                   i, test_objects[i], error->message);
           g_error_free (error);
           g_object_unref (parser);
           return EXIT_FAILURE;
@@ -204,13 +196,13 @@ main (int argc, char *argv[])
 
       node = json_parser_get_root (parser);
       g_assert (node != NULL);
-      g_assert (JSON_NODE_TYPE (node) == JSON_NODE_ARRAY);
+      g_assert (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT);
 
-      array = json_node_get_array (node);
-      g_assert (array != NULL);
+      object = json_node_get_object (node);
+      g_assert (object != NULL);
 
       g_print ("*** Test %d ***\n", i);
-      print_array (1, array);
+      print_object (1, object);
     }
 
   g_object_unref (parser);
