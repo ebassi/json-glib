@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include "json-types.h"
-#include "json-private.h"
 
 /**
  * SECTION:json-array

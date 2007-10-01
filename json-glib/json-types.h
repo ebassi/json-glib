@@ -89,15 +89,35 @@ struct _JsonNode
   JsonNode *parent;
 };
 
-JsonObject *          json_node_get_object    (JsonNode    *node);
-JsonArray *           json_node_get_array     (JsonNode    *node);
-void                  json_node_get_value     (JsonNode    *node,
-                                               GValue      *value);
-JsonNode *            json_node_get_parent    (JsonNode    *node);
-G_CONST_RETURN gchar *json_node_type_name     (JsonNode    *node);
+JsonNode *            json_node_new           (JsonNodeType  type);
+JsonNode *            json_node_copy          (JsonNode     *node);
+void                  json_node_free          (JsonNode     *node);
 
+void                  json_node_set_object    (JsonNode     *node,
+                                               JsonObject   *object);
+void                  json_node_take_object   (JsonNode     *node,
+                                               JsonObject   *object);
+JsonObject *          json_node_get_object    (JsonNode     *node);
+JsonObject *          json_node_dup_object    (JsonNode     *node);
+void                  json_node_set_array     (JsonNode     *node,
+                                               JsonArray    *array);
+void                  json_node_take_array    (JsonNode     *node,
+                                               JsonArray    *array);
+JsonArray *           json_node_get_array     (JsonNode     *node);
+JsonArray *           json_node_dup_array     (JsonNode     *node);
+void                  json_node_set_value     (JsonNode     *node,
+                                               const GValue *value);
+void                  json_node_get_value     (JsonNode     *node,
+                                               GValue       *value);
+JsonNode *            json_node_get_parent    (JsonNode     *node);
+G_CONST_RETURN gchar *json_node_type_name     (JsonNode     *node);
+
+JsonObject *          json_object_new         (void);
 JsonObject *          json_object_ref         (JsonObject  *object);
 void                  json_object_unref       (JsonObject  *object);
+void                  json_object_add_member  (JsonObject  *object,
+                                               const gchar *member_name,
+                                               JsonNode    *node);
 GList *               json_object_get_members (JsonObject  *object);
 JsonNode *            json_object_get_member  (JsonObject  *object,
                                                const gchar *member_name);
@@ -105,8 +125,12 @@ gboolean              json_object_has_member  (JsonObject  *object,
                                                const gchar *member_name);
 guint                 json_object_get_size    (JsonObject  *object);
 
+JsonArray *           json_array_new          (void);
+JsonArray *           json_array_sized_new    (guint        n_elements);
 JsonArray *           json_array_ref          (JsonArray   *array);
 void                  json_array_unref        (JsonArray   *array);
+void                  json_array_add_element  (JsonArray   *array,
+                                               JsonNode    *node);
 GList *               json_array_get_elements (JsonArray   *array);
 JsonNode *            json_array_get_element  (JsonArray   *array,
                                                guint        index_);

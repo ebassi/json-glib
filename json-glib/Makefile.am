@@ -43,7 +43,7 @@ source_h = \
 	$(srcdir)/json-version.h \
 	$(NULL)
 
-source_h_private = json-private.h
+source_h_private =
 
 source_c = \
 	json-array.c \

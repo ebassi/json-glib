@@ -31,7 +31,6 @@
 
 #include "json-marshal.h"
 #include "json-parser.h"
-#include "json-private.h"
 
 GQuark
 json_parser_error_quark (void)
