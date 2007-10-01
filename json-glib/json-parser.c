@@ -179,6 +179,13 @@ json_parse_array (JsonParser *parser,
       JsonNode *node = NULL;
       GValue value = { 0, };
 
+      if (token == G_TOKEN_COMMA)
+        {
+          /* swallow the comma */
+          token = g_scanner_get_next_token (scanner);
+          continue;
+        }
+
       /* nested object */
       if (token == G_TOKEN_LEFT_CURLY)
         {
@@ -239,10 +246,6 @@ json_parse_array (JsonParser *parser,
 
       switch (token)
         {
-        case G_TOKEN_COMMA:
-          /* eat the comma and continue */
-          break;
-        
         case G_TOKEN_INT:
           g_value_init (&value, G_TYPE_INT);
           g_value_set_int (&value, scanner->value.v_int);
@@ -332,6 +335,13 @@ json_parse_object (JsonParser *parser,
       gchar *name = NULL;
       GValue value = { 0, };
 
+      if (token == G_TOKEN_COMMA)
+        {
+          /* swallow the comma */
+          token = g_scanner_get_next_token (scanner);
+          continue;
+        }
+
       if (token == G_TOKEN_STRING)
         {
           name = g_strdup (scanner->value.v_string);
@@ -386,7 +396,8 @@ json_parse_object (JsonParser *parser,
 
           continue;
         }
-      else if (token == G_TOKEN_LEFT_BRACE)
+     
+      if (token == G_TOKEN_LEFT_BRACE)
         {
           JsonNode *old_node = priv->current_node;
 
@@ -419,10 +430,6 @@ json_parse_object (JsonParser *parser,
 
       switch (token)
         {
-        case G_TOKEN_COMMA:
-          /* eat the comma and continue */
-          break;
-        
         case G_TOKEN_INT:
           g_value_init (&value, G_TYPE_INT);
           g_value_set_int (&value, scanner->value.v_int);
