@@ -188,6 +188,7 @@ json_parse_array (JsonParser *parser,
             return token;
 
           json_array_add_element (array, node);
+          node->parent = priv->current_node;
 
           token = g_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
@@ -252,7 +253,10 @@ json_parse_array (JsonParser *parser,
         }
 
       if (node)
-        json_array_add_element (array, node);
+        {
+          json_array_add_element (array, node);
+          node->parent = priv->current_node;
+        }
 
       token = g_scanner_get_next_token (scanner);
     }
