@@ -1,3 +1,9 @@
+/**
+ * SECTION:json-parser
+ * @short_description: Parse JSON data streams
+ *
+ */
+
 #include "config.h"
 
 #include <string.h>
@@ -92,7 +98,8 @@ static guint json_parse_array  (JsonParser *parser,
                                 GScanner   *scanner,
                                 gboolean    nested);
 static guint json_parse_object (JsonParser *parser,
-                                GScanner   *scanner);
+                                GScanner   *scanner,
+                                gboolean    nested);
 
 static void
 json_parser_dispose (GObject *gobject)
@@ -171,7 +178,36 @@ json_parse_array (JsonParser *parser,
     {
       JsonNode *node = NULL;
       GValue value = { 0, };
-      
+
+      /* nested object */
+      if (token == G_TOKEN_LEFT_CURLY)
+        {
+          JsonNode *old_node = priv->current_node;
+
+          priv->current_node = json_node_new (JSON_NODE_OBJECT);
+
+          token = json_parse_object (parser, scanner, TRUE);
+
+          node = priv->current_node;
+          priv->current_node = old_node;
+
+          if (token != G_TOKEN_NONE)
+            {
+              json_node_free (node);
+              json_array_unref (array);
+              return token;
+            }
+
+          json_array_add_element (array, node);
+          node->parent = priv->current_node;
+
+          token = g_scanner_get_next_token (scanner);
+          if (token == G_TOKEN_RIGHT_BRACE)
+            break;
+
+          continue;
+        }
+
       /* nested array */
       if (token == G_TOKEN_LEFT_BRACE)
         {
@@ -185,7 +221,11 @@ json_parse_array (JsonParser *parser,
           priv->current_node = old_node;
 
           if (token != G_TOKEN_NONE)
-            return token;
+            {
+              json_node_free (node);
+              json_array_unref (array);
+              return token;
+            }
 
           json_array_add_element (array, node);
           node->parent = priv->current_node;
@@ -261,30 +301,191 @@ json_parse_array (JsonParser *parser,
       token = g_scanner_get_next_token (scanner);
     }
 
-  json_node_set_array (priv->current_node, array);
+  json_node_take_array (priv->current_node, array);
 
   return G_TOKEN_NONE;
 }
 
 static guint
 json_parse_object (JsonParser *parser,
-                   GScanner   *scanner)
+                   GScanner   *scanner,
+                   gboolean    nested)
 {
+  JsonParserPrivate *priv = parser->priv;
+  JsonObject *object;
   guint token;
-  guint result = G_TOKEN_NONE;
 
-  token = g_scanner_get_next_token (scanner);
-  if (token != G_TOKEN_LEFT_CURLY)
-    return G_TOKEN_LEFT_CURLY;
-
-  token = g_scanner_get_next_token (scanner);
-  if (token == G_TOKEN_RIGHT_CURLY)
-    return G_TOKEN_NONE;
-  else
+  if (!nested)
     {
+      /* the caller already swallowed the opening '{' */
+      token = g_scanner_get_next_token (scanner);
+      if (token != G_TOKEN_LEFT_CURLY)
+        return G_TOKEN_LEFT_CURLY;
     }
-  
-  return result;
+
+  object = json_object_new ();
+
+  token = g_scanner_get_next_token (scanner);
+  while (token != G_TOKEN_RIGHT_CURLY)
+    {
+      JsonNode *node = NULL;
+      gchar *name = NULL;
+      GValue value = { 0, };
+
+      if (token == G_TOKEN_STRING)
+        {
+          name = g_strdup (scanner->value.v_string);
+
+          token = g_scanner_get_next_token (scanner);
+          if (token != ':')
+            {
+              g_free (name);
+              json_object_unref (object);
+              return ':';
+            }
+          else
+            {
+              /* swallow the colon */
+              token = g_scanner_get_next_token (scanner);
+            }
+        }
+
+      if (!name)
+        {
+          json_object_unref (object);
+          return G_TOKEN_STRING;
+        }
+
+      if (token == G_TOKEN_LEFT_CURLY)
+        {
+          JsonNode *old_node = priv->current_node;
+      
+          priv->current_node = json_node_new (JSON_NODE_OBJECT);
+
+          token = json_parse_object (parser, scanner, TRUE);
+
+          node = priv->current_node;
+          priv->current_node = old_node;
+
+          if (token != G_TOKEN_NONE)
+            {
+              g_free (name);
+              json_node_free (node);
+              json_object_unref (object);
+              return token;
+            }
+
+          json_object_add_member (object, name, node);
+          node->parent = priv->current_node;
+
+          g_free (name);
+
+          token = g_scanner_get_next_token (scanner);
+          if (token == G_TOKEN_RIGHT_CURLY)
+            break;
+
+          continue;
+        }
+      else if (token == G_TOKEN_LEFT_BRACE)
+        {
+          JsonNode *old_node = priv->current_node;
+
+          priv->current_node = json_node_new (JSON_NODE_ARRAY);
+
+          token = json_parse_array (parser, scanner, TRUE);
+
+          node = priv->current_node;
+          priv->current_node = old_node;
+
+          if (token != G_TOKEN_NONE)
+            {
+              g_free (name);
+              json_node_free (node);
+              json_object_unref (object);
+              return token;
+            }
+
+          json_object_add_member (object, name, node);
+          node->parent = priv->current_node;
+
+          g_free (name);
+
+          token = g_scanner_get_next_token (scanner);
+          if (token == G_TOKEN_RIGHT_BRACE)
+            break;
+
+          continue;
+        }
+
+      switch (token)
+        {
+        case G_TOKEN_COMMA:
+          /* eat the comma and continue */
+          break;
+        
+        case G_TOKEN_INT:
+          g_value_init (&value, G_TYPE_INT);
+          g_value_set_int (&value, scanner->value.v_int);
+          
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
+          break;
+
+        case G_TOKEN_FLOAT:
+          g_value_init (&value, G_TYPE_FLOAT);
+          g_value_set_float (&value, scanner->value.v_float);
+          
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
+          break;
+
+        case G_TOKEN_STRING:
+          g_value_init (&value, G_TYPE_STRING);
+          g_value_set_string (&value, scanner->value.v_string);
+
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
+          break;
+
+        case JSON_TOKEN_TRUE:
+        case JSON_TOKEN_FALSE:
+          g_value_init (&value, G_TYPE_BOOLEAN);
+          g_value_set_boolean (&value, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
+
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
+          break;
+
+        case JSON_TOKEN_NULL:
+          node = json_node_new (JSON_NODE_NULL);
+          break;
+
+        default:
+          return G_TOKEN_RIGHT_BRACE;
+        }
+
+      if (node)
+        {
+          json_object_add_member (object, name, node);
+          node->parent = priv->current_node;
+        }
+
+      g_free (name);
+
+      token = g_scanner_get_next_token (scanner);
+    }
+
+  json_node_take_object (priv->current_node, object);
+
+  return G_TOKEN_NONE;
 }
 
 static guint
@@ -299,11 +500,15 @@ json_parse_statement (JsonParser *parser,
     {
     case G_TOKEN_LEFT_CURLY:
       priv->root = priv->current_node = json_node_new (JSON_NODE_OBJECT);
-      return json_parse_object (parser, scanner);
+      return json_parse_object (parser, scanner, FALSE);
 
     case G_TOKEN_LEFT_BRACE:
       priv->root = priv->current_node = json_node_new (JSON_NODE_ARRAY);
       return json_parse_array (parser, scanner, FALSE);
+
+    case JSON_TOKEN_NULL:
+      priv->root = priv->current_node = json_node_new (JSON_NODE_NULL);
+      return G_TOKEN_NONE;
 
     default:
       g_scanner_get_next_token (scanner);
