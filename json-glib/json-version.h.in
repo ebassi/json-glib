@@ -2,6 +2,14 @@
 #define __JSON_VERSION_H__
 
 /**
+ * SECTION:json-version
+ * @short_description: JSON-GLib version checking
+ *
+ * JSON-GLib provides macros to check the version of the library
+ * at compile-time
+ */
+
+/**
  * JSON_MAJOR_VERSION:
  *
  * Json major version component (e.g. 1 if %JSON_VERSION is 1.2.3)

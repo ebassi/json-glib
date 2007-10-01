@@ -101,7 +101,7 @@ json_node_take_object (JsonNode   *node,
 
 /**
  * json_node_get_object:
- * @data: a #JsonNode
+ * @node: a #JsonNode
  *
  * Retrieves the #JsonObject stored inside a #JsonNode
  *

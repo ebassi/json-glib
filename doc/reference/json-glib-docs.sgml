@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>JSON-GLib &version; Reference Manual</title>
+    <releaseinfo>Version &version;</releaseinfo>
+
+    <copyright>
+      <year>2007</year>
+      <holder>OpenedHand LTD</holder>
+    </copyright>
+
+    <legalnotice>
+      <para>
+        Permission is granted to copy, distribute and/or modify this
+        document under the terms of the <citetitle>GNU Free
+        Documentation License</citetitle>, Version 1.1 or any later
+        version published by the Free Software Foundation with no
+        Invariant Sections, no Front-Cover Texts, and no Back-Cover
+        Texts. You may obtain a copy of the <citetitle>GNU Free
+        Documentation License</citetitle> from the Free Software
+        Foundation by visiting <ulink type="http"
+        url="http://www.fsf.org">their Web site</ulink> or by writing
+        to:
+
+        <address>
+          The Free Software Foundation, Inc.,
+          <street>59 Temple Place</street> - Suite 330,
+          <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>
+,
+          <country>USA</country>
+        </address>
+      </para>
+    </legalnotice>
+
+    </bookinfo>
+
+  <part id="json-glib">
+    <title>JSON-GLib Overview</title>
+
+    <partintro>
+
+    <para>
+    JSON-GLib is a library aimed at providing an API for efficient parsing
+    and writing of JSON (JavaScript Object Notation) streams, using GLib's
+    data types and API.
+    </para>
+
+    </partintro>
+
+  </part>
+
+  <part id="clutterbase">
+    <title>JSON-GLib Reference</title>
+
+    <partintro>
+
+      <para>
+      JSON-GLib provides wrappers around the complex data types defined
+      by the JSON specification. The fundamental types are handled using
+      the Generic Value container (GValue) provided by GLib.
+      </para>
+
+      <para>
+      JSON complex data types are either arrays (a n-tuple of items)
+      or objects (a mapping between a string and a value); arrays and
+      objects can contain multiple values, including other arrays and
+      objects.
+      </para>
+
+    </partintro>
+
+    <chapter>
+      <title>Data Types</title>
+      <xi:include href="xml/json-node.xml"/>
+      <xi:include href="xml/json-array.xml"/>
+      <xi:include href="xml/json-object.xml"/>
+    </chapter>
+
+  </part>
+
+  <part id="json-streams">
+    <title>Reading and writing</title>
+
+    <partintro>
+
+      <para>
+      JSON-GLib provides a parser object to read any valid JSON data
+      stream and build the data object model in memory.
+      </para>
+
+    </partintro>
+
+    <chapter>
+      <title>Parser</title>
+      <xi:include href="xml/json-parser.xml"/>
+    </chapter>
+
+    <chapter>
+      <title>Generator</title>
+    </chapter>
+
+  </part>
+
+  <part id="tools">
+    <title>JSON-GLib Additional Reference</title>
+
+    <xi:include href="xml/json-version.xml"/>
+  </part>
+
+  <index>
+    <title>Index</title>
+  </index>
+
+  <appendix id="license">
+    <title>License</title>
+
+    <para>
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the <citetitle>GNU Library General
+      Public License</citetitle> as published by the Free Software
+      Foundation; either version 2 of the License, or (at your option)
+      any later version.
+    </para>
+
+    <para>
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      <citetitle>GNU Library General Public License</citetitle> for
+      more details.
+    </para>
+
+    <para>
+      You may obtain a copy of the <citetitle>GNU Library General
+      Public License</citetitle> from the Free Software Foundation by
+      visiting <ulink type="http" url="http://www.fsf.org">their Web
+      site</ulink> or by writing to:
+
+      <address>
+        Free Software Foundation, Inc.
+        <street>59 Temple Place</street> - Suite 330
+        <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>
+        <country>USA</country>
+      </address>
+    </para>
+  </appendix>
+
+</book>
