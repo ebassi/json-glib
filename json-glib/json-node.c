@@ -303,3 +303,19 @@ json_node_type_name (JsonNode *node)
 
   return "unknown";
 }
+
+/**
+ * json_node_get_parent:
+ * @node: a #JsonNode
+ *
+ * Retrieves the parent #JsonNode of @node.
+ *
+ * Return value: the parent node, or %NULL if @node is the root node
+ */
+JsonNode *
+json_node_get_parent (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  return node->parent;
+}
