@@ -76,6 +76,31 @@ json_parser_error_quark
 </SECTION>
 
 <SECTION>
+<FILE>json-generator</FILE>
+<TITLE>JsonGenerator</TITLE>
+<SUBSECTION>
+JsonGenerator
+JsonGeneratorClass
+json_generator_new
+json_generator_to_file
+json_generator_to_data
+json_generator_set_root
+
+<SUBSECTION Standard>
+JSON_TYPE_GENERATOR
+JSON_GENERATOR
+JSON_IS_GENERATOR
+JSON_GENERATOR_CLASS
+JSON_IS_GENERATOR_CLASS
+JSON_GENERATOR_ERROR
+JSON_GENERATOR_GET_CLASS
+
+<SUBSECTION Private>
+JsonGeneratorPrivate
+json_generator_get_type
+</SECTION>
+
+<SECTION>
 <FILE>json-version</FILE>
 <TITLE>Versioning information</TITLE>
 JSON_MAJOR_VERSION

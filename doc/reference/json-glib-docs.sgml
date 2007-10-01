@@ -101,6 +101,7 @@
 
     <chapter>
       <title>Generator</title>
+      <xi:include href="xml/json-generator.xml"/>
     </chapter>
 
   </part>

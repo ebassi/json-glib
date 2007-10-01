@@ -37,6 +37,7 @@ json-marshal.c: Makefile json-marshal.list
 	rm -f xgen-jmc
 
 source_h = \
+	$(srcdir)/json-generator.h \
 	$(srcdir)/json-parser.h \
 	$(srcdir)/json-types.h \
 	$(srcdir)/json-version.h \
@@ -46,6 +47,7 @@ source_h_private = json-private.h
 
 source_c = \
 	json-array.c \
+	json-generator.c \
 	json-node.c \
 	json-object.c \
 	json-parser.c \
