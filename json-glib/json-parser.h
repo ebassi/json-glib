@@ -72,7 +72,7 @@ gboolean    json_parser_load_from_data (JsonParser   *parser,
                                         const gchar  *data,
                                         gsize         length,
                                         GError      **error);
-GList *     json_parser_get_toplevels  (JsonParser   *parser);
+JsonNode *  json_parser_get_root       (JsonParser   *parser);
 
 G_END_DECLS
 

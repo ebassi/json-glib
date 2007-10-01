@@ -7,7 +7,7 @@
 
 /**
  * SECTION:json-object
- * @short_description: a JSON Object type
+ * @short_description: a JSON object representation
  *
  * #JsonObject is a boxed type representing a JSON object data type. Each
  * JSON object can have zero or more members, and each member is accessed
@@ -19,7 +19,7 @@ struct _JsonObject
 {
   GHashTable *members;
 
-  volatile guint ref_count;
+  volatile gint ref_count;
 };
 
 JsonObject *
@@ -32,7 +32,7 @@ json_object_new (void)
   object->ref_count = 1;
   object->members = g_hash_table_new_full (g_str_hash, g_str_equal,
                                            g_free,
-                                           g_free);
+                                           (GDestroyNotify) json_node_free);
 
   return object;
 }
@@ -57,21 +57,6 @@ json_object_ref (JsonObject *object)
   return object;
 }
 
-static void
-object_unset_members (gpointer key,
-                      gpointer value,
-                      gpointer user_data)
-{
-  GValue *gvalue = value;
-
-  /* we copy the contents of the GValues, so we need to unset it
-   * before actually freeing them along with the hash table
-   */
-
-  if (G_VALUE_TYPE (gvalue) != 0) /* we allow unset values */
-    g_value_unset (gvalue);
-}
-
 /**
  * json_object_unref:
  * @object: a #JsonObject
@@ -93,7 +78,6 @@ json_object_unref (JsonObject *object)
     g_atomic_int_compare_and_exchange (&object->ref_count, old_ref, old_ref - 1);
   else
     {
-      g_hash_table_foreach (object->members, object_unset_members, NULL);
       g_hash_table_destroy (object->members);
       object->members = NULL;
 
@@ -102,27 +86,23 @@ json_object_unref (JsonObject *object)
 }
 
 void
-json_object_add_member (JsonObject   *object,
-                        const gchar  *member_name,
-                        const GValue *value)
+json_object_add_member (JsonObject  *object,
+                        const gchar *member_name,
+                        JsonNode    *node)
 {
-  GValue *copy;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
-  g_return_if_fail (value != NULL);
+  g_return_if_fail (node != NULL);
 
   if (json_object_has_member (object, member_name))
     {
-      g_warning ("JsonObject already has a `%s' member", member_name);
+      g_warning ("JsonObject already has a `%s' member of type `%s'",
+                 member_name,
+                 json_node_type_name (node));
       return;
     }
 
-  copy = g_new (GValue, 1);
-  g_value_init (copy, G_VALUE_TYPE (value));
-  g_value_copy (value, copy);
-
-  g_hash_table_replace (object->members, g_strdup (member_name), copy);
+  g_hash_table_replace (object->members, g_strdup (member_name), node);
 }
 
 /**
@@ -155,7 +135,7 @@ json_object_get_members (JsonObject *object)
  * Return value: a pointer to the value for the requested object
  *   member, or %NULL
  */
-GValue *
+JsonNode *
 json_object_get_member (JsonObject *object,
                         const gchar *member_name)
 {

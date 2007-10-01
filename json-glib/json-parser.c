@@ -17,9 +17,8 @@ json_parser_error_quark (void)
 
 struct _JsonParserPrivate
 {
-  GList *top_levels;
-
-  gint depth;
+  JsonNode *root;
+  JsonNode *current_node;
 };
 
 static const GScannerConfig json_scanner_config =
@@ -98,6 +97,14 @@ static guint json_parse_object (JsonParser *parser,
 static void
 json_parser_dispose (GObject *gobject)
 {
+  JsonParserPrivate *priv = JSON_PARSER_GET_PRIVATE (gobject);
+
+  if (priv->root)
+    {
+      json_node_free (priv->root);
+      priv->root = NULL;
+    }
+
   G_OBJECT_CLASS (json_parser_parent_class)->dispose (gobject);
 }
 
@@ -136,7 +143,8 @@ json_parser_init (JsonParser *parser)
 
   parser->priv = priv = JSON_PARSER_GET_PRIVATE (parser);
 
-  priv->top_levels = NULL;
+  priv->root = NULL;
+  priv->current_node = NULL;
 }
 
 static guint
@@ -161,19 +169,25 @@ json_parse_array (JsonParser *parser,
   token = g_scanner_get_next_token (scanner);
   while (token != G_TOKEN_RIGHT_BRACE)
     {
+      JsonNode *node = NULL;
       GValue value = { 0, };
       
       /* nested array */
       if (token == G_TOKEN_LEFT_BRACE)
         {
-          priv->depth += 1;
+          JsonNode *old_node = priv->current_node;
+
+          priv->current_node = json_node_new (JSON_NODE_ARRAY);
 
           token = json_parse_array (parser, scanner, TRUE);
 
-          priv->depth -= 1;
+          node = priv->current_node;
+          priv->current_node = old_node;
 
           if (token != G_TOKEN_NONE)
             return token;
+
+          json_array_add_element (array, node);
 
           token = g_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
@@ -191,42 +205,59 @@ json_parse_array (JsonParser *parser,
         case G_TOKEN_INT:
           g_value_init (&value, G_TYPE_INT);
           g_value_set_int (&value, scanner->value.v_int);
-          json_array_append_element (array, &value);
+          
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
           break;
 
         case G_TOKEN_FLOAT:
           g_value_init (&value, G_TYPE_FLOAT);
           g_value_set_float (&value, scanner->value.v_float);
-          json_array_append_element (array, &value);
+          
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
           break;
 
         case G_TOKEN_STRING:
           g_value_init (&value, G_TYPE_STRING);
           g_value_set_string (&value, scanner->value.v_string);
-          json_array_append_element (array, &value);
+
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
           break;
 
         case JSON_TOKEN_TRUE:
         case JSON_TOKEN_FALSE:
           g_value_init (&value, G_TYPE_BOOLEAN);
-          g_value_set_boolean (&value, token == JSON_TOKEN_TRUE ? TRUE
-                                                                : FALSE);
-          json_array_append_element (array, &value);
+          g_value_set_boolean (&value, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
+
+          node = json_node_new (JSON_NODE_VALUE);
+          json_node_set_value (node, &value);
+
+          g_value_unset (&value);
           break;
 
         case JSON_TOKEN_NULL:
-          /* NULL values are packed as empty GValues */
+          node = json_node_new (JSON_NODE_NULL);
           break;
 
         default:
           return G_TOKEN_RIGHT_BRACE;
         }
 
+      if (node)
+        json_array_add_element (array, node);
+
       token = g_scanner_get_next_token (scanner);
     }
 
-  if (priv->depth == 0)
-    priv->top_levels = g_list_prepend (priv->top_levels, array);
+  json_node_set_array (priv->current_node, array);
 
   return G_TOKEN_NONE;
 }
@@ -256,15 +287,18 @@ static guint
 json_parse_statement (JsonParser *parser,
                       GScanner   *scanner)
 {
+  JsonParserPrivate *priv = parser->priv;
   guint token;
 
   token = g_scanner_peek_next_token (scanner);
   switch (token)
     {
     case G_TOKEN_LEFT_CURLY:
+      priv->root = priv->current_node = json_node_new (JSON_NODE_OBJECT);
       return json_parse_object (parser, scanner);
 
     case G_TOKEN_LEFT_BRACE:
+      priv->root = priv->current_node = json_node_new (JSON_NODE_ARRAY);
       return json_parse_array (parser, scanner, FALSE);
 
     default:
@@ -401,6 +435,12 @@ json_parser_load_from_data (JsonParser   *parser,
   if (length < 0)
     length = strlen (data);
 
+  if (parser->priv->root)
+    {
+      json_node_free (parser->priv->root);
+      parser->priv->root = NULL;
+    }
+
   scanner = json_scanner_new (parser);
   g_scanner_input_text (scanner, data, strlen (data));
 
@@ -479,24 +519,25 @@ json_parser_load_from_data (JsonParser   *parser,
 
   g_scanner_destroy (scanner);
 
+  parser->priv->current_node = NULL;
+
   return retval;
 }
 
 /**
- * json_parser_get_toplevels:
+ * json_parser_get_root:
  * @parser: a #JsonParser
  *
- * Retrieves the top level entities from the parsed JSON stream.
+ * Retrieves the top level node from the parsed JSON stream.
  *
- * Return value: a list of pointers to the top-level entites. The
- *   returned list is owned by the #JsonParser and should never be
- *   modified or freed.
+ * Return value: the root #JsonNode . The returned node is owned by
+ *   the #JsonParser and should never be modified or freed.
  */
-GList *
-json_parser_get_toplevels (JsonParser *parser)
+JsonNode *
+json_parser_get_root (JsonParser *parser)
 {
   g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
 
-  return parser->priv->top_levels;
+  return parser->priv->root;
 }
 

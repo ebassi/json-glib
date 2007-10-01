@@ -3,11 +3,17 @@
 #include "json-types.h"
 #include "json-private.h"
 
+/**
+ * SECTION:json-array
+ * @short_description: a JSON array representation
+ *
+ */
+
 struct _JsonArray
 {
-  GValueArray *elements;
+  GPtrArray *elements;
 
-  volatile guint ref_count;
+  volatile gint ref_count;
 };
 
 JsonArray *
@@ -18,7 +24,7 @@ json_array_new (void)
   array = g_slice_new (JsonArray);
 
   array->ref_count = 1;
-  array->elements = g_value_array_new (0);
+  array->elements = g_ptr_array_new ();
 
   return array;
 }
@@ -31,7 +37,7 @@ json_array_sized_new (guint n_elements)
   array = g_slice_new (JsonArray);
   
   array->ref_count = 1;
-  array->elements = g_value_array_new (n_elements);
+  array->elements = g_ptr_array_sized_new (n_elements);
 
   return array;
 }
@@ -77,7 +83,12 @@ json_array_unref (JsonArray *array)
     g_atomic_int_compare_and_exchange (&array->ref_count, old_ref, old_ref - 1);
   else
     {
-      g_value_array_free (array->elements);
+      gint i;
+
+      for (i = 0; i < array->elements->len; i++)
+        json_node_free (g_ptr_array_index (array->elements, i));
+
+      g_ptr_array_free (array->elements, TRUE);
       array->elements = NULL;
 
       g_slice_free (JsonArray, array);
@@ -88,7 +99,7 @@ json_array_unref (JsonArray *array)
  * json_array_get_elements:
  * @array: a #JsonArray
  *
- * Gets the elements of a #JsonArray in list form.
+ * Gets the elements of a #JsonArray as a list of #JsonNode<!-- -->s.
  *
  * Return value: a #GList containing the elements of the array. The
  *   contents of the list are owned by the array and should never be
@@ -104,9 +115,9 @@ json_array_get_elements (JsonArray *array)
   g_return_val_if_fail (array != NULL, NULL);
 
   retval = NULL;
-  for (i = 0; i < array->elements->n_values; i++)
+  for (i = 0; i < array->elements->len; i++)
     retval = g_list_prepend (retval,
-                             g_value_array_get_nth (array->elements, i));
+                             g_ptr_array_index (array->elements, i));
 
   return g_list_reverse (retval);
 }
@@ -118,16 +129,16 @@ json_array_get_elements (JsonArray *array)
  * 
  * Retrieves the element at @index_ inside a #JsonArray.
  *
- * Return value: a pointer to the value at the requested position
+ * Return value: a pointer to the #JsonNode at the requested index
  */
-GValue *
+JsonNode *
 json_array_get_element (JsonArray *array,
                         guint      index_)
 {
   g_return_val_if_fail (array != NULL, NULL);
-  g_return_val_if_fail (index_ < array->elements->n_values, NULL);
+  g_return_val_if_fail (index_ < array->elements->len, NULL);
 
-  return g_value_array_get_nth (array->elements, index_);
+  return g_ptr_array_index (array->elements, index_);
 }
 
 /**
@@ -143,34 +154,15 @@ json_array_get_length (JsonArray *array)
 {
   g_return_val_if_fail (array != NULL, 0);
 
-  return array->elements->n_values;
+  return array->elements->len;
 }
 
 void
-json_array_append_element (JsonArray    *array,
-                           const GValue *value)
+json_array_add_element (JsonArray *array,
+                        JsonNode  *node)
 {
   g_return_if_fail (array != NULL);
+  g_return_if_fail (node != NULL);
 
-  g_value_array_append (array->elements, value);
-}
-
-void
-json_array_prepend_element (JsonArray    *array,
-                            const GValue *value)
-{
-  g_return_if_fail (array != NULL);
-
-  g_value_array_prepend (array->elements, value);
-}
-
-void
-json_array_insert_element (JsonArray    *array,
-                           gint          index_,
-                           const GValue *value)
-{
-  g_return_if_fail (array != NULL);
-  g_return_if_fail (index_ <= array->elements->n_values);
-
-  g_value_array_insert (array->elements, index_, value);
+  g_ptr_array_add (array->elements, node);
 }

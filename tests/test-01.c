@@ -23,7 +23,7 @@ main (int argc, char *argv[])
       return EXIT_FAILURE;
     }
 
-  g_assert (NULL == json_parser_get_toplevels (parser));
+  g_assert (NULL == json_parser_get_root (parser));
 
   g_object_unref (parser);
 
