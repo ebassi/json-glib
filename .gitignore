@@ -19,6 +19,7 @@ json-glib.pc
 json-glib/.deps
 json-glib/.libs
 json-glib/json-array.lo
+json-glib/json-generator.lo
 json-glib/json-marshal.c
 json-glib/json-marshal.h
 json-glib/json-marshal.lo
@@ -40,13 +41,17 @@ tests/test-02
 tests/test-02.o
 tests/test-03
 tests/test-03.o
+tests/test-04
+tests/test-04.o
 .*.swp
 doc/reference/.libs
 doc/reference/html-build.stamp
 doc/reference/html.stamp
 doc/reference/html
 doc/reference/json-glib-decl-list.txt
+doc/reference/json-glib-decl-list.txt.bak
 doc/reference/json-glib-decl.txt
+doc/reference/json-glib-decl.txt.bak
 doc/reference/json-glib-overrides.txt
 doc/reference/json-glib-undeclared.txt
 doc/reference/json-glib-undocumented.txt
