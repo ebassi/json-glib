@@ -143,6 +143,73 @@ test_nested (JsonGenerator *generator)
   g_free (data);
 }
 
+static void
+test_object (JsonGenerator *generator)
+{
+  JsonNode *root, *val, *nested_val;
+  JsonArray *array;
+  JsonObject *nested;
+  GValue value = { 0, };
+  gchar *data;
+  gsize len;
+
+  root = json_node_new (JSON_NODE_ARRAY);
+  array = json_array_sized_new (3);
+
+  val = json_node_new (JSON_NODE_VALUE);
+  g_value_init (&value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&value, TRUE);
+  json_node_set_value (val, &value);
+  json_array_add_element (array, val);
+  g_value_unset (&value);
+
+  {
+    val = json_node_new (JSON_NODE_OBJECT);
+    nested = json_object_new ();
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_BOOLEAN);
+    g_value_set_boolean (&value, FALSE);
+    json_node_set_value (nested_val, &value);
+    json_object_add_member (nested, "foo", nested_val);
+    g_value_unset (&value);
+
+    nested_val = json_node_new (JSON_NODE_NULL);
+    json_object_add_member (nested, "bar", nested_val);
+  
+    json_node_take_object (val, nested);
+    json_array_add_element (array, val);
+  }
+
+  {
+    val = json_node_new (JSON_NODE_OBJECT);
+    nested = json_object_new ();
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_INT);
+    g_value_set_int (&value, 42);
+    json_node_set_value (nested_val, &value);
+    json_object_add_member (nested, "baz", nested_val);
+    g_value_unset (&value);
+
+    json_node_take_object (val, nested);
+    json_array_add_element (array, val);
+  }
+
+  json_node_take_array (root, array);
+  json_generator_set_root (generator, root);
+
+  g_object_set (generator, "pretty", FALSE, NULL);
+  data = json_generator_to_data (generator, &len);
+  g_print ("*** Nested object (len:%d): `%s'\n", len, data);
+  g_free (data);
+
+  g_object_set (generator, "pretty", TRUE, NULL);
+  data = json_generator_to_data (generator, &len);
+  g_print ("*** Nested object (pretty, len:%d):\n%s\n", len, data);
+  g_free (data);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -155,6 +222,7 @@ main (int argc, char *argv[])
   test_empty (generator);
   test_simple (generator);
   test_nested (generator);
+  test_object (generator);
 
   g_object_unref (generator);
 
