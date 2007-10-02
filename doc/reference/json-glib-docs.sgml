@@ -106,6 +106,12 @@
 
   </part>
 
+  <part id="json-advanced">
+    <title>JSON-GLib Advanced API</title>
+
+    <xi:include href="xml/json-gobject.xml"/>
+  </part>
+
   <part id="json-tools">
     <title>JSON-GLib Additional Reference</title>
 

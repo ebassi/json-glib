@@ -123,6 +123,12 @@ json_generator_get_type
 </SECTION>
 
 <SECTION>
+<FILE>json-gobject</FILE>
+<TITLE>GObject integration</TITLE>
+json_serialize_gobject
+</SECTION>
+
+<SECTION>
 <FILE>json-version</FILE>
 <TITLE>Versioning information</TITLE>
 JSON_MAJOR_VERSION
