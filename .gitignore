@@ -43,6 +43,8 @@ tests/test-03
 tests/test-03.o
 tests/test-04
 tests/test-04.o
+tests/test-05
+tests/test-05.o
 .*.swp
 doc/reference/.libs
 doc/reference/html-build.stamp
