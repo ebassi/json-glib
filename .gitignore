@@ -20,6 +20,7 @@ json-glib/.deps
 json-glib/.libs
 json-glib/json-array.lo
 json-glib/json-generator.lo
+json-glib/json-gobject.lo
 json-glib/json-marshal.c
 json-glib/json-marshal.h
 json-glib/json-marshal.lo

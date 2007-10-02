@@ -38,6 +38,7 @@ json-marshal.c: Makefile json-marshal.list
 
 source_h = \
 	$(srcdir)/json-generator.h \
+	$(srcdir)/json-gobject.h \
 	$(srcdir)/json-parser.h \
 	$(srcdir)/json-types.h \
 	$(srcdir)/json-version.h \
@@ -48,6 +49,7 @@ source_h_private =
 source_c = \
 	json-array.c \
 	json-generator.c \
+	json-gobject.c \
 	json-node.c \
 	json-object.c \
 	json-parser.c \
