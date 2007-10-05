@@ -431,8 +431,8 @@ json_parse_array (JsonParser *parser,
           break;
 
         case G_TOKEN_FLOAT:
-          g_value_init (&value, G_TYPE_FLOAT);
-          g_value_set_float (&value, scanner->value.v_float);
+          g_value_init (&value, G_TYPE_DOUBLE);
+          g_value_set_double (&value, scanner->value.v_float);
           
           node = json_node_new (JSON_NODE_VALUE);
           json_node_set_value (node, &value);
@@ -631,8 +631,8 @@ json_parse_object (JsonParser *parser,
           break;
 
         case G_TOKEN_FLOAT:
-          g_value_init (&value, G_TYPE_FLOAT);
-          g_value_set_float (&value, scanner->value.v_float);
+          g_value_init (&value, G_TYPE_DOUBLE);
+          g_value_set_double (&value, scanner->value.v_float);
           
           node = json_node_new (JSON_NODE_VALUE);
           json_node_set_value (node, &value);
