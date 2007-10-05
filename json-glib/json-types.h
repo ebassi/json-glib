@@ -112,7 +112,7 @@ void                  json_node_get_value     (JsonNode     *node,
 JsonNode *            json_node_get_parent    (JsonNode     *node);
 G_CONST_RETURN gchar *json_node_type_name     (JsonNode     *node);
 
-void                  json_object_get_type    (void) G_GNUC_CONST;
+GType                 json_object_get_type    (void) G_GNUC_CONST;
 JsonObject *          json_object_new         (void);
 JsonObject *          json_object_ref         (JsonObject  *object);
 void                  json_object_unref       (JsonObject  *object);
@@ -126,7 +126,7 @@ gboolean              json_object_has_member  (JsonObject  *object,
                                                const gchar *member_name);
 guint                 json_object_get_size    (JsonObject  *object);
 
-void                  json_array_get_type    (void) G_GNUC_CONST;
+GType                 json_array_get_type     (void) G_GNUC_CONST;
 JsonArray *           json_array_new          (void);
 JsonArray *           json_array_sized_new    (guint        n_elements);
 JsonArray *           json_array_ref          (JsonArray   *array);

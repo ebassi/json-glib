@@ -47,6 +47,19 @@ struct _JsonObject
   volatile gint ref_count;
 };
 
+GType
+json_object_get_type (void)
+{
+  static GType object_type = 0;
+
+  if (G_UNLIKELY (!object_type))
+    object_type = g_boxed_type_register_static ("JsonObject",
+                                               (GBoxedCopyFunc) json_object_ref,
+                                               (GBoxedFreeFunc) json_object_unref);
+
+  return object_type;
+}
+
 /**
  * json_object_new:
  * 

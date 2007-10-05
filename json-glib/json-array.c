@@ -44,6 +44,19 @@ struct _JsonArray
   volatile gint ref_count;
 };
 
+GType
+json_array_get_type (void)
+{
+  static GType array_type = 0;
+
+  if (G_UNLIKELY (!array_type))
+    array_type = g_boxed_type_register_static ("JsonArray",
+                                               (GBoxedCopyFunc) json_array_ref,
+                                               (GBoxedFreeFunc) json_array_unref);
+
+  return array_type;
+}
+
 /**
  * json_array_new:
  *
