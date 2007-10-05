@@ -45,6 +45,8 @@ struct _JsonParserPrivate
 {
   JsonNode *root;
   JsonNode *current_node;
+
+  GScanner *scanner;
 };
 
 static const GScannerConfig json_scanner_config =
@@ -728,8 +730,6 @@ json_scanner_msg_handler (GScanner *scanner,
     {
       GError *error = NULL;
 
-      g_warning ("Line %d: %s", scanner->line, message);
-
       g_set_error (&error, JSON_PARSER_ERROR,
                    JSON_PARSER_ERROR_PARSE,
                    "Parse error on line %d: %s",
@@ -862,6 +862,8 @@ json_parser_load_from_data (JsonParser   *parser,
                                   GINT_TO_POINTER (symbols[i].token));
     }
 
+  parser->priv->scanner = scanner;
+
   g_signal_emit (parser, parser_signals[PARSE_START], 0);
 
   done = FALSE;
@@ -931,7 +933,7 @@ json_parser_load_from_data (JsonParser   *parser,
     }
 
   g_scanner_destroy (scanner);
-
+  parser->priv->scanner = NULL;
   parser->priv->current_node = NULL;
 
   g_signal_emit (parser, parser_signals[PARSE_END], 0);
@@ -956,3 +958,41 @@ json_parser_get_root (JsonParser *parser)
   return parser->priv->root;
 }
 
+/**
+ * json_parser_get_current_line:
+ * @parser: a #JsonParser
+ *
+ * Retrieves the line currently parsed, starting from 1.
+ *
+ * Return value: the currently parsed line.
+ */
+guint
+json_parser_get_current_line (JsonParser *parser)
+{
+  g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
+
+  if (parser->priv->scanner)
+    return g_scanner_cur_line (parser->priv->scanner);
+
+  return 0;
+}
+
+/**
+ * json_parser_get_current_pos:
+ * @parser: a #JsonParser
+ *
+ * Retrieves the current position inside the current line, starting
+ * from 0.
+ *
+ * Return value: the position in the current line
+ */
+guint
+json_parser_get_current_pos (JsonParser *parser)
+{
+  g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
+
+  if (parser->priv->scanner)
+    return g_scanner_cur_line (parser->priv->scanner);
+
+  return 0;
+}

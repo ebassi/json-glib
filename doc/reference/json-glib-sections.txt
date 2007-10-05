@@ -80,7 +80,13 @@ JsonParserClass
 json_parser_new
 json_parser_load_from_file
 json_parser_load_from_data
+
+<SUBSECTION>
 json_parser_get_root
+
+<SUBSECTION>
+json_parser_get_current_line
+json_parser_get_current_pos
 
 <SUBSECTION Standard>
 JSON_TYPE_PARSER

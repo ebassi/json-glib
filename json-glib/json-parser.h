@@ -129,15 +129,18 @@ struct _JsonParserClass
 GQuark      json_parser_error_quark    (void);
 GType       json_parser_get_type       (void) G_GNUC_CONST;
 
-JsonParser *json_parser_new            (void);
-gboolean    json_parser_load_from_file (JsonParser   *parser,
-                                        const gchar  *filename,
-                                        GError      **error);
-gboolean    json_parser_load_from_data (JsonParser   *parser,
-                                        const gchar  *data,
-                                        gsize         length,
-                                        GError      **error);
-JsonNode *  json_parser_get_root       (JsonParser   *parser);
+JsonParser *json_parser_new              (void);
+gboolean    json_parser_load_from_file   (JsonParser   *parser,
+                                          const gchar  *filename,
+                                          GError      **error);
+gboolean    json_parser_load_from_data   (JsonParser   *parser,
+                                          const gchar  *data,
+                                          gsize         length,
+                                          GError      **error);
+JsonNode *  json_parser_get_root         (JsonParser   *parser);
+
+guint       json_parser_get_current_line (JsonParser   *parser);
+guint       json_parser_get_current_pos  (JsonParser   *parser);
 
 G_END_DECLS
 
