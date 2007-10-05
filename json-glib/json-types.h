@@ -109,6 +109,18 @@ void                  json_node_set_value     (JsonNode     *node,
                                                const GValue *value);
 void                  json_node_get_value     (JsonNode     *node,
                                                GValue       *value);
+void                  json_node_set_string    (JsonNode     *node,
+                                               const gchar  *value);
+G_CONST_RETURN gchar *json_node_get_string    (JsonNode     *node);
+void                  json_node_set_int       (JsonNode     *node,
+                                               gint          value);
+gint                  json_node_get_int       (JsonNode     *node);
+void                  json_node_set_double    (JsonNode     *node,
+                                               gdouble       value);
+gdouble               json_node_get_double    (JsonNode     *node);
+void                  json_node_set_boolean   (JsonNode     *node,
+                                               gboolean      value);
+gboolean              json_node_get_boolean   (JsonNode     *node);
 JsonNode *            json_node_get_parent    (JsonNode     *node);
 G_CONST_RETURN gchar *json_node_type_name     (JsonNode     *node);
 

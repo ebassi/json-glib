@@ -396,3 +396,204 @@ json_node_get_parent (JsonNode *node)
 
   return node->parent;
 }
+
+/**
+ * json_node_set_string:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ * @value: a string value
+ *
+ * Sets @value as the string content of the @node, replacing any existing
+ * content.
+ */
+void
+json_node_set_string (JsonNode    *node,
+                      const gchar *value)
+{
+  g_return_if_fail (node != NULL);
+  g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
+    g_value_set_string (&(node->data.value), value);
+  else
+    {
+      GValue copy = { 0, };
+
+      g_value_init (&copy, G_TYPE_STRING);
+      g_value_set_string (&copy, value);
+
+      json_node_set_value (node, &copy);
+
+      g_value_unset (&copy);
+    }
+}
+
+/**
+ * json_node_get_string:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ *
+ * Gets the string value stored inside a #JsonNode
+ *
+ * Return value: a string value.
+ */
+G_CONST_RETURN gchar *
+json_node_get_string (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
+    return g_value_get_string (&(node->data.value));
+
+  return NULL;
+}
+
+/**
+ * json_node_set_int:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ * @value: an integer value
+ *
+ * Sets @value as the integer content of the @node, replacing any existing
+ * content.
+ */
+void
+json_node_set_int (JsonNode *node,
+                   gint      value)
+{
+  g_return_if_fail (node != NULL);
+  g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_INT)
+    g_value_set_int (&(node->data.value), value);
+  else
+    {
+      GValue copy = { 0, };
+
+      g_value_init (&copy, G_TYPE_INT);
+      g_value_set_int (&copy, value);
+
+      json_node_set_value (node, &copy);
+
+      g_value_unset (&copy);
+    }
+}
+
+/**
+ * json_node_get_int:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ *
+ * Gets the integer value stored inside a #JsonNode
+ *
+ * Return value: an integer value.
+ */
+gint
+json_node_get_int (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, 0);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_INT)
+    return g_value_get_int (&(node->data.value));
+
+  return 0;
+}
+
+/**
+ * json_node_set_double:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ * @value: a double value
+ *
+ * Sets @value as the double content of the @node, replacing any existing
+ * content.
+ */
+void
+json_node_set_double (JsonNode *node,
+                      gdouble   value)
+{
+  g_return_if_fail (node != NULL);
+  g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_DOUBLE)
+    g_value_set_double (&(node->data.value), value);
+  else
+    {
+      GValue copy = { 0, };
+
+      g_value_init (&copy, G_TYPE_DOUBLE);
+      g_value_set_double (&copy, value);
+
+      json_node_set_value (node, &copy);
+
+      g_value_unset (&copy);
+    }
+}
+
+/**
+ * json_node_get_double:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ *
+ * Gets the double value stored inside a #JsonNode
+ *
+ * Return value: a double value.
+ */
+gdouble
+json_node_get_double (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, 0.0);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0.0);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_DOUBLE)
+    return g_value_get_double (&(node->data.value));
+
+  return 0.0;
+}
+
+/**
+ * json_node_set_boolean:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ * @value: a boolean value
+ *
+ * Sets @value as the boolean content of the @node, replacing any existing
+ * content.
+ */
+void
+json_node_set_boolean (JsonNode *node,
+                       gboolean  value)
+{
+  g_return_if_fail (node != NULL);
+  g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_BOOLEAN)
+    g_value_set_boolean (&(node->data.value), value);
+  else
+    {
+      GValue copy = { 0, };
+
+      g_value_init (&copy, G_TYPE_BOOLEAN);
+      g_value_set_boolean (&copy, value);
+
+      json_node_set_value (node, &copy);
+
+      g_value_unset (&copy);
+    }
+}
+
+/**
+ * json_node_get_boolean:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ *
+ * Gets the boolean value stored inside a #JsonNode
+ *
+ * Return value: a boolean value.
+ */
+gboolean
+json_node_get_boolean (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, FALSE);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, FALSE);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_BOOLEAN)
+    return g_value_get_boolean (&(node->data.value));
+
+  return FALSE;
+}
+

@@ -63,6 +63,14 @@ json_node_dup_object
 <SUBSECTION>
 json_node_set_value
 json_node_get_value
+json_node_set_boolean
+json_node_get_boolean
+json_node_set_double
+json_node_get_double
+json_node_set_int
+json_node_get_int
+json_node_set_string
+json_node_get_string
 
 <SUBSECTION>
 json_node_get_parent
