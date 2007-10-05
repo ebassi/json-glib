@@ -75,7 +75,15 @@ struct _JsonParser
 
 /**
  * JsonParserClass:
- * @error: signal class handler for the JsonParser::error signal
+ * @parse_start: class handler for the JsonParser::parse-start signal
+ * @object_start: class handler for the JsonParser::object-start signal
+ * @object_member: class handler for the JsonParser::object-member signal
+ * @object_end: class handler for the JsonParser::object-end signal
+ * @array_start: class handler for the JsonParser::array-start signal
+ * @array_element: class handler for the JsonParser::array-element signal
+ * @array_end: class handler for the JsonParser::array-end signal
+ * @parse_end: class handler for the JsonParser::parse-end signal
+ * @error: class handler for the JsonParser::error signal
  *
  * #JsonParser class.
  */

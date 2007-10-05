@@ -152,6 +152,13 @@ json_parser_class_init (JsonParserClass *klass)
 
   gobject_class->dispose = json_parser_dispose;
 
+  /**
+   * JsonParser::parse-start:
+   * @parser: the #JsonParser that received the signal
+   * 
+   * The ::parse-start signal is emitted when the parser began parsing
+   * a JSON data stream.
+   */
   parser_signals[PARSE_START] =
     g_signal_new ("parse-start",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -160,6 +167,13 @@ json_parser_class_init (JsonParserClass *klass)
                   NULL, NULL,
                   _json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
+  /**
+   * JsonParser::parse-end:
+   * @parser: the #JsonParser that received the signal
+   *
+   * The ::parse-end signal is emitted when the parser successfully
+   * finished parsing a JSON data stream
+   */
   parser_signals[PARSE_END] =
     g_signal_new ("parse-end",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -168,6 +182,13 @@ json_parser_class_init (JsonParserClass *klass)
                   NULL, NULL,
                   _json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
+  /**
+   * JsonParser::object-start:
+   * @parser: the #JsonParser that received the signal
+   * 
+   * The ::object-start signal is emitted each time the #JsonParser
+   * starts parsing a #JsonObject.
+   */
   parser_signals[OBJECT_START] =
     g_signal_new ("object-start",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -176,6 +197,16 @@ json_parser_class_init (JsonParserClass *klass)
                   NULL, NULL,
                   _json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
+  /**
+   * JsonParser::object-member:
+   * @parser: the #JsonParser that received the signal
+   * @object: a #JsonObject
+   * @member_name: the name of the newly parsed member
+   *
+   * The ::object-member signal is emitted each time the #JsonParser
+   * has successfully parsed a single member of a #JsonObject. The
+   * object and member are passed to the signal handlers.
+   */
   parser_signals[OBJECT_MEMBER] =
     g_signal_new ("object-member",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -186,6 +217,14 @@ json_parser_class_init (JsonParserClass *klass)
                   G_TYPE_NONE, 2,
                   JSON_TYPE_OBJECT,
                   G_TYPE_STRING);
+  /**
+   * JsonParser::object-end:
+   * @parser: the #JsonParser that received the signal
+   * @object: the parsed #JsonObject
+   *
+   * The ::object-end signal is emitted each time the #JsonParser
+   * has successfully parsed an entire #JsonObject.
+   */
   parser_signals[OBJECT_END] =
     g_signal_new ("object-end",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -195,6 +234,13 @@ json_parser_class_init (JsonParserClass *klass)
                   _json_marshal_VOID__BOXED,
                   G_TYPE_NONE, 1,
                   JSON_TYPE_OBJECT);
+  /**
+   * JsonParser::array-start:
+   * @parser: the #JsonParser that received the signal
+   *
+   * The ::array-start signal is emitted each time the #JsonParser
+   * starts parsing a #JsonArray
+   */
   parser_signals[ARRAY_START] =
     g_signal_new ("array-start",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -203,6 +249,16 @@ json_parser_class_init (JsonParserClass *klass)
                   NULL, NULL,
                   _json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
+  /**
+   * JsonParser::array-element:
+   * @parser: the #JsonParser that received the signal
+   * @array: a #JsonArray
+   * @index_: the index of the newly parsed element
+   *
+   * The ::array-element signal is emitted each time the #JsonParser
+   * has successfully parsed a single element of a #JsonArray. The
+   * array and element index are passed to the signal handlers.
+   */
   parser_signals[ARRAY_ELEMENT] =
     g_signal_new ("array-element",
                   G_OBJECT_CLASS_TYPE (gobject_class),
@@ -213,6 +269,14 @@ json_parser_class_init (JsonParserClass *klass)
                   G_TYPE_NONE, 2,
                   JSON_TYPE_ARRAY,
                   G_TYPE_INT);
+  /**
+   * JsonParser::array-end:
+   * @parser: the #JsonParser that received the signal
+   * @array: the parsed #JsonArrary
+   *
+   * The ::array-end signal is emitted each time the #JsonParser
+   * has successfully parsed an entire #JsonArray
+   */
   parser_signals[ARRAY_END] =
     g_signal_new ("array-end",
                   G_OBJECT_CLASS_TYPE (gobject_class),
