@@ -20,7 +20,8 @@
 #ifndef __JSON_PARSER_H__
 #define __JSON_PARSER_H__
 
-#include <json-glib/json-types.h>
+#include <glib-object.h>
+#include "json-types.h"
 
 G_BEGIN_DECLS
 
@@ -84,8 +85,26 @@ struct _JsonParserClass
   GObjectClass parent_class;
 
   /*< public  >*/
-  void (* error) (JsonParser   *parser,
-                  const GError *error);
+  void (* parse_start)   (JsonParser   *parser);
+
+  void (* object_start)  (JsonParser   *parser);
+  void (* object_member) (JsonParser   *parser,
+                          JsonObject   *object,
+                          const gchar  *member_name);
+  void (* object_end)    (JsonParser   *parser,
+                          JsonObject   *object);
+
+  void (* array_start)   (JsonParser   *parser);
+  void (* array_element) (JsonParser   *parser,
+                          JsonArray    *array,
+                          gint          index_);
+  void (* array_end)     (JsonParser   *parser,
+                          JsonArray    *array);
+
+  void (* parse_end)     (JsonParser   *parser);
+  
+  void (* error)         (JsonParser   *parser,
+                          const GError *error);
 
   /*< private >*/
   /* padding for future expansion */
