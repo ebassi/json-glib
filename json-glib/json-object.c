@@ -34,6 +34,7 @@
  * Since objects can be expensive, they are reference counted. You can control
  * the lifetime of a #JsonObject using json_object_ref() and json_object_unref().
  *
+ * To add a member with a given name, use json_object_add_member().
  * To extract a member with a given name, use json_object_get_member().
  * To retrieve the list of members, use json_object_get_members().
  * To retrieve the size of the object (that is, the number of members it has), use
@@ -137,6 +138,7 @@ json_object_unref (JsonObject *object)
  * @node: the value of the member
  *
  * Adds a member named @member_name and containing @node into a #JsonObject.
+ * The object will take ownership of the #JsonNode.
  */
 void
 json_object_add_member (JsonObject  *object,
@@ -168,7 +170,7 @@ json_object_add_member (JsonObject  *object,
  * Return value: a #GList of member names. The content of the list
  *   is owned by the #JsonObject and should never be modified or
  *   freed. When you have finished using the returned list, use
- *   g_slist_free() to free the resources it has allocated.
+ *   g_list_free() to free the resources it has allocated.
  */
 GList *
 json_object_get_members (JsonObject *object)
@@ -183,9 +185,10 @@ json_object_get_members (JsonObject *object)
  * @object: a #JsonObject
  * @member_name: the name of the JSON object member to access
  *
- * Retrieves the value of @member_name inside a #JsonObject.
+ * Retrieves the #JsonNode containing the value of @member_name inside
+ * a #JsonObject.
  *
- * Return value: a pointer to the value for the requested object
+ * Return value: a pointer to the node for the requested object
  *   member, or %NULL
  */
 JsonNode *
@@ -221,9 +224,9 @@ json_object_has_member (JsonObject *object,
  * json_object_get_size:
  * @object: a #JsonObject
  *
- * Retrieves the size of a #JsonObject.
+ * Retrieves the number of members of a #JsonObject.
  *
- * Return value: the number of members the JSON object has
+ * Return value: the number of members
  */
 guint
 json_object_get_size (JsonObject *object)
