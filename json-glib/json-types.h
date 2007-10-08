@@ -112,6 +112,7 @@ void                  json_node_get_value     (JsonNode     *node,
 void                  json_node_set_string    (JsonNode     *node,
                                                const gchar  *value);
 G_CONST_RETURN gchar *json_node_get_string    (JsonNode     *node);
+gchar *               json_node_dup_string    (JsonNode     *node);
 void                  json_node_set_int       (JsonNode     *node,
                                                gint          value);
 gint                  json_node_get_int       (JsonNode     *node);

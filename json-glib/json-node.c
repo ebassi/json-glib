@@ -448,6 +448,26 @@ json_node_get_string (JsonNode *node)
 }
 
 /**
+ * json_node_dup_string:
+ * @node: a #JsonNode of type %JSON_NODE_VALUE
+ *
+ * Gets a copy of the string value stored inside a #JsonNode
+ *
+ * Return value: a newly allocated string containing a copy of
+ *   the #JsonNode contents
+ */
+gchar *
+json_node_dup_string (JsonNode *node)
+{
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
+
+  if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
+    return g_value_dup_string (&(node->data.value));
+
+  return NULL;
+}
+
+/**
  * json_node_set_int:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  * @value: an integer value

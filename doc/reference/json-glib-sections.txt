@@ -71,6 +71,7 @@ json_node_set_int
 json_node_get_int
 json_node_set_string
 json_node_get_string
+json_node_dup_string
 
 <SUBSECTION>
 json_node_get_parent
