@@ -235,3 +235,20 @@ json_object_get_size (JsonObject *object)
 
   return g_hash_table_size (object->members);
 }
+
+/**
+ * json_object_remove_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member to remove
+ *
+ * Removes @member_name from @object, freeing its allocated resources.
+ */
+void
+json_object_remove_member (JsonObject  *object,
+                           const gchar *member_name)
+{
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  g_hash_table_remove (object->members, member_name);
+}

@@ -12,6 +12,7 @@ json_object_has_member
 json_object_get_member
 json_object_get_members
 json_object_get_size
+json_object_remove_member
 
 <SUBSECTION Private>
 JSON_TYPE_OBJECT
@@ -32,6 +33,7 @@ json_array_add_element
 json_array_get_element
 json_array_get_elements
 json_array_get_length
+json_array_remove_element
 
 <SUBSECTION Private>
 JSON_TYPE_ARRAY

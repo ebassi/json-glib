@@ -232,3 +232,21 @@ json_array_add_element (JsonArray *array,
 
   g_ptr_array_add (array->elements, node);
 }
+
+/**
+ * json_array_remove_element:
+ * @array: a #JsonArray
+ * @index_: the position of the element to be removed
+ *
+ * Removes the #JsonNode inside @array at @index_ freeing its allocated
+ * resources.
+ */
+void
+json_array_remove_element (JsonArray *array,
+                           guint      index_)
+{
+  g_return_if_fail (array != NULL);
+  g_return_if_fail (index_ < array->elements->len);
+
+  json_node_free (g_ptr_array_remove_index (array->elements, index_));
+}
