@@ -15,7 +15,7 @@ m4_define([lt_revision], [json_interface_age])
 m4_define([lt_age],
           [m4_eval(json_binary_age - json_interface_age)])
 
-m4_define([glib_req_version], [2.14])
+m4_define([glib_req_version], [2.12])
 
 AC_PREREQ(2.59)
 AC_INIT([json-glib], [json_version], [], [json-glib])
