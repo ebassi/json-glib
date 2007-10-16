@@ -89,7 +89,7 @@ AC_ARG_ENABLE([maintainer-flags],
               enable_maintainer_flags=maintainer_flags_default)
 
 if test "x$enable_maintainer_flags" = "xyes"; then
-  CPPFLAGS="$CPPFLAGS -g -Wall -Wextra -Wshadow -Wcast-align -Wno-uninitialized -Werror"
+  CPPFLAGS="$CPPFLAGS -g -Wall -Wshadow -Wcast-align -Wno-uninitialized -Werror"
 else
   CPPFLAGS="$CPPFLAGS -g -Wall"
 fi
