@@ -37,11 +37,11 @@ json-marshal.c: Makefile json-marshal.list
 	rm -f xgen-jmc
 
 source_h = \
-	$(srcdir)/json-generator.h \
-	$(srcdir)/json-gobject.h \
-	$(srcdir)/json-parser.h \
-	$(srcdir)/json-types.h \
-	$(srcdir)/json-version.h \
+	$(top_srcdir)/json-glib/json-generator.h \
+	$(top_srcdir)/json-glib/json-gobject.h \
+	$(top_srcdir)/json-glib/json-parser.h \
+	$(top_srcdir)/json-glib/json-types.h \
+	$(top_srcdir)/json-glib/json-version.h \
 	$(NULL)
 
 source_h_private =
@@ -66,12 +66,14 @@ libjson_glib_1_0_la_SOURCES = \
 	$(NULL)
 libjson_glib_1_0_la_LDFLAGS = $(LDADD)
 
-jsoninclude_DATA = $(source_h) json-glib.h
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
+jsoninclude_DATA = \
+	$(source_h) \
+	$(top_srcdir)/json-glib/json-glib.h
 
 CLEANFILES = $(STAMP_FILES) $(BUILT_SOURCES)
 
 DISTCLEANFILES = json-version.h
 
-EXTRA_DIST = json-version.h.in
+EXTRA_DIST = json-version.h.in json-glib.h json-marshal.list
 
