@@ -13,3 +13,8 @@ EXTRA_DIST = json-glib.pc.in
 CLEANFILES = $(pcfiles)
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk --enable-maintainer-flags
+
+dist-hook:
+	git-log --stat > ChangeLog.in && \
+	cp -f ChangeLog.in $(distdir)/ChangeLog && \
+	rm -f ChangeLog.in
