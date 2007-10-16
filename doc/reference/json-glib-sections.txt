@@ -143,7 +143,22 @@ json_generator_get_type
 <SECTION>
 <FILE>json-gobject</FILE>
 <TITLE>GObject integration</TITLE>
+JsonSerializableIface
+json_serializable_serialize_property
+json_serializable_deserialize_property
+
+<SUBSECTION>
 json_serialize_gobject
+
+<SUBSECTION Standard>
+JSON_TYPE_SERIALIZABLE
+JSON_SERIALIZABLE
+JSON_IS_SERIALIZABLE
+JSON_SERIALIZABLE_GET_IFACE
+
+<SUBSECTION Private>
+JsonSerializable
+json_serializable_get_type
 </SECTION>
 
 <SECTION>

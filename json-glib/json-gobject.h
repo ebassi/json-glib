@@ -25,6 +25,57 @@
 
 G_BEGIN_DECLS
 
+#define JSON_TYPE_SERIALIZABLE                  (json_serializable_get_type ())
+#define JSON_SERIALIZABLE(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), JSON_TYPE_SERIALIZABLE, JsonSerializable))
+#define JSON_IS_SERIALIZABLE(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), JSON_TYPE_SERIALIZABLE))
+#define JSON_SERIALIZABLE_GET_IFACE(obj)        (G_TYPE_INSTANCE_GET_INTERFACE ((obj), JSON_TYPE_SERIALIZABLE, JsonSerializableIface))
+
+typedef struct _JsonSerializable        JsonSerializable; /* dummy */
+typedef struct _JsonSerializableIface   JsonSerializableIface;
+
+/**
+ * JsonSerializableIface:
+ * @serialize_property: virtual function for serializing a #GObject property
+ *   into a #JsonNode
+ * @deserialize_property: virtual function for deserializing a #JsonNode
+ *   into a #GObject property
+ *
+ * Interface that allows serializing and deserializing #GObject<!-- -->s
+ * with properties storing complex data types. The json_serialize_gobject()
+ * function will check if the passed #GObject implements this interface,
+ * so it can also be used to override the default property serialization
+ * sequence.
+ */
+struct _JsonSerializableIface
+{
+  /*< private >*/
+  GTypeInterface g_iface;
+
+  /*< public >*/
+  JsonNode *(* serialize_property)   (JsonSerializable *serializable,
+                                      const gchar      *property_name,
+                                      const GValue     *value,
+                                      GParamSpec       *pspec);
+  gboolean  (* deserialize_property) (JsonSerializable *serializable,
+                                      const gchar      *property_name,
+                                      GValue           *value,
+                                      GParamSpec       *pspec,
+                                      JsonNode         *property_node);
+};
+
+GType     json_serializable_get_type (void) G_GNUC_CONST;
+
+JsonNode *json_serializable_serialize_property   (JsonSerializable *serializable,
+                                                  const gchar      *property_name,
+                                                  const GValue     *value,
+                                                  GParamSpec       *pspec);
+gboolean  json_serializable_deserialize_property (JsonSerializable *serializable,
+                                                  const gchar      *property_name,
+                                                  GValue           *value,
+                                                  GParamSpec       *pspec,
+                                                  JsonNode         *property_node);
+
+
 gchar *json_serialize_gobject (GObject *gobject,
                                gsize   *length);
 

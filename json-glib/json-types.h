@@ -70,6 +70,7 @@ typedef enum {
 
 /**
  * JsonNode:
+ * @type: the type of node
  *
  * A generic container of JSON data types. The contents of the #JsonNode
  * structure are private and should only be accessed via the provided
