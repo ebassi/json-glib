@@ -186,7 +186,7 @@ dump_value (JsonGenerator *generator,
   guint indent = generator->priv->indent;
   GValue value = { 0, };
   GString *buffer;
-  gint i;
+  guint i;
 
   buffer = g_string_new ("");
 
@@ -236,8 +236,8 @@ dump_array (JsonGenerator *generator,
             JsonArray     *array,
             gsize         *length)
 {
-  gint array_len = json_array_get_length (array);
-  gint i;
+  guint array_len = json_array_get_length (array);
+  guint i;
   GString *buffer;
   gboolean pretty = generator->priv->pretty;
   guint indent = generator->priv->indent;
@@ -264,7 +264,7 @@ dump_array (JsonGenerator *generator,
     {
       JsonNode *cur = json_array_get_element (array, i);
       guint sub_level = level + 1;
-      gint j;
+      guint j;
       gchar *value; 
 
       switch (JSON_NODE_TYPE (cur))
@@ -328,7 +328,7 @@ dump_object (JsonGenerator *generator,
   GString *buffer;
   gboolean pretty = generator->priv->pretty;
   guint indent = generator->priv->indent;
-  gint i;
+  guint i;
 
   buffer = g_string_new ("");
 
@@ -352,10 +352,10 @@ dump_object (JsonGenerator *generator,
 
   for (l = members; l != NULL; l = l->next)
     {
-      const gchar *name = l->data;
-      JsonNode *cur = json_object_get_member (object, name);
+      const gchar *member_name = l->data;
+      JsonNode *cur = json_object_get_member (object, member_name);
       guint sub_level = level + 1;
-      gint j;
+      guint j;
       gchar *value;
 
       switch (JSON_NODE_TYPE (cur))

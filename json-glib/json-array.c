@@ -140,7 +140,7 @@ json_array_unref (JsonArray *array)
     g_atomic_int_compare_and_exchange (&array->ref_count, old_ref, old_ref - 1);
   else
     {
-      gint i;
+      guint i;
 
       for (i = 0; i < array->elements->len; i++)
         json_node_free (g_ptr_array_index (array->elements, i));
