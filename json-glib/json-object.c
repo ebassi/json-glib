@@ -179,6 +179,16 @@ get_keys (gpointer key,
   *keys = g_list_prepend (*keys, key);
 }
 
+static void
+get_values (gpointer key,
+            gpointer value,
+            gpointer user_data)
+{
+  GList **values = user_data;
+
+  *values = g_list_prepend (*values, value);
+}
+
 static GList *
 g_hash_table_get_keys (GHashTable *hash_table)
 {
@@ -187,6 +197,18 @@ g_hash_table_get_keys (GHashTable *hash_table)
   g_return_val_if_fail (hash_table != NULL, NULL);
 
   g_hash_table_foreach (hash_table, get_keys, &retval);
+
+  return retval;
+}
+
+static GList *
+g_hash_table_get_values (GHashTable *hash_table)
+{
+  GList *retval = NULL;
+
+  g_return_val_if_fail (hash_table != NULL, NULL);
+
+  g_hash_table_foreach (hash_table, get_values, &retval);
 
   return retval;
 }
@@ -210,6 +232,25 @@ json_object_get_members (JsonObject *object)
   g_return_val_if_fail (object != NULL, NULL);
 
   return g_hash_table_get_keys (object->members);
+}
+
+/**
+ * json_object_get_values:
+ * @object: a #JsonObject
+ *
+ * Retrieves all the values of the members of a #JsonObject.
+ *
+ * Return value: a #GList of #JsonNode<!-- -->s. The content of the
+ *   list is owned by the #JsonObject and should never be modified
+ *   or freed. When you have finished using the returned list, use
+ *   g_list_free() to free the resources it has allocated.
+ */
+GList *
+json_object_get_values (JsonObject *object)
+{
+  g_return_val_if_fail (object != NULL, NULL);
+
+  return g_hash_table_get_values (object->members);
 }
 
 /**

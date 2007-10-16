@@ -139,6 +139,7 @@ gboolean              json_object_has_member    (JsonObject  *object,
                                                  const gchar *member_name);
 void                  json_object_remove_member (JsonObject  *object,
                                                  const gchar *member_name);
+GList *               json_object_get_values    (JsonObject  *object);
 guint                 json_object_get_size      (JsonObject  *object);
 
 GType                 json_array_get_type       (void) G_GNUC_CONST;
