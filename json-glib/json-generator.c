@@ -366,21 +366,23 @@ dump_object (JsonGenerator *generator,
               for (j = 0; j < (sub_level * indent); j++)
                 g_string_append_c (buffer, ' ');
             }
-          g_string_append_printf (buffer, "\"%s\" : null", name);
+          g_string_append_printf (buffer, "\"%s\" : null", member_name);
           break;
 
         case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, name, cur);
+          value = dump_value (generator, sub_level, member_name, cur);
           g_string_append (buffer, value);
           break;
 
         case JSON_NODE_ARRAY:
-          value = dump_array (generator, sub_level, name, json_node_get_array (cur), NULL);
+          value = dump_array (generator, sub_level, member_name,
+                              json_node_get_array (cur), NULL);
           g_string_append (buffer, value);
           break;
 
         case JSON_NODE_OBJECT:
-          value = dump_object (generator, sub_level, name, json_node_get_object (cur), NULL);
+          value = dump_object (generator, sub_level, member_name,
+                               json_node_get_object (cur), NULL);
           g_string_append (buffer, value);
           break;
         }
