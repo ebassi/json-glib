@@ -4,7 +4,8 @@ noinst_PROGRAMS = 	\
 	test-03		\
 	test-04		\
 	test-05		\
-	test-06
+	test-06		\
+	test-07
 
 INCLUDES = -I$(top_srcdir)
 LDADD = $(top_builddir)/json-glib/libjson-glib-1.0.la
@@ -18,3 +19,4 @@ test_03_SOURCES = test-03.c
 test_04_SOURCES = test-04.c
 test_05_SOURCES = test-05.c
 test_06_SOURCES = test-06.c
+test_07_SOURCES = test-07.c
