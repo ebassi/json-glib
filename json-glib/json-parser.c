@@ -600,6 +600,9 @@ json_parse_object (JsonParser *parser,
           if (token == G_TOKEN_RIGHT_CURLY)
             break;
 
+          if (token != G_TOKEN_COMMA)
+            return G_TOKEN_RIGHT_CURLY;
+
           continue;
         }
      
@@ -632,8 +635,11 @@ json_parse_object (JsonParser *parser,
           g_free (name);
 
           token = g_scanner_get_next_token (scanner);
-          if (token == G_TOKEN_RIGHT_BRACE)
+          if (token == G_TOKEN_RIGHT_CURLY)
             break;
+
+          if (token != G_TOKEN_COMMA)
+            return G_TOKEN_RIGHT_CURLY;
 
           continue;
         }
