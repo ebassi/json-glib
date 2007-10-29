@@ -25,7 +25,9 @@
  * inside a file or inside a static buffer.
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 
 #include <string.h>
 
@@ -47,6 +49,8 @@ struct _JsonParserPrivate
   JsonNode *current_node;
 
   GScanner *scanner;
+
+  GError *last_error;
 };
 
 static const GScannerConfig json_scanner_config =
@@ -140,6 +144,12 @@ json_parser_dispose (GObject *gobject)
     {
       json_node_free (priv->root);
       priv->root = NULL;
+    }
+
+  if (priv->last_error)
+    {
+      g_error_free (priv->last_error);
+      priv->last_error = NULL;
     }
 
   G_OBJECT_CLASS (json_parser_parent_class)->dispose (gobject);
@@ -343,6 +353,7 @@ json_parse_array (JsonParser *parser,
   while (token != G_TOKEN_RIGHT_BRACE)
     {
       JsonNode *node = NULL;
+      gboolean negative = FALSE;
 
       if (token == G_TOKEN_COMMA)
         {
@@ -417,16 +428,34 @@ json_parse_array (JsonParser *parser,
           continue;
         }
 
+      if (token == '-')
+        {
+          guint next_token = g_scanner_peek_next_token (scanner);
+
+          if (next_token == G_TOKEN_INT ||
+              next_token == G_TOKEN_FLOAT)
+            {
+              negative = TRUE;
+              token = g_scanner_get_next_token (scanner);
+            }
+          else
+            {
+              return G_TOKEN_INT;
+            }
+        }
+
       switch (token)
         {
         case G_TOKEN_INT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_int (node, scanner->value.v_int);
+          json_node_set_int (node, negative ? scanner->value.v_int * -1
+                                            : scanner->value.v_int);
           break;
 
         case G_TOKEN_FLOAT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_double (node, scanner->value.v_float);
+          json_node_set_double (node, negative ? scanner->value.v_float * -1.0
+                                               : scanner->value.v_float);
           break;
 
         case G_TOKEN_STRING:
@@ -495,6 +524,7 @@ json_parse_object (JsonParser *parser,
     {
       JsonNode *node = NULL;
       gchar *name = NULL;
+      gboolean negative = FALSE;
 
       if (token == G_TOKEN_COMMA)
         {
@@ -541,7 +571,10 @@ json_parse_object (JsonParser *parser,
           if (token != G_TOKEN_NONE)
             {
               g_free (name);
-              json_node_free (node);
+              
+              if (node)
+                json_node_free (node);
+
               json_object_unref (object);
               return token;
             }
@@ -597,16 +630,33 @@ json_parse_object (JsonParser *parser,
           continue;
         }
 
+      if (token == '-')
+        {
+          guint next_token = g_scanner_peek_next_token (scanner);
+
+          if (next_token == G_TOKEN_INT || next_token == G_TOKEN_FLOAT)
+            {
+              negative = TRUE;
+              token = g_scanner_get_next_token (scanner);
+            }
+          else
+            {
+              return G_TOKEN_INT;
+            }
+        }
+
       switch (token)
         {
         case G_TOKEN_INT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_int (node, scanner->value.v_int);
+          json_node_set_int (node, negative ? scanner->value.v_int * -1
+                                            : scanner->value.v_int);
           break;
 
         case G_TOKEN_FLOAT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_double (node, scanner->value.v_float);
+          json_node_set_double (node, negative ? scanner->value.v_float * -1.0
+                                               : scanner->value.v_float);
           break;
 
         case G_TOKEN_STRING:
@@ -626,7 +676,7 @@ json_parse_object (JsonParser *parser,
           break;
 
         default:
-          return G_TOKEN_RIGHT_BRACE;
+          return G_TOKEN_SYMBOL;
         }
 
       if (node)
@@ -680,6 +730,39 @@ json_parse_statement (JsonParser *parser,
                              token == JSON_TOKEN_TRUE ? TRUE : FALSE);
       return G_TOKEN_NONE;
 
+    case '-':
+      {
+        guint next_token;
+        
+        token = g_scanner_get_next_token (scanner);
+        next_token = g_scanner_peek_next_token (scanner);
+
+        if (next_token == G_TOKEN_INT || next_token == G_TOKEN_FLOAT)
+          {
+            priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
+            
+            token = g_scanner_get_next_token (scanner);
+            switch (token)
+              {
+              case G_TOKEN_INT:
+                json_node_set_int (priv->current_node,
+                                   scanner->value.v_int * -1);
+                break;
+              case G_TOKEN_FLOAT:
+                json_node_set_double (priv->current_node,
+                                      scanner->value.v_float * -1.0);
+                break;
+              default:
+                return G_TOKEN_INT;
+              }
+
+            return G_TOKEN_NONE;
+          }
+        else
+          return G_TOKEN_INT;
+      }
+      break;
+
     case G_TOKEN_INT:
     case G_TOKEN_FLOAT:
     case G_TOKEN_STRING:
@@ -701,11 +784,11 @@ json_parse_statement (JsonParser *parser,
 static void
 json_scanner_msg_handler (GScanner *scanner,
                           gchar    *message,
-                          gboolean  is_error)
+                          gboolean  error)
 {
   JsonParser *parser = scanner->user_data;
 
-  if (is_error)
+  if (error)
     {
       GError *error = NULL;
 
@@ -715,9 +798,8 @@ json_scanner_msg_handler (GScanner *scanner,
                    scanner->line,
                    message);
       
+      parser->priv->last_error = error;
       g_signal_emit (parser, parser_signals[ERROR], 0, error);
-
-      g_error_free (error);
     }
   else
     g_warning ("Line %d: %s", scanner->line, message);
@@ -854,6 +936,7 @@ json_parser_load_from_data (JsonParser   *parser,
         {
           guint expected_token;
 
+          /* we try to show the expected token, if possible */
           expected_token = json_parse_statement (parser, scanner);
           if (expected_token != G_TOKEN_NONE)
             {
@@ -869,10 +952,10 @@ json_parser_load_from_data (JsonParser   *parser,
                     {
                       for (i = 0; i < n_symbols; i++)
                         if (symbols[i].token == expected_token)
-                          msg = (gchar *) symbol_names + symbols[i].name_offset;
+                          symbol_name = symbol_names + symbols[i].name_offset;
 
                       if (msg)
-                        msg = g_strconcat ("e.g. `", msg, "'", NULL);
+                        msg = g_strconcat ("e.g. `", symbol_name, "'", NULL);
                     }
 
                   if (scanner->token > JSON_TOKEN_INVALID &&
@@ -893,15 +976,15 @@ json_parser_load_from_data (JsonParser   *parser,
                                      NULL, "keyword",
                                      symbol_name, msg,
                                      TRUE);
-              
-              /* we set a generic error here; the message from
-               * GScanner is relayed in the ::error signal
+
+              /* and this will propagate the error we create in the
+               * same message handler
                */
-              g_set_error (error, JSON_PARSER_ERROR,
-                           JSON_PARSER_ERROR_PARSE,
-                           "Invalid token `%s' found: expecting %s",
-                           symbol_name ? symbol_name : "???",
-                           msg ? msg : "unknown");
+              if (parser->priv->last_error)
+                {
+                  g_propagate_error (error, parser->priv->last_error);
+                  parser->priv->last_error = NULL;
+                }
 
               retval = FALSE;
 
