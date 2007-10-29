@@ -7,7 +7,7 @@ static const gchar *test_objects[] = {
   "{ }",
   "{ \"test\" : 42 }",
   "{ \"foo\" : \"bar\", \"baz\" : null }",
-  "{ \"array\" : [ false, \"foo\" ], \"test\" : { \"foo\" : true } }"
+  "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }"
 };
 
 static guint n_test_objects = G_N_ELEMENTS (test_objects);
@@ -45,10 +45,10 @@ print_value (gint      indent,
                g_value_get_string (&value));
       break;
 
-    case G_TYPE_FLOAT:
+    case G_TYPE_DOUBLE:
       g_print ("%sFound float: `%f'\n",
                indent_str,
-               g_value_get_float (&value));
+               g_value_get_double (&value));
       break;
 
     case G_TYPE_BOOLEAN:
@@ -204,7 +204,7 @@ main (int argc, char *argv[])
       object = json_node_get_object (node);
       g_assert (object != NULL);
 
-      g_print ("*** Test %d ***\n", i);
+      g_print ("*** Test %d: '%s' ***\n", i, test_objects[i]);
       print_object (1, object);
     }
 
