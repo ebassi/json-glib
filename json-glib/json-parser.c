@@ -392,6 +392,9 @@ json_parse_array (JsonParser *parser,
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
+          if (token != G_TOKEN_COMMA)
+            return G_TOKEN_RIGHT_BRACE;
+
           continue;
         }
 
@@ -424,6 +427,9 @@ json_parse_array (JsonParser *parser,
           token = g_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
+
+          if (token != G_TOKEN_COMMA)
+            return G_TOKEN_RIGHT_BRACE;
 
           continue;
         }
@@ -489,6 +495,8 @@ json_parse_array (JsonParser *parser,
         }
 
       token = g_scanner_get_next_token (scanner);
+      if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_BRACE)
+        return G_TOKEN_RIGHT_BRACE;
     }
 
   json_node_take_array (priv->current_node, array);
@@ -692,6 +700,8 @@ json_parse_object (JsonParser *parser,
       g_free (name);
 
       token = g_scanner_get_next_token (scanner);
+      if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_CURLY)
+        return G_TOKEN_RIGHT_CURLY;
     }
 
   json_node_take_object (priv->current_node, object);
