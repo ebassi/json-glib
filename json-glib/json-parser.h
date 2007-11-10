@@ -53,9 +53,12 @@ typedef enum {
 
 typedef enum {
   JSON_TOKEN_INVALID = G_TOKEN_LAST,
+
   JSON_TOKEN_TRUE,
   JSON_TOKEN_FALSE,
   JSON_TOKEN_NULL,
+  JSON_TOKEN_VAR,
+
   JSON_TOKEN_LAST
 } JsonTokenType;
 
@@ -141,6 +144,8 @@ JsonNode *  json_parser_get_root         (JsonParser   *parser);
 
 guint       json_parser_get_current_line (JsonParser   *parser);
 guint       json_parser_get_current_pos  (JsonParser   *parser);
+gboolean    json_parser_has_assignment   (JsonParser   *parser,
+                                          gchar       **variable_name);
 
 G_END_DECLS
 

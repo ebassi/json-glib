@@ -13,6 +13,7 @@ static const gchar *test_arrays[] = {
   "[ [ false, true, 42 ], [ true, false, 3.14 ], \"test\" ]",
   "[ true, { } ]",
   "[ false, { \"test\" : 42 } ]",
+  "var test = [ false, false, true ]",
 };
 
 static guint n_test_arrays = G_N_ELEMENTS (test_arrays);
@@ -190,6 +191,7 @@ main (int argc, char *argv[])
       GError *error = NULL;
       JsonNode *node;
       JsonArray *array;
+      gchar *var_name;
 
       if (!json_parser_load_from_data (parser, test_arrays[i], -1, &error))
         {
@@ -210,6 +212,9 @@ main (int argc, char *argv[])
       g_assert (array != NULL);
 
       g_print ("*** Test %d: '%s' ***\n", i, test_arrays[i]);
+      if (json_parser_has_assignment (parser, &var_name))
+        g_print ("*** Test %d: assigns '%s'\n", i, var_name);
+
       print_array (1, array);
     }
 

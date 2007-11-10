@@ -51,6 +51,9 @@ struct _JsonParserPrivate
   GScanner *scanner;
 
   GError *last_error;
+
+  guint has_assignment : 1;
+  gchar *variable_name;
 };
 
 static const GScannerConfig json_scanner_config =
@@ -95,7 +98,8 @@ static const GScannerConfig json_scanner_config =
 static const gchar symbol_names[] =
   "true\0"
   "false\0"
-  "null\0";
+  "null\0"
+  "var\0";
 
 static const struct
 {
@@ -104,7 +108,8 @@ static const struct
 } symbols[] = {
   {  0, JSON_TOKEN_TRUE },
   {  5, JSON_TOKEN_FALSE },
-  { 11, JSON_TOKEN_NULL }
+  { 11, JSON_TOKEN_NULL },
+  { 16, JSON_TOKEN_VAR }
 };
 
 static const guint n_symbols = G_N_ELEMENTS (symbols);
@@ -151,6 +156,8 @@ json_parser_dispose (GObject *gobject)
       g_error_free (priv->last_error);
       priv->last_error = NULL;
     }
+
+  g_free (priv->variable_name);
 
   G_OBJECT_CLASS (json_parser_parent_class)->dispose (gobject);
 }
@@ -326,6 +333,9 @@ json_parser_init (JsonParser *parser)
 
   priv->root = NULL;
   priv->current_node = NULL;
+
+  priv->has_assignment = FALSE;
+  priv->variable_name = NULL;
 }
 
 static guint
@@ -735,6 +745,38 @@ json_parse_statement (JsonParser *parser,
       priv->root = priv->current_node = json_node_new (JSON_NODE_ARRAY);
       return json_parse_array (parser, scanner, FALSE);
 
+    /* some web APIs are not only passing the data structures: they are
+     * also passing an assigment, which makes parsing horribly complicated
+     * only because web developers are lazy, and writing "var foo = " is
+     * evidently too much to request from them.
+     */
+    case JSON_TOKEN_VAR:
+      {
+        guint next_token;
+        gchar *name;
+
+        /* swallow the 'var' token... */
+        token = g_scanner_get_next_token (scanner);
+
+        /* ... swallow the variable name... */
+        next_token = g_scanner_get_next_token (scanner);
+        if (next_token != G_TOKEN_IDENTIFIER)
+          return G_TOKEN_IDENTIFIER;
+
+        name = g_strdup (scanner->value.v_identifier);
+
+        /* ... and finally swallow the '=' */
+        next_token = g_scanner_get_next_token (scanner);
+        if (next_token != '=')
+          return '=';
+
+        priv->has_assignment = TRUE;
+        priv->variable_name = name;
+
+        return json_parse_statement (parser, scanner);
+      }
+      break;
+
     case JSON_TOKEN_NULL:
       priv->root = priv->current_node = json_node_new (JSON_NODE_NULL);
       return G_TOKEN_NONE;
@@ -1073,4 +1115,38 @@ json_parser_get_current_pos (JsonParser *parser)
     return g_scanner_cur_line (parser->priv->scanner);
 
   return 0;
+}
+
+/**
+ * json_parser_has_assignment:
+ * @parser: a #JsonParser
+ * @variable_name: return location for the variable name, or %NULL
+ *
+ * A JSON data stream might sometimes contain an assignment, even though
+ * it would technically constitute a violation of the RFC. #JsonParser
+ * will ignore the left hand identifier and parse the right hand value
+ * of the assignment. It will record, though, the existence of the
+ * assignment in the data stream and the variable name used.
+ *
+ * Return value: %TRUE if there was an assignment, %FALSE otherwise. If
+ *   @variable_name is not %NULL it will be set to the name of the variable
+ *   used in the assignment. The string is owned by #JsonParser and should
+ *   never be modified or freed.
+ *
+ * Since: 0.4
+ */
+gboolean
+json_parser_has_assignment (JsonParser  *parser,
+                            gchar      **variable_name)
+{
+  JsonParserPrivate *priv;
+
+  g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
+
+  priv = parser->priv;
+
+  if (priv->has_assignment && variable_name)
+    *variable_name = priv->variable_name;
+
+  return priv->has_assignment;
 }

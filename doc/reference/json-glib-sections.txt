@@ -99,6 +99,7 @@ json_parser_get_root
 <SUBSECTION>
 json_parser_get_current_line
 json_parser_get_current_pos
+json_parser_has_assignment
 
 <SUBSECTION Standard>
 JSON_TYPE_PARSER
