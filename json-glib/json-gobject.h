@@ -76,8 +76,12 @@ gboolean  json_serializable_deserialize_property (JsonSerializable *serializable
                                                   JsonNode         *property_node);
 
 
-gchar *json_serialize_gobject (GObject *gobject,
-                               gsize   *length);
+GObject *json_construct_gobject (GType         gtype,
+                                 const gchar  *data,
+                                 gsize         length,
+                                 GError      **error);
+gchar *  json_serialize_gobject (GObject      *gobject,
+                                 gsize        *length) G_GNUC_MALLOC;
 
 G_END_DECLS
 
