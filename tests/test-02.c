@@ -14,6 +14,7 @@ static const gchar *test_arrays[] = {
   "[ true, { } ]",
   "[ false, { \"test\" : 42 } ]",
   "var test = [ false, false, true ]",
+  "var test = [ true, 42 ];",
 };
 
 static guint n_test_arrays = G_N_ELEMENTS (test_arrays);

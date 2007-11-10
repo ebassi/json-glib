@@ -773,7 +773,17 @@ json_parse_statement (JsonParser *parser,
         priv->has_assignment = TRUE;
         priv->variable_name = name;
 
-        return json_parse_statement (parser, scanner);
+        token = json_parse_statement (parser, scanner);
+
+        /* remove the trailing semi-colon */
+        next_token = g_scanner_peek_next_token (scanner);
+        if (next_token == ';')
+          {
+            token = g_scanner_get_next_token (scanner);
+            return G_TOKEN_NONE;
+          }
+
+        return token;
       }
       break;
 
