@@ -79,6 +79,11 @@ json_node_dup_string
 <SUBSECTION>
 json_node_get_parent
 json_node_type_name
+json_node_get_value_type
+
+<SUBSECTION Private>
+JSON_TYPE_NODE
+json_node_get_type
 </SECTION>
 
 <SECTION>
@@ -150,7 +155,7 @@ json_serializable_deserialize_property
 
 <SUBSECTION>
 json_serialize_gobject
-json_deserialize_gobject
+json_construct_gobject
 
 <SUBSECTION Standard>
 JSON_TYPE_SERIALIZABLE
