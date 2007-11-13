@@ -331,10 +331,11 @@ json_serialize_pspec (const GValue *real_value,
  *
  * Deserializes a JSON data stream and creates the corresponding
  * #GObject class. If @gtype implements the #JsonSerializableIface
- * interface, it will be responsible to deserialize all the JSON
- * members into the respective properties; otherwise, the default
- * implementation will be used to translate the compatible JSON
- * native types.
+ * interface, it will be asked to deserialize all the JSON members
+ * into the respective properties; otherwise, the default implementation
+ * will be used to translate the compatible JSON native types.
+ *
+ * Note: the JSON data stream must be an object declaration.
  *
  * Return value: a #GObject or %NULL
  *
@@ -461,9 +462,9 @@ json_construct_gobject (GType         gtype,
  * @length: return value for the length of the buffer, or %NULL
  *
  * Serializes a #GObject into a JSON data stream. If @gobject implements
- * the #JsonSerializableIface interface, it will be responsible to
- * serizalize all its properties; otherwise, the default implementation
- * will be use to translate the compatible types into JSON native types.
+ * the #JsonSerializableIface interface, it will be asked to serizalize all
+ * its properties; otherwise, the default implementation will be use to
+ * translate the compatible types into JSON native types.
  *
  * Return value: a JSON data stream representing the passed #GObject
  */
