@@ -1,0 +1,9 @@
+Overview of changes for 0.4.0
+=============================
+* Support parsing of negative numbers
+* Fix parse error propagation and message
+* More parser sanity checks
+* GObject deserialization support
+* Detect and parse JSON masked as a JavaScript assignment
+* Allow using JsonNode with GObject properties and signals
+* Add JsonGenerator:root property
