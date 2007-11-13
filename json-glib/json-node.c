@@ -82,7 +82,7 @@ json_node_get_value_type (JsonNode *node)
       return G_TYPE_INVALID;
 
     case JSON_NODE_VALUE:
-      return G_VALUE_TYPE (&node->value);
+      return G_VALUE_TYPE (&(node->data.value));
 
     default:
       g_assert_not_reached ();
