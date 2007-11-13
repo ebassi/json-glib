@@ -182,11 +182,13 @@ json_deserialize_pspec (GValue     *value,
         case G_TYPE_INT:
         case G_TYPE_DOUBLE:
         case G_TYPE_STRING:
-          g_value_copy (value, &node_value);
+          g_value_copy (&node_value, value);
           retval = TRUE;
+          break;
 
         case G_TYPE_CHAR:
           g_value_set_char (value, (gchar) g_value_get_int (&node_value));
+          retval = TRUE;
           break;
 
         case G_TYPE_UINT:
@@ -416,7 +418,7 @@ json_construct_gobject (GType         gtype,
       if (!pspec)
         continue;
 
-      if (!(pspec->flags & G_PARAM_CONSTRUCT_ONLY))
+      if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
         continue;
 
       if (!(pspec->flags & G_PARAM_WRITABLE))
