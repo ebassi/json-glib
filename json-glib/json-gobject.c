@@ -472,6 +472,8 @@ json_serialize_gobject (GObject *gobject,
                         gsize   *length)
 {
   JsonSerializableIface *iface = NULL;
+  JsonSerializable *serializable = NULL;
+  gboolean serialize_property = FALSE;
   JsonGenerator *gen;
   JsonNode *root;
   JsonObject *object;
@@ -482,7 +484,11 @@ json_serialize_gobject (GObject *gobject,
   g_return_val_if_fail (G_OBJECT (gobject), NULL);
 
   if (JSON_IS_SERIALIZABLE (gobject))
-    iface = JSON_SERIALIZABLE_GET_IFACE (gobject);
+    {
+      serializable = JSON_SERIALIZABLE (gobject);
+      iface = JSON_SERIALIZABLE_GET_IFACE (gobject);
+      serialize_property = (iface->serialize_property != NULL);
+    }
 
   object = json_object_new ();
 
@@ -495,7 +501,7 @@ json_serialize_gobject (GObject *gobject,
     {
       GParamSpec *pspec = pspecs[i];
       GValue value = { 0, };
-      JsonNode *node;
+      JsonNode *node = NULL;
 
       /* read only what we can */
       if (!(pspec->flags & G_PARAM_READABLE))
@@ -504,15 +510,14 @@ json_serialize_gobject (GObject *gobject,
       g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
       g_object_get_property (gobject, pspec->name, &value);
 
-      if (iface && iface->serialize_property)
+      if (serialize_property)
         {
-          JsonSerializable *serializable = JSON_SERIALIZABLE (gobject);
-
           node = iface->serialize_property (serializable, pspec->name,
                                             &value,
                                             pspec);
         }
-      else
+
+      if (!node)
         node = json_serialize_pspec (&value, pspec);
 
       if (node)

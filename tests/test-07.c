@@ -98,7 +98,7 @@ test_object_serialize_property (JsonSerializable *serializable,
                                 const GValue     *value,
                                 GParamSpec       *pspec)
 {
-  JsonNode *retval;
+  JsonNode *retval = NULL;
 
   if (strcmp (name, "blah") == 0)
     {
@@ -122,17 +122,6 @@ test_object_serialize_property (JsonSerializable *serializable,
       json_node_take_object (retval, obj);
 
       test_boxed_free (boxed);
-    }
-  else
-    {
-      GValue copy = { 0, };
-
-      retval = json_node_new (JSON_NODE_VALUE);
-
-      g_value_init (&copy, G_PARAM_SPEC_VALUE_TYPE (pspec));
-      g_value_copy (value, &copy);
-      json_node_set_value (retval, &copy);
-      g_value_unset (&copy);
     }
 
   return retval;
