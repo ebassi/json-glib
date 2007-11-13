@@ -134,12 +134,80 @@ json_deserialize_pspec (GValue     *value,
                         GParamSpec *pspec,
                         JsonNode   *node)
 {
-  gboolean retval = FALSE;
   GValue node_value = { 0, };
+  gboolean retval = FALSE;
 
-  if (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT)
+  switch (JSON_NODE_TYPE (node))
     {
+    case JSON_NODE_OBJECT:
       return FALSE;
+
+    case JSON_NODE_ARRAY:
+      if (G_VALUE_HOLDS (value, G_TYPE_STRV))
+        {
+          JsonArray *array = json_node_get_array (node);
+          guint i, array_len = json_array_get_length (array);
+          GString *buffer = g_string_new (NULL);
+          gchar **strv = NULL;
+
+          for (i = 0; i < array_len; i++)
+            {
+              JsonNode *val = json_array_get_element (array, i);
+
+              if (JSON_NODE_TYPE (val) != JSON_NODE_VALUE)
+                continue;
+
+              if (json_node_get_string (val) != NULL);
+                {
+                  g_string_append (buffer, json_node_get_string (val));
+                  g_string_append_c (buffer, '\v');
+                }
+            }
+
+          strv = g_strsplit (buffer->str, "\v", -1);
+          g_value_set_boxed (value, strv);
+
+          g_strfreev (strv);
+          g_string_free (buffer, TRUE);
+          retval = TRUE;
+        }
+      break;
+
+    case JSON_NODE_VALUE:
+      json_node_get_value (node, &node_value);
+
+      switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value)))
+        {
+        case G_TYPE_BOOLEAN:
+        case G_TYPE_INT:
+        case G_TYPE_DOUBLE:
+        case G_TYPE_STRING:
+          g_value_copy (value, &node_value);
+          retval = TRUE;
+
+        case G_TYPE_CHAR:
+          g_value_set_char (value, (gchar) g_value_get_int (&node_value));
+          break;
+
+        case G_TYPE_UINT:
+          g_value_set_uint (value, (gint) g_value_get_int (&node_value));
+          retval = TRUE;
+          break;
+
+        case G_TYPE_UCHAR:
+          g_value_set_uchar (value, (guchar) g_value_get_int (&node_value));
+          retval = TRUE;
+          break;
+
+        default:
+          retval = FALSE;
+          break;
+        }
+      break;
+
+    case JSON_NODE_NULL:
+      retval = FALSE;
+      break;
     }
 
   return retval;
@@ -278,6 +346,7 @@ json_construct_gobject (GType         gtype,
 {
   JsonSerializableIface *iface = NULL;
   JsonSerializable *serializable = NULL;
+  gboolean deserialize_property;
   JsonParser *parser;
   JsonNode *root;
   JsonObject *object;
@@ -323,7 +392,10 @@ json_construct_gobject (GType         gtype,
     {
       serializable = JSON_SERIALIZABLE (retval);
       iface = JSON_SERIALIZABLE_GET_IFACE (serializable);
+      deserialize_property = (iface->deserialize_property != NULL);
     }
+  else
+    deserialize_property = FALSE;
 
   object = json_node_get_object (root);
 
@@ -338,7 +410,7 @@ json_construct_gobject (GType         gtype,
       GParamSpec *pspec;
       JsonNode *val;
       GValue value = { 0, };
-      gboolean res;
+      gboolean res = FALSE;
 
       pspec = g_object_class_find_property (klass, member_name);
       if (!pspec)
@@ -354,15 +426,15 @@ json_construct_gobject (GType         gtype,
 
       val = json_object_get_member (object, member_name);
 
-      if (iface && iface->deserialize_property)
+      if (deserialize_property)
         {
-
           res = iface->deserialize_property (serializable, pspec->name,
                                              &value,
                                              pspec,
                                              val);
         }
-      else
+
+      if (!res)
         res = json_deserialize_pspec (&value, pspec, val);
 
       if (res)
@@ -449,11 +521,15 @@ json_serialize_gobject (GObject *gobject,
 
   g_free (pspecs);
 
-  gen = json_generator_new ();
-  json_generator_set_root (gen, root);
-  g_object_set (gen, "pretty", TRUE, NULL);
+  gen = g_object_new (JSON_TYPE_GENERATOR,
+                      "root", root,
+                      "pretty", TRUE,
+                      "indent", 2,
+                      NULL);
+
   data = json_generator_to_data (gen, length);
   g_object_unref (gen);
+  json_node_free (root);
 
   return data;
 }
