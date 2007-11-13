@@ -42,6 +42,54 @@
  * they contain.
  */
 
+GType
+json_node_get_type (void)
+{
+  static GType node_type = 0;
+
+  if (G_UNLIKELY (node_type == 0))
+    node_type = g_boxed_type_register_static ("JsonNode",
+                                              (GBoxedCopyFunc) json_node_copy,
+                                              (GBoxedFreeFunc) json_node_free);
+
+  return node_type;
+}
+
+/**
+ * json_node_get_value_type:
+ * @node: a #JsonNode
+ *
+ * Returns the #GType of the payload of the node.
+ *
+ * Return value: a #GType for the payload.
+ *
+ * Since: 0.4
+ */
+GType
+json_node_get_value_type (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, G_TYPE_INVALID);
+
+  switch (node->type)
+    {
+    case JSON_NODE_OBJECT:
+      return JSON_TYPE_OBJECT;
+
+    case JSON_NODE_ARRAY:
+      return JSON_TYPE_ARRAY;
+
+    case JSON_NODE_NULL:
+      return G_TYPE_INVALID;
+
+    case JSON_NODE_VALUE:
+      return G_VALUE_TYPE (&node->value);
+
+    default:
+      g_assert_not_reached ();
+      return G_TYPE_INVALID;
+    }
+}
+
 /**
  * json_node_new:
  * @type: a #JsonNodeType
