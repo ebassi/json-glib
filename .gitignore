@@ -50,6 +50,8 @@ tests/test-06
 tests/test-06.o
 tests/test-07
 tests/test-07.o
+tests/test-08
+tests/test-08.o
 .*.swp
 doc/reference/.libs
 doc/reference/html-build.stamp
