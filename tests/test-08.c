@@ -92,13 +92,25 @@ G_DEFINE_TYPE_WITH_CODE (TestObject, test_object, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (JSON_TYPE_SERIALIZABLE,
                                                 json_serializable_iface_init));
 
+static gboolean
+test_object_deserialize_property (JsonSerializable *serializable,
+                                  const gchar      *name,
+                                  GValue           *value,
+                                  GParamSpec       *pspec,
+                                  JsonNode         *node)
+{
+  gboolean retval = FALSE;
+
+  return retval;
+}
+
 static JsonNode *
 test_object_serialize_property (JsonSerializable *serializable,
                                 const gchar      *name,
                                 const GValue     *value,
                                 GParamSpec       *pspec)
 {
-  JsonNode *retval = NULL;
+  JsonNode *retval;
 
   if (strcmp (name, "blah") == 0)
     {
@@ -123,6 +135,17 @@ test_object_serialize_property (JsonSerializable *serializable,
 
       test_boxed_free (boxed);
     }
+  else
+    {
+      GValue copy = { 0, };
+
+      retval = json_node_new (JSON_NODE_VALUE);
+
+      g_value_init (&copy, G_PARAM_SPEC_VALUE_TYPE (pspec));
+      g_value_copy (value, &copy);
+      json_node_set_value (retval, &copy);
+      g_value_unset (&copy);
+    }
 
   return retval;
 }
@@ -133,6 +156,7 @@ json_serializable_iface_init (gpointer g_iface)
   JsonSerializableIface *iface = g_iface;
 
   iface->serialize_property = test_object_serialize_property;
+  iface->deserialize_property = test_object_deserialize_property;
 }
 
 static void
@@ -225,29 +249,42 @@ test_object_class_init (TestObjectClass *klass)
 static void
 test_object_init (TestObject *object)
 {
-  object->foo = 42;
+  object->foo = 0;
   object->bar = TRUE;
-  object->baz = g_strdup ("Test");
+  object->baz = NULL; 
 
   object->blah.foo = object->foo;
   object->blah.bar = object->bar;
 }
 
+static const gchar var_test[] =
+"{"
+"  \"foo\" : 42,"
+"  \"bar\" : false,"
+"  \"baz\" : \"Test\""
+"}";
+
 int
 main (int argc, char *argvp[])
 {
-  TestObject *object;
-  gchar *data;
-  gsize len;
+  GObject *object;
+  GError *error;
 
   g_type_init ();
 
-  object = g_object_new (TEST_TYPE_OBJECT, NULL);
-  data = json_serialize_gobject (G_OBJECT (object), &len);
+  error = NULL;
+  object = json_construct_gobject (TEST_TYPE_OBJECT, var_test, -1, &error);
+  if (error)
+    g_error ("*** Unable to parse buffer: %s\n", error->message);
 
-  g_print ("*** TestObject (len:%d) ***\n%s\n", len, data);
+  g_print ("*** TestObject ***\n"
+           " foo: %d\n"
+           " bar: %s\n"
+           " baz: %s\n",
+           TEST_OBJECT (object)->foo,
+           TEST_OBJECT (object)->bar ? "<true>" : "<false>",
+           TEST_OBJECT (object)->baz);
   
-  g_free (data);
   g_object_unref (object);
 
   return EXIT_SUCCESS;

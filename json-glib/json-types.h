@@ -31,6 +31,8 @@ G_BEGIN_DECLS
  * Evaluates to the #JsonNodeType contained by @node
  */
 #define JSON_NODE_TYPE(node)    (((JsonNode *) (node))->type)
+
+#define JSON_TYPE_NODE          (json_node_get_type ())
 #define JSON_TYPE_OBJECT        (json_object_get_type ())
 #define JSON_TYPE_ARRAY         (json_array_get_type ())
 
@@ -56,8 +58,8 @@ typedef struct _JsonNode        JsonNode;
  * JsonNodeType:
  * @JSON_NODE_OBJECT: The node contains a #JsonObject
  * @JSON_NODE_ARRAY: The node contains a #JsonArray
- * @JSON_NODE_VALUE: The node contains a #GValue
- * @JSON_NODE_NULL: Special type, for nodes containing %NULL
+ * @JSON_NODE_VALUE: The node contains a fundamental type
+ * @JSON_NODE_NULL: Special type, for nodes containing null
  *
  * Indicates the content of a #JsonNode.
  */
@@ -90,9 +92,11 @@ struct _JsonNode
   JsonNode *parent;
 };
 
+GType                 json_node_get_type        (void) G_GNUC_CONST;
 JsonNode *            json_node_new             (JsonNodeType  type);
 JsonNode *            json_node_copy            (JsonNode     *node);
 void                  json_node_free            (JsonNode     *node);
+GType                 json_node_get_value_type  (JsonNode     *node);
 
 void                  json_node_set_object      (JsonNode     *node,
                                                  JsonObject   *object);

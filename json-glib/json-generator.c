@@ -50,7 +50,8 @@ enum
   PROP_0,
 
   PROP_PRETTY,
-  PROP_INDENT
+  PROP_INDENT,
+  PROP_ROOT
 };
 
 static gchar *dump_value  (JsonGenerator *generator,
@@ -97,6 +98,10 @@ json_generator_set_property (GObject      *gobject,
     case PROP_INDENT:
       priv->indent = g_value_get_uint (value);
       break;
+    case PROP_ROOT:
+      json_generator_set_root (JSON_GENERATOR (gobject),
+                               g_value_get_boxed (value));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
       break;
@@ -118,6 +123,9 @@ json_generator_get_property (GObject    *gobject,
       break;
     case PROP_INDENT:
       g_value_set_uint (value, priv->indent);
+      break;
+    case PROP_ROOT:
+      g_value_set_boxed (value, priv->root);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -163,6 +171,21 @@ json_generator_class_init (JsonGeneratorClass *klass)
                                                       0, G_MAXUINT,
                                                       2,
                                                       G_PARAM_READWRITE));
+  /**
+   * JsonGenerator:root:
+   *
+   * The root #JsonNode to be used when constructing a JSON data
+   * stream.
+   *
+   * Since: 0.4
+   */
+  g_object_class_install_property (gobject_class,
+                                   PROP_ROOT,
+                                   g_param_spec_boxed ("root",
+                                                       "Root",
+                                                       "Root of the JSON data tree",
+                                                       JSON_TYPE_NODE,
+                                                       G_PARAM_READWRITE));
 }
 
 static void
@@ -517,6 +540,9 @@ json_generator_to_file (JsonGenerator  *generator,
  *
  * Sets @node as the root of the JSON data stream to be serialized by
  * the #JsonGenerator.
+ *
+ * Note: the node is copied by the generator object, so it can be safely
+ * freed after calling this function.
  */
 void
 json_generator_set_root (JsonGenerator *generator,
@@ -531,5 +557,5 @@ json_generator_set_root (JsonGenerator *generator,
     }
 
   if (node)
-    generator->priv->root = node;
+    generator->priv->root = json_node_copy (node);
 }

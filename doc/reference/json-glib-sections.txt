@@ -150,6 +150,7 @@ json_serializable_deserialize_property
 
 <SUBSECTION>
 json_serialize_gobject
+json_deserialize_gobject
 
 <SUBSECTION Standard>
 JSON_TYPE_SERIALIZABLE
