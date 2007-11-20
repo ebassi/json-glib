@@ -7,6 +7,7 @@
 #include <json-glib/json-glib.h>
 #include <json-glib/json-gobject.h>
 
+#define TEST_TYPE_ENUM                  (test_enum_get_type ())
 #define TEST_TYPE_BOXED                 (test_boxed_get_type ())
 #define TEST_TYPE_OBJECT                (test_object_get_type ())
 #define TEST_OBJECT(obj)                (G_TYPE_CHECK_INSTANCE_CAST ((obj), TEST_TYPE_OBJECT, TestObject))
@@ -14,6 +15,12 @@
 #define TEST_OBJECT_CLASS(klass)        (G_TYPE_CHECK_CLASS_CAST ((klass), TEST_TYPE_OBJECT, TestObjectClass))
 #define TEST_IS_OBJECT_CLASS(klass)     (G_TYPE_CHECK_CLASS_TYPE ((klass), TEST_TYPE_OBJECT))
 #define TEST_OBJECT_GET_CLASS(obj)      (G_TYPE_INSTANCE_GET_CLASS ((obj), TEST_TYPE_OBJECT, TestObjectClass))
+
+typedef enum {
+  TEST_ENUM_FOO,
+  TEST_ENUM_BAR,
+  TEST_ENUM_BAZ
+} TestEnum;
 
 typedef struct _TestBoxed               TestBoxed;
 typedef struct _TestObject              TestObject;
@@ -33,6 +40,7 @@ struct _TestObject
   gboolean bar;
   gchar *baz;
   TestBoxed blah;
+  TestEnum meh;
 };
 
 struct _TestObjectClass
@@ -76,6 +84,26 @@ test_boxed_get_type (void)
   return b_type;
 }
 
+GType
+test_enum_get_type (void)
+{
+  static GType e_type = 0;
+
+  if (G_UNLIKELY (e_type == 0))
+    {
+      const GEnumValue values[] = {
+        { TEST_ENUM_FOO, "TEST_ENUM_FOO", "foo" },
+        { TEST_ENUM_BAR, "TEST_ENUM_BAR", "bar" },
+        { TEST_ENUM_BAZ, "TEST_ENUM_BAZ", "baz" },
+        { 0, NULL, NULL }
+      };
+
+      e_type = g_enum_register_static ("TestEnum", values);
+    }
+
+  return e_type;
+}
+
 enum
 {
   PROP_0,
@@ -83,7 +111,8 @@ enum
   PROP_FOO,
   PROP_BAR,
   PROP_BAZ,
-  PROP_BLAH
+  PROP_BLAH,
+  PROP_MEH
 };
 
 static void json_serializable_iface_init (gpointer g_iface);
@@ -185,6 +214,9 @@ test_object_set_property (GObject      *gobject,
       g_free (TEST_OBJECT (gobject)->baz);
       TEST_OBJECT (gobject)->baz = g_value_dup_string (value);
       break;
+    case PROP_MEH:
+      TEST_OBJECT (gobject)->meh = g_value_get_enum (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
     }
@@ -209,6 +241,9 @@ test_object_get_property (GObject    *gobject,
       break;
     case PROP_BLAH:
       g_value_set_boxed (value, &(TEST_OBJECT (gobject)->blah));
+      break;
+    case PROP_MEH:
+      g_value_set_enum (value, TEST_OBJECT (gobject)->meh);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -244,6 +279,12 @@ test_object_class_init (TestObjectClass *klass)
                                    g_param_spec_boxed ("blah", "Blah", "Blah",
                                                        TEST_TYPE_BOXED,
                                                        G_PARAM_READABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_MEH,
+                                   g_param_spec_enum ("meh", "Meh", "Meh",
+                                                      TEST_TYPE_ENUM,
+                                                      TEST_ENUM_BAR,
+                                                      G_PARAM_READWRITE));
 }
 
 static void
@@ -255,13 +296,16 @@ test_object_init (TestObject *object)
 
   object->blah.foo = object->foo;
   object->blah.bar = object->bar;
+
+  object->meh = TEST_ENUM_BAR;
 }
 
 static const gchar var_test[] =
 "{"
 "  \"foo\" : 42,"
 "  \"bar\" : false,"
-"  \"baz\" : \"Test\""
+"  \"baz\" : \"Test\","
+"  \"meh\" : \"baz\""
 "}";
 
 int
@@ -278,12 +322,14 @@ main (int argc, char *argvp[])
     g_error ("*** Unable to parse buffer: %s\n", error->message);
 
   g_print ("*** TestObject ***\n"
-           " foo: %d\n"
+           " foo: %s\n"
            " bar: %s\n"
-           " baz: %s\n",
-           TEST_OBJECT (object)->foo,
-           TEST_OBJECT (object)->bar ? "<true>" : "<false>",
-           TEST_OBJECT (object)->baz);
+           " baz: %s\n"
+           " meh: %s\n",
+           TEST_OBJECT (object)->foo == 42            ? "<true>" : "<false>",
+           TEST_OBJECT (object)->bar == FALSE         ? "<true>" : "<false>",
+           TEST_OBJECT (object)->baz != NULL          ? "<true>" : "<false>",
+           TEST_OBJECT (object)->meh == TEST_ENUM_BAZ ? "<true>" : "<false>");
   
   g_object_unref (object);
 
