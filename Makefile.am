@@ -1,4 +1,4 @@
-SUBDIRS = json-glib doc tests
+SUBDIRS = json-glib doc tests contrib
 
 pcfiles = json-glib-1.0.pc
 
