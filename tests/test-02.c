@@ -217,6 +217,8 @@ main (int argc, char *argv[])
         g_print ("*** Test %d: assigns '%s'\n", i, var_name);
 
       print_array (1, array);
+
+      json_node_free (node);
     }
 
   g_object_unref (parser);

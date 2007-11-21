@@ -19,6 +19,8 @@ test_empty (JsonGenerator *generator)
   g_print ("*** Empty array (len:%d): `%s'\n", len, data);
 
   g_free (data);
+
+  json_node_free (root);
 }
 
 static void
@@ -83,6 +85,8 @@ test_simple (JsonGenerator *generator)
   data = json_generator_to_data (generator, &len);
   g_print ("*** Simple array (pretty, len:%d):\n%s\n", len, data);
   g_free (data);
+
+  json_node_free (root);
 }
 
 static void
@@ -141,6 +145,8 @@ test_nested (JsonGenerator *generator)
   data = json_generator_to_data (generator, &len);
   g_print ("*** Nested array (pretty, len:%d):\n%s\n", len, data);
   g_free (data);
+
+  json_node_free (root);
 }
 
 static void
@@ -208,6 +214,8 @@ test_object (JsonGenerator *generator)
   data = json_generator_to_data (generator, &len);
   g_print ("*** Nested object (pretty, len:%d):\n%s\n", len, data);
   g_free (data);
+
+  json_node_free (root);
 }
 
 int
