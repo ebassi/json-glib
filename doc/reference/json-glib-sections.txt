@@ -10,6 +10,7 @@ json_object_unref
 json_object_add_member
 json_object_has_member
 json_object_get_member
+json_object_dup_member
 json_object_get_members
 json_object_get_values
 json_object_get_size
@@ -32,6 +33,7 @@ json_array_unref
 <SUBSECTION>
 json_array_add_element
 json_array_get_element
+json_array_dup_element
 json_array_get_elements
 json_array_get_length
 json_array_remove_element
@@ -100,6 +102,7 @@ json_parser_load_from_data
 
 <SUBSECTION>
 json_parser_get_root
+json_parser_peek_root
 
 <SUBSECTION>
 json_parser_get_current_line
