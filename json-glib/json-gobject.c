@@ -618,6 +618,8 @@ json_construct_gobject (GType         gtype,
 
   g_list_free (members);
 
+  json_node_free (root);
+
   g_object_thaw_notify (retval);
 
   g_type_class_unref (klass);
