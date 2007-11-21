@@ -140,6 +140,8 @@ void                  json_object_add_member    (JsonObject  *object,
 GList *               json_object_get_members   (JsonObject  *object);
 JsonNode *            json_object_get_member    (JsonObject  *object,
                                                  const gchar *member_name);
+JsonNode *            json_object_dup_member    (JsonObject  *object,
+                                                 const gchar *member_name);
 gboolean              json_object_has_member    (JsonObject  *object,
                                                  const gchar *member_name);
 void                  json_object_remove_member (JsonObject  *object,
@@ -156,6 +158,8 @@ void                  json_array_add_element    (JsonArray   *array,
                                                  JsonNode    *node);
 GList *               json_array_get_elements   (JsonArray   *array);
 JsonNode *            json_array_get_element    (JsonArray   *array,
+                                                 guint        index_);
+JsonNode *            json_array_dup_element    (JsonArray   *array,
                                                  guint        index_);
 void                  json_array_remove_element (JsonArray   *array,
                                                  guint        index_);

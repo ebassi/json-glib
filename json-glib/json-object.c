@@ -254,6 +254,35 @@ json_object_get_values (JsonObject *object)
 }
 
 /**
+ * json_object_dup_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the JSON object member to access
+ *
+ * Retrieves a copy of the #JsonNode containing the value of @member_name
+ * inside a #JsonObject
+ *
+ * Return value: a copy of the node for the requested object member
+ *   or %NULL. Use json_node_free() when done.
+ *
+ * Since: 0.6
+ */
+JsonNode *
+json_object_dup_member (JsonObject  *object,
+                        const gchar *member_name)
+{
+  JsonNode *retval;
+
+  g_return_val_if_fail (object != NULL, NULL);
+  g_return_val_if_fail (member_name != NULL, NULL);
+
+  retval = json_object_get_member (object, member_name);
+  if (!retval)
+    return NULL;
+
+  return json_node_copy (retval);
+}
+
+/**
  * json_object_get_member:
  * @object: a #JsonObject
  * @member_name: the name of the JSON object member to access

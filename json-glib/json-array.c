@@ -180,6 +180,35 @@ json_array_get_elements (JsonArray *array)
 }
 
 /**
+ * json_array_dup_element:
+ * @array: a #JsonArray
+ * @index_: the index of the element to retrieve
+ *
+ * Retrieves a copy of the #JsonNode containing the value of the
+ * element at @index_ inside a #JsonArray
+ *
+ * Return value: a copy of the #JsonNode at the requested index.
+ *   Use json_node_free() when done.
+ *
+ * Since: 0.6
+ */
+JsonNode *
+json_array_dup_element (JsonArray *array,
+                        guint      index_)
+{
+  JsonNode *retval;
+
+  g_return_val_if_fail (array != NULL, NULL);
+  g_return_val_if_fail (index_ < array->elements->len, NULL);
+
+  retval = json_array_get_element (array, index_);
+  if (!retval)
+    return NULL;
+
+  return json_node_copy (retval);
+}
+
+/**
  * json_array_get_element:
  * @array: a #JsonArray
  * @index_: the index of the element to retrieve
