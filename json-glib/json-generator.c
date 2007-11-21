@@ -41,7 +41,7 @@ struct _JsonGeneratorPrivate
   JsonNode *root;
 
   guint indent;
-  gchar indent_char;
+  gunichar indent_char;
 
   guint pretty : 1;
 };
@@ -101,7 +101,7 @@ json_generator_set_property (GObject      *gobject,
       priv->indent = g_value_get_uint (value);
       break;
     case PROP_INDENT_CHAR:
-      priv->indent_char = g_value_get_char (value);
+      priv->indent_char = g_value_get_uint (value);
       break;
     case PROP_ROOT:
       json_generator_set_root (JSON_GENERATOR (gobject),
@@ -130,7 +130,7 @@ json_generator_get_property (GObject    *gobject,
       g_value_set_uint (value, priv->indent);
       break;
     case PROP_INDENT_CHAR:
-      g_value_set_char (value, priv->indent_char);
+      g_value_set_uint (value, priv->indent_char);
       break;
     case PROP_ROOT:
       g_value_set_boxed (value, priv->root);
@@ -203,11 +203,11 @@ json_generator_class_init (JsonGeneratorClass *klass)
    */
   g_object_class_install_property (gobject_class,
                                    PROP_INDENT_CHAR,
-                                   g_param_spec_char ("indent-char",
-                                                      "Indent Char",
-                                                      "Character that should be used when indenting",
-                                                      0, 255, ' ',
-                                                      G_PARAM_READWRITE));
+                                   g_param_spec_unichar ("indent-char",
+                                                         "Indent Char",
+                                                         "Character that should be used when indenting",
+                                                         ' ',
+                                                         G_PARAM_READWRITE));
 }
 
 static void

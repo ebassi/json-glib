@@ -192,7 +192,11 @@ test_nested (JsonGenerator *generator)
   g_print ("*** Nested object (len:%d): `%s'\n", len, data);
   g_free (data);
 
-  g_object_set (generator, "pretty", TRUE, NULL);
+  g_object_set (generator,
+                "pretty", TRUE,
+                "indent", 1,
+                "indent-char", '\t',
+                NULL);
   data = json_generator_to_data (generator, &len);
   g_print ("*** Nested object (pretty, len:%d):\n%s\n", len, data);
   g_free (data);
