@@ -50,10 +50,10 @@ public class Sample : GLib.Object {
                         return;
                 }
 
-                var root = parser.get_root ().copy ();
+                var root = parser.get_root ();
                 stdout.printf ("root node type: %s\n", root.type_name ());
 
-                switch (root.type) {
+                switch (root.type ()) {
                   case Json.NodeType.OBJECT:
                     break;
                   case Json.NodeType.ARRAY:
