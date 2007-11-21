@@ -41,6 +41,7 @@ struct _JsonGeneratorPrivate
   JsonNode *root;
 
   guint indent;
+  gchar indent_char;
 
   guint pretty : 1;
 };
@@ -51,7 +52,8 @@ enum
 
   PROP_PRETTY,
   PROP_INDENT,
-  PROP_ROOT
+  PROP_ROOT,
+  PROP_INDENT_CHAR
 };
 
 static gchar *dump_value  (JsonGenerator *generator,
@@ -98,6 +100,9 @@ json_generator_set_property (GObject      *gobject,
     case PROP_INDENT:
       priv->indent = g_value_get_uint (value);
       break;
+    case PROP_INDENT_CHAR:
+      priv->indent_char = g_value_get_char (value);
+      break;
     case PROP_ROOT:
       json_generator_set_root (JSON_GENERATOR (gobject),
                                g_value_get_boxed (value));
@@ -123,6 +128,9 @@ json_generator_get_property (GObject    *gobject,
       break;
     case PROP_INDENT:
       g_value_set_uint (value, priv->indent);
+      break;
+    case PROP_INDENT_CHAR:
+      g_value_set_char (value, priv->indent_char);
       break;
     case PROP_ROOT:
       g_value_set_boxed (value, priv->root);
@@ -186,6 +194,20 @@ json_generator_class_init (JsonGeneratorClass *klass)
                                                        "Root of the JSON data tree",
                                                        JSON_TYPE_NODE,
                                                        G_PARAM_READWRITE));
+  /**
+   * JsonGenerator:indent-char:
+   *
+   * The character that should be used when indenting in pretty print.
+   *
+   * Since: 0.6
+   */
+  g_object_class_install_property (gobject_class,
+                                   PROP_INDENT_CHAR,
+                                   g_param_spec_char ("indent-char",
+                                                      "Indent Char",
+                                                      "Character that should be used when indenting",
+                                                      0, 255, ' ',
+                                                      G_PARAM_READWRITE));
 }
 
 static void
@@ -197,6 +219,7 @@ json_generator_init (JsonGenerator *generator)
 
   priv->pretty = FALSE;
   priv->indent = 2;
+  priv->indent_char = ' ';
 }
 
 static gchar *
@@ -205,8 +228,9 @@ dump_value (JsonGenerator *generator,
             const gchar   *name,
             JsonNode      *node)
 {
-  gboolean pretty = generator->priv->pretty;
-  guint indent = generator->priv->indent;
+  JsonGeneratorPrivate *priv = generator->priv;
+  gboolean pretty = priv->pretty;
+  guint indent = priv->indent;
   GValue value = { 0, };
   GString *buffer;
   guint i;
@@ -216,7 +240,7 @@ dump_value (JsonGenerator *generator,
   if (pretty)
     {
       for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, ' ');
+        g_string_append_c (buffer, priv->indent_char);
     }
 
   if (name && name[0] != '\0')
@@ -259,18 +283,19 @@ dump_array (JsonGenerator *generator,
             JsonArray     *array,
             gsize         *length)
 {
+  JsonGeneratorPrivate *priv = generator->priv;
   guint array_len = json_array_get_length (array);
   guint i;
   GString *buffer;
-  gboolean pretty = generator->priv->pretty;
-  guint indent = generator->priv->indent;
+  gboolean pretty = priv->pretty;
+  guint indent = priv->indent;
 
   buffer = g_string_new ("");
 
   if (pretty)
     {
       for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, ' ');
+        g_string_append_c (buffer, priv->indent_char);
     }
 
   if (name && name[0] != '\0')
@@ -296,7 +321,7 @@ dump_array (JsonGenerator *generator,
           if (pretty)
             {
               for (j = 0; j < (sub_level * indent); j++)
-                g_string_append_c (buffer, ' ');
+                g_string_append_c (buffer, priv->indent_char);
             }
           g_string_append (buffer, "null");
           break;
@@ -329,7 +354,7 @@ dump_array (JsonGenerator *generator,
   if (pretty)
     {
       for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, ' ');
+        g_string_append_c (buffer, priv->indent_char);
     }
 
   g_string_append_c (buffer, ']');
@@ -347,10 +372,11 @@ dump_object (JsonGenerator *generator,
              JsonObject    *object,
              gsize         *length)
 {
+  JsonGeneratorPrivate *priv = generator->priv;
   GList *members, *l;
   GString *buffer;
-  gboolean pretty = generator->priv->pretty;
-  guint indent = generator->priv->indent;
+  gboolean pretty = priv->pretty;
+  guint indent = priv->indent;
   guint i;
 
   buffer = g_string_new ("");
@@ -358,7 +384,7 @@ dump_object (JsonGenerator *generator,
   if (pretty)
     {
       for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, ' ');
+        g_string_append_c (buffer, priv->indent_char);
     }
 
   if (name && name[0] != '\0')
@@ -387,7 +413,7 @@ dump_object (JsonGenerator *generator,
           if (pretty)
             {
               for (j = 0; j < (sub_level * indent); j++)
-                g_string_append_c (buffer, ' ');
+                g_string_append_c (buffer, priv->indent_char);
             }
           g_string_append_printf (buffer, "\"%s\" : null", member_name);
           break;
@@ -424,7 +450,7 @@ dump_object (JsonGenerator *generator,
   if (pretty)
     {
       for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, ' ');
+        g_string_append_c (buffer, priv->indent_char);
     }
 
   g_string_append_c (buffer, '}');
