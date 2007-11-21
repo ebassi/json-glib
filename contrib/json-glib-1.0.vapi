@@ -29,6 +29,7 @@ namespace Json {
                 public add_member (string name, Json.Node node);
                 public bool has_member (string name);
                 public weak Json.Node get_member (string name);
+                public Json.Node dup_member (string name);
                 public GLib.List<string> get_members ();
                 public GLib.List<weak Json.Node> get_values ();
                 public void remove_member (string name);
@@ -42,6 +43,7 @@ namespace Json {
                 public Array.sized (uint reserved_size);
                 public add_element (Json.Node node);
                 public weak Json.Node get_element (uint index_);
+                public Json.Node dup_element (uint index_);
                 public GLib.List<weak Json.Node> get_elements ();
                 public void remove_element (uint index_);
                 public uint get_length ();
@@ -57,7 +59,8 @@ namespace Json {
 
         [CCode (copy_function = "json_node_copy", free_function = "json_node_free", type_id = "JSON_TYPE_NODE")]
         public class Node : GLib.Boxed {
-                public NodeType type;
+                [CCode (cname = "JSON_NODE_TYPE")]
+                public NodeType type ();
                 public Node (NodeType type);
                 public Node copy ();
                 public GLib.Type get_value_type ();
@@ -93,7 +96,8 @@ namespace Json {
                 public Parser ();
                 public bool load_from_file (string filename) throws GLib.Error;
                 public bool load_from_data (string buffer, ulong length) throws ParserError;
-                public weak Json.Node get_root ();
+                public weak Json.Node peek_root ();
+                public Json.Node get_root ();
                 public uint get_current_line ();
                 public uint get_current_pos ();
                 public bool has_assingment (out string variable_name);
