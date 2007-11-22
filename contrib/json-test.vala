@@ -44,7 +44,7 @@ public class Sample : GLib.Object {
                         stdout.printf ("parsing complete\n");
                 };
 
-                try { parser.load_from_data (buffer, -1); }
+                try { parser.load_from_data (buffer); }
                 catch (Json.ParserError e) {
                         stdout.printf ("%s\n", e.message);
                         return;
