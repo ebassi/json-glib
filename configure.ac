@@ -61,7 +61,10 @@ if test "x$has_vala" = "xyes"; then
 else
   VAPI_DIR=
 fi
+
+AM_CONDITIONAL(HAVE_VALA, [test "x$has_vala" = "xyes"])
 AC_SUBST(VAPI_DIR)
+
 
 dnl = Enable debug level ===================================================
 

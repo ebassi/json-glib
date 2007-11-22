@@ -1,4 +1,10 @@
-SUBDIRS = json-glib doc tests contrib
+SUBDIRS = json-glib doc tests
+
+if HAVE_VALA
+SUBDIRS += contrib
+endif
+
+DIST_SUBDIRS = json-glib doc tests contrib
 
 pcfiles = json-glib-1.0.pc
 
