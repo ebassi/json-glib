@@ -25,23 +25,25 @@
 namespace Json {
         [CCode (ref_function = "json_object_ref", unref_function = "json_object_unref")]
         public class Object : GLib.Boxed {
-                public Json.Object ();
-                public add_member (string name, Json.Node node);
-                public bool has_member (string name);
-                public weak Json.Node get_member (string name);
-                public Json.Node dup_member (string name);
+                [CCode (cname = "json_object_new")]
+                public Object ();
+                public void add_member (string! name, Json.Node# node);
+                public bool has_member (string! name);
+                public weak Json.Node get_member (string! name);
+                public Json.Node dup_member (string! name);
                 public GLib.List<string> get_members ();
                 public GLib.List<weak Json.Node> get_values ();
-                public void remove_member (string name);
+                public void remove_member (string! name);
                 public uint get_size ();
         }
 
         [CCode (ref_function = "json_array_ref", unref_function = "json_array_unref")]
         public class Array : GLib.Boxed {
+                [CCode (cname = "json_array_new")]
                 public Array ();
                 [CCode (cname = "json_array_sized_new")]
                 public Array.sized (uint reserved_size);
-                public add_element (Json.Node node);
+                public void add_element (Json.Node# node);
                 public weak Json.Node get_element (uint index_);
                 public Json.Node dup_element (uint index_);
                 public GLib.List<weak Json.Node> get_elements ();
@@ -95,7 +97,7 @@ namespace Json {
         public class Parser : GLib.Object {
                 public Parser ();
                 public bool load_from_file (string filename) throws GLib.Error;
-                public bool load_from_data (string buffer, ulong length) throws ParserError;
+                public bool load_from_data (string buffer, ulong length = -1) throws ParserError;
                 public weak Json.Node peek_root ();
                 public Json.Node get_root ();
                 public uint get_current_line ();
@@ -115,7 +117,7 @@ namespace Json {
         [CCode (cheader_filename = "json-glib/json-generator.h")]
         public class Generator : GLib.Object {
                 public Generator ();
-                public string to_data (out ulong length);
+                public string to_data (out ulong length = null);
                 public bool to_file (string! filename) throws GLib.FileError;
                 public void set_root (Json.Node node);
         }
