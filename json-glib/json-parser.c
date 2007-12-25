@@ -964,6 +964,7 @@ json_parser_load_from_data (JsonParser   *parser,
                             gssize        length,
                             GError      **error)
 {
+  JsonParserPrivate *priv;
   GScanner *scanner;
   gboolean done;
   gboolean retval = TRUE;
@@ -972,12 +973,14 @@ json_parser_load_from_data (JsonParser   *parser,
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (data != NULL, FALSE);
 
-  g_free (parser->priv->variable_name);
+  priv = parser->priv;
 
-  if (parser->priv->root)
+  g_free (priv->variable_name);
+
+  if (priv->root)
     {
-      json_node_free (parser->priv->root);
-      parser->priv->root = NULL;
+      json_node_free (priv->root);
+      priv->root = NULL;
     }
 
   if (length < 0)
@@ -1050,10 +1053,10 @@ json_parser_load_from_data (JsonParser   *parser,
               /* and this will propagate the error we create in the
                * same message handler
                */
-              if (parser->priv->last_error)
+              if (priv->last_error)
                 {
-                  g_propagate_error (error, parser->priv->last_error);
-                  parser->priv->last_error = NULL;
+                  g_propagate_error (error, priv->last_error);
+                  priv->last_error = NULL;
                 }
 
               retval = FALSE;
@@ -1064,11 +1067,11 @@ json_parser_load_from_data (JsonParser   *parser,
         }
     }
 
-  g_scanner_destroy (scanner);
-  parser->priv->scanner = NULL;
-  parser->priv->current_node = NULL;
-
   g_signal_emit (parser, parser_signals[PARSE_END], 0);
+
+  g_scanner_destroy (scanner);
+  priv->scanner = NULL;
+  priv->current_node = NULL;
 
   return retval;
 }
