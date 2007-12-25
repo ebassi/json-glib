@@ -329,16 +329,19 @@ dump_array (JsonGenerator *generator,
         case JSON_NODE_VALUE:
           value = dump_value (generator, sub_level, NULL, cur);
           g_string_append (buffer, value);
+          g_free (value);
           break;
 
         case JSON_NODE_ARRAY:
           value = dump_array (generator, sub_level, NULL, json_node_get_array (cur), NULL);
           g_string_append (buffer, value);
+          g_free (value);
           break;
 
         case JSON_NODE_OBJECT:
           value = dump_object (generator, sub_level, NULL, json_node_get_object (cur), NULL);
           g_string_append (buffer, value);
+          g_free (value);
           break;
         }
 
@@ -421,18 +424,21 @@ dump_object (JsonGenerator *generator,
         case JSON_NODE_VALUE:
           value = dump_value (generator, sub_level, member_name, cur);
           g_string_append (buffer, value);
+          g_free (value);
           break;
 
         case JSON_NODE_ARRAY:
           value = dump_array (generator, sub_level, member_name,
                               json_node_get_array (cur), NULL);
           g_string_append (buffer, value);
+          g_free (value);
           break;
 
         case JSON_NODE_OBJECT:
           value = dump_object (generator, sub_level, member_name,
                                json_node_get_object (cur), NULL);
           g_string_append (buffer, value);
+          g_free (value);
           break;
         }
 
