@@ -138,7 +138,7 @@ gboolean    json_parser_load_from_file   (JsonParser   *parser,
                                           GError      **error);
 gboolean    json_parser_load_from_data   (JsonParser   *parser,
                                           const gchar  *data,
-                                          gsize         length,
+                                          gssize        length,
                                           GError      **error);
 
 JsonNode *  json_parser_peek_root        (JsonParser   *parser);

@@ -961,7 +961,7 @@ json_parser_load_from_file (JsonParser   *parser,
 gboolean
 json_parser_load_from_data (JsonParser   *parser,
                             const gchar  *data,
-                            gsize         length,
+                            gssize        length,
                             GError      **error)
 {
   GScanner *scanner;
@@ -972,17 +972,17 @@ json_parser_load_from_data (JsonParser   *parser,
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (data != NULL, FALSE);
 
-  if (length < 0)
-    length = strlen (data);
-
   if (parser->priv->root)
     {
       json_node_free (parser->priv->root);
       parser->priv->root = NULL;
     }
 
+  if (length < 0)
+    length = strlen (data);
+
   scanner = json_scanner_new (parser);
-  g_scanner_input_text (scanner, data, strlen (data));
+  g_scanner_input_text (scanner, data, length);
 
   for (i = 0; i < n_symbols; i++)
     {
