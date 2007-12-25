@@ -25,7 +25,8 @@ public class Sample : GLib.Object {
                 root.set_object (obj);
 
                 var generator = new Json.Generator ();
-                generator.set_root (root);
+                generator.pretty = true;
+                generator.root = root;
 
                 return generator.to_data ();
         }
@@ -33,7 +34,12 @@ public class Sample : GLib.Object {
         static int main (string[] args) {
                 var sample = new Sample ();
                 
-                stdout.printf ("var sample = %s;\n", sample.to_json ());
+                stdout.printf ("[manual]    var sample = %s;\n",
+                               sample.to_json ());
+
+                var buf = Json.serialize_gobject (sample);
+                stdout.printf ("[automatic] var sample = %s;\n",
+                               buf);
 
                 return 0;
         }

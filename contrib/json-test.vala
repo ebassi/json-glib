@@ -12,6 +12,62 @@ using GLib;
 using Json;
 
 public class Sample : GLib.Object {
+        public void dump_node (Json.Node node)
+        {
+          switch (node.type ())
+            {
+            case Json.NodeType.OBJECT:
+              var obj = node.get_object ();
+              stdout.printf ("*  size: %d\n", obj.get_size ());
+
+              foreach (weak string member in obj.get_members ())
+                {
+                  var val = obj.dup_member (member);
+
+                  stdout.printf ("*  member[\"%s\"] type: %s, value:\n",
+                                 member,
+                                 val.type_name ());
+
+                  dump_node (val);
+                }
+              break;
+            
+            case Json.NodeType.ARRAY:
+              var array = node.get_array ();
+              stdout.printf ("*  length: %d\n", array.get_length ());
+
+              var count = 0;
+              foreach (weak Json.Node element in array.get_elements ())
+                {
+                  stdout.printf ("*  element[%d] type: %s, value:\n",
+                                 count++,
+                                 element.type_name ());
+
+                  dump_node (element);
+                }
+              break;
+
+            case Json.NodeType.VALUE:
+              switch (node.get_value_type ())
+                {
+                case typeof (int):
+                  stdout.printf ("*** %d\n", node.get_int ());
+                  break;
+                case typeof (double):
+                  stdout.printf ("*** %f\n", node.get_double ());
+                  break;
+                case typeof (string):
+                  stdout.printf ("*** %s\n", node.get_string ());
+                  break;
+                }
+              break;
+
+            case Json.NodeType.NULL:
+              stdout.printf ("*** null\n");
+              break;
+            }
+        }
+
         public void parse (string buffer) {
                 var parser = new Json.Parser ();
 
@@ -32,7 +88,7 @@ public class Sample : GLib.Object {
                         node.set_object (o);
 
                         var gen = new Json.Generator ();
-                        gen.set_root (node);
+                        gen.root = node;
 
                         var len = 0;
                         var dump = gen.to_data (ref len);
@@ -52,28 +108,9 @@ public class Sample : GLib.Object {
 
                 var root = parser.get_root ();
                 stdout.printf ("root node type: %s\n", root.type_name ());
-
-                switch (root.type ()) {
-                  case Json.NodeType.OBJECT:
-                    break;
-                  case Json.NodeType.ARRAY:
-                    var array = root.get_array ();
-                    stdout.printf ("*  length: %d\n", array.get_length ());
-
-                    var count = 0;
-                    foreach (weak Json.Node element in array.get_elements ()) {
-                      stdout.printf ("*  element[%d] type: %s\n",
-                                     count++,
-                                     element.type_name ());
-                    }
-                    break;
-                  case Json.NodeType.VALUE:
-                    break;
-                  case Json.NodeType.NULL:
-                    stdout.printf ("null node\n");
-                    break;
-                }
                 
+                dump_node (root);
+
                 return;
         }
 

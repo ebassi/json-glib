@@ -95,13 +95,13 @@ namespace Json {
 
         [CCode (cheader_filename = "json-glib/json-parser.h")]
         public class Parser : GLib.Object {
+                public weak uint current_line { get; }
+                public weak uint current_pos { get; }
                 public Parser ();
                 public bool load_from_file (string filename) throws GLib.Error;
                 public bool load_from_data (string buffer, ulong length = -1) throws ParserError;
                 public weak Json.Node peek_root ();
                 public Json.Node get_root ();
-                public uint get_current_line ();
-                public uint get_current_pos ();
                 public bool has_assingment (out string variable_name);
                 public signal void parse_start ();
                 public signal void parse_end ();
@@ -116,9 +116,24 @@ namespace Json {
 
         [CCode (cheader_filename = "json-glib/json-generator.h")]
         public class Generator : GLib.Object {
+                [NoAccessorMethod]
+                public weak bool pretty { get; set; }
+                [NoAccessorMethod]
+                public weak uint indent_char { get; set; }
+                public Json.Node root { set; }
                 public Generator ();
                 public string to_data (out ulong length = null);
                 public bool to_file (string! filename) throws GLib.FileError;
-                public void set_root (Json.Node node);
         }
+
+        [CCode (cheader_filename = "json-glib/json-gobject.h")]
+        public interface Serializable : GLib.Object {
+                public abstract Json.Node serialize_property (string property_name, GLib.Value val, GLib.ParamSpec pspec);
+                public abstract bool deserialize_property (string property_name, GLib.Value val, GLib.ParamSpec pspec, Json.Node node);
+        }
+
+        [CCode (cheader_filename = "json-glib/json-gobject.h")]
+        public static GLib.Object construct_gobject (GLib.Type g_type, string! data, ulong length = -1);
+        [CCode (cheader_filename = "json-glib/json-gobject.h")]
+        public static string serialize_gobject (GLib.Object g_object, out ulong length = null);
 }
