@@ -972,6 +972,8 @@ json_parser_load_from_data (JsonParser   *parser,
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (data != NULL, FALSE);
 
+  g_free (parser->priv->variable_name);
+
   if (parser->priv->root)
     {
       json_node_free (parser->priv->root);
