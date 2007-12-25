@@ -120,8 +120,6 @@ test_object_serialize_property (JsonSerializable *serializable,
       json_object_add_member (obj, "bar", val);
 
       json_node_take_object (retval, obj);
-
-      test_boxed_free (boxed);
     }
 
   return retval;
