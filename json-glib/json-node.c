@@ -17,7 +17,9 @@
  *   Emmanuele Bassi  <ebassi@openedhand.com>
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 
 #include <glib.h>
 
@@ -510,6 +512,7 @@ json_node_get_string (JsonNode *node)
 gchar *
 json_node_dup_string (JsonNode *node)
 {
+  g_return_val_if_fail (node != NULL, NULL);
   g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
