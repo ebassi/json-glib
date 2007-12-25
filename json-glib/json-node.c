@@ -48,7 +48,7 @@ json_node_get_type (void)
   static GType node_type = 0;
 
   if (G_UNLIKELY (node_type == 0))
-    node_type = g_boxed_type_register_static ("JsonNode",
+    node_type = g_boxed_type_register_static (g_intern_static_string ("JsonNode"),
                                               (GBoxedCopyFunc) json_node_copy,
                                               (GBoxedFreeFunc) json_node_free);
 
@@ -103,9 +103,10 @@ json_node_new (JsonNodeType type)
 {
   JsonNode *data;
 
-  g_return_val_if_fail (type >= JSON_NODE_OBJECT && type <= JSON_NODE_NULL, NULL);
+  g_return_val_if_fail (type >= JSON_NODE_OBJECT &&
+                        type <= JSON_NODE_NULL, NULL);
 
-  data = g_slice_new (JsonNode);
+  data = g_slice_new0 (JsonNode);
   data->type = type;
 
   return data;
@@ -127,7 +128,7 @@ json_node_copy (JsonNode *node)
 
   g_return_val_if_fail (node != NULL, NULL);
 
-  copy = g_slice_new (JsonNode);
+  copy = g_slice_new0 (JsonNode);
   *copy = *node;
 
   switch (copy->type)
