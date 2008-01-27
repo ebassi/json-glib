@@ -140,16 +140,12 @@ static guint json_parse_object (JsonParser *parser,
                                 GScanner   *scanner,
                                 gboolean    nested);
 
-static void
-json_parser_dispose (GObject *gobject)
+static inline void
+json_parser_clear (JsonParser *parser)
 {
-  JsonParserPrivate *priv = JSON_PARSER_GET_PRIVATE (gobject);
+  JsonParserPrivate *priv = parser->priv;
 
-  if (priv->root)
-    {
-      json_node_free (priv->root);
-      priv->root = NULL;
-    }
+  g_free (priv->variable_name);
 
   if (priv->last_error)
     {
@@ -157,7 +153,17 @@ json_parser_dispose (GObject *gobject)
       priv->last_error = NULL;
     }
 
-  g_free (priv->variable_name);
+  if (priv->root)
+    {
+      json_node_free (priv->root);
+      priv->root = NULL;
+    }
+}
+
+static void
+json_parser_dispose (GObject *gobject)
+{
+  json_parser_clear (JSON_PARSER (gobject));
 
   G_OBJECT_CLASS (json_parser_parent_class)->dispose (gobject);
 }
@@ -973,18 +979,12 @@ json_parser_load_from_data (JsonParser   *parser,
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (data != NULL, FALSE);
 
-  priv = parser->priv;
-
-  g_free (priv->variable_name);
-
-  if (priv->root)
-    {
-      json_node_free (priv->root);
-      priv->root = NULL;
-    }
+  json_parser_clear (parser);
 
   if (length < 0)
     length = strlen (data);
+
+  priv = parser->priv;
 
   scanner = json_scanner_new (parser);
   g_scanner_input_text (scanner, data, length);
@@ -1069,6 +1069,7 @@ json_parser_load_from_data (JsonParser   *parser,
 
   g_signal_emit (parser, parser_signals[PARSE_END], 0);
 
+  /* remove the scanner */
   g_scanner_destroy (scanner);
   priv->scanner = NULL;
   priv->current_node = NULL;
@@ -1121,7 +1122,11 @@ json_parser_get_root (JsonParser *parser)
  *
  * Retrieves the line currently parsed, starting from 1.
  *
- * Return value: the currently parsed line.
+ * This function has defined behaviour only while parsing; calling this
+ * function from outside the signal handlers emitted by #JsonParser will
+ * yield 0.
+ *
+ * Return value: the currently parsed line, or 0.
  */
 guint
 json_parser_get_current_line (JsonParser *parser)
@@ -1141,7 +1146,11 @@ json_parser_get_current_line (JsonParser *parser)
  * Retrieves the current position inside the current line, starting
  * from 0.
  *
- * Return value: the position in the current line
+ * This function has defined behaviour only while parsing; calling this
+ * function from outside the signal handlers emitted by #JsonParser will
+ * yield 0.
+ *
+ * Return value: the position in the current line, or 0.
  */
 guint
 json_parser_get_current_pos (JsonParser *parser)
@@ -1162,7 +1171,7 @@ json_parser_get_current_pos (JsonParser *parser)
  * A JSON data stream might sometimes contain an assignment, even though
  * it would technically constitute a violation of the RFC. #JsonParser
  * will ignore the left hand identifier and parse the right hand value
- * of the assignment. It will record, though, the existence of the
+ * of the assignment. #JsonParser will record, though, the existence of the
  * assignment in the data stream and the variable name used.
  *
  * Return value: %TRUE if there was an assignment, %FALSE otherwise. If
