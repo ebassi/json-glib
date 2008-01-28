@@ -332,7 +332,7 @@ json_object_has_member (JsonObject *object,
   g_return_val_if_fail (member_name != NULL, FALSE);
 
   name = g_strdelimit (g_strdup (member_name), G_STR_DELIMITERS, '_');
-  retval = (g_hash_table_lookup (object->members, member_name) != NULL);
+  retval = (g_hash_table_lookup (object->members, name) != NULL);
   g_free (name);
 
   return retval;
