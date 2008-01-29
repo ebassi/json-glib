@@ -1078,42 +1078,20 @@ json_parser_load_from_data (JsonParser   *parser,
 }
 
 /**
- * json_parser_peek_root:
+ * json_parser_get_root:
  * @parser: a #JsonParser
  *
  * Retrieves the top level node from the parsed JSON stream.
  *
  * Return value: the root #JsonNode . The returned node is owned by
  *   the #JsonParser and should never be modified or freed.
- *
- * Since: 0.6
- */
-JsonNode *
-json_parser_peek_root (JsonParser *parser)
-{
-  g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
-
-  return parser->priv->root;
-}
-
-/**
- * json_parser_get_root:
- * @parser: a #JsonParser
- *
- * Retrieves a copy of the top level node from the parsed JSON stream.
- *
- * Return value: a newly allocated copy of the root #JsonNode. Use
- *   json_node_free() to free its allocated resources.
  */
 JsonNode *
 json_parser_get_root (JsonParser *parser)
 {
   g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
 
-  if (!parser->priv->root)
-    return NULL;
-
-  return json_node_copy (parser->priv->root);
+  return parser->priv->root;
 }
 
 /**

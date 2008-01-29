@@ -141,7 +141,6 @@ gboolean    json_parser_load_from_data   (JsonParser   *parser,
                                           gssize        length,
                                           GError      **error);
 
-JsonNode *  json_parser_peek_root        (JsonParser   *parser);
 JsonNode *  json_parser_get_root         (JsonParser   *parser);
 
 guint       json_parser_get_current_line (JsonParser   *parser);
