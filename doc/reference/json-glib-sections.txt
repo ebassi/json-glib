@@ -102,7 +102,6 @@ json_parser_load_from_data
 
 <SUBSECTION>
 json_parser_get_root
-json_parser_peek_root
 
 <SUBSECTION>
 json_parser_get_current_line
