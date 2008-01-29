@@ -206,8 +206,6 @@ main (int argc, char *argv[])
 
       g_print ("*** Test %d: '%s' ***\n", i, test_objects[i]);
       print_object (1, object);
-
-      json_node_free (node);
     }
 
   g_object_unref (parser);

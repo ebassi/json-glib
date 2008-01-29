@@ -581,7 +581,7 @@ json_construct_gobject (GType         gtype,
     }
 
   root = json_parser_get_root (parser);
-  if (JSON_NODE_TYPE (root) != JSON_NODE_OBJECT)
+  if (root == NULL || JSON_NODE_TYPE (root) != JSON_NODE_OBJECT)
     {
       g_set_error (error, JSON_PARSER_ERROR,
                    JSON_PARSER_ERROR_PARSE,
@@ -651,8 +651,6 @@ json_construct_gobject (GType         gtype,
     }
 
   g_list_free (members);
-
-  json_node_free (root);
 
   g_object_thaw_notify (retval);
 
