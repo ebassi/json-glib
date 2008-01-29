@@ -8,7 +8,7 @@ DIST_SUBDIRS = json-glib doc tests contrib
 
 pcfiles = json-glib-1.0.pc
 
-%-1.0.pc: %.pc
+json-glib-1.0.pc: json-glib.pc
 	@cp -f $< $@
 
 pkgconfig_DATA = $(pcfiles)
