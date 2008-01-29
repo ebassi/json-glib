@@ -12,58 +12,56 @@ using GLib;
 using Json;
 
 public class Sample : GLib.Object {
-        public void dump_node (Json.Node node)
-        {
-          switch (node.type ())
-            {
+        private void dump_node (Json.Node node) {
+          switch (node.type ()) {
             case Json.NodeType.OBJECT:
-              var obj = node.get_object ();
+              Json.Object obj = node.get_object ();
               stdout.printf ("*  size: %d\n", obj.get_size ());
 
-              foreach (weak string member in obj.get_members ())
-                {
-                  var val = obj.dup_member (member);
+              foreach (weak string member in obj.get_members ()) {
+                weak Json.Node val = obj.get_member (member);
 
-                  stdout.printf ("*  member[\"%s\"] type: %s, value:\n",
-                                 member,
-                                 val.type_name ());
+                stdout.printf ("*  member[\"%s\"] type: %s, value:\n",
+                               member,
+                               val.type_name ());
 
-                  dump_node (val);
-                }
+                dump_node (val);
+              }
               break;
             
             case Json.NodeType.ARRAY:
-              var array = node.get_array ();
+              Json.Array array = node.get_array ();
               stdout.printf ("*  length: %d\n", array.get_length ());
 
-              var count = 0;
-              foreach (weak Json.Node element in array.get_elements ())
-                {
-                  stdout.printf ("*  element[%d] type: %s, value:\n",
-                                 count++,
-                                 element.type_name ());
+              int count = 0;
+              foreach (weak Json.Node element in array.get_elements ()) {
+                stdout.printf ("*  element[%d] type: %s, value:\n",
+                               count++,
+                               element.type_name ());
 
-                  dump_node (element);
-                }
+                dump_node (element);
+              }
               break;
 
             case Json.NodeType.VALUE:
-              switch (node.get_value_type ())
-                {
+              switch (node.get_value_type ()) {
                 case typeof (int):
-                  stdout.printf ("*** %d\n", node.get_int ());
+                  stdout.printf ("*** value '%d'\n", node.get_int ());
                   break;
                 case typeof (double):
-                  stdout.printf ("*** %f\n", node.get_double ());
+                  stdout.printf ("*** value '%f'\n", node.get_double ());
                   break;
                 case typeof (string):
-                  stdout.printf ("*** %s\n", node.get_string ());
+                  stdout.printf ("*** value '%s'\n", node.get_string ());
                   break;
-                }
+                case typeof (bool):
+                  stdout.printf ("*** value '%s'\n", node.get_boolean () ? "true" : "false");
+                  break;
+              }
               break;
 
             case Json.NodeType.NULL:
-              stdout.printf ("*** null\n");
+              stdout.printf ("*** value: 'nul'l\n");
               break;
             }
         }
@@ -91,7 +89,7 @@ public class Sample : GLib.Object {
                         gen.root = node;
 
                         var len = 0;
-                        var dump = gen.to_data (ref len);
+                        var dump = gen.to_data (out len);
                         stdout.printf ("** object dump (length: %d): %s\n",
                                        len, dump);
                 };
@@ -100,13 +98,13 @@ public class Sample : GLib.Object {
                         stdout.printf ("parsing complete\n");
                 };
 
-                try { parser.load_from_data (buffer); }
+                try { parser.load_from_data (buffer, -1); }
                 catch (Json.ParserError e) {
                         stdout.printf ("%s\n", e.message);
                         return;
                 }
 
-                var root = parser.get_root ();
+                weak Json.Node root = parser.get_root ();
                 stdout.printf ("root node type: %s\n", root.type_name ());
                 
                 dump_node (root);

@@ -98,10 +98,9 @@ namespace Json {
                 public weak uint current_line { get; }
                 public weak uint current_pos { get; }
                 public Parser ();
-                public bool load_from_file (string filename) throws GLib.Error;
-                public bool load_from_data (string buffer, ulong length = -1) throws ParserError;
-                public weak Json.Node peek_root ();
-                public Json.Node get_root ();
+                public bool load_from_file (string filename) throws ParserError;
+                public bool load_from_data (string buffer, ulong length) throws ParserError;
+                public weak Json.Node get_root ();
                 public bool has_assingment (out string variable_name);
                 public signal void parse_start ();
                 public signal void parse_end ();
@@ -119,17 +118,18 @@ namespace Json {
                 [NoAccessorMethod]
                 public weak bool pretty { get; set; }
                 [NoAccessorMethod]
-                public weak uint indent_char { get; set; }
+                public weak unichar indent_char { get; set; }
                 public Json.Node root { set; }
                 public Generator ();
-                public string to_data (out ulong length = null);
+                public string to_data (out ulong length);
                 public bool to_file (string! filename) throws GLib.FileError;
+                public void set_root (Json.Node node);
         }
 
         [CCode (cheader_filename = "json-glib/json-gobject.h")]
         public interface Serializable : GLib.Object {
                 public abstract Json.Node serialize_property (string property_name, GLib.Value val, GLib.ParamSpec pspec);
-                public abstract bool deserialize_property (string property_name, GLib.Value val, GLib.ParamSpec pspec, Json.Node node);
+                public abstract bool deserialize_property (string property_name, ref GLib.Value val, GLib.ParamSpec pspec, Json.Node node);
         }
 
         [CCode (cheader_filename = "json-glib/json-gobject.h")]
