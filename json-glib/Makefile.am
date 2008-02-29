@@ -40,6 +40,7 @@ source_h = \
 	$(top_srcdir)/json-glib/json-generator.h \
 	$(top_srcdir)/json-glib/json-gobject.h \
 	$(top_srcdir)/json-glib/json-parser.h \
+	$(top_srcdir)/json-glib/json-scanner.h \
 	$(top_srcdir)/json-glib/json-types.h \
 	$(top_srcdir)/json-glib/json-version.h \
 	$(NULL)
@@ -53,6 +54,7 @@ source_c = \
 	json-node.c \
 	json-object.c \
 	json-parser.c \
+	json-scanner.c \
 	$(NULL)
 
 lib_LTLIBRARIES = libjson-glib-1.0.la
