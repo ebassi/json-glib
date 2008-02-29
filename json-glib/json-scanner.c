@@ -92,6 +92,44 @@ struct _JsonScannerConfig
   guint padding_dummy;
 };
 
+static const JsonScannerConfig json_scanner_config_template =
+{
+  ( " \t\r\n" )		/* cset_skip_characters */,
+  (
+   "_"
+   G_CSET_a_2_z
+   G_CSET_A_2_Z
+  )			/* cset_identifier_first */,
+  (
+   G_CSET_DIGITS
+   "-_"
+   G_CSET_a_2_z
+   G_CSET_A_2_Z
+  )			/* cset_identifier_nth */,
+  ( "//\n" )		/* cpair_comment_single */,
+  TRUE			/* case_sensitive */,
+  TRUE			/* skip_comment_multi */,
+  TRUE			/* skip_comment_single */,
+  FALSE			/* scan_comment_multi */,
+  TRUE			/* scan_identifier */,
+  TRUE			/* scan_identifier_1char */,
+  FALSE			/* scan_identifier_NULL */,
+  TRUE			/* scan_symbols */,
+  TRUE			/* scan_binary */,
+  TRUE			/* scan_octal */,
+  TRUE			/* scan_float */,
+  TRUE			/* scan_hex */,
+  TRUE			/* scan_hex_dollar */,
+  TRUE			/* scan_string_sq */,
+  TRUE			/* scan_string_dq */,
+  TRUE			/* numbers_2_int */,
+  FALSE			/* int_2_float */,
+  FALSE			/* identifier_2_string */,
+  TRUE			/* char_2_token */,
+  TRUE			/* symbol_2_token */,
+  FALSE			/* scope_0_fallback */,
+};
+
 /* --- defines --- */
 #define	to_lower(c)				( \
 	(guchar) (							\
@@ -101,66 +139,19 @@ struct _JsonScannerConfig
 	  ((guchar)(c))							\
 	)								\
 )
+
 #define	READ_BUFFER_SIZE	(4000)
 
 
 /* --- typedefs --- */
-typedef	struct	_GScannerKey	GScannerKey;
+typedef	struct	_JsonScannerKey JsonScannerKey;
 
-struct	_GScannerKey
+struct	_JsonScannerKey
 {
   guint		 scope_id;
   gchar		*symbol;
   gpointer	 value;
 };
-
-
-/* --- variables --- */
-static const GScannerConfig g_scanner_config_template =
-{
-  (
-   " \t\r\n"
-   )			/* cset_skip_characters */,
-  (
-   G_CSET_a_2_z
-   "_"
-   G_CSET_A_2_Z
-   )			/* cset_identifier_first */,
-  (
-   G_CSET_a_2_z
-   "_"
-   G_CSET_A_2_Z
-   G_CSET_DIGITS
-   G_CSET_LATINS
-   G_CSET_LATINC
-   )			/* cset_identifier_nth */,
-  ( "#\n" )		/* cpair_comment_single */,
-  
-  FALSE			/* case_sensitive */,
-  
-  TRUE			/* skip_comment_multi */,
-  TRUE			/* skip_comment_single */,
-  TRUE			/* scan_comment_multi */,
-  TRUE			/* scan_identifier */,
-  FALSE			/* scan_identifier_1char */,
-  FALSE			/* scan_identifier_NULL */,
-  TRUE			/* scan_symbols */,
-  FALSE			/* scan_binary */,
-  TRUE			/* scan_octal */,
-  TRUE			/* scan_float */,
-  TRUE			/* scan_hex */,
-  FALSE			/* scan_hex_dollar */,
-  TRUE			/* scan_string_sq */,
-  TRUE			/* scan_string_dq */,
-  TRUE			/* numbers_2_int */,
-  FALSE			/* int_2_float */,
-  FALSE			/* identifier_2_string */,
-  TRUE			/* char_2_token */,
-  FALSE			/* symbol_2_token */,
-  FALSE			/* scope_0_fallback */,
-  FALSE			/* store_int64 */,
-};
-
 
 /* --- prototypes --- */
 static inline
@@ -1804,6 +1795,3 @@ g_scanner_get_token_ll	(GScanner	*scanner,
   *token_p = token;
   *value_p = value;
 }
-
-#define __G_SCANNER_C__
-#include "galiasdef.c"
