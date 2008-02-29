@@ -43,6 +43,10 @@ G_BEGIN_DECLS
 typedef struct _JsonScanner       JsonScanner;
 typedef struct _JsonScannerConfig JsonScannerConfig;
 
+typedef void (* JsonScannerMsgFunc) (JsonScanner *scanner,
+                                     gchar       *message,
+                                     gboolean     is_error);
+
 /**
  * JsonTokenType:
  * @JSON_TOKEN_INVALID: marker
@@ -112,7 +116,7 @@ struct _JsonScanner
   guint scope_id;
   
   /* handler function for _warn and _error */
-  GScannerMsgFunc msg_handler;
+  JsonScannerMsgFunc msg_handler;
 };
 
 JsonScanner *json_scanner_new                  (void);
