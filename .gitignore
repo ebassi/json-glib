@@ -27,6 +27,7 @@ json-glib/json-marshal.lo
 json-glib/json-node.lo
 json-glib/json-object.lo
 json-glib/json-parser.lo
+json-glin/json-scanner.lo
 json-glib/json-version.h
 json-glib/libjson-glib-1.0.la
 json-glib/stamp-json-marshal.h
