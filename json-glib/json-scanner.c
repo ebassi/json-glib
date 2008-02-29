@@ -309,7 +309,7 @@ json_scanner_destroy_symbol_table_entry (gpointer _key,
   JsonScannerKey *key = _key;
   
   g_free (key->symbol);
-  g_free (key);
+  g_slice_free (JsonScannerKey, key);
 }
 
 void
@@ -418,7 +418,7 @@ json_scanner_key_hash (gconstpointer v)
   return h;
 }
 
-static inline JsonScannerKey*
+static inline JsonScannerKey *
 json_scanner_lookup_internal (JsonScanner *scanner,
                               guint        scope_id,
                               const gchar *symbol)
@@ -463,7 +463,7 @@ json_scanner_scope_add_symbol (JsonScanner *scanner,
   key = json_scanner_lookup_internal (scanner, scope_id, symbol);
   if (!key)
     {
-      key = g_new (JsonScannerKey, 1);
+      key = g_slice_new (JsonScannerKey);
       key->scope_id = scope_id;
       key->symbol = g_strdup (symbol);
       key->value = value;
@@ -500,7 +500,7 @@ json_scanner_scope_remove_symbol (JsonScanner *scanner,
     {
       g_hash_table_remove (scanner->symbol_table, key);
       g_free (key->symbol);
-      g_free (key);
+      g_slice_free (JsonScannerKey, key);
     }
 }
 
@@ -561,25 +561,22 @@ json_scanner_set_scope (JsonScanner *scanner,
   return old_scope_id;
 }
 
+typedef struct {
+  GHFunc func;
+  gpointer data;
+  guint scope_id;
+} ForeachClosure;
+
 static void
 json_scanner_foreach_internal (gpointer _key,
                                gpointer _value,
                                gpointer _user_data)
 {
-  JsonScannerKey *key;
-  gpointer *d;
-  GHFunc func;
-  gpointer user_data;
-  guint *scope_id;
+  JsonScannerKey *key = _value;
+  ForeachClosure *closure = _user_data;
 
-  d = _user_data;
-  func = (GHFunc) d[0];
-  user_data = d[1];
-  scope_id = d[2];
-  key = _value;
-
-  if (key->scope_id == *scope_id)
-    func (key->symbol, key->value, user_data);
+  if (key->scope_id == closure->scope_id)
+    closure->func (key->symbol, key->value, closure->data);
 }
 
 void
@@ -588,17 +585,18 @@ json_scanner_scope_foreach_symbol (JsonScanner *scanner,
                                    GHFunc       func,
                                    gpointer     user_data)
 {
-  gpointer d[3];
+  ForeachClosure closure;
 
   g_return_if_fail (scanner != NULL);
+  g_return_if_fail (func != NULL);
 
-  d[0] = (gpointer) func;
-  d[1] = user_data;
-  d[2] = &scope_id;
+  closure.func = func;
+  closure.data = user_data;
+  closure.scope_id = scope_id;
 
   g_hash_table_foreach (scanner->symbol_table,
                         json_scanner_foreach_internal,
-                        d);
+                        &closure);
 }
 
 GTokenType
