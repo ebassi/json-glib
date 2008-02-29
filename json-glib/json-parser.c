@@ -96,10 +96,10 @@ static guint parser_signals[LAST_SIGNAL] = { 0, };
 G_DEFINE_TYPE (JsonParser, json_parser, G_TYPE_OBJECT);
 
 static guint json_parse_array  (JsonParser *parser,
-                                GScanner   *scanner,
+                                JsonScanner   *scanner,
                                 gboolean    nested);
 static guint json_parse_object (JsonParser *parser,
-                                GScanner   *scanner,
+                                JsonScanner   *scanner,
                                 gboolean    nested);
 
 static inline void
@@ -308,7 +308,7 @@ json_parser_init (JsonParser *parser)
 
 static guint
 json_parse_array (JsonParser *parser,
-                  GScanner   *scanner,
+                  JsonScanner   *scanner,
                   gboolean    nested)
 {
   JsonParserPrivate *priv = parser->priv;
@@ -486,7 +486,7 @@ json_parse_array (JsonParser *parser,
 
 static guint
 json_parse_object (JsonParser *parser,
-                   GScanner   *scanner,
+                   JsonScanner   *scanner,
                    gboolean    nested)
 {
   JsonParserPrivate *priv = parser->priv;
@@ -697,7 +697,7 @@ json_parse_object (JsonParser *parser,
 
 static guint
 json_parse_statement (JsonParser *parser,
-                      GScanner   *scanner)
+                      JsonScanner   *scanner)
 {
   JsonParserPrivate *priv = parser->priv;
   guint token;
@@ -818,7 +818,7 @@ json_parse_statement (JsonParser *parser,
 }
 
 static void
-json_scanner_msg_handler (GScanner *scanner,
+json_scanner_msg_handler (JsonScanner *scanner,
                           gchar    *message,
                           gboolean  is_error)
 {
@@ -842,13 +842,21 @@ json_scanner_msg_handler (GScanner *scanner,
 }
 
 static JsonScanner *
-json_scanner_new (JsonParser *parser)
+json_scanner_create (JsonParser *parser)
 {
   JsonScanner *scanner;
+  gint i;
 
   scanner = json_scanner_new ();
   scanner->msg_handler = json_scanner_msg_handler;
   scanner->user_data = parser;
+
+  for (i = 0; i < n_symbols; i++)
+    {
+      json_scanner_scope_add_symbol (scanner, 0,
+                                     symbol_names + symbols[i].name_offset,
+                                     GINT_TO_POINTER (symbols[i].token));
+    }
 
   return scanner;
 }
@@ -933,7 +941,7 @@ json_parser_load_from_data (JsonParser   *parser,
                             GError      **error)
 {
   JsonParserPrivate *priv;
-  GScanner *scanner;
+  JsonScanner *scanner;
   gboolean done;
   gboolean retval = TRUE;
   gint i;
@@ -948,15 +956,8 @@ json_parser_load_from_data (JsonParser   *parser,
 
   priv = parser->priv;
 
-  scanner = json_scanner_new (parser);
+  scanner = json_scanner_create (parser);
   json_scanner_input_text (scanner, data, length);
-
-  for (i = 0; i < n_symbols; i++)
-    {
-      json_scanner_scope_add_symbol (scanner, 0,
-                                     symbol_names + symbols[i].name_offset,
-                                     GINT_TO_POINTER (symbols[i].token));
-    }
 
   parser->priv->scanner = scanner;
 
