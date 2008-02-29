@@ -49,52 +49,13 @@ struct _JsonParserPrivate
   JsonNode *root;
   JsonNode *current_node;
 
-  GScanner *scanner;
+  JsonScanner *scanner;
 
   GError *last_error;
 
   guint has_assignment : 1;
   gchar *variable_name;
 };
-
-static const GScannerConfig json_scanner_config =
-{
-  ( " \t\r\n" )		/* cset_skip_characters */,
-  (
-   "_"
-   G_CSET_a_2_z
-   G_CSET_A_2_Z
-  )			/* cset_identifier_first */,
-  (
-   G_CSET_DIGITS
-   "-_"
-   G_CSET_a_2_z
-   G_CSET_A_2_Z
-  )			/* cset_identifier_nth */,
-  ( "#\n" )		/* cpair_comment_single */,
-  TRUE			/* case_sensitive */,
-  TRUE			/* skip_comment_multi */,
-  TRUE			/* skip_comment_single */,
-  FALSE			/* scan_comment_multi */,
-  TRUE			/* scan_identifier */,
-  TRUE			/* scan_identifier_1char */,
-  FALSE			/* scan_identifier_NULL */,
-  TRUE			/* scan_symbols */,
-  TRUE			/* scan_binary */,
-  TRUE			/* scan_octal */,
-  TRUE			/* scan_float */,
-  TRUE			/* scan_hex */,
-  TRUE			/* scan_hex_dollar */,
-  TRUE			/* scan_string_sq */,
-  TRUE			/* scan_string_dq */,
-  TRUE			/* numbers_2_int */,
-  FALSE			/* int_2_float */,
-  FALSE			/* identifier_2_string */,
-  TRUE			/* char_2_token */,
-  TRUE			/* symbol_2_token */,
-  FALSE			/* scope_0_fallback */,
-};
-
 
 static const gchar symbol_names[] =
   "true\0"
@@ -357,7 +318,7 @@ json_parse_array (JsonParser *parser,
   if (!nested)
     {
       /* the caller already swallowed the opening '[' */
-      token = g_scanner_get_next_token (scanner);
+      token = json_scanner_get_next_token (scanner);
       if (token != G_TOKEN_LEFT_BRACE)
         return G_TOKEN_LEFT_BRACE;
     }
@@ -366,7 +327,7 @@ json_parse_array (JsonParser *parser,
 
   array = json_array_new ();
 
-  token = g_scanner_get_next_token (scanner);
+  token = json_scanner_get_next_token (scanner);
   while (token != G_TOKEN_RIGHT_BRACE)
     {
       JsonNode *node = NULL;
@@ -375,7 +336,7 @@ json_parse_array (JsonParser *parser,
       if (token == G_TOKEN_COMMA)
         {
           /* swallow the comma */
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           continue;
         }
 
@@ -405,7 +366,7 @@ json_parse_array (JsonParser *parser,
                          array,
                          json_array_get_length (array));
 
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
@@ -441,7 +402,7 @@ json_parse_array (JsonParser *parser,
                          array,
                          json_array_get_length (array));
 
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
@@ -453,13 +414,13 @@ json_parse_array (JsonParser *parser,
 
       if (token == '-')
         {
-          guint next_token = g_scanner_peek_next_token (scanner);
+          guint next_token = json_scanner_peek_next_token (scanner);
 
           if (next_token == G_TOKEN_INT ||
               next_token == G_TOKEN_FLOAT)
             {
               negative = TRUE;
-              token = g_scanner_get_next_token (scanner);
+              token = json_scanner_get_next_token (scanner);
             }
           else
             {
@@ -511,7 +472,7 @@ json_parse_array (JsonParser *parser,
                          json_array_get_length (array));
         }
 
-      token = g_scanner_get_next_token (scanner);
+      token = json_scanner_get_next_token (scanner);
       if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_BRACE)
         return G_TOKEN_RIGHT_BRACE;
     }
@@ -535,7 +496,7 @@ json_parse_object (JsonParser *parser,
   if (!nested)
     {
       /* the caller already swallowed the opening '{' */
-      token = g_scanner_get_next_token (scanner);
+      token = json_scanner_get_next_token (scanner);
       if (token != G_TOKEN_LEFT_CURLY)
         return G_TOKEN_LEFT_CURLY;
     }
@@ -544,7 +505,7 @@ json_parse_object (JsonParser *parser,
 
   object = json_object_new ();
 
-  token = g_scanner_get_next_token (scanner);
+  token = json_scanner_get_next_token (scanner);
   while (token != G_TOKEN_RIGHT_CURLY)
     {
       JsonNode *node = NULL;
@@ -554,7 +515,7 @@ json_parse_object (JsonParser *parser,
       if (token == G_TOKEN_COMMA)
         {
           /* swallow the comma */
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           continue;
         }
 
@@ -562,7 +523,7 @@ json_parse_object (JsonParser *parser,
         {
           name = g_strdup (scanner->value.v_string);
 
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           if (token != ':')
             {
               g_free (name);
@@ -572,7 +533,7 @@ json_parse_object (JsonParser *parser,
           else
             {
               /* swallow the colon */
-              token = g_scanner_get_next_token (scanner);
+              token = json_scanner_get_next_token (scanner);
             }
         }
 
@@ -613,7 +574,7 @@ json_parse_object (JsonParser *parser,
 
           g_free (name);
 
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_CURLY)
             break;
 
@@ -651,7 +612,7 @@ json_parse_object (JsonParser *parser,
 
           g_free (name);
 
-          token = g_scanner_get_next_token (scanner);
+          token = json_scanner_get_next_token (scanner);
           if (token == G_TOKEN_RIGHT_CURLY)
             break;
 
@@ -663,12 +624,12 @@ json_parse_object (JsonParser *parser,
 
       if (token == '-')
         {
-          guint next_token = g_scanner_peek_next_token (scanner);
+          guint next_token = json_scanner_peek_next_token (scanner);
 
           if (next_token == G_TOKEN_INT || next_token == G_TOKEN_FLOAT)
             {
               negative = TRUE;
-              token = g_scanner_get_next_token (scanner);
+              token = json_scanner_get_next_token (scanner);
             }
           else
             {
@@ -722,7 +683,7 @@ json_parse_object (JsonParser *parser,
 
       g_free (name);
 
-      token = g_scanner_get_next_token (scanner);
+      token = json_scanner_get_next_token (scanner);
       if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_CURLY)
         return G_TOKEN_RIGHT_CURLY;
     }
@@ -741,7 +702,7 @@ json_parse_statement (JsonParser *parser,
   JsonParserPrivate *priv = parser->priv;
   guint token;
 
-  token = g_scanner_peek_next_token (scanner);
+  token = json_scanner_peek_next_token (scanner);
   switch (token)
     {
     case G_TOKEN_LEFT_CURLY:
@@ -763,17 +724,17 @@ json_parse_statement (JsonParser *parser,
         gchar *name;
 
         /* swallow the 'var' token... */
-        token = g_scanner_get_next_token (scanner);
+        token = json_scanner_get_next_token (scanner);
 
         /* ... swallow the variable name... */
-        next_token = g_scanner_get_next_token (scanner);
+        next_token = json_scanner_get_next_token (scanner);
         if (next_token != G_TOKEN_IDENTIFIER)
           return G_TOKEN_IDENTIFIER;
 
         name = g_strdup (scanner->value.v_identifier);
 
         /* ... and finally swallow the '=' */
-        next_token = g_scanner_get_next_token (scanner);
+        next_token = json_scanner_get_next_token (scanner);
         if (next_token != '=')
           return '=';
 
@@ -783,10 +744,10 @@ json_parse_statement (JsonParser *parser,
         token = json_parse_statement (parser, scanner);
 
         /* remove the trailing semi-colon */
-        next_token = g_scanner_peek_next_token (scanner);
+        next_token = json_scanner_peek_next_token (scanner);
         if (next_token == ';')
           {
-            token = g_scanner_get_next_token (scanner);
+            token = json_scanner_get_next_token (scanner);
             return G_TOKEN_NONE;
           }
 
@@ -809,14 +770,14 @@ json_parse_statement (JsonParser *parser,
       {
         guint next_token;
         
-        token = g_scanner_get_next_token (scanner);
-        next_token = g_scanner_peek_next_token (scanner);
+        token = json_scanner_get_next_token (scanner);
+        next_token = json_scanner_peek_next_token (scanner);
 
         if (next_token == G_TOKEN_INT || next_token == G_TOKEN_FLOAT)
           {
             priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
             
-            token = g_scanner_get_next_token (scanner);
+            token = json_scanner_get_next_token (scanner);
             switch (token)
               {
               case G_TOKEN_INT:
@@ -851,7 +812,7 @@ json_parse_statement (JsonParser *parser,
       return G_TOKEN_NONE;
 
     default:
-      g_scanner_get_next_token (scanner);
+      json_scanner_get_next_token (scanner);
       return G_TOKEN_SYMBOL;
     }
 }
@@ -880,12 +841,12 @@ json_scanner_msg_handler (GScanner *scanner,
     g_warning ("Line %d: %s", scanner->line, message);
 }
 
-static GScanner *
+static JsonScanner *
 json_scanner_new (JsonParser *parser)
 {
-  GScanner *scanner;
+  JsonScanner *scanner;
 
-  scanner = g_scanner_new (&json_scanner_config);
+  scanner = json_scanner_new ();
   scanner->msg_handler = json_scanner_msg_handler;
   scanner->user_data = parser;
 
@@ -988,13 +949,13 @@ json_parser_load_from_data (JsonParser   *parser,
   priv = parser->priv;
 
   scanner = json_scanner_new (parser);
-  g_scanner_input_text (scanner, data, length);
+  json_scanner_input_text (scanner, data, length);
 
   for (i = 0; i < n_symbols; i++)
     {
-      g_scanner_scope_add_symbol (scanner, 0,
-                                  symbol_names + symbols[i].name_offset,
-                                  GINT_TO_POINTER (symbols[i].token));
+      json_scanner_scope_add_symbol (scanner, 0,
+                                     symbol_names + symbols[i].name_offset,
+                                     GINT_TO_POINTER (symbols[i].token));
     }
 
   parser->priv->scanner = scanner;
@@ -1004,7 +965,7 @@ json_parser_load_from_data (JsonParser   *parser,
   done = FALSE;
   while (!done)
     {
-      if (g_scanner_peek_next_token (scanner) == G_TOKEN_EOF)
+      if (json_scanner_peek_next_token (scanner) == G_TOKEN_EOF)
         done = TRUE;
       else
         {
@@ -1046,10 +1007,10 @@ json_parser_load_from_data (JsonParser   *parser,
               /* this will emit the ::error signal via the custom
                * message handler we install
                */
-              g_scanner_unexp_token (scanner, expected_token,
-                                     NULL, "keyword",
-                                     symbol_name, msg,
-                                     TRUE);
+              json_scanner_unexp_token (scanner, expected_token,
+                                        NULL, "keyword",
+                                        symbol_name, msg,
+                                        TRUE);
 
               /* and this will propagate the error we create in the
                * same message handler
@@ -1071,7 +1032,7 @@ json_parser_load_from_data (JsonParser   *parser,
   g_signal_emit (parser, parser_signals[PARSE_END], 0);
 
   /* remove the scanner */
-  g_scanner_destroy (scanner);
+  json_scanner_destroy (scanner);
   priv->scanner = NULL;
   priv->current_node = NULL;
 
@@ -1113,7 +1074,7 @@ json_parser_get_current_line (JsonParser *parser)
   g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
 
   if (parser->priv->scanner)
-    return g_scanner_cur_line (parser->priv->scanner);
+    return json_scanner_cur_line (parser->priv->scanner);
 
   return 0;
 }
@@ -1137,7 +1098,7 @@ json_parser_get_current_pos (JsonParser *parser)
   g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
 
   if (parser->priv->scanner)
-    return g_scanner_cur_line (parser->priv->scanner);
+    return json_scanner_cur_line (parser->priv->scanner);
 
   return 0;
 }
