@@ -51,17 +51,6 @@ typedef enum {
   JSON_PARSER_ERROR_UNKNOWN
 } JsonParserError;
 
-typedef enum {
-  JSON_TOKEN_INVALID = G_TOKEN_LAST,
-
-  JSON_TOKEN_TRUE,
-  JSON_TOKEN_FALSE,
-  JSON_TOKEN_NULL,
-  JSON_TOKEN_VAR,
-
-  JSON_TOKEN_LAST
-} JsonTokenType;
-
 /**
  * JsonParser:
  * 
@@ -129,8 +118,8 @@ struct _JsonParserClass
   void (* _json_reserved8) (void);
 };
 
-GQuark      json_parser_error_quark    (void);
-GType       json_parser_get_type       (void) G_GNUC_CONST;
+GQuark      json_parser_error_quark      (void);
+GType       json_parser_get_type         (void) G_GNUC_CONST;
 
 JsonParser *json_parser_new              (void);
 gboolean    json_parser_load_from_file   (JsonParser   *parser,
