@@ -15,7 +15,7 @@ m4_define([lt_revision], [json_interface_age])
 m4_define([lt_age],
           [m4_eval(json_binary_age - json_interface_age)])
 
-m4_define([glib_req_version], [2.12])
+m4_define([glib_req_version], [2.15])
 
 AC_PREREQ(2.59)
 AC_INIT([json-glib], [json_version], [], [json-glib])
@@ -113,6 +113,7 @@ AC_CONFIG_FILES([
         Makefile
         json-glib/Makefile
         json-glib/json-version.h
+        json-glib/tests/Makefile
         tests/Makefile
         doc/Makefile
         doc/reference/Makefile

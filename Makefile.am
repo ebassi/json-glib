@@ -1,3 +1,5 @@
+include $(top_srcdir)/Makefile.decl
+
 SUBDIRS = json-glib doc tests
 
 if HAVE_VALA
@@ -14,7 +16,7 @@ json-glib-1.0.pc: json-glib.pc
 pkgconfig_DATA = $(pcfiles)
 pkgconfigdir = $(libdir)/pkgconfig
 
-EXTRA_DIST = json-glib.pc.in
+EXTRA_DIST += json-glib.pc.in
 
 CLEANFILES = $(pcfiles)
 
