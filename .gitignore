@@ -30,6 +30,10 @@ json-glib/json-parser.lo
 json-glib/json-version.h
 json-glib/libjson-glib-1.0.la
 json-glib/stamp-json-marshal.h
+json-glib/tests/.deps
+json-glib/tests/.libs
+json-glib/tests/node-test
+json-glib/tests/node-test.o
 libtool
 ltmain.sh
 missing
