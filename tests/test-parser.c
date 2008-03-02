@@ -10,27 +10,38 @@
 #include <json-glib/json-glib.h>
 
 static const gchar *test_empty_string = "";
-static const gchar *test_empty_array_string = "[]";
+static const gchar *test_empty_array_string = "[ ]";
+static const gchar *test_empty_object_string = "{ }";
 static const gchar *test_simple_arrays[] = {
   "[ true ]",
   "[ true, false, null ]",
-  "[ 1, 2, 3.14, \"test\" ]",
+  "[ 1, 2, 3.14, \"test\" ]"
 };
 static const gchar *test_nested_arrays[] = {
   "[ 42, [ ], null ]",
   "[ [ ], [ true, [ true ] ] ]",
   "[ [ false, true, 42 ], [ true, false, 3.14 ], \"test\" ]",
   "[ true, { } ]",
-  "[ false, { \"test\" : 42 } ]",
+  "[ false, { \"test\" : 42 } ]"
+};
+static const gchar *test_simple_objects[] = {
+  "{ \"test\" : 42 }",
+  "{ \"foo\" : \"bar\", \"baz\" : null }"
+};
+static const gchar *test_nested_objects[] = {
+  "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }"
 };
 static const gchar *test_assignments[] = {
   "var test = [ false, false, true ]",
   "var test = [ true, 42 ];",
+  "var test = { \"foo\" : false }"
 };
 
-static guint n_test_simple_arrays = G_N_ELEMENTS (test_simple_arrays);
-static guint n_test_nested_arrays = G_N_ELEMENTS (test_nested_arrays);
-static guint n_test_assignments   = G_N_ELEMENTS (test_assignments);
+static guint n_test_simple_arrays  = G_N_ELEMENTS (test_simple_arrays);
+static guint n_test_nested_arrays  = G_N_ELEMENTS (test_nested_arrays);
+static guint n_test_simple_objects = G_N_ELEMENTS (test_simple_objects);
+static guint n_test_nested_objects = G_N_ELEMENTS (test_nested_objects);
+static guint n_test_assignments    = G_N_ELEMENTS (test_assignments);
 
 static void
 test_empty (void)
@@ -205,6 +216,147 @@ test_nested_array (void)
 }
 
 static void
+test_empty_object (void)
+{
+  JsonParser *parser;
+  GError *error = NULL;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("checking json_parser_load_from_data with empty object...\n");
+
+  if (!json_parser_load_from_data (parser, test_empty_object_string, -1, &error))
+    {
+      if (g_test_verbose ())
+        g_print ("Error: %s\n", error->message);
+      g_error_free (error);
+      g_object_unref (parser);
+      exit (1);
+    }
+  else
+    {
+      JsonNode *root;
+      JsonObject *object;
+
+      g_assert (NULL != json_parser_get_root (parser));
+
+      if (g_test_verbose ())
+        g_print ("checking root node is an object...\n");
+      root = json_parser_get_root (parser);
+      g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+
+      object = json_node_get_object (root);
+      g_assert (object != NULL);
+
+      if (g_test_verbose ())
+        g_print ("checking object is empty...\n");
+      g_assert_cmpint (json_object_get_size (object), ==, 0);
+    }
+
+  g_object_unref (parser);
+}
+
+static void
+test_simple_object (void)
+{
+  gint i;
+  JsonParser *parser;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("checking json_parser_load_from_data with simple objects...\n");
+
+  for (i = 0; i < n_test_simple_objects; i++)
+    {
+      GError *error = NULL;
+
+      if (!json_parser_load_from_data (parser, test_simple_objects[i], -1, &error))
+        {
+          if (g_test_verbose ())
+            g_print ("Error: %s\n", error->message);
+
+          g_error_free (error);
+          g_object_unref (parser);
+          exit (1);
+        }
+      else
+        {
+          JsonNode *root;
+          JsonObject *object;
+
+          g_assert (NULL != json_parser_get_root (parser));
+
+          if (g_test_verbose ())
+            g_print ("checking root node is an object...\n");
+          root = json_parser_get_root (parser);
+          g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+
+          object = json_node_get_object (root);
+          g_assert (object != NULL);
+
+         if (g_test_verbose ())
+           g_print ("checking object is not empty...\n");
+         g_assert_cmpint (json_object_get_size (object), >, 0);
+       }
+    }
+
+  g_object_unref (parser);
+}
+
+static void
+test_nested_object (void)
+{
+  gint i;
+  JsonParser *parser;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("checking json_parser_load_from_data with nested objects...\n");
+
+  for (i = 0; i < n_test_nested_objects; i++)
+    {
+      GError *error = NULL;
+
+      if (!json_parser_load_from_data (parser, test_nested_objects[i], -1, &error))
+        {
+          if (g_test_verbose ())
+            g_print ("Error: %s\n", error->message);
+
+          g_error_free (error);
+          g_object_unref (parser);
+          exit (1);
+        }
+      else
+        {
+          JsonNode *root;
+          JsonObject *object;
+
+          g_assert (NULL != json_parser_get_root (parser));
+
+          if (g_test_verbose ())
+            g_print ("checking root node is an object...\n");
+          root = json_parser_get_root (parser);
+          g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+
+          object = json_node_get_object (root);
+          g_assert (object != NULL);
+
+         if (g_test_verbose ())
+           g_print ("checking object is not empty...\n");
+         g_assert_cmpint (json_object_get_size (object), >, 0);
+       }
+    }
+
+  g_object_unref (parser);
+}
+
+static void
 test_assignment (void)
 {
   gint i;
@@ -256,6 +408,9 @@ main (int   argc,
   g_test_add_func ("/json-parser/empty-array", test_empty_array);
   g_test_add_func ("/json-parser/simple-array", test_simple_array);
   g_test_add_func ("/json-parser/nested-array", test_nested_array);
+  g_test_add_func ("/json-parser/empty-object", test_empty_object);
+  g_test_add_func ("/json-parser/simple-object", test_simple_object);
+  g_test_add_func ("/json-parser/nested-object", test_nested_object);
   g_test_add_func ("/json-parser/assignment", test_assignment);
 
   return g_test_run ();
