@@ -34,9 +34,16 @@ static const gchar *test_nested_arrays[] = {
   "[ { \"channel\" : \"/meta/connect\" } ]"
 };
 
-static const gchar *test_simple_objects[] = {
-  "{ \"test\" : 42 }",
-  "{ \"foo\" : \"bar\", \"baz\" : null }"
+static const struct {
+  const gchar *str;
+  gint size;
+  const gchar *member;
+  JsonNodeType type;
+  GType gtype;
+} test_simple_objects[] = {
+  { "{ \"test\" : 42 }", 1, "test", JSON_NODE_VALUE, G_TYPE_INT },
+  { "{ \"foo\" : \"bar\", \"baz\" : null }", 2, "baz", JSON_NODE_NULL, G_TYPE_INVALID },
+  { "{ \"channel\" : \"/meta/connect\" }", 1, "channel", JSON_NODE_VALUE, G_TYPE_STRING }
 };
 
 static const gchar *test_nested_objects[] = {
@@ -296,7 +303,7 @@ test_simple_object (void)
     {
       GError *error = NULL;
 
-      if (!json_parser_load_from_data (parser, test_simple_objects[i], -1, &error))
+      if (!json_parser_load_from_data (parser, test_simple_objects[i].str, -1, &error))
         {
           if (g_test_verbose ())
             g_print ("Error: %s\n", error->message);
@@ -307,7 +314,7 @@ test_simple_object (void)
         }
       else
         {
-          JsonNode *root;
+          JsonNode *root, *node;
           JsonObject *object;
 
           g_assert (NULL != json_parser_get_root (parser));
@@ -321,8 +328,18 @@ test_simple_object (void)
           g_assert (object != NULL);
 
          if (g_test_verbose ())
-           g_print ("checking object is not empty...\n");
-         g_assert_cmpint (json_object_get_size (object), >, 0);
+           g_print ("checking object is of the desired size (%d)...\n",
+                    test_simple_objects[i].size);
+         g_assert_cmpint (json_object_get_size (object), ==, test_simple_objects[i].size);
+
+         if (g_test_verbose ())
+           g_print ("checking member '%s' is of the desired type %s...\n",
+                    test_simple_objects[i].member,
+                    g_type_name (test_simple_objects[i].gtype));
+         node = json_object_get_member (object, test_simple_objects[i].member);
+         g_assert (node != NULL);
+         g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_objects[i].type);
+         g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_objects[i].gtype);
        }
     }
 
