@@ -12,25 +12,37 @@
 static const gchar *test_empty_string = "";
 static const gchar *test_empty_array_string = "[ ]";
 static const gchar *test_empty_object_string = "{ }";
-static const gchar *test_simple_arrays[] = {
-  "[ true ]",
-  "[ true, false, null ]",
-  "[ 1, 2, 3.14, \"test\" ]"
+
+static const struct {
+  const gchar *str;
+  gint len;
+  gint element;
+  JsonNodeType type;
+  GType gtype;
+} test_simple_arrays[] = {
+  { "[ true ]",                 1, 0, JSON_NODE_VALUE, G_TYPE_BOOLEAN },
+  { "[ true, false, null ]",    3, 2, JSON_NODE_NULL,  G_TYPE_INVALID },
+  { "[ 1, 2, 3.14, \"test\" ]", 4, 3, JSON_NODE_VALUE, G_TYPE_STRING  }
 };
+
 static const gchar *test_nested_arrays[] = {
   "[ 42, [ ], null ]",
   "[ [ ], [ true, [ true ] ] ]",
   "[ [ false, true, 42 ], [ true, false, 3.14 ], \"test\" ]",
   "[ true, { } ]",
-  "[ false, { \"test\" : 42 } ]"
+  "[ false, { \"test\" : 42 } ]",
+  "[ { \"channel\" : \"/meta/connect\" } ]"
 };
+
 static const gchar *test_simple_objects[] = {
   "{ \"test\" : 42 }",
   "{ \"foo\" : \"bar\", \"baz\" : null }"
 };
+
 static const gchar *test_nested_objects[] = {
   "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }"
 };
+
 static const gchar *test_assignments[] = {
   "var test = [ false, false, true ]",
   "var test = [ true, 42 ];",
@@ -133,7 +145,7 @@ test_simple_array (void)
     {
       GError *error = NULL;
 
-      if (!json_parser_load_from_data (parser, test_simple_arrays[i], -1, &error))
+      if (!json_parser_load_from_data (parser, test_simple_arrays[i].str, -1, &error))
         {
           if (g_test_verbose ())
             g_print ("Error: %s\n", error->message);
@@ -144,7 +156,7 @@ test_simple_array (void)
         }
       else
         {
-          JsonNode *root;
+          JsonNode *root, *node;
           JsonArray *array;
 
           g_assert (NULL != json_parser_get_root (parser));
@@ -158,8 +170,18 @@ test_simple_array (void)
           g_assert (array != NULL);
 
          if (g_test_verbose ())
-           g_print ("checking array is not empty...\n");
-         g_assert_cmpint (json_array_get_length (array), >, 0);
+           g_print ("checking array is of the desired length (%d)...\n",
+                    test_simple_arrays[i].len);
+         g_assert_cmpint (json_array_get_length (array), ==, test_simple_arrays[i].len);
+
+         if (g_test_verbose ())
+           g_print ("checking element %d is of the desired type %s...\n",
+                    test_simple_arrays[i].element,
+                    g_type_name (test_simple_arrays[i].gtype));
+         node = json_array_get_element (array, test_simple_arrays[i].element);
+         g_assert (node != NULL);
+         g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_arrays[i].type);
+         g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_arrays[i].gtype);
        }
     }
 
