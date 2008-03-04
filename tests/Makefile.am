@@ -23,3 +23,7 @@ test_parser_LDADD    = $(progs_ldadd)
 TEST_PROGS             += test-generator
 test_generator_SOURCES  = test-generator.c
 test_generator_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                    += test-serialize-simple
+test_serialize_simple_SOURCES  = test-serialize-simple.c
+test_serialize_simple_LDADD    = $(progs_ldadd)

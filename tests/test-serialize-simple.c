@@ -140,7 +140,7 @@ test_serialize (void)
   gchar *data;
   gsize len;
 
-  data = json_serialize_gobject (G_OBJECT (object), &len);
+  data = json_serialize_gobject (G_OBJECT (obj), &len);
 
   g_assert_cmpint (len, >, 0);
   if (g_test_verbose ())
@@ -151,7 +151,8 @@ test_serialize (void)
 }
 
 int
-main (int argc, char *argvp[])
+main (int   argc,
+      char *argv[])
 {
   g_type_init ();
   g_test_init (&argc, &argv, NULL);
