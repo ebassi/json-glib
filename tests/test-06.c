@@ -133,22 +133,30 @@ test_object_init (TestObject *object)
   object->baz = g_strdup ("Test");
 }
 
-int
-main (int argc, char *argvp[])
+static void
+test_serialize (void)
 {
-  TestObject *object;
+  TestObject *obj = g_object_new (TEST_TYPE_OBJECT, NULL);
   gchar *data;
   gsize len;
 
-  g_type_init ();
-
-  object = g_object_new (TEST_TYPE_OBJECT, NULL);
   data = json_serialize_gobject (G_OBJECT (object), &len);
 
-  g_print ("*** TestObject (len:%d) ***\n%s\n", len, data);
-  
-  g_free (data);
-  g_object_unref (object);
+  g_assert_cmpint (len, >, 0);
+  if (g_test_verbose ())
+    g_print ("TestObject:\n%s\n", data);
 
-  return EXIT_SUCCESS;
+  g_free (data);
+  g_object_unref (obj);
+}
+
+int
+main (int argc, char *argvp[])
+{
+  g_type_init ();
+  g_test_init (&argc, &argv, NULL);
+
+  g_test_add_func ("/serialize/gobject", test_serialize);
+
+  return g_test_run ();
 }
