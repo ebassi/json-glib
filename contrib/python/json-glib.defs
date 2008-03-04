@@ -1,0 +1,602 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object Generator
+  (in-module "Json")
+  (parent "GObject")
+  (c-name "JsonGenerator")
+  (gtype-id "JSON_TYPE_GENERATOR")
+)
+
+(define-object Parser
+  (in-module "Json")
+  (parent "GObject")
+  (c-name "JsonParser")
+  (gtype-id "JSON_TYPE_PARSER")
+)
+
+(define-object Serializable
+  (in-module "Json")
+  (c-name "JsonSerializable")
+  (gtype-id "JSON_TYPE_SERIALIZABLE")
+)
+
+;; Enumerations and flags ...
+
+(define-enum ParserError
+  (in-module "Json")
+  (c-name "JsonParserError")
+  (values
+    '("parse" "JSON_PARSER_ERROR_PARSE")
+    '("unknown" "JSON_PARSER_ERROR_UNKNOWN")
+  )
+)
+
+(define-enum TokenType
+  (in-module "Json")
+  (c-name "JsonTokenType")
+  (values
+    '("invalid" "JSON_TOKEN_INVALID")
+    '("true" "JSON_TOKEN_TRUE")
+    '("false" "JSON_TOKEN_FALSE")
+    '("null" "JSON_TOKEN_NULL")
+    '("var" "JSON_TOKEN_VAR")
+    '("last" "JSON_TOKEN_LAST")
+  )
+)
+
+(define-enum NodeType
+  (in-module "Json")
+  (c-name "JsonNodeType")
+  (values
+    '("object" "JSON_NODE_OBJECT")
+    '("array" "JSON_NODE_ARRAY")
+    '("value" "JSON_NODE_VALUE")
+    '("null" "JSON_NODE_NULL")
+  )
+)
+
+
+;; From json-generator.h
+
+(define-function json_generator_get_type
+  (c-name "json_generator_get_type")
+  (return-type "GType")
+)
+
+(define-function json_generator_new
+  (c-name "json_generator_new")
+  (is-constructor-of "JsonGenerator")
+  (return-type "JsonGenerator*")
+)
+
+(define-method to_data
+  (of-object "JsonGenerator")
+  (c-name "json_generator_to_data")
+  (return-type "gchar*")
+  (parameters
+    '("gsize*" "length")
+  )
+)
+
+(define-method to_file
+  (of-object "JsonGenerator")
+  (c-name "json_generator_to_file")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "filename")
+    '("GError**" "error")
+  )
+)
+
+(define-method set_root
+  (of-object "JsonGenerator")
+  (c-name "json_generator_set_root")
+  (return-type "none")
+  (parameters
+    '("JsonNode*" "node")
+  )
+)
+
+
+
+;; From json-glib.h
+
+
+
+;; From json-gobject.h
+
+(define-function json_serializable_get_type
+  (c-name "json_serializable_get_type")
+  (return-type "GType")
+)
+
+(define-method serialize_property
+  (of-object "JsonSerializable")
+  (c-name "json_serializable_serialize_property")
+  (return-type "JsonNode*")
+  (parameters
+    '("const-gchar*" "property_name")
+    '("const-GValue*" "value")
+    '("GParamSpec*" "pspec")
+  )
+)
+
+(define-method deserialize_property
+  (of-object "JsonSerializable")
+  (c-name "json_serializable_deserialize_property")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "property_name")
+    '("GValue*" "value")
+    '("GParamSpec*" "pspec")
+    '("JsonNode*" "property_node")
+  )
+)
+
+(define-function json_construct_gobject
+  (c-name "json_construct_gobject")
+  (return-type "GObject*")
+  (parameters
+    '("GType" "gtype")
+    '("const-gchar*" "data")
+    '("gsize" "length")
+    '("GError**" "error")
+  )
+)
+
+(define-function json_serialize_gobject
+  (c-name "json_serialize_gobject")
+  (return-type "gchar*")
+  (parameters
+    '("GObject*" "gobject")
+    '("gsize*" "length")
+  )
+)
+
+
+
+;; From json-marshal.h
+
+
+
+;; From json-parser.h
+
+(define-function json_parser_error_quark
+  (c-name "json_parser_error_quark")
+  (return-type "GQuark")
+)
+
+(define-function json_parser_get_type
+  (c-name "json_parser_get_type")
+  (return-type "GType")
+)
+
+(define-function json_parser_new
+  (c-name "json_parser_new")
+  (is-constructor-of "JsonParser")
+  (return-type "JsonParser*")
+)
+
+(define-method load_from_file
+  (of-object "JsonParser")
+  (c-name "json_parser_load_from_file")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "filename")
+    '("GError**" "error")
+  )
+)
+
+(define-method load_from_data
+  (of-object "JsonParser")
+  (c-name "json_parser_load_from_data")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "data")
+    '("gsize" "length")
+    '("GError**" "error")
+  )
+)
+
+(define-method peek_root
+  (of-object "JsonParser")
+  (c-name "json_parser_peek_root")
+  (return-type "JsonNode*")
+)
+
+(define-method get_root
+  (of-object "JsonParser")
+  (c-name "json_parser_get_root")
+  (return-type "JsonNode*")
+)
+
+(define-method get_current_line
+  (of-object "JsonParser")
+  (c-name "json_parser_get_current_line")
+  (return-type "guint")
+)
+
+(define-method get_current_pos
+  (of-object "JsonParser")
+  (c-name "json_parser_get_current_pos")
+  (return-type "guint")
+)
+
+(define-method has_assignment
+  (of-object "JsonParser")
+  (c-name "json_parser_has_assignment")
+  (return-type "gboolean")
+  (parameters
+    '("gchar**" "variable_name")
+  )
+)
+
+
+
+;; From json-types.h
+
+(define-function json_node_get_type
+  (c-name "json_node_get_type")
+  (return-type "GType")
+)
+
+(define-function json_node_new
+  (c-name "json_node_new")
+  (is-constructor-of "JsonNode")
+  (return-type "JsonNode*")
+  (parameters
+    '("JsonNodeType" "type")
+  )
+)
+
+(define-method copy
+  (of-object "JsonNode")
+  (c-name "json_node_copy")
+  (return-type "JsonNode*")
+)
+
+(define-method free
+  (of-object "JsonNode")
+  (c-name "json_node_free")
+  (return-type "none")
+)
+
+(define-method get_value_type
+  (of-object "JsonNode")
+  (c-name "json_node_get_value_type")
+  (return-type "GType")
+)
+
+(define-method set_object
+  (of-object "JsonNode")
+  (c-name "json_node_set_object")
+  (return-type "none")
+  (parameters
+    '("JsonObject*" "object")
+  )
+)
+
+(define-method take_object
+  (of-object "JsonNode")
+  (c-name "json_node_take_object")
+  (return-type "none")
+  (parameters
+    '("JsonObject*" "object")
+  )
+)
+
+(define-method get_object
+  (of-object "JsonNode")
+  (c-name "json_node_get_object")
+  (return-type "JsonObject*")
+)
+
+(define-method dup_object
+  (of-object "JsonNode")
+  (c-name "json_node_dup_object")
+  (return-type "JsonObject*")
+)
+
+(define-method set_array
+  (of-object "JsonNode")
+  (c-name "json_node_set_array")
+  (return-type "none")
+  (parameters
+    '("JsonArray*" "array")
+  )
+)
+
+(define-method take_array
+  (of-object "JsonNode")
+  (c-name "json_node_take_array")
+  (return-type "none")
+  (parameters
+    '("JsonArray*" "array")
+  )
+)
+
+(define-method get_array
+  (of-object "JsonNode")
+  (c-name "json_node_get_array")
+  (return-type "JsonArray*")
+)
+
+(define-method dup_array
+  (of-object "JsonNode")
+  (c-name "json_node_dup_array")
+  (return-type "JsonArray*")
+)
+
+(define-method set_value
+  (of-object "JsonNode")
+  (c-name "json_node_set_value")
+  (return-type "none")
+  (parameters
+    '("const-GValue*" "value")
+  )
+)
+
+(define-method get_value
+  (of-object "JsonNode")
+  (c-name "json_node_get_value")
+  (return-type "none")
+  (parameters
+    '("GValue*" "value")
+  )
+)
+
+(define-method set_string
+  (of-object "JsonNode")
+  (c-name "json_node_set_string")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "value")
+  )
+)
+
+(define-method get_string
+  (of-object "JsonNode")
+  (c-name "json_node_get_string")
+  (return-type "const-gchar*")
+)
+
+(define-method dup_string
+  (of-object "JsonNode")
+  (c-name "json_node_dup_string")
+  (return-type "gchar*")
+)
+
+(define-method set_int
+  (of-object "JsonNode")
+  (c-name "json_node_set_int")
+  (return-type "none")
+  (parameters
+    '("gint" "value")
+  )
+)
+
+(define-method get_int
+  (of-object "JsonNode")
+  (c-name "json_node_get_int")
+  (return-type "gint")
+)
+
+(define-method set_double
+  (of-object "JsonNode")
+  (c-name "json_node_set_double")
+  (return-type "none")
+  (parameters
+    '("gdouble" "value")
+  )
+)
+
+(define-method get_double
+  (of-object "JsonNode")
+  (c-name "json_node_get_double")
+  (return-type "gdouble")
+)
+
+(define-method set_boolean
+  (of-object "JsonNode")
+  (c-name "json_node_set_boolean")
+  (return-type "none")
+  (parameters
+    '("gboolean" "value")
+  )
+)
+
+(define-method get_boolean
+  (of-object "JsonNode")
+  (c-name "json_node_get_boolean")
+  (return-type "gboolean")
+)
+
+(define-method get_parent
+  (of-object "JsonNode")
+  (c-name "json_node_get_parent")
+  (return-type "JsonNode*")
+)
+
+(define-method type_name
+  (of-object "JsonNode")
+  (c-name "json_node_type_name")
+  (return-type "const-gchar*")
+)
+
+(define-function json_object_get_type
+  (c-name "json_object_get_type")
+  (return-type "GType")
+)
+
+(define-function json_object_new
+  (c-name "json_object_new")
+  (is-constructor-of "JsonObject")
+  (return-type "JsonObject*")
+)
+
+(define-method ref
+  (of-object "JsonObject")
+  (c-name "json_object_ref")
+  (return-type "JsonObject*")
+)
+
+(define-method unref
+  (of-object "JsonObject")
+  (c-name "json_object_unref")
+  (return-type "none")
+)
+
+(define-method add_member
+  (of-object "JsonObject")
+  (c-name "json_object_add_member")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "member_name")
+    '("JsonNode*" "node")
+  )
+)
+
+(define-method get_members
+  (of-object "JsonObject")
+  (c-name "json_object_get_members")
+  (return-type "GList*")
+)
+
+(define-method get_member
+  (of-object "JsonObject")
+  (c-name "json_object_get_member")
+  (return-type "JsonNode*")
+  (parameters
+    '("const-gchar*" "member_name")
+  )
+)
+
+(define-method dup_member
+  (of-object "JsonObject")
+  (c-name "json_object_dup_member")
+  (return-type "JsonNode*")
+  (parameters
+    '("const-gchar*" "member_name")
+  )
+)
+
+(define-method has_member
+  (of-object "JsonObject")
+  (c-name "json_object_has_member")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "member_name")
+  )
+)
+
+(define-method remove_member
+  (of-object "JsonObject")
+  (c-name "json_object_remove_member")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "member_name")
+  )
+)
+
+(define-method get_values
+  (of-object "JsonObject")
+  (c-name "json_object_get_values")
+  (return-type "GList*")
+)
+
+(define-method get_size
+  (of-object "JsonObject")
+  (c-name "json_object_get_size")
+  (return-type "guint")
+)
+
+(define-function json_array_get_type
+  (c-name "json_array_get_type")
+  (return-type "GType")
+)
+
+(define-function json_array_new
+  (c-name "json_array_new")
+  (is-constructor-of "JsonArray")
+  (return-type "JsonArray*")
+)
+
+(define-function json_array_sized_new
+  (c-name "json_array_sized_new")
+  (is-constructor-of "JsonArraySized")
+  (return-type "JsonArray*")
+  (parameters
+    '("guint" "n_elements")
+  )
+)
+
+(define-method ref
+  (of-object "JsonArray")
+  (c-name "json_array_ref")
+  (return-type "JsonArray*")
+)
+
+(define-method unref
+  (of-object "JsonArray")
+  (c-name "json_array_unref")
+  (return-type "none")
+)
+
+(define-method add_element
+  (of-object "JsonArray")
+  (c-name "json_array_add_element")
+  (return-type "none")
+  (parameters
+    '("JsonNode*" "node")
+  )
+)
+
+(define-method get_elements
+  (of-object "JsonArray")
+  (c-name "json_array_get_elements")
+  (return-type "GList*")
+)
+
+(define-method get_element
+  (of-object "JsonArray")
+  (c-name "json_array_get_element")
+  (return-type "JsonNode*")
+  (parameters
+    '("guint" "index_")
+  )
+)
+
+(define-method dup_element
+  (of-object "JsonArray")
+  (c-name "json_array_dup_element")
+  (return-type "JsonNode*")
+  (parameters
+    '("guint" "index_")
+  )
+)
+
+(define-method remove_element
+  (of-object "JsonArray")
+  (c-name "json_array_remove_element")
+  (return-type "none")
+  (parameters
+    '("guint" "index_")
+  )
+)
+
+(define-method get_length
+  (of-object "JsonArray")
+  (c-name "json_array_get_length")
+  (return-type "guint")
+)
+
+
+
+;; From json-version.h
+
+
+
+;; From stamp-json-marshal.h
+
+
+

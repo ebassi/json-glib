@@ -21,7 +21,7 @@ AC_PREREQ(2.59)
 AC_INIT([json-glib], [json_version], [], [json-glib])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 
-AM_INIT_AUTOMAKE([1.7])
+AM_INIT_AUTOMAKE([1.9])
 AM_CONFIG_HEADER([config.h])
 
 AM_DISABLE_STATIC
@@ -50,6 +50,9 @@ AC_CHECK_HEADERS([unistd.h])
 AC_C_CONST
 AC_FUNC_MALLOC
 AC_FUNC_MMAP
+
+PYTHON_REQUIRED=2.3
+PYGTK_REQUIRED=2.6
 
 PKG_CHECK_MODULES(JSON, gobject-2.0 >= glib_req_version)
 
@@ -90,6 +93,76 @@ fi
 
 AC_SUBST(JSON_DEBUG_CFLAGS)
 
+dnl ----------------------------------------------
+dnl Python 2.4
+
+AC_ARG_ENABLE(python,
+	AC_HELP_STRING([--disable-python], [Disable python support (default auto)]),
+	enable_python=$enableval,
+	enable_python=auto)
+
+have_python=no
+if test "x$enable_python" != "xno"; then
+  have_python_version=no
+  have_python_headers=no
+  have_pygtk_deps=no
+  have_pygtk_codegen=no
+
+  AM_PATH_PYTHON()
+  if test -z "$PYTHON"; then
+    AC_MSG_WARN([Python not found])
+  else
+    AM_PYTHON_CHECK_VERSION($PYTHON, $PYTHON_REQUIRED,
+                            have_python_version=yes,
+                            have_python_version=no)
+  fi
+
+  if test "x$have_python_version" != "xyes"; then
+    AC_MSG_WARN([Python version $PYTHON_REQUIRED not found])
+  else
+    AM_CHECK_PYTHON_HEADERS(have_python_headers=yes, have_python_headers=no)
+  fi
+
+  if test "x$have_python_headers" != "xyes"; then
+    AC_MSG_WARN([could not find Python headers])
+  else
+    PKG_CHECK_MODULES(PYJSON,
+                      pygtk-2.0 >= $PYGTK_REQUIRED
+                      pygobject-2.0 >= $PYGTK_REQUIRED,
+                      have_pygtk_deps=yes,
+                      have_pygtk_deps=no)
+  fi
+
+  if test "x$have_pygtk_deps" != "xyes"; then
+    AC_MSG_WARN([could not find pygtk])
+  else
+    AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
+  fi
+
+  if test -z "$PYGTK_CODEGEN"; then
+    AC_MSG_WARN([could not find pygtk-codegen in path])
+  else
+    AC_MSG_CHECKING(for pygtk defs)
+    PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
+    AC_MSG_RESULT($PYGTK_DEFSDIR)
+
+    have_python=yes
+  fi
+fi
+
+if test "x$enable_python" = "xyes"; then
+  if test "x$have_python" = "xno"; then
+    AC_MSG_ERROR([Python bindings are requested, but cannot be built])
+  fi
+fi
+
+AM_CONDITIONAL(ENABLE_PYTHON, test "x$have_python" = "xyes")
+AC_SUBST(PYJSON_LIBS)
+AC_SUBST(PYJSON_CFLAGS)
+AC_SUBST(PYGTK_DEFSDIR)
+
+dnl ----------------------------------------------
+
 dnl = Enable strict compiler flags =========================================
 
 # use strict compiler flags only on development releases
@@ -118,6 +191,7 @@ AC_CONFIG_FILES([
         doc/reference/Makefile
         doc/reference/version.xml
         contrib/Makefile
+        contrib/python/Makefile
         json-glib.pc
 ])
 
@@ -126,9 +200,10 @@ AC_OUTPUT
 echo ""
 echo " Json-GLib $VERSION"
 echo ""
-echo " Prefix: ${prefix}"
-echo " Debug level: ${enable_debug}"
-echo " Compiler flags: ${CPPFLAGS}"
-echo " API reference: ${enable_gtk_doc}"
+echo "                Prefix: ${prefix}"
+echo "           Debug level: ${enable_debug}"
+echo "        Compiler flags: ${CPPFLAGS}"
+echo "         API reference: ${enable_gtk_doc}"
 echo " Install vala bindings: ${has_vala} (${VAPI_DIR})"
+echo " Build python bindings: ${have_python}"
 echo ""

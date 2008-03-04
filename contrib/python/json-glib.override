@@ -1,0 +1,120 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+#include <stdio.h>
+
+#define NO_IMPORT_PYGOBJECT
+#include "pygobject.h"
+
+#include <json-glib/json-glib.h>
+
+//#define JSON_TYPE_SERIALIZABLE       (beagle_hit_get_gtype ())
+//#define BEAGLE_TYPE_PROPERTY  (beagle_property_get_gtype ())
+#define JSON_TYPE_SERIALIZABLE                  (json_serializable_get_type ())
+#define JSON_SERIALIZABLE(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), JSON_TYPE_SERIALIZABLE, JsonSerializable))
+#define JSON_IS_SERIALIZABLE(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), JSON_TYPE_SERIALIZABLE))
+#define JSON_SERIALIZABLE_GET_IFACE(obj)        (G_TYPE_INSTANCE_GET_INTERFACE ((obj), JSON_TYPE_SERIALIZABLE, JsonSerializableIface))
+//#define BEAGLE_TYPE_TIMESTAMP (beagle_timestamp_get_gtype ())
+//#define BEAGLE_TYPE_QUERYABLE_STATUS	(beagle_queryable_status_get_gtype ())
+//#define BEAGLE_TYPE_SCHEDULER_INFORMATION   (beagle_scheduler_information_get_gtype ())
+//#define BEAGLE_TYPE_INDEXABLE	(beagle_indexable_get_gtype ())
+
+//GType
+//beagle_hit_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleHit");
+//	return our_type;
+//} 
+
+//GType
+//beagle_timestamp_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleTimestamp");
+//	return our_type;
+//} 
+
+//GType
+//beagle_property_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleProperty");
+//	return our_type;
+//}
+
+//GType
+//beagle_queryable_status_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleQueryableStatus");
+//	return our_type;
+//}
+
+//GType
+//beagle_scheduler_information_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleSchedulerInformation");
+//	return our_type;
+//}
+
+//GType
+//beagle_indexable_get_gtype (void)
+//{
+//	static GType our_type = 0;
+//	if (!our_type)
+//		our_type = g_pointer_type_register_static ("BeagleIndexable");
+//	return our_type;
+//}
+
+static PyObject *
+_helper_wrap_pointer_gslist (GType type, GSList *list)
+{
+    GSList *tmp;
+    PyObject *py_list;
+
+    if ((py_list = PyList_New(0)) == NULL) {
+        return NULL;
+    }
+    for (tmp = list; tmp != NULL; tmp = tmp->next) {
+        PyObject *obj = pyg_pointer_new (type, tmp->data);
+        PyList_Append(py_list, obj);
+        Py_DECREF(obj);
+    }
+    return py_list;
+}
+
+static PyObject *
+_helper_wrap_string_gslist (GSList *list)
+{
+    GSList *tmp;
+    PyObject *py_list;
+
+    if ((py_list = PyList_New(0)) == NULL) {
+        return NULL;
+    }
+    for (tmp = list; tmp != NULL; tmp = tmp->next) {
+        PyObject *str_obj =  PyString_FromString ((char*)tmp->data);
+
+        if (str_obj == NULL) {
+            Py_DECREF(py_list);
+            return NULL;
+        }
+        PyList_Append(py_list, str_obj);
+        Py_DECREF(str_obj);
+    }
+    return py_list;
+}
+%%
+modulename json_glib
+%%
+import gobject.GObject as PyGObject_Type
+
+
