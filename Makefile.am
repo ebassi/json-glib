@@ -18,7 +18,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 
 EXTRA_DIST += json-glib.pc.in
 
-CLEANFILES = $(pcfiles)
+CLEANFILES = $(pcfiles) test-report.xml
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-maintainer-flags
 
