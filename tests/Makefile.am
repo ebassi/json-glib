@@ -29,5 +29,9 @@ test_serialize_simple_SOURCES  = test-serialize-simple.c
 test_serialize_simple_LDADD    = $(progs_ldadd)
 
 TEST_PROGS                     += test-serialize-complex
-test_serialize_complex_SOURCES   = test-serialize-complex.c
-test_serialize_complex_LDADD     = $(progs_ldadd)
+test_serialize_complex_SOURCES  = test-serialize-complex.c
+test_serialize_complex_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                  += test-serialize-full
+test_serialize_full_SOURCES  = test-serialize-full.c
+test_serialize_full_LDADD    = $(progs_ldadd)

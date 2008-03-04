@@ -300,38 +300,52 @@ test_object_init (TestObject *object)
   object->meh = TEST_ENUM_BAR;
 }
 
-static const gchar var_test[] =
-"{"
-"  \"foo\" : 42,"
-"  \"bar\" : false,"
-"  \"baz\" : \"Test\","
-"  \"meh\" : \"baz\""
+static const gchar *var_test =
+"{\n"
+"  \"foo\" : 42,\n"
+"  \"bar\" : false,\n"
+"  \"baz\" : \"hello\",\n"
+"  \"meh\" : \"baz\"\n"
 "}";
 
-int
-main (int argc, char *argvp[])
+static void
+test_deserialize (void)
 {
   GObject *object;
   GError *error;
-
-  g_type_init ();
 
   error = NULL;
   object = json_construct_gobject (TEST_TYPE_OBJECT, var_test, -1, &error);
   if (error)
     g_error ("*** Unable to parse buffer: %s\n", error->message);
 
-  g_print ("*** TestObject ***\n"
-           " foo: %s\n"
-           " bar: %s\n"
-           " baz: %s\n"
-           " meh: %s\n",
-           TEST_OBJECT (object)->foo == 42            ? "<true>" : "<false>",
-           TEST_OBJECT (object)->bar == FALSE         ? "<true>" : "<false>",
-           TEST_OBJECT (object)->baz != NULL          ? "<true>" : "<false>",
-           TEST_OBJECT (object)->meh == TEST_ENUM_BAZ ? "<true>" : "<false>");
-  
-  g_object_unref (object);
+  if (g_test_verbose ())
+    g_print ("*** TestObject ***\n"
+             " foo: %s\n"
+             " bar: %s\n"
+             " baz: %s\n"
+             " meh: %s\n",
+             TEST_OBJECT (object)->foo == 42            ? "<true>" : "<false>",
+             TEST_OBJECT (object)->bar == FALSE         ? "<true>" : "<false>",
+             TEST_OBJECT (object)->baz != NULL          ? "<true>" : "<false>",
+             TEST_OBJECT (object)->meh == TEST_ENUM_BAZ ? "<true>" : "<false>");
 
-  return EXIT_SUCCESS;
+  g_assert_cmpint (TEST_OBJECT (object)->foo, ==, 42);
+  g_assert_cmpint (TEST_OBJECT (object)->bar, ==, FALSE);
+  g_assert_cmpstr (TEST_OBJECT (object)->baz, ==, "hello");
+  g_assert_cmpint (TEST_OBJECT (object)->meh, ==, TEST_ENUM_BAZ);
+
+  g_object_unref (object);
+}
+
+int
+main (int   argc,
+      char *argv[])
+{
+  g_type_init ();
+  g_test_init (&argc, &argv, NULL);
+
+  g_test_add_func ("/deserialize/json-to-gobject", test_deserialize);
+
+  return g_test_run ();
 }
