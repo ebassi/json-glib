@@ -1,26 +1,27 @@
-INCLUDES = $(PYTHON_INCLUDES)  $(PYBEAGLE_CFLAGS)  -I$(top_srcdir)
+INCLUDES = $(PYTHON_INCLUDES) $(PYJSON_CFLAGS) -I$(top_srcdir)
 
-libjson_glib_1_0_ladir = $(pyexecdir)
-libjson_glib_1_0_la_LTLIBRARIES = libjson-glib-1.0.la
-libjson_glib_1_0_la_LDFLAGS = -module -avoid-version -export-symbols-regex initjsonglib 
-libjson_glib_1_0_la_LIBADD = \
+libjson_glib_ladir = $(pyexecdir)
+libjson_glib_la_LTLIBRARIES = libjson-glib.la
+libjson_glib_la_LDFLAGS = -module -avoid-version -export-symbols-regex initjsonglib 
+libjson_glib_la_LIBADD = \
 	$(PYJSON_LIBS) \
 	$(JSON_LIBS) \
  	../../json-glib/libjson-glib-1.0.la 
 			 
-libjson_glib_1_0_la_SOURCES = json-glib-module.c 
-nodist_libjson_glib_1_0_la_SOURCES = json-glib.c
+libjson_glib_la_SOURCES = jsonglib-module.c
+nodist_libjson_glib_la_SOURCES = jsonglib.c
 	
-CLEANFILES = json-glib.c
+CLEANFILES = jsonglib.c
 EXTRA_DIST = \
-	json-glib.defs \
-	json-glib.override \
+	jsonglib.defs \
+	jsonglib.override \
 	gen-defs.sh
 
-json-glib.c: json-glib.defs 
+jsonglib.c: jsonglib.defs
 .defs.c:
 	(cd $(srcdir) \
 	 && $(PYGTK_CODEGEN) \
+	    --py_ssize_t-clean \
 	    --override $*.override \
 	    --register $(PYGTK_DEFSDIR)/gtk-types.defs \
 	    --register $(PYGTK_DEFSDIR)/gdk-types.defs \
