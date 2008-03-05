@@ -34,6 +34,8 @@ json-glib/tests/.deps
 json-glib/tests/.libs
 json-glib/tests/array-test
 json-glib/tests/array-test.o
+json-glib/tests/object-test
+json-glib/tests/object-test.o
 json-glib/tests/node-test
 json-glib/tests/node-test.o
 libtool
