@@ -28,6 +28,34 @@ test_null (void)
   json_node_free (node);
 }
 
+static void
+test_value (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+  GValue value = { 0, };
+  GValue check = { 0, };
+
+  g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+
+  g_value_init (&value, G_TYPE_INT);
+  g_value_set_int (&value, 42);
+
+  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_TYPE_INT);
+  g_assert_cmpint (g_value_get_int (&value), ==, 42);
+
+  json_node_set_value (node, &value);
+  json_node_get_value (node, &check);
+
+  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_VALUE_TYPE (&check));
+  g_assert_cmpint (g_value_get_int (&value), ==, g_value_get_int (&check));
+  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_INT);
+  g_assert_cmpint (g_value_get_int (&check), ==, 42);
+
+  g_value_unset (&value);
+  g_value_unset (&check);
+  json_node_free (node);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -37,6 +65,7 @@ main (int   argc,
 
   g_test_add_func ("/nodes/null-node", test_null);
   g_test_add_func ("/nodes/copy-node", test_copy);
+  g_test_add_func ("/nodes/value", test_value);
 
   return g_test_run ();
 }
