@@ -7,7 +7,6 @@
 #include <json-glib/json-glib.h>
 #include <json-glib/json-gobject.h>
 
-#define TEST_TYPE_BOXED                 (test_boxed_get_type ())
 #define TEST_TYPE_OBJECT                (test_object_get_type ())
 #define TEST_OBJECT(obj)                (G_TYPE_CHECK_INSTANCE_CAST ((obj), TEST_TYPE_OBJECT, TestObject))
 #define TEST_IS_OBJECT(obj)             (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TEST_TYPE_OBJECT))
@@ -15,15 +14,8 @@
 #define TEST_IS_OBJECT_CLASS(klass)     (G_TYPE_CHECK_CLASS_TYPE ((klass), TEST_TYPE_OBJECT))
 #define TEST_OBJECT_GET_CLASS(obj)      (G_TYPE_INSTANCE_GET_CLASS ((obj), TEST_TYPE_OBJECT, TestObjectClass))
 
-typedef struct _TestBoxed               TestBoxed;
 typedef struct _TestObject              TestObject;
 typedef struct _TestObjectClass         TestObjectClass;
-
-struct _TestBoxed
-{
-  gint foo;
-  gboolean bar;
-};
 
 struct _TestObject
 {
@@ -32,7 +24,6 @@ struct _TestObject
   gint foo;
   gboolean bar;
   gchar *baz;
-  TestBoxed blah;
 };
 
 struct _TestObjectClass
@@ -44,94 +35,16 @@ GType test_object_get_type (void);
 
 /*** implementation ***/
 
-static TestBoxed *
-test_boxed_copy (const TestBoxed *src)
-{
-  TestBoxed *copy = g_slice_new (TestBoxed);
-
-  *copy = *src;
-
-  return copy;
-}
-
-static void
-test_boxed_free (TestBoxed *boxed)
-{
-  if (G_LIKELY (boxed))
-    {
-      g_slice_free (TestBoxed, boxed);
-    }
-}
-
-GType
-test_boxed_get_type (void)
-{
-  static GType b_type = 0;
-
-  if (G_UNLIKELY (b_type == 0))
-    b_type = g_boxed_type_register_static ("TestBoxed",
-                                           (GBoxedCopyFunc) test_boxed_copy,
-                                           (GBoxedFreeFunc) test_boxed_free);
-
-  return b_type;
-}
-
 enum
 {
   PROP_0,
 
   PROP_FOO,
   PROP_BAR,
-  PROP_BAZ,
-  PROP_BLAH
+  PROP_BAZ
 };
 
-static void json_serializable_iface_init (gpointer g_iface);
-
-G_DEFINE_TYPE_WITH_CODE (TestObject, test_object, G_TYPE_OBJECT,
-                         G_IMPLEMENT_INTERFACE (JSON_TYPE_SERIALIZABLE,
-                                                json_serializable_iface_init));
-
-static JsonNode *
-test_object_serialize_property (JsonSerializable *serializable,
-                                const gchar      *name,
-                                const GValue     *value,
-                                GParamSpec       *pspec)
-{
-  JsonNode *retval = NULL;
-
-  if (strcmp (name, "blah") == 0)
-    {
-      TestBoxed *boxed;
-      JsonObject *obj;
-      JsonNode *val;
-
-      retval = json_node_new (JSON_NODE_OBJECT);
-      obj = json_object_new ();
-      
-      boxed = g_value_get_boxed (value);
-
-      val = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (val, boxed->foo);
-      json_object_add_member (obj, "foo", val);
-
-      val = json_node_new (JSON_NODE_VALUE);
-      json_node_set_boolean (val, boxed->bar);
-      json_object_add_member (obj, "bar", val);
-
-      json_node_take_object (retval, obj);
-    }
-
-  return retval;
-}
-
-static void
-json_serializable_iface_init (gpointer g_iface)
-{
-  JsonSerializableIface *iface = g_iface;
-
-  iface->serialize_property = test_object_serialize_property;
-}
+G_DEFINE_TYPE (TestObject, test_object, G_TYPE_OBJECT);
 
 static void
 test_object_finalize (GObject *gobject)
@@ -181,9 +94,6 @@ test_object_get_property (GObject    *gobject,
     case PROP_BAZ:
       g_value_set_string (value, TEST_OBJECT (gobject)->baz);
       break;
-    case PROP_BLAH:
-      g_value_set_boxed (value, &(TEST_OBJECT (gobject)->blah));
-      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
     }
@@ -213,11 +123,6 @@ test_object_class_init (TestObjectClass *klass)
                                    g_param_spec_string ("baz", "Baz", "Baz",
                                                         NULL,
                                                         G_PARAM_READWRITE));
-  g_object_class_install_property (gobject_class,
-                                   PROP_BLAH,
-                                   g_param_spec_boxed ("blah", "Blah", "Blah",
-                                                       TEST_TYPE_BOXED,
-                                                       G_PARAM_READABLE));
 }
 
 static void
@@ -226,27 +131,33 @@ test_object_init (TestObject *object)
   object->foo = 42;
   object->bar = TRUE;
   object->baz = g_strdup ("Test");
-
-  object->blah.foo = object->foo;
-  object->blah.bar = object->bar;
 }
 
-int
-main (int argc, char *argvp[])
+static void
+test_serialize (void)
 {
-  TestObject *object;
+  TestObject *obj = g_object_new (TEST_TYPE_OBJECT, NULL);
   gchar *data;
   gsize len;
 
-  g_type_init ();
+  data = json_serialize_gobject (G_OBJECT (obj), &len);
 
-  object = g_object_new (TEST_TYPE_OBJECT, NULL);
-  data = json_serialize_gobject (G_OBJECT (object), &len);
+  g_assert_cmpint (len, >, 0);
+  if (g_test_verbose ())
+    g_print ("TestObject:\n%s\n", data);
 
-  g_print ("*** TestObject (len:%d) ***\n%s\n", len, data);
-  
   g_free (data);
-  g_object_unref (object);
+  g_object_unref (obj);
+}
 
-  return EXIT_SUCCESS;
+int
+main (int   argc,
+      char *argv[])
+{
+  g_type_init ();
+  g_test_init (&argc, &argv, NULL);
+
+  g_test_add_func ("/serialize/gobject", test_serialize);
+
+  return g_test_run ();
 }

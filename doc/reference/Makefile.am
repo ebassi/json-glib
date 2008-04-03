@@ -1,4 +1,5 @@
 ## Process this file with automake to produce Makefile.in
+include $(top_srcdir)/Makefile.decl
 
 # We require automake 1.6 at least.
 AUTOMAKE_OPTIONS = 1.6

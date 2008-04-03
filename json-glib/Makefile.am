@@ -1,3 +1,9 @@
+include $(top_srcdir)/Makefile.decl
+
+SUBDIRS = . tests
+
+DIST_SUBDIRS = tests
+
 NULL =
 
 INCLUDES = \
@@ -75,5 +81,6 @@ CLEANFILES = $(STAMP_FILES) $(BUILT_SOURCES)
 
 DISTCLEANFILES = json-version.h
 
-EXTRA_DIST = json-version.h.in json-glib.h json-marshal.list
+EXTRA_DIST += json-version.h.in json-glib.h json-marshal.list
 
+TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
