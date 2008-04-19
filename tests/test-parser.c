@@ -31,6 +31,8 @@ static const gchar *test_nested_arrays[] = {
   "[ [ false, true, 42 ], [ true, false, 3.14 ], \"test\" ]",
   "[ true, { } ]",
   "[ false, { \"test\" : 42 } ]",
+  "[ { \"test\" : 42 }, null ]",
+  "[ true, { \"test\" : 42 }, null ]",
   "[ { \"channel\" : \"/meta/connect\" } ]"
 };
 
