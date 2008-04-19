@@ -1,3 +1,17 @@
+Overview of changes for 0.6.0
+=============================
+* Allow deserialization of strings into enum and flag types
+* Add the :indent-char property to JsonGenerator
+* Add functions to retrieve copies of the nodes inside Object and Array
+* Fix leaks and invalid accesses
+* Use the right type for the buffer length parameter in JsonParser
+* Provide a default implementation for JsonSerializable
+* Provide our own JSON tokenizer (using GScanner) for the JSON-only
+  features that would have been lost by using GScanner
+* Add a fully automated test suite, using the GTest framework
+* Allow 'null' nodes to return a value without warnings
+* Add support for parsing Unicode characters escaped using \uXXXX
+
 Overview of changes for 0.4.0
 =============================
 * Support parsing of negative numbers
