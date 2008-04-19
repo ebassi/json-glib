@@ -3,6 +3,11 @@ JSON-GLib - A JSON parser for GLib-based libraries and applications
 
 JSON-GLib implements a full JSON parser using GLib and GObject.
 
+Use JSON-GLib it is possible to parse and generate valid JSON data
+structures, using a DOM-like API. JSON-GLib also offers GObject
+integration, providing the ability to serialize and deserialize
+GObject instances to and from JSON data types.
+
 JSON is the JavaScript Object Notation; it can be used to represent
 objects and object hierarchies while retaining human-readability.
 
@@ -23,7 +28,7 @@ In order to build JSON-GLib you will need:
 
   * pkg-config
   * gtk-doc >= 1.8
-  * GLib >= 2.14
+  * GLib >= 2.16
 
 INSTALLATION
 ------------
