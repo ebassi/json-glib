@@ -36,8 +36,8 @@
  * When parsing a JSON data stream you extract the root node and walk
  * the node tree by retrieving the type of data contained inside the
  * node with the %JSON_NODE_TYPE macro. If the node contains a fundamental
- * type you can retrieve a copy of the GValue holding it with the
- * json_node_get_value() function, and then use the GValue API to extract
+ * type you can retrieve a copy of the #GValue holding it with the
+ * json_node_get_value() function, and then use the #GValue API to extract
  * the data; if the node contains a complex type you can retrieve the
  * #JsonObject or the #JsonArray using json_node_get_object() or
  * json_node_get_array() respectively, and then retrieve the nodes
@@ -348,7 +348,7 @@ json_node_get_value (JsonNode *node,
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
 
-  if (G_VALUE_TYPE (&(node->data.value)) != 0)
+  if (G_VALUE_TYPE (&(node->data.value)) != G_TYPE_INVALID)
     {
       g_value_init (value, G_VALUE_TYPE (&(node->data.value)));
       g_value_copy (&(node->data.value), value);
