@@ -136,17 +136,26 @@ json_node_copy (JsonNode *node)
   switch (copy->type)
     {
     case JSON_NODE_OBJECT:
-      copy->data.object = json_object_ref (node->data.object);
+      if (node->data.object)
+        copy->data.object = json_object_ref (node->data.object);
       break;
+
     case JSON_NODE_ARRAY:
-      copy->data.array = json_array_ref (node->data.array);
+      if (node->data.array)
+        copy->data.array = json_array_ref (node->data.array);
       break;
+
     case JSON_NODE_VALUE:
-      g_value_init (&(copy->data.value), G_VALUE_TYPE (&(node->data.value)));
-      g_value_copy (&(node->data.value), &(copy->data.value));
+      if (G_VALUE_TYPE (&(node->data.value)) != G_TYPE_INVALID)
+        {
+          g_value_init (&(copy->data.value), G_VALUE_TYPE (&(node->data.value)));
+          g_value_copy (&(node->data.value), &(copy->data.value));
+        }
       break;
+
     case JSON_NODE_NULL:
       break;
+
     default:
       g_assert_not_reached ();
     }
