@@ -493,8 +493,12 @@ test_unicode_escape (void)
          node = json_object_get_member (object, test_unicode[i].member);
          g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
 
+         if (g_test_verbose ())
+           g_print ("checking simple string equality...\n");
          g_assert_cmpstr (json_node_get_string (node), ==, test_unicode[i].match);
 
+         if (g_test_verbose ())
+           g_print ("checking for valid UTF-8...\n");
          g_assert (g_utf8_validate (json_node_get_string (node), -1, NULL));
        }
     }
