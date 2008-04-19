@@ -83,7 +83,7 @@ struct _JsonScannerConfig
   guint padding_dummy;
 };
 
-static const JsonScannerConfig json_scanner_config_template =
+static JsonScannerConfig json_scanner_config_template =
 {
   ( " \t\r\n" )		/* cset_skip_characters */,
   (
@@ -184,6 +184,9 @@ static void	json_scanner_get_token_i     (JsonScanner *scanner,
 
 static guchar   json_scanner_peek_next_char  (JsonScanner *scanner);
 static guchar   json_scanner_get_char        (JsonScanner *scanner,
+                                              guint       *line_p,
+                                              guint       *position_p);
+static gunichar json_scanner_get_unichar     (JsonScanner *scanner,
                                               guint       *line_p,
                                               guint       *position_p);
 static void     json_scanner_msg_handler     (JsonScanner *scanner,
@@ -863,6 +866,36 @@ json_scanner_get_char (JsonScanner *scanner,
   return fchar;
 }
 
+#define is_hex_digit(c)         (((c) >= '0' && (c) <= '9') || \
+                                 ((c) >= 'a' && (c) <= 'f') || \
+                                 ((c) >= 'A' && (c) <= 'F'))
+#define to_hex_digit(c)         (((c) <= '9') ? (c) - '0' : ((c) & 7) + 9)
+
+static gunichar
+json_scanner_get_unichar (JsonScanner *scanner,
+                          guint       *line_p,
+                          guint       *position_p)
+{
+  gunichar uchar;
+  gchar ch;
+  gint i;
+
+  uchar = 0;
+  for (i = 0; i < 4; i++)
+    {
+      ch = json_scanner_get_char (scanner, line_p, position_p);
+
+      if (is_hex_digit (ch))
+        uchar += ((gunichar) to_hex_digit (ch) << ((3 - i) * 4));
+      else
+        break;
+    }
+
+  g_assert (g_unichar_validate (uchar));
+
+  return uchar;
+}
+
 void
 json_scanner_unexp_token (JsonScanner *scanner,
                           GTokenType   expected_token,
@@ -1250,11 +1283,11 @@ json_scanner_get_token_i (JsonScanner	*scanner,
 }
 
 static void
-json_scanner_get_token_ll	(JsonScanner	*scanner,
-			 GTokenType	*token_p,
-			 GTokenValue	*value_p,
-			 guint		*line_p,
-			 guint		*position_p)
+json_scanner_get_token_ll (JsonScanner *scanner,
+                           GTokenType  *token_p,
+                           GTokenValue *value_p,
+                           guint       *line_p,
+                           guint       *position_p)
 {
   JsonScannerConfig *config;
   GTokenType	   token;
@@ -1397,6 +1430,17 @@ json_scanner_get_token_ll	(JsonScanner	*scanner,
 			case 'f':
 			  gstring = g_string_append_c (gstring, '\f');
 			  break;
+
+                        case 'u':
+                          fchar = json_scanner_peek_next_char (scanner);
+                          if (is_hex_digit (fchar))
+                            {
+                              gunichar ucs;
+
+                              ucs = json_scanner_get_unichar (scanner, line_p, position_p);
+                              gstring = g_string_append_unichar (gstring, ucs);
+                            }
+                          break;
 			  
 			case '0':
 			case '1':
