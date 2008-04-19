@@ -56,11 +56,21 @@ static const gchar *test_assignments[] = {
   "var test = { \"foo\" : false }"
 };
 
+static const struct
+{
+  const gchar *str;
+  const gchar *member;
+  const gchar *match;
+} test_unicode[] = {
+  { "{ \"test\" : \"foo \\u00e8\" }", "test", "foo è" }
+};
+
 static guint n_test_simple_arrays  = G_N_ELEMENTS (test_simple_arrays);
 static guint n_test_nested_arrays  = G_N_ELEMENTS (test_nested_arrays);
 static guint n_test_simple_objects = G_N_ELEMENTS (test_simple_objects);
 static guint n_test_nested_objects = G_N_ELEMENTS (test_nested_objects);
 static guint n_test_assignments    = G_N_ELEMENTS (test_assignments);
+static guint n_test_unicode        = G_N_ELEMENTS (test_unicode);
 
 static void
 test_empty (void)
@@ -436,6 +446,62 @@ test_assignment (void)
   g_object_unref (parser);
 }
 
+static void
+test_unicode_escape (void)
+{
+  gint i;
+  JsonParser *parser;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("checking json_parser_load_from_data with unicode escape...\n");
+
+  for (i = 0; i < n_test_unicode; i++)
+    {
+      GError *error = NULL;
+
+      if (!json_parser_load_from_data (parser, test_unicode[i].str, -1, &error))
+        {
+          if (g_test_verbose ())
+            g_print ("Error: %s\n", error->message);
+
+          g_error_free (error);
+          g_object_unref (parser);
+          exit (1);
+        }
+      else
+        {
+          JsonNode *root, *node;
+          JsonObject *object;
+
+          g_assert (NULL != json_parser_get_root (parser));
+
+          if (g_test_verbose ())
+            g_print ("checking root node is an object...\n");
+          root = json_parser_get_root (parser);
+          g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+
+          object = json_node_get_object (root);
+          g_assert (object != NULL);
+
+         if (g_test_verbose ())
+           g_print ("checking object is not empty...\n");
+         g_assert_cmpint (json_object_get_size (object), >, 0);
+
+         node = json_object_get_member (object, test_unicode[i].member);
+         g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+
+         g_assert_cmpstr (json_node_get_string (node), ==, test_unicode[i].match);
+
+         g_assert (g_utf8_validate (json_node_get_string (node), -1, NULL));
+       }
+    }
+
+  g_object_unref (parser);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -451,6 +517,7 @@ main (int   argc,
   g_test_add_func ("/json-parser/simple-object", test_simple_object);
   g_test_add_func ("/json-parser/nested-object", test_nested_object);
   g_test_add_func ("/json-parser/assignment", test_assignment);
+  g_test_add_func ("/json-parser/unicode-escape", test_unicode_escape);
 
   return g_test_run ();
 }
