@@ -118,7 +118,6 @@ JSON_PARSER_ERROR
 JSON_PARSER_GET_CLASS
 
 <SUBSECTION Private>
-JsonTokenType
 JsonParserPrivate
 json_parser_get_type
 json_parser_error_quark
