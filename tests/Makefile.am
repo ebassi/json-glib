@@ -1,24 +1,37 @@
-noinst_PROGRAMS = 	\
-	test-01 	\
-	test-02		\
-	test-03		\
-	test-04		\
-	test-05		\
-	test-06		\
-	test-07		\
-	test-08
+include $(top_srcdir)/Makefile.decl
 
-INCLUDES = -I$(top_srcdir)
-LDADD = $(top_builddir)/json-glib/libjson-glib-1.0.la
+NULL =
 
-AM_CFLAGS = $(JSON_CFLAGS)
-AM_LDFLAGS = $(JSON_LIBS)
+noinst_PROGRAMS = $(TEST_PROGS)
 
-test_01_SOURCES = test-01.c
-test_02_SOURCES = test-02.c
-test_03_SOURCES = test-03.c
-test_04_SOURCES = test-04.c
-test_05_SOURCES = test-05.c
-test_06_SOURCES = test-06.c
-test_07_SOURCES = test-07.c
-test_08_SOURCES = test-08.c
+INCLUDES = -I$(top_srcdir) $(JSON_CFLAGS)
+progs_ldadd = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
+
+AM_CPPFLAGS = \
+	-I$(top_srcdir) \
+	-I$(top_srcdir)/json-glib \
+	$(JSON_DEBUG_CFLAGS)
+
+AM_CFLAGS = -g
+
+TESTS_ENVIRONMENT = srcdir=$(srcdir)
+
+TEST_PROGS          += test-parser
+test_parser_SOURCES  = test-parser.c
+test_parser_LDADD    = $(progs_ldadd)
+
+TEST_PROGS             += test-generator
+test_generator_SOURCES  = test-generator.c
+test_generator_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                    += test-serialize-simple
+test_serialize_simple_SOURCES  = test-serialize-simple.c
+test_serialize_simple_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                     += test-serialize-complex
+test_serialize_complex_SOURCES  = test-serialize-complex.c
+test_serialize_complex_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                  += test-serialize-full
+test_serialize_full_SOURCES  = test-serialize-full.c
+test_serialize_full_LDADD    = $(progs_ldadd)

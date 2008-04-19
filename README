@@ -33,6 +33,42 @@ To build JSON-GLib just run:
   $ make all
   # make install
 
+BUGS
+----
+
+If you find a bug in JSON-GLib, please create a Bugzilla entry here:
+
+  http://bugzilla.openedhand.com/enter_bug.cgi?product=json-glib
+
+Attaching:
+- the version of JSON-GLib
+  - if it is a development version, the branch of the git repository
+- the JSON data that produced the bug (if any)
+- a small test case, if none of the test units exhibit the behaviour
+- in case of a segmentation fault, a full stack trace with debugging
+  symbols obtained through gdb is greatly appreaciated
+
+HACKING
+-------
+
+JSON-GLib is developed mainly inside a GIT repository available at:
+
+  git://github.com/ebassi/json-glib.git
+
+You can clone the GIT repository with:
+
+  git clone git://github.com/ebassi/json-glib.git
+
+If you want to contribute functionality or bug fixes to JSON-GLib you
+can either notify me to pull from your GIT repository or send me a set
+of patches using:
+
+  git format-patch master -k -s
+
+or:
+
+  git send-email -k -s
+
 AUTHOR
 ------
 JSON-GLib has been written by Emmanuele Bassi

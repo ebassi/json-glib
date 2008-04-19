@@ -492,7 +492,9 @@ G_CONST_RETURN gchar *
 json_node_get_string (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, NULL);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
+
+  if (JSON_NODE_TYPE (node) == JSON_NODE_NULL)
+    return NULL;
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
     return g_value_get_string (&(node->data.value));
@@ -513,7 +515,9 @@ gchar *
 json_node_dup_string (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, NULL);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
+
+  if (JSON_NODE_TYPE (node) == JSON_NODE_NULL)
+    return NULL;
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_STRING)
     return g_value_dup_string (&(node->data.value));
@@ -563,7 +567,9 @@ gint
 json_node_get_int (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, 0);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0);
+
+  if (JSON_NODE_TYPE (node) == JSON_NODE_NULL)
+    return 0;
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_INT)
     return g_value_get_int (&(node->data.value));
@@ -613,7 +619,9 @@ gdouble
 json_node_get_double (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, 0.0);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0.0);
+
+  if (JSON_NODE_TYPE (node) == JSON_NODE_NULL)
+    return 0;
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_DOUBLE)
     return g_value_get_double (&(node->data.value));
@@ -663,11 +671,12 @@ gboolean
 json_node_get_boolean (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, FALSE);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, FALSE);
+
+  if (JSON_NODE_TYPE (node) == JSON_NODE_NULL)
+    return FALSE;
 
   if (G_VALUE_TYPE (&(node->data.value)) == G_TYPE_BOOLEAN)
     return g_value_get_boolean (&(node->data.value));
 
   return FALSE;
 }
-
