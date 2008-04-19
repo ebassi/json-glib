@@ -51,7 +51,12 @@ AC_C_CONST
 AC_FUNC_MALLOC
 AC_FUNC_MMAP
 
+GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
+AC_SUBST(GLIB_PREFIX)
+
 PKG_CHECK_MODULES(JSON, gobject-2.0 >= glib_req_version)
+AC_SUBST(JSON_CFLAGS)
+AC_SUBST(JSON_LIBS)
 
 has_vala=no
 PKG_CHECK_MODULES(JSON_VALA, vala-1.0, has_vala=yes, has_vala=no)
