@@ -46,12 +46,13 @@ source_h = \
 	$(top_srcdir)/json-glib/json-generator.h \
 	$(top_srcdir)/json-glib/json-gobject.h \
 	$(top_srcdir)/json-glib/json-parser.h \
-	$(top_srcdir)/json-glib/json-scanner.h \
 	$(top_srcdir)/json-glib/json-types.h \
 	$(top_srcdir)/json-glib/json-version.h \
 	$(NULL)
 
-source_h_private =
+source_h_private = \
+	$(top_srcdir)/json-glib/json-scanner.h \
+	$(NULL)
 
 source_c = \
 	json-array.c \
