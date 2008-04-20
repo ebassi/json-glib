@@ -52,10 +52,13 @@ static const gchar *test_nested_objects[] = {
   "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }"
 };
 
-static const gchar *test_assignments[] = {
-  "var test = [ false, false, true ]",
-  "var test = [ true, 42 ];",
-  "var test = { \"foo\" : false }"
+static const struct {
+  const gchar *str;
+  const gchar *var;
+} test_assignments[] = {
+  { "var foo = [ false, false, true ]", "foo" },
+  { "var bar = [ true, 42 ];", "bar" },
+  { "var baz = { \"foo\" : false }", "baz" }
 };
 
 static const struct
@@ -423,7 +426,7 @@ test_assignment (void)
     {
       GError *error = NULL;
 
-      if (!json_parser_load_from_data (parser, test_assignments[i], -1, &error))
+      if (!json_parser_load_from_data (parser, test_assignments[i].str, -1, &error))
         {
           if (g_test_verbose ())
             g_print ("Error: %s\n", error->message);
@@ -438,9 +441,10 @@ test_assignment (void)
 
           if (g_test_verbose ())
             g_print ("checking assignment...\n");
+
           g_assert (json_parser_has_assignment (parser, &var) == TRUE);
           g_assert (var != NULL);
-
+          g_assert_cmpstr (var, ==, test_assignments[i].var);
           g_assert (NULL != json_parser_get_root (parser));
        }
     }
