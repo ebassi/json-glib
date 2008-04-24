@@ -97,6 +97,7 @@ libjson_glib_1_0_la_LDFLAGS = $(LDADD)
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
 	$(source_h) \
+	$(top_srcdir)/json-glib/json-enum-types.h \
 	$(top_srcdir)/json-glib/json-glib.h
 
 CLEANFILES = $(STAMP_FILES) $(BUILT_SOURCES)
