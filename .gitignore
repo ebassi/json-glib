@@ -19,6 +19,9 @@ json-glib.pc
 json-glib/.deps
 json-glib/.libs
 json-glib/json-array.lo
+json-glib/json-enum-types.c
+json-glib/json-enum-types.h
+json-glib/json-enum-types.lo
 json-glib/json-generator.lo
 json-glib/json-gobject.lo
 json-glib/json-marshal.c
@@ -30,6 +33,7 @@ json-glib/json-parser.lo
 json-glib/json-scanner.lo
 json-glib/json-version.h
 json-glib/libjson-glib-1.0.la
+json-glib/stamp-json-enum-types.h
 json-glib/stamp-json-marshal.h
 json-glib/tests/.deps
 json-glib/tests/.libs
