@@ -55,6 +55,8 @@ IGNORE_HFILES=\
 	json-private.h \
 	json-marshal.h \
 	json-glib.h \
+	json-enum-types.h \
+	stamp-json-enum-types.h \
 	stamp-json-marshal.h
 
 EXTRA_HFILES=
