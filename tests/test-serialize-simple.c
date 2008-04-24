@@ -142,7 +142,10 @@ test_serialize (void)
 
   data = json_serialize_gobject (G_OBJECT (obj), &len);
 
+  g_assert (data != NULL);
   g_assert_cmpint (len, >, 0);
+  g_assert_cmpint (len, ==, strlen (data));
+
   if (g_test_verbose ())
     g_print ("TestObject:\n%s\n", data);
 
