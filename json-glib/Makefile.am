@@ -16,7 +16,11 @@ INCLUDES = \
 	$(JSON_DEBUG_CFLAGS) 		\
 	$(NULL)
 
-LDADD = $(JSON_LT_LDFLAGS) -export-dynamic -rpath $(libdir)
+LDADD = \
+	$(JSON_LT_LDFLAGS) \
+	-export-dynamic \
+	-export-symbols-regex "^json.*" \
+	-rpath $(libdir)
 
 BUILT_SOURCES = json-marshal.h json-marshal.c json-enum-types.h json-enum-types.c
 
