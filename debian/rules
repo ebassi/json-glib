@@ -10,6 +10,3 @@ DEB_COMPRESS_EXCLUDE = .c
 DEB_CONFIGURE_EXTRA_FLAGS := --enable-gtk-doc
 
 common-binary-predeb-arch:: list-missing
-
-generate::
-	fakeroot env DEB_AUTO_UPDATE_DEBIAN_CONTROL=1 ./debian/rules clean
