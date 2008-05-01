@@ -41,6 +41,7 @@ struct _TestObject
   gchar *baz;
   TestBoxed blah;
   TestEnum meh;
+  gchar **mah;
 };
 
 struct _TestObjectClass
@@ -112,7 +113,8 @@ enum
   PROP_BAR,
   PROP_BAZ,
   PROP_BLAH,
-  PROP_MEH
+  PROP_MEH,
+  PROP_MAH
 };
 
 static void json_serializable_iface_init (gpointer g_iface);
@@ -192,6 +194,7 @@ static void
 test_object_finalize (GObject *gobject)
 {
   g_free (TEST_OBJECT (gobject)->baz);
+  g_strfreev (TEST_OBJECT (gobject)->mah);
 
   G_OBJECT_CLASS (test_object_parent_class)->finalize (gobject);
 }
@@ -216,6 +219,9 @@ test_object_set_property (GObject      *gobject,
       break;
     case PROP_MEH:
       TEST_OBJECT (gobject)->meh = g_value_get_enum (value);
+      break;
+    case PROP_MAH:
+      TEST_OBJECT (gobject)->mah = g_strdupv (g_value_get_boxed (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -244,6 +250,9 @@ test_object_get_property (GObject    *gobject,
       break;
     case PROP_MEH:
       g_value_set_enum (value, TEST_OBJECT (gobject)->meh);
+      break;
+    case PROP_MAH:
+      g_value_set_boxed (value, TEST_OBJECT (gobject)->mah);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -285,6 +294,11 @@ test_object_class_init (TestObjectClass *klass)
                                                       TEST_TYPE_ENUM,
                                                       TEST_ENUM_BAR,
                                                       G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_MAH,
+                                   g_param_spec_boxed ("mah", "Mah", "Mah",
+                                                       G_TYPE_STRV,
+                                                       G_PARAM_READWRITE));
 }
 
 static void
@@ -298,6 +312,8 @@ test_object_init (TestObject *object)
   object->blah.bar = object->bar;
 
   object->meh = TEST_ENUM_BAR;
+
+  object->mah = NULL;
 }
 
 static const gchar *var_test =
@@ -305,7 +321,8 @@ static const gchar *var_test =
 "  \"foo\" : 42,\n"
 "  \"bar\" : false,\n"
 "  \"baz\" : \"hello\",\n"
-"  \"meh\" : \"baz\"\n"
+"  \"meh\" : \"baz\",\n"
+"  \"mah\" : [ \"hello\", \", \", \"world\", \"!\" ]\n"
 "}";
 
 static void
@@ -313,6 +330,7 @@ test_deserialize (void)
 {
   GObject *object;
   GError *error;
+  gchar *str;
 
   error = NULL;
   object = json_construct_gobject (TEST_TYPE_OBJECT, var_test, -1, &error);
@@ -335,6 +353,13 @@ test_deserialize (void)
   g_assert_cmpstr (TEST_OBJECT (object)->baz, ==, "hello");
   g_assert_cmpint (TEST_OBJECT (object)->meh, ==, TEST_ENUM_BAZ);
 
+  g_assert (TEST_OBJECT (object)->mah != NULL);
+  g_assert_cmpint (g_strv_length (TEST_OBJECT (object)->mah), ==, 4);
+
+  str = g_strjoinv (NULL, TEST_OBJECT (object)->mah);
+  g_assert_cmpstr (str, ==, "hello, world!");
+
+  g_free (str);
   g_object_unref (object);
 }
 
