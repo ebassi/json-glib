@@ -189,8 +189,7 @@ json_deserialize_pspec (GValue     *value,
         {
           JsonArray *array = json_node_get_array (node);
           guint i, array_len = json_array_get_length (array);
-          GString *buffer = g_string_new (NULL);
-          gchar **strv = NULL;
+          GPtrArray *str_array = g_ptr_array_sized_new (array_len);
 
           for (i = 0; i < array_len; i++)
             {
@@ -200,17 +199,13 @@ json_deserialize_pspec (GValue     *value,
                 continue;
 
               if (json_node_get_string (val) != NULL);
-                {
-                  g_string_append (buffer, json_node_get_string (val));
-                  g_string_append_c (buffer, '\v');
-                }
+                g_ptr_array_add (str_array, (gpointer) json_node_get_string (val));
             }
 
-          strv = g_strsplit (buffer->str, "\v", -1);
-          g_value_set_boxed (value, strv);
+          g_value_set_boxed (value, str_array->pdata);
 
-          g_strfreev (strv);
-          g_string_free (buffer, TRUE);
+          g_ptr_array_free (str_array, TRUE);
+
           retval = TRUE;
         }
       break;
