@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
+include /usr/share/cdbs/1/rules/utils.mk
+
+DEB_CONFIGURE_SCRIPT_ENV += LDFLAGS="-Wl,-O1 -Wl,--as-needed"
+DEB_COMPRESS_EXCLUDE = .c
+DEB_CONFIGURE_EXTRA_FLAGS := --enable-gtk-doc
+
+common-binary-predeb-arch:: list-missing
+
+generate::
+	fakeroot env DEB_AUTO_UPDATE_DEBIAN_CONTROL=1 ./debian/rules clean
