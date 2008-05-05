@@ -2,5 +2,4 @@ json-glib (0.6.0-1) unstable; urgency=low
 
   * New upstream release.
 
- -- Emmanuele Bassi <ebassi@openedhand.com>  Thu, 01 May 2008 15:22:36 +0100
-
+ -- Emmanuele Bassi <ebassi@openedhand.com>  Mon, 05 May 2008 23:17:36 +0100
