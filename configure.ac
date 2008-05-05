@@ -18,7 +18,12 @@ m4_define([lt_age],
 m4_define([glib_req_version], [2.15])
 
 AC_PREREQ([2.59])
-AC_INIT([json-glib], [json_version], [], [json-glib])
+
+AC_INIT([json-glib],
+        [json_version],
+        [http://bugzilla.openedhand.com/enter_bug.cgi],
+        [json-glib])
+
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 
 AM_INIT_AUTOMAKE([1.9])
