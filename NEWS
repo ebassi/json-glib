@@ -11,6 +11,11 @@ Overview of changes for 0.6.0
 * Add a fully automated test suite, using the GTest framework
 * Allow 'null' nodes to return a value without warnings
 * Add support for parsing Unicode characters escaped using \uXXXX
+* Make the deserialization of G_TYPE_STRV properties more robust
+* Export the public symbols only
+* Provide GTypes for the enumerations
+* Avoid a warning when trying to copy an empty JsonNode
+* Fix gtk-doc cross-references with GLib and GObject documentation
 
 Overview of changes for 0.4.0
 =============================
