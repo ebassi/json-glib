@@ -2,11 +2,7 @@ include $(top_srcdir)/Makefile.decl
 
 SUBDIRS = json-glib doc tests
 
-if HAVE_VALA
-SUBDIRS += contrib
-endif
-
-DIST_SUBDIRS = json-glib doc tests contrib
+DIST_SUBDIRS = json-glib doc tests
 
 pcfiles = json-glib-1.0.pc
 
