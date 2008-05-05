@@ -110,6 +110,7 @@ DISTCLEANFILES = json-version.h
 
 EXTRA_DIST += \
 	json-version.h.in \
+	json-scanner.h \
 	json-glib.h \
 	json-marshal.list \
 	json-enum-types.h.in \
