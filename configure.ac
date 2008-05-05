@@ -81,7 +81,7 @@ dnl = Enable debug level ===================================================
 m4_define([debug_default],
           m4_if(m4_eval(json_minor_version % 2), [1], [yes], [minimum]))
 
-AC_ARG_ENABLE(debug,
+AC_ARG_ENABLE([debug],
               AC_HELP_STRING([--enable-debug=@<:@no/minimum/yes@:>@],
                              [turn on debugging @<:@default=debug_default@:>@]),
 ,
@@ -137,9 +137,9 @@ AC_OUTPUT
 echo ""
 echo " Json-GLib $VERSION"
 echo ""
-echo " Prefix: ${prefix}"
-echo " Debug level: ${enable_debug}"
-echo " Compiler flags: ${CPPFLAGS}"
-echo " API reference: ${enable_gtk_doc}"
+echo "                Prefix: ${prefix}"
+echo "           Debug level: ${enable_debug}"
+echo "        Compiler flags: ${CPPFLAGS}"
+echo "         API reference: ${enable_gtk_doc}"
 echo " Install vala bindings: ${has_vala} (${VAPI_DIR})"
 echo ""
