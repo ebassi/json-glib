@@ -235,12 +235,13 @@ dump_value (JsonGenerator *generator,
   guint indent = priv->indent;
   GValue value = { 0, };
   GString *buffer;
-  guint i;
 
   buffer = g_string_new ("");
 
   if (pretty)
     {
+      guint i;
+
       for (i = 0; i < (level * indent); i++)
         g_string_append_c (buffer, priv->indent_char);
     }
