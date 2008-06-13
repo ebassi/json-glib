@@ -1,6 +1,10 @@
 include $(top_srcdir)/Makefile.decl
 
-SUBDIRS = json-glib doc tests
+SUBDIRS = json-glib doc
+
+if ENABLE_GLIB_TEST
+SUBDIRS += tests
+endif
 
 DIST_SUBDIRS = json-glib doc tests
 

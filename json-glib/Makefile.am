@@ -1,6 +1,8 @@
 include $(top_srcdir)/Makefile.decl
 
+if ENABLE_GLIB_TEST
 SUBDIRS = . tests
+endif
 
 DIST_SUBDIRS = tests
 
