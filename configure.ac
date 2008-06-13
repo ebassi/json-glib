@@ -63,6 +63,8 @@ PKG_CHECK_MODULES(JSON, gobject-2.0 >= glib_req_version)
 AC_SUBST(JSON_CFLAGS)
 AC_SUBST(JSON_LIBS)
 
+AM_CONDITIONAL(ENABLE_GLIB_TEST, test "x$enable_glibtest" = "xyes")
+
 dnl = Enable debug level ===================================================
 
 m4_define([debug_default],
@@ -127,4 +129,5 @@ echo "                Prefix: ${prefix}"
 echo "           Debug level: ${enable_debug}"
 echo "        Compiler flags: ${CPPFLAGS}"
 echo "         API reference: ${enable_gtk_doc}"
+echo "     Enable test suite: ${enable_glibtest}"
 echo ""
