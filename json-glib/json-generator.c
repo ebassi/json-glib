@@ -257,7 +257,22 @@ dump_value (JsonGenerator *generator,
       break;
 
     case G_TYPE_STRING:
-      g_string_append_printf (buffer, "\"%s\"", g_value_get_string (&value));
+      {
+        gchar *tmp;
+        gchar *exceptions = g_malloc (128);
+        gint chr, i;
+
+        /* non-ascii characters can't be escaped, otherwise utf-8
+         * chars will break */
+        for (i = 0, chr = 0x7f; chr <= 0xff; chr++, i++)
+          exceptions[i] = chr;
+
+        tmp = g_strescape (g_value_get_string (&value), exceptions);
+        g_free (exceptions);
+
+        g_string_append_printf (buffer, "\"%s\"", tmp);
+        g_free (tmp);
+      }
       break;
 
     case G_TYPE_DOUBLE:
