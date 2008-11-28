@@ -901,89 +901,24 @@ json_parser_new (void)
   return g_object_new (JSON_TYPE_PARSER, NULL);
 }
 
-/**
- * json_parser_load_from_file:
- * @parser: a #JsonParser
- * @filename: the path for the file to parse
- * @error: return location for a #GError, or %NULL
- *
- * Loads a JSON stream from the content of @filename and parses it. See
- * json_parser_load_from_data().
- *
- * Return value: %TRUE if the file was successfully loaded and parsed.
- *   In case of error, @error is set accordingly and %FALSE is returned
- */
-gboolean
-json_parser_load_from_file (JsonParser   *parser,
-                            const gchar  *filename,
-                            GError      **error)
+static gboolean
+json_parser_load (JsonParser   *parser,
+                  const gchar  *data,
+                  gsize         length,
+                  GError      **error)
 {
-  GError *internal_error;
-  gchar *data;
-  gsize length;
-  gboolean retval = TRUE;
-
-  g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
-  g_return_val_if_fail (filename != NULL, FALSE);
-
-  internal_error = NULL;
-  if (!g_file_get_contents (filename, &data, &length, &internal_error))
-    {
-      g_propagate_error (error, internal_error);
-      return FALSE;
-    }
-
-  if (!json_parser_load_from_data (parser, data, length, &internal_error))
-    {
-      g_propagate_error (error, internal_error);
-      retval = FALSE;
-    }
-  
-  g_free (data);
-
-  return retval;
-}
-
-/**
- * json_parser_load_from_data:
- * @parser: a #JsonParser
- * @data: the buffer to parse
- * @length: the length of the buffer, or -1
- * @error: return location for a #GError, or %NULL
- *
- * Loads a JSON stream from a buffer and parses it. You can call this function
- * multiple times with the same #JsonParser object, but the contents of the
- * parser will be destroyed each time.
- *
- * Return value: %TRUE if the buffer was succesfully parser. In case
- *   of error, @error is set accordingly and %FALSE is returned
- */
-gboolean
-json_parser_load_from_data (JsonParser   *parser,
-                            const gchar  *data,
-                            gssize        length,
-                            GError      **error)
-{
-  JsonParserPrivate *priv;
+  JsonParserPrivate *priv = parser->priv;
   JsonScanner *scanner;
   gboolean done;
   gboolean retval = TRUE;
   gint i;
 
-  g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
-  g_return_val_if_fail (data != NULL, FALSE);
-
   json_parser_clear (parser);
-
-  if (length < 0)
-    length = strlen (data);
-
-  priv = parser->priv;
 
   scanner = json_scanner_create (parser);
   json_scanner_input_text (scanner, data, length);
 
-  parser->priv->scanner = scanner;
+  priv->scanner = scanner;
 
   g_signal_emit (parser, parser_signals[PARSE_START], 0);
 
@@ -1060,6 +995,102 @@ json_parser_load_from_data (JsonParser   *parser,
   json_scanner_destroy (scanner);
   priv->scanner = NULL;
   priv->current_node = NULL;
+
+  return retval;
+}
+
+/**
+ * json_parser_load_from_file:
+ * @parser: a #JsonParser
+ * @filename: the path for the file to parse
+ * @error: return location for a #GError, or %NULL
+ *
+ * Loads a JSON stream from the content of @filename and parses it. See
+ * json_parser_load_from_data().
+ *
+ * Return value: %TRUE if the file was successfully loaded and parsed.
+ *   In case of error, @error is set accordingly and %FALSE is returned
+ */
+gboolean
+json_parser_load_from_file (JsonParser   *parser,
+                            const gchar  *filename,
+                            GError      **error)
+{
+  JsonParserPrivate *priv;
+  GError *internal_error;
+  gchar *data;
+  gsize length;
+  gboolean retval = TRUE;
+
+  g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
+  g_return_val_if_fail (filename != NULL, FALSE);
+
+  priv = parser->priv;
+
+  internal_error = NULL;
+  if (!g_file_get_contents (filename, &data, &length, &internal_error))
+    {
+      g_propagate_error (error, internal_error);
+      return FALSE;
+    }
+
+  g_free (priv->filename);
+
+  priv->is_filename = TRUE;
+  priv->filename = g_strdup (filename);
+
+  if (!json_parser_load (parser, data, length, &internal_error))
+    {
+      g_propagate_error (error, internal_error);
+      retval = FALSE;
+    }
+
+  g_free (data);
+
+  return retval;
+}
+
+/**
+ * json_parser_load_from_data:
+ * @parser: a #JsonParser
+ * @data: the buffer to parse
+ * @length: the length of the buffer, or -1
+ * @error: return location for a #GError, or %NULL
+ *
+ * Loads a JSON stream from a buffer and parses it. You can call this function
+ * multiple times with the same #JsonParser object, but the contents of the
+ * parser will be destroyed each time.
+ *
+ * Return value: %TRUE if the buffer was succesfully parser. In case
+ *   of error, @error is set accordingly and %FALSE is returned
+ */
+gboolean
+json_parser_load_from_data (JsonParser   *parser,
+                            const gchar  *data,
+                            gssize        length,
+                            GError      **error)
+{
+  JsonParserPrivate *priv;
+  GError *internal_error;
+  gboolean retval = TRUE;
+
+  g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
+  g_return_val_if_fail (data != NULL, FALSE);
+
+  priv = parser->priv;
+
+  if (length < 0)
+    length = strlen (data);
+
+  priv->is_filename = FALSE;
+  g_free (priv->filename);
+
+  internal_error = NULL;
+  if (!json_parser_load (parser, data, length, &internal_error))
+    {
+      g_propagate_error (error, internal_error);
+      retval = FALSE;
+    }
 
   return retval;
 }
