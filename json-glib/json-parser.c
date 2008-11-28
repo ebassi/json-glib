@@ -54,7 +54,10 @@ struct _JsonParserPrivate
   GError *last_error;
 
   guint has_assignment : 1;
+  guint is_filename    : 1;
+
   gchar *variable_name;
+  gchar *filename;
 };
 
 static const gchar symbol_names[] =
@@ -108,6 +111,7 @@ json_parser_clear (JsonParser *parser)
   JsonParserPrivate *priv = parser->priv;
 
   g_free (priv->variable_name);
+  priv->variable_name = NULL;
 
   if (priv->last_error)
     {
@@ -131,6 +135,17 @@ json_parser_dispose (GObject *gobject)
 }
 
 static void
+json_parser_finalize (GObject *gobject)
+{
+  JsonParserPrivate *priv = JSON_PARSER (gobject)->priv;
+
+  g_free (priv->variable_name);
+  g_free (priv->filename);
+
+  G_OBJECT_CLASS (json_parser_parent_class)->finalize (gobject);
+}
+
+static void
 json_parser_class_init (JsonParserClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
@@ -138,6 +153,7 @@ json_parser_class_init (JsonParserClass *klass)
   g_type_class_add_private (klass, sizeof (JsonParserPrivate));
 
   gobject_class->dispose = json_parser_dispose;
+  gobject_class->finalize = json_parser_finalize;
 
   /**
    * JsonParser::parse-start:
@@ -304,6 +320,9 @@ json_parser_init (JsonParser *parser)
 
   priv->has_assignment = FALSE;
   priv->variable_name = NULL;
+
+  priv->is_filename = FALSE;
+  priv->filename = FALSE;
 }
 
 static guint
@@ -823,6 +842,7 @@ json_scanner_msg_handler (JsonScanner *scanner,
                           gboolean  is_error)
 {
   JsonParser *parser = scanner->user_data;
+  JsonParserPrivate *priv = parser->priv;
 
   if (is_error)
     {
@@ -830,7 +850,8 @@ json_scanner_msg_handler (JsonScanner *scanner,
 
       g_set_error (&error, JSON_PARSER_ERROR,
                    JSON_PARSER_ERROR_PARSE,
-                   "Parse error on line %d: %s",
+                   "%s:%d: Parse error: %s",
+                   priv->is_filename ? priv->filename : "<none>",
                    scanner->line,
                    message);
       
@@ -838,7 +859,10 @@ json_scanner_msg_handler (JsonScanner *scanner,
       g_signal_emit (parser, parser_signals[ERROR], 0, error);
     }
   else
-    g_warning ("Line %d: %s", scanner->line, message);
+    g_warning ("%s:%d: Parse error: %s",
+               priv->is_filename ? priv->filename : "<none>",
+               scanner->line,
+               message);
 }
 
 static JsonScanner *
