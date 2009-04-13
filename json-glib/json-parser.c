@@ -356,6 +356,7 @@ json_parse_array (JsonParser *parser,
         {
           /* swallow the comma */
           token = json_scanner_get_next_token (scanner);
+
           continue;
         }
 
@@ -375,6 +376,7 @@ json_parse_array (JsonParser *parser,
             {
               json_node_free (node);
               json_array_unref (array);
+
               return token;
             }
 
@@ -411,6 +413,7 @@ json_parse_array (JsonParser *parser,
             {
               json_node_free (node);
               json_array_unref (array);
+
               return token;
             }
 
@@ -469,8 +472,7 @@ json_parse_array (JsonParser *parser,
         case JSON_TOKEN_TRUE:
         case JSON_TOKEN_FALSE:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_boolean (node, token == JSON_TOKEN_TRUE ? TRUE
-                                                                : FALSE);
+          json_node_set_boolean (node, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
           break;
 
         case JSON_TOKEN_NULL:
@@ -535,6 +537,7 @@ json_parse_object (JsonParser *parser,
         {
           /* swallow the comma */
           token = json_scanner_get_next_token (scanner);
+
           continue;
         }
 
@@ -547,6 +550,7 @@ json_parse_object (JsonParser *parser,
             {
               g_free (name);
               json_object_unref (object);
+
               return ':';
             }
           else
@@ -559,6 +563,7 @@ json_parse_object (JsonParser *parser,
       if (!name)
         {
           json_object_unref (object);
+
           return G_TOKEN_STRING;
         }
 
@@ -581,6 +586,7 @@ json_parse_object (JsonParser *parser,
                 json_node_free (node);
 
               json_object_unref (object);
+
               return token;
             }
 
@@ -619,6 +625,7 @@ json_parse_object (JsonParser *parser,
               g_free (name);
               json_node_free (node);
               json_object_unref (object);
+
               return token;
             }
 
@@ -678,8 +685,7 @@ json_parse_object (JsonParser *parser,
         case JSON_TOKEN_TRUE:
         case JSON_TOKEN_FALSE:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_boolean (node, token == JSON_TOKEN_TRUE ? TRUE
-                                                                : FALSE);
+          json_node_set_boolean (node, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
           break;
 
         case JSON_TOKEN_NULL:
@@ -949,8 +955,8 @@ json_parser_load (JsonParser   *parser,
                         if (symbols[i].token == expected_token)
                           symbol_name = symbol_names + symbols[i].name_offset;
 
-                      if (msg)
-                        msg = g_strconcat ("e.g. `", symbol_name, "'", NULL);
+                      if (!msg)
+                        msg = g_strconcat ("e.g. '", symbol_name, "'", NULL);
                     }
 
                   if (scanner->token > JSON_TOKEN_INVALID &&
