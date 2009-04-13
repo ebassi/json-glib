@@ -58,3 +58,8 @@ doc/reference/json-glib.hierarchy
 doc/reference/json-glib.interfaces
 doc/reference/json-glib.prerequisites
 doc/reference/json-glib.signals
+omf.make
+xmldocs.make
+/build/autotools/gtk-doc.m4
+/build/autotools/shave-libtool
+/build/autotools/shave
