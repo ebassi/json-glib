@@ -131,7 +131,7 @@ json_node_copy (JsonNode *node)
   g_return_val_if_fail (node != NULL, NULL);
 
   copy = g_slice_new0 (JsonNode);
-  *copy = *node;
+  copy->type = node->type;
 
   switch (copy->type)
     {
