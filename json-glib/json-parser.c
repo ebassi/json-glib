@@ -392,7 +392,11 @@ json_parse_array (JsonParser *parser,
             break;
 
           if (token != G_TOKEN_COMMA)
-            return G_TOKEN_RIGHT_BRACE;
+            {
+              json_array_unref (array);
+
+              return G_TOKEN_RIGHT_BRACE;
+            }
 
           continue;
         }
@@ -429,7 +433,11 @@ json_parse_array (JsonParser *parser,
             break;
 
           if (token != G_TOKEN_COMMA)
-            return G_TOKEN_RIGHT_BRACE;
+            {
+              json_array_unref (array);
+
+              return G_TOKEN_RIGHT_BRACE;
+            }
 
           continue;
         }
@@ -446,6 +454,8 @@ json_parse_array (JsonParser *parser,
             }
           else
             {
+              json_array_unref (array);
+
               return G_TOKEN_INT;
             }
         }
@@ -480,6 +490,7 @@ json_parse_array (JsonParser *parser,
           break;
 
         default:
+          json_array_unref (array);
           return G_TOKEN_RIGHT_BRACE;
         }
 
@@ -495,7 +506,11 @@ json_parse_array (JsonParser *parser,
 
       token = json_scanner_get_next_token (scanner);
       if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_BRACE)
-        return G_TOKEN_RIGHT_BRACE;
+        {
+          json_array_unref (array);
+
+          return G_TOKEN_RIGHT_BRACE;
+        }
     }
 
   json_node_take_array (priv->current_node, array);
@@ -604,7 +619,11 @@ json_parse_object (JsonParser *parser,
             break;
 
           if (token != G_TOKEN_COMMA)
-            return G_TOKEN_RIGHT_CURLY;
+            {
+              json_object_unref (object);
+
+              return G_TOKEN_RIGHT_CURLY;
+            }
 
           continue;
         }
@@ -643,7 +662,11 @@ json_parse_object (JsonParser *parser,
             break;
 
           if (token != G_TOKEN_COMMA)
-            return G_TOKEN_RIGHT_CURLY;
+            {
+              json_object_unref (object);
+
+              return G_TOKEN_RIGHT_CURLY;
+            }
 
           continue;
         }
@@ -659,6 +682,9 @@ json_parse_object (JsonParser *parser,
             }
           else
             {
+              g_free (name);
+              json_object_unref (object);
+
               return G_TOKEN_INT;
             }
         }
@@ -693,6 +719,8 @@ json_parse_object (JsonParser *parser,
           break;
 
         default:
+          g_free (name);
+          json_object_unref (object);
           return G_TOKEN_SYMBOL;
         }
 
