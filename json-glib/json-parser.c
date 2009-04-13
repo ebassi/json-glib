@@ -1170,11 +1170,18 @@ json_parser_get_current_pos (JsonParser *parser)
  * @parser: a #JsonParser
  * @variable_name: return location for the variable name, or %NULL
  *
- * A JSON data stream might sometimes contain an assignment, even though
- * it would technically constitute a violation of the RFC. #JsonParser
- * will ignore the left hand identifier and parse the right hand value
- * of the assignment. #JsonParser will record, though, the existence of the
- * assignment in the data stream and the variable name used.
+ * A JSON data stream might sometimes contain an assignment, like:
+ *
+ * |[
+ *   var _json_data = { "member_name" : [ ...
+ * ]|
+ *
+ * even though it would technically constitute a violation of the RFC.
+ *
+ * #JsonParser will ignore the left hand identifier and parse the right
+ * hand value of the assignment. #JsonParser will record, though, the
+ * existence of the assignment in the data stream and the variable name
+ * used.
  *
  * Return value: %TRUE if there was an assignment, %FALSE otherwise. If
  *   @variable_name is not %NULL it will be set to the name of the variable
