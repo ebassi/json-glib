@@ -92,7 +92,7 @@ test_enum_get_type (void)
 
   if (G_UNLIKELY (e_type == 0))
     {
-      const GEnumValue values[] = {
+      static const GEnumValue values[] = {
         { TEST_ENUM_FOO, "TEST_ENUM_FOO", "foo" },
         { TEST_ENUM_BAR, "TEST_ENUM_BAR", "bar" },
         { TEST_ENUM_BAZ, "TEST_ENUM_BAZ", "baz" },
