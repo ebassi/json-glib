@@ -27,4 +27,22 @@
       <foaf:mbox rdf:resource="mailto:ebassi@linux.intel.com"/>
     </foaf:Person>
   </author>
+
+  <release>
+    <Version>
+       <created>2008-06-13</created>
+       <branch>json-glib-0.6.2</branch>
+       <revision>0.6.2</revision>
+       <file-release  rdf:resource="http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.2.tar.gz" />
+    </Version>
+  </release>
+
+  <release>
+    <Version>
+       <created>2008-05-12</created>
+       <branch>json-glib-0.6.0</branch>
+       <revision>0.6.0</revision>
+       <file-release rdf:resource="http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.0.tar.gz" />
+    </Version>
+  </release>
 </Project>
