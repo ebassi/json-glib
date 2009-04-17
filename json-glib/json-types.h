@@ -92,6 +92,9 @@ struct _JsonNode
   JsonNode *parent;
 };
 
+/*
+ * JsonNode
+ */
 GType                 json_node_get_type        (void) G_GNUC_CONST;
 JsonNode *            json_node_new             (JsonNodeType  type);
 JsonNode *            json_node_copy            (JsonNode     *node);
@@ -130,24 +133,68 @@ gboolean              json_node_get_boolean     (JsonNode     *node);
 JsonNode *            json_node_get_parent      (JsonNode     *node);
 G_CONST_RETURN gchar *json_node_type_name       (JsonNode     *node);
 
-GType                 json_object_get_type      (void) G_GNUC_CONST;
-JsonObject *          json_object_new           (void);
-JsonObject *          json_object_ref           (JsonObject  *object);
-void                  json_object_unref         (JsonObject  *object);
-void                  json_object_add_member    (JsonObject  *object,
-                                                 const gchar *member_name,
-                                                 JsonNode    *node);
-GList *               json_object_get_members   (JsonObject  *object);
-JsonNode *            json_object_get_member    (JsonObject  *object,
-                                                 const gchar *member_name);
-JsonNode *            json_object_dup_member    (JsonObject  *object,
-                                                 const gchar *member_name);
-gboolean              json_object_has_member    (JsonObject  *object,
-                                                 const gchar *member_name);
-void                  json_object_remove_member (JsonObject  *object,
-                                                 const gchar *member_name);
-GList *               json_object_get_values    (JsonObject  *object);
-guint                 json_object_get_size      (JsonObject  *object);
+/*
+ * JsonObject
+ */
+GType                 json_object_get_type           (void) G_GNUC_CONST;
+JsonObject *          json_object_new                (void);
+JsonObject *          json_object_ref                (JsonObject  *object);
+void                  json_object_unref              (JsonObject  *object);
+
+#ifndef JSON_DISABLE_DEPRECATED
+void                  json_object_add_member         (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      JsonNode    *node) G_GNUC_DEPRECATED;
+#endif /* JSON_DISABLE_DEPRECATED */
+
+void                  json_object_set_member         (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      JsonNode    *node);
+void                  json_object_set_int_member     (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      gint         value);
+void                  json_object_set_double_member  (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      gdouble      value);
+void                  json_object_set_boolean_member (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      gboolean     value);
+void                  json_object_set_string_member  (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      const gchar *value);
+void                  json_object_set_null_member    (JsonObject  *object,
+                                                      const gchar *member_name);
+void                  json_object_set_array_member   (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      JsonArray   *value);
+void                  json_object_set_object_member  (JsonObject  *object,
+                                                      const gchar *member_name,
+                                                      JsonObject  *value);
+GList *               json_object_get_members        (JsonObject  *object);
+JsonNode *            json_object_get_member         (JsonObject  *object,
+                                                      const gchar *member_name);
+JsonNode *            json_object_dup_member         (JsonObject  *object,
+                                                      const gchar *member_name);
+gint                  json_object_get_int_member     (JsonObject  *object,
+                                                      const gchar *member_name);
+gdouble               json_object_get_double_member  (JsonObject  *object,
+                                                      const gchar *member_name);
+gboolean              json_object_get_boolean_member (JsonObject  *object,
+                                                      const gchar *member_name);
+G_CONST_RETURN gchar *json_object_get_string_member  (JsonObject  *object,
+                                                      const gchar *member_name);
+gboolean              json_object_get_null_member    (JsonObject  *object,
+                                                      const gchar *member_name);
+JsonArray *           json_object_get_array_member   (JsonObject  *object,
+                                                      const gchar *member_name);
+JsonObject *          json_object_get_object_member  (JsonObject  *object,
+                                                      const gchar *member_name);
+gboolean              json_object_has_member         (JsonObject  *object,
+                                                      const gchar *member_name);
+void                  json_object_remove_member      (JsonObject  *object,
+                                                      const gchar *member_name);
+GList *               json_object_get_values         (JsonObject  *object);
+guint                 json_object_get_size           (JsonObject  *object);
 
 GType                 json_array_get_type       (void) G_GNUC_CONST;
 JsonArray *           json_array_new            (void);

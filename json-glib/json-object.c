@@ -1,7 +1,8 @@
 /* json-object.c - JSON object implementation
  * 
  * This file is part of JSON-GLib
- * Copyright (C) 2007  OpenedHand Ltd.
+ * Copyright (C) 2007  OpenedHand Ltd
+ * Copyright (C) 2009  Intel Corp.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -40,11 +41,11 @@
  * Since objects can be expensive, they are reference counted. You can control
  * the lifetime of a #JsonObject using json_object_ref() and json_object_unref().
  *
- * To add a member with a given name, use json_object_add_member().
+ * To add or overwrite a member with a given name, use json_object_set_member().
  * To extract a member with a given name, use json_object_get_member().
  * To retrieve the list of members, use json_object_get_members().
- * To retrieve the size of the object (that is, the number of members it has), use
- * json_object_get_size().
+ * To retrieve the size of the object (that is, the number of members it has),
+ * use json_object_get_size().
  */
 
 struct _JsonObject
@@ -60,9 +61,9 @@ json_object_get_type (void)
   static GType object_type = 0;
 
   if (G_UNLIKELY (!object_type))
-    object_type = g_boxed_type_register_static ("JsonObject",
-                                               (GBoxedCopyFunc) json_object_ref,
-                                               (GBoxedFreeFunc) json_object_unref);
+    object_type = g_boxed_type_register_static (g_intern_static_string ("JsonObject"),
+                                                (GBoxedCopyFunc) json_object_ref,
+                                                (GBoxedFreeFunc) json_object_unref);
 
   return object_type;
 }
@@ -137,6 +138,17 @@ json_object_unref (JsonObject *object)
     }
 }
 
+static inline void
+object_set_member_internal (JsonObject  *object,
+                            const gchar *member_name,
+                            JsonNode    *node)
+{
+  gchar *name;
+
+  name = g_strdelimit (g_strdup (member_name), G_STR_DELIMITERS, '_');
+  g_hash_table_replace (object->members, name, node);
+}
+
 /**
  * json_object_add_member:
  * @object: a #JsonObject
@@ -145,6 +157,11 @@ json_object_unref (JsonObject *object)
  *
  * Adds a member named @member_name and containing @node into a #JsonObject.
  * The object will take ownership of the #JsonNode.
+ *
+ * This function will return if the @object already contains a member
+ * @member_name.
+ *
+ * Deprecated: 0.8: Use json_object_set_member() instead
  */
 void
 json_object_add_member (JsonObject  *object,
@@ -165,8 +182,230 @@ json_object_add_member (JsonObject  *object,
       return;
     }
 
-  name = g_strdelimit (g_strdup (member_name), G_STR_DELIMITERS, '_');
-  g_hash_table_replace (object->members, name, node);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @node: the value of the member
+ *
+ * Sets @node as the value of @member_name inside @object.
+ *
+ * If @object already contains a member called @member_name then
+ * the member's current value is overwritten. Otherwise, a new
+ * member is added to @object.
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_member (JsonObject  *object,
+                        const gchar *member_name,
+                        JsonNode    *node)
+{
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+  g_return_if_fail (node != NULL);
+
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_int_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting an integer @value of
+ * @member_name inside @object.
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_int_member (JsonObject  *object,
+                            const gchar *member_name,
+                            gint         value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_VALUE);
+  json_node_set_int (node, value);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_double_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting a floating point @value
+ * of @member_name inside @object.
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_double_member (JsonObject  *object,
+                               const gchar *member_name,
+                               gdouble      value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_VALUE);
+  json_node_set_double (node, value);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_boolean_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting a boolean @value of
+ * @member_name inside @object.
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_boolean_member (JsonObject  *object,
+                                const gchar *member_name,
+                                gboolean     value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_VALUE);
+  json_node_set_boolean (node, value);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_string_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting a string @value of
+ * @member_name inside @object.
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_string_member (JsonObject  *object,
+                               const gchar *member_name,
+                               const gchar *value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_VALUE);
+  json_node_set_string (node, value);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_null_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function for setting a null @value of
+ * @member_name inside @object.
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_null_member (JsonObject  *object,
+                             const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_NULL);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_array_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting an array @value of
+ * @member_name inside @object.
+ *
+ * The @object will take ownership of the passed #JsonArray
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_array_member (JsonObject  *object,
+                              const gchar *member_name,
+                              JsonArray   *value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_ARRAY);
+  json_node_take_array (node, value);
+  object_set_member_internal (object, member_name, node);
+}
+
+/**
+ * json_object_set_object_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ * @value: the value of the member
+ *
+ * Convenience function for setting an object @value of
+ * @member_name inside @object.
+ *
+ * The @object will take ownership of the passed #JsonArray
+ *
+ * See also: json_object_set_member()
+ *
+ * Since: 0.8
+ */
+void
+json_object_set_object_member (JsonObject  *object,
+                               const gchar *member_name,
+                               JsonObject  *value)
+{
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (member_name != NULL);
+
+  node = json_node_new (JSON_NODE_ARRAY);
+  json_node_take_object (node, value);
+  object_set_member_internal (object, member_name, node);
 }
 
 /* FIXME: yuck */
@@ -284,6 +523,22 @@ json_object_dup_member (JsonObject  *object,
   return json_node_copy (retval);
 }
 
+static inline JsonNode *
+object_get_member_internal (JsonObject  *object,
+                            const gchar *member_name)
+{
+  JsonNode *retval;
+  gchar *name;
+
+  name = g_strdelimit (g_strdup (member_name), G_STR_DELIMITERS, '_');
+
+  retval = g_hash_table_lookup (object->members, name);
+
+  g_free (name);
+
+  return retval;
+}
+
 /**
  * json_object_get_member:
  * @object: a #JsonObject
@@ -296,20 +551,222 @@ json_object_dup_member (JsonObject  *object,
  *   member, or %NULL
  */
 JsonNode *
-json_object_get_member (JsonObject *object,
+json_object_get_member (JsonObject  *object,
                         const gchar *member_name)
 {
-  gchar *name;
-  JsonNode *retval;
+  g_return_val_if_fail (object != NULL, NULL);
+  g_return_val_if_fail (member_name != NULL, NULL);
+
+  return object_get_member_internal (object, member_name);
+}
+
+/**
+ * json_object_get_int_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the integer value
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the integer value of the object's member
+ *
+ * Since: 0.8
+ */
+gint
+json_object_get_int_member (JsonObject  *object,
+                            const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, 0);
+  g_return_val_if_fail (member_name != NULL, 0);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, 0);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0);
+
+  return json_node_get_int (node);
+}
+
+/**
+ * json_object_get_double_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the floating point value
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the floating point value of the object's member
+ *
+ * Since: 0.8
+ */
+gdouble
+json_object_get_double_member (JsonObject  *object,
+                               const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, 0.0);
+  g_return_val_if_fail (member_name != NULL, 0.0);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, 0.0);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, 0.0);
+
+  return json_node_get_double (node);
+}
+
+/**
+ * json_object_get_boolean_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the boolean value
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the boolean value of the object's member
+ *
+ * Since: 0.8
+ */
+gboolean
+json_object_get_boolean_member (JsonObject  *object,
+                                const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, FALSE);
+  g_return_val_if_fail (member_name != NULL, FALSE);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, FALSE);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, FALSE);
+
+  return json_node_get_boolean (node);
+}
+
+/**
+ * json_object_get_null_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that checks whether the value
+ * stored in @member_name of @object is null
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: %TRUE if the value is null
+ *
+ * Since: 0.8
+ */
+gboolean
+json_object_get_null_member (JsonObject  *object,
+                             const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, FALSE);
+  g_return_val_if_fail (member_name != NULL, FALSE);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, FALSE);
+
+  return JSON_NODE_TYPE (node) == JSON_NODE_NULL;
+}
+
+/**
+ * json_object_get_string_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the string value
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the string value of the object's member
+ *
+ * Since: 0.8
+ */
+G_CONST_RETURN gchar *
+json_object_get_string_member (JsonObject  *object,
+                               const gchar *member_name)
+{
+  JsonNode *node;
 
   g_return_val_if_fail (object != NULL, NULL);
   g_return_val_if_fail (member_name != NULL, NULL);
 
-  name = g_strdelimit (g_strdup (member_name), G_STR_DELIMITERS, '_');
-  retval = g_hash_table_lookup (object->members, name);
-  g_free (name);
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, NULL);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
 
-  return retval;
+  return json_node_get_string (node);
+}
+
+/**
+ * json_object_get_array_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the array
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the array inside the object's member
+ *
+ * Since: 0.8
+ */
+JsonArray *
+json_object_get_array_member (JsonObject  *object,
+                              const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, NULL);
+  g_return_val_if_fail (member_name != NULL, NULL);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, NULL);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_ARRAY, NULL);
+
+  return json_node_get_array (node);
+}
+
+/**
+ * json_object_get_object_member:
+ * @object: a #JsonObject
+ * @member_name: the name of the member
+ *
+ * Convenience function that retrieves the object
+ * stored in @member_name of @object
+ *
+ * See also: json_object_get_member()
+ *
+ * Return value: the object inside the object's member
+ *
+ * Since: 0.8
+ */
+JsonObject *
+json_object_get_object_member (JsonObject  *object,
+                               const gchar *member_name)
+{
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, NULL);
+  g_return_val_if_fail (member_name != NULL, NULL);
+
+  node = object_get_member_internal (object, member_name);
+  g_return_val_if_fail (node != NULL, NULL);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT, NULL);
+
+  return json_node_get_object (node);
 }
 
 /**
