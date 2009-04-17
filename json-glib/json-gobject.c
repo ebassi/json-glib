@@ -515,7 +515,8 @@ json_serializable_get_type (void)
 
   if (!iface_type)
     iface_type =
-      g_type_register_static_simple (G_TYPE_INTERFACE, "JsonSerializable",
+      g_type_register_static_simple (G_TYPE_INTERFACE,
+                                     g_intern_static_string ("JsonSerializable"),
                                      sizeof (JsonSerializableIface),
                                      json_serializable_base_init,
                                      0, NULL, 0);
