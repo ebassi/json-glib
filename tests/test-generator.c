@@ -87,21 +87,13 @@ test_simple_array (void)
   g_value_unset (&value);
 
   val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&value, FALSE);
-  json_node_set_value (val, &value);
+  json_node_set_boolean (val, FALSE);
   json_array_add_element (array, val);
-  g_value_unset (&value);
 
   val = json_node_new (JSON_NODE_NULL);
   json_array_add_element (array, val);
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 42);
-  json_node_set_value (val, &value);
-  json_array_add_element (array, val);
-  g_value_unset (&value);
+  json_array_add_int_element (array, 42);
 
   val = json_node_new (JSON_NODE_VALUE);
   g_value_init (&value, G_TYPE_STRING);
@@ -150,21 +142,12 @@ test_nested_array (void)
   g_value_unset (&value);
 
   {
-    val = json_node_new (JSON_NODE_ARRAY);
     nested = json_array_new ();
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_BOOLEAN);
-    g_value_set_boolean (&value, FALSE);
-    json_node_set_value (nested_val, &value);
-    json_array_add_element (nested, nested_val);
-    g_value_unset (&value);
+    json_array_add_boolean_element (nested, FALSE);
+    json_array_add_null_element (nested);
 
-    nested_val = json_node_new (JSON_NODE_NULL);
-    json_array_add_element (nested, nested_val);
-  
-    json_node_take_array (val, nested);
-    json_array_add_element (array, val);
+    json_array_add_array_element (array, nested);
   }
 
   val = json_node_new (JSON_NODE_VALUE);
@@ -194,43 +177,17 @@ test_simple_object (void)
   JsonGenerator *generator = json_generator_new ();
   JsonNode *root, *val;
   JsonObject *object;
-  GValue value = { 0, };
   gchar *data;
   gsize len;
 
   root = json_node_new (JSON_NODE_OBJECT);
   object = json_object_new ();
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&value, TRUE);
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Bool1", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&value, FALSE);
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Bool2", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_NULL);
-  json_object_set_member (object, "Null", val);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 42);
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Int", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_STRING);
-  g_value_set_string (&value, "foo");
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "String", val);
-  g_value_unset (&value);
+  json_object_set_boolean_member (object, "Bool1", TRUE);
+  json_object_set_boolean_member (object, "Bool2", FALSE);
+  json_object_set_null_member (object, "Null");
+  json_object_set_int_member (object, "Int", 42);
+  json_object_set_string_member (object, "String", "foo");
 
   json_node_take_object (root, object);
   json_generator_set_root (generator, root);
