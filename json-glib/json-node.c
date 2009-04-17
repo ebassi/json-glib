@@ -689,3 +689,21 @@ json_node_get_boolean (JsonNode *node)
 
   return FALSE;
 }
+
+/**
+ * json_node_get_node_type:
+ * @node: a #JsonNode
+ *
+ * Retrieves the #JsonNodeType of @node
+ *
+ * Return value: the type of the node
+ *
+ * Since: 0.8
+ */
+JsonNodeType
+json_node_get_node_type (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, JSON_NODE_NULL);
+
+  return node->type;
+}
