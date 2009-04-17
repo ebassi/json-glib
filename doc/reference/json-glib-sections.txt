@@ -1,6 +1,6 @@
 <SECTION>
 <FILE>json-object</FILE>
-<TITLE>JsonObject</TITLE>
+<TITLE>JSON Object</TITLE>
 JsonObject
 json_object_new
 json_object_ref
@@ -40,7 +40,7 @@ json_object_get_type
 
 <SECTION>
 <FILE>json-array</FILE>
-<TITLE>JsonArray</TITLE>
+<TITLE>JSON Array</TITLE>
 JsonArray
 json_array_new
 json_array_sized_new
@@ -55,6 +55,22 @@ json_array_get_elements
 json_array_get_length
 json_array_remove_element
 
+<SUBSECTION>
+json_array_add_array_element
+json_array_get_array_element
+json_array_add_boolean_element
+json_array_get_boolean_element
+json_array_add_double_element
+json_array_get_double_element
+json_array_add_int_element
+json_array_get_int_element
+json_array_add_null_element
+json_array_get_null_element
+json_array_add_object_element
+json_array_get_object_element
+json_array_add_string_element
+json_array_get_string_element
+
 <SUBSECTION Private>
 JSON_TYPE_ARRAY
 json_array_get_type
@@ -62,7 +78,7 @@ json_array_get_type
 
 <SECTION>
 <FILE>json-node</FILE>
-<TITLE>JsonNode</TITLE>
+<TITLE>JSON Node</TITLE>
 JsonNodeType
 JSON_NODE_TYPE
 JsonNode

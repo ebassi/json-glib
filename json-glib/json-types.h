@@ -196,21 +196,48 @@ void                  json_object_remove_member      (JsonObject  *object,
 GList *               json_object_get_values         (JsonObject  *object);
 guint                 json_object_get_size           (JsonObject  *object);
 
-GType                 json_array_get_type       (void) G_GNUC_CONST;
-JsonArray *           json_array_new            (void);
-JsonArray *           json_array_sized_new      (guint        n_elements);
-JsonArray *           json_array_ref            (JsonArray   *array);
-void                  json_array_unref          (JsonArray   *array);
-void                  json_array_add_element    (JsonArray   *array,
-                                                 JsonNode    *node);
-GList *               json_array_get_elements   (JsonArray   *array);
-JsonNode *            json_array_get_element    (JsonArray   *array,
-                                                 guint        index_);
-JsonNode *            json_array_dup_element    (JsonArray   *array,
-                                                 guint        index_);
-void                  json_array_remove_element (JsonArray   *array,
-                                                 guint        index_);
-guint                 json_array_get_length     (JsonArray   *array);
+GType                 json_array_get_type            (void) G_GNUC_CONST;
+JsonArray *           json_array_new                 (void);
+JsonArray *           json_array_sized_new           (guint        n_elements);
+JsonArray *           json_array_ref                 (JsonArray   *array);
+void                  json_array_unref               (JsonArray   *array);
+void                  json_array_add_element         (JsonArray   *array,
+                                                      JsonNode    *node);
+void                  json_array_add_int_element     (JsonArray   *array,
+                                                      gint         value);
+void                  json_array_add_double_element  (JsonArray   *array,
+                                                      gdouble      value);
+void                  json_array_add_boolean_element (JsonArray   *array,
+                                                      gboolean     value);
+void                  json_array_add_string_element  (JsonArray   *array,
+                                                      const gchar *value);
+void                  json_array_add_null_element    (JsonArray   *array);
+void                  json_array_add_array_element   (JsonArray   *array,
+                                                      JsonArray   *value);
+void                  json_array_add_object_element  (JsonArray   *array,
+                                                      JsonObject  *value);
+GList *               json_array_get_elements        (JsonArray   *array);
+JsonNode *            json_array_get_element         (JsonArray   *array,
+                                                      guint        index_);
+gint                  json_array_get_int_element     (JsonArray   *array,
+                                                      guint        index_);
+gdouble               json_array_get_double_element  (JsonArray   *array,
+                                                      guint        index_);
+gboolean              json_array_get_boolean_element (JsonArray   *array,
+                                                      guint        index_);
+G_CONST_RETURN gchar *json_array_get_string_element  (JsonArray   *array,
+                                                      guint        index_);
+gboolean              json_array_get_null_element    (JsonArray   *array,
+                                                      guint        index_);
+JsonArray *           json_array_get_array_element   (JsonArray   *array,
+                                                      guint        index_);
+JsonObject *          json_array_get_object_element  (JsonArray   *array,
+                                                      guint        index_);
+JsonNode *            json_array_dup_element         (JsonArray   *array,
+                                                      guint        index_);
+void                  json_array_remove_element      (JsonArray   *array,
+                                                      guint        index_);
+guint                 json_array_get_length          (JsonArray   *array);
 
 G_END_DECLS
 
