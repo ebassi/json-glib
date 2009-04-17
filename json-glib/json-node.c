@@ -707,3 +707,23 @@ json_node_get_node_type (JsonNode *node)
 
   return node->type;
 }
+
+/**
+ * json_node_is_null:
+ * @node: a #JsonNode
+ *
+ * Checks whether @node is a %JSON_NODE_NULL
+ *
+ * <note>A null node is not the same as a %NULL #JsonNode</note>
+ *
+ * Return value: %TRUE if the node is null
+ *
+ * Since: 0.8
+ */
+gboolean
+json_node_is_null (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, TRUE);
+
+  return node->type == JSON_NODE_NULL;
+}

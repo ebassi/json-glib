@@ -133,6 +133,7 @@ gdouble               json_node_get_double      (JsonNode     *node);
 void                  json_node_set_boolean     (JsonNode     *node,
                                                  gboolean      value);
 gboolean              json_node_get_boolean     (JsonNode     *node);
+gboolean              json_node_is_null         (JsonNode     *node);
 
 /*
  * JsonObject
