@@ -42,7 +42,7 @@ test_copy_object (void)
   JsonNode *copy;
 
   json_node_set_int (value, 42);
-  json_object_add_member (obj, "answer", value);
+  json_object_set_member (obj, "answer", value);
 
   json_node_take_object (node, obj);
 

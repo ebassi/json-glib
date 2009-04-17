@@ -605,7 +605,7 @@ json_parse_object (JsonParser *parser,
               return token;
             }
 
-          json_object_add_member (object, name, node);
+          json_object_set_member (object, name, node);
           node->parent = priv->current_node;
 
           g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
@@ -648,7 +648,7 @@ json_parse_object (JsonParser *parser,
               return token;
             }
 
-          json_object_add_member (object, name, node);
+          json_object_set_member (object, name, node);
           node->parent = priv->current_node;
           
           g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
@@ -726,7 +726,7 @@ json_parse_object (JsonParser *parser,
 
       if (node)
         {
-          json_object_add_member (object, name, node);
+          json_object_set_member (object, name, node);
           node->parent = priv->current_node;
           
           g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,

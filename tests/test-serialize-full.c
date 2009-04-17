@@ -156,11 +156,11 @@ test_object_serialize_property (JsonSerializable *serializable,
 
       val = json_node_new (JSON_NODE_VALUE);
       json_node_set_int (val, boxed->foo);
-      json_object_add_member (obj, "foo", val);
+      json_object_set_member (obj, "foo", val);
 
       val = json_node_new (JSON_NODE_VALUE);
       json_node_set_boolean (val, boxed->bar);
-      json_object_add_member (obj, "bar", val);
+      json_object_set_member (obj, "bar", val);
 
       json_node_take_object (retval, obj);
 

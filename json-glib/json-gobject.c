@@ -723,7 +723,7 @@ json_serialize_gobject (GObject *gobject,
         node = json_serialize_pspec (&value, pspec);
 
       if (node)
-        json_object_add_member (object, pspec->name, node);
+        json_object_set_member (object, pspec->name, node);
 
       g_value_unset (&value);
     }
