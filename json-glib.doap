@@ -12,6 +12,7 @@
   <homepage rdf:resource="http://live.gnome.org/JsonGlib"/>
   <license rdf:resource="http://usefulinc.com/doap/licenses/lgpl"/>
   <bug-database rdf:resource="http://bugzilla.o-hand.com/enter_bug.cgi?product=json-glib"/>
+  <category rdf:resource="http://api.gnome.org/doap-extensions#development"/>
 
   <programming-language>C</programming-language>
 
