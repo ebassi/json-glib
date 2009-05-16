@@ -36,6 +36,8 @@ G_BEGIN_DECLS
 #define JSON_TYPE_OBJECT        (json_object_get_type ())
 #define JSON_TYPE_ARRAY         (json_array_get_type ())
 
+typedef struct _JsonNode        JsonNode;
+
 /**
  * JsonObject:
  *
@@ -52,8 +54,6 @@ typedef struct _JsonObject      JsonObject;
  */
 typedef struct _JsonArray       JsonArray;
 
-typedef struct _JsonNode        JsonNode;
-
 /**
  * JsonNodeType:
  * @JSON_NODE_OBJECT: The node contains a #JsonObject
@@ -69,6 +69,24 @@ typedef enum {
   JSON_NODE_VALUE,
   JSON_NODE_NULL
 } JsonNodeType;
+
+/**
+ * JsonObjectForeach:
+ * @object: the iterated #JsonObject
+ * @member_name: the name of the member
+ * @member_node: a #JsonNode containing the @member_name value
+ * @user_data: data passed to the function
+ *
+ * The function to be passed to json_object_foreach_member(). You
+ * should not add or remove members to and from @object within
+ * this function. It is safe to change the value of @member_node.
+ *
+ * Since: 0.8
+ */
+typedef void (* JsonObjectForeach) (JsonObject  *object,
+                                    const gchar *member_name,
+                                    JsonNode    *member_node,
+                                    gpointer     user_data);
 
 /**
  * JsonNode:
@@ -197,6 +215,9 @@ void                  json_object_remove_member      (JsonObject  *object,
                                                       const gchar *member_name);
 GList *               json_object_get_values         (JsonObject  *object);
 guint                 json_object_get_size           (JsonObject  *object);
+void                  json_object_foreach_member     (JsonObject  *object,
+                                                      JsonObjectForeach func,
+                                                      gpointer     data);
 
 GType                 json_array_get_type            (void) G_GNUC_CONST;
 JsonArray *           json_array_new                 (void);

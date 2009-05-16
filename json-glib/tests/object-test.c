@@ -47,6 +47,62 @@ test_remove_member (void)
   json_object_unref (object);
 }
 
+typedef struct _TestForeachFixture
+{
+  gint n_members;
+} TestForeachFixture;
+
+static const struct {
+  const gchar *member_name;
+  JsonNodeType member_type;
+  GType member_gtype;
+} type_verify[] = {
+  { "integer", JSON_NODE_VALUE, G_TYPE_INT },
+  { "boolean", JSON_NODE_VALUE, G_TYPE_BOOLEAN },
+  { "string", JSON_NODE_VALUE, G_TYPE_STRING },
+  { "null", JSON_NODE_NULL, G_TYPE_INVALID }
+};
+
+static void
+verify_foreach (JsonObject  *object,
+                const gchar *member_name,
+                JsonNode    *member_node,
+                gpointer     user_data)
+{
+  TestForeachFixture *fixture = user_data;
+  gint i;
+
+  for (i = 0; i < G_N_ELEMENTS (type_verify); i++)
+    {
+      if (strcmp (member_name, type_verify[i].member_name) == 0)
+        {
+          g_assert (json_node_get_node_type (member_node) == type_verify[i].member_type);
+          g_assert (json_node_get_value_type (member_node) == type_verify[i].member_gtype);
+          break;
+        }
+    }
+
+  fixture->n_members += 1;
+}
+
+static void
+test_foreach_member (void)
+{
+  JsonObject *object = json_object_new ();
+  TestForeachFixture fixture = { 0, };
+
+  json_object_set_int_member (object, "integer", 42);
+  json_object_set_boolean_member (object, "boolean", TRUE);
+  json_object_set_string_member (object, "string", "hello");
+  json_object_set_null_member (object, "null");
+
+  json_object_foreach_member (object, verify_foreach, &fixture);
+
+  g_assert_cmpint (fixture.n_members, ==, json_object_get_size (object));
+
+  json_object_unref (object);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -57,6 +113,7 @@ main (int   argc,
   g_test_add_func ("/object/empty-object", test_empty_object);
   g_test_add_func ("/object/add-member", test_add_member);
   g_test_add_func ("/object/remove-member", test_remove_member);
+  g_test_add_func ("/object/foreach-member", test_foreach_member);
 
   return g_test_run ();
 }

@@ -831,3 +831,58 @@ json_object_remove_member (JsonObject  *object,
   g_hash_table_remove (object->members, name);
   g_free (name);
 }
+
+typedef struct _ForeachClosure  ForeachClosure;
+
+struct _ForeachClosure
+{
+  JsonObject *object;
+
+  JsonObjectForeach func;
+  gpointer data;
+};
+
+static void
+json_object_foreach_internal (gpointer key,
+                              gpointer value,
+                              gpointer data)
+{
+  ForeachClosure *clos = data;
+  const gchar *member_name = key;
+  JsonNode *member_node = value;
+
+  clos->func (clos->object, member_name, member_node, clos->data);
+}
+
+/**
+ * json_object_foreach_member:
+ * @object: a #JsonObject
+ * @func: the function to be called on each member
+ * @data: data to be passed to the function
+ *
+ * Iterates over all members of @object and calls @func on
+ * each one of them.
+ *
+ * It is safe to change the value of a #JsonNode of the @object
+ * from within the iterator @func, but it is not safe to add or
+ * remove members from the @object.
+ *
+ * Since: 0.8
+ */
+void
+json_object_foreach_member (JsonObject        *object,
+                            JsonObjectForeach  func,
+                            gpointer           data)
+{
+  ForeachClosure clos;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (func != NULL);
+
+  clos.object = object;
+  clos.func = func;
+  clos.data = data;
+  g_hash_table_foreach (object->members,
+                        json_object_foreach_internal,
+                        &clos);
+}

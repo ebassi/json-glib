@@ -16,6 +16,8 @@ json_object_get_members
 json_object_get_values
 json_object_get_size
 json_object_remove_member
+JsonObjectForeach
+json_object_foreach_member
 
 <SUBSECTION>
 json_object_set_array_member
