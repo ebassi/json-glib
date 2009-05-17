@@ -89,6 +89,24 @@ typedef void (* JsonObjectForeach) (JsonObject  *object,
                                     gpointer     user_data);
 
 /**
+ * JsonArrayForeach:
+ * @array: the iterated #JsonArray
+ * @index_: the index of the element
+ * @element_node: a #JsonNode containing the value at @index_
+ * @user_data: data passed to the function
+ *
+ * The function to be passed to json_array_foreach_element(). You
+ * should not add or remove elements to and from @array within
+ * this function. It is safe to change the value of @element_node.
+ *
+ * Since: 0.8
+ */
+typedef void (* JsonArrayForeach) (JsonArray  *array,
+                                   guint       index_,
+                                   JsonNode   *element_node,
+                                   gpointer    user_data);
+
+/**
  * JsonNode:
  * @type: the type of node
  *
@@ -261,6 +279,9 @@ JsonNode *            json_array_dup_element         (JsonArray   *array,
 void                  json_array_remove_element      (JsonArray   *array,
                                                       guint        index_);
 guint                 json_array_get_length          (JsonArray   *array);
+void                  json_array_foreach_element     (JsonArray   *array,
+                                                      JsonArrayForeach func,
+                                                      gpointer     data);
 
 G_END_DECLS
 

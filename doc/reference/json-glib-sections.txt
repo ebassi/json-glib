@@ -56,6 +56,8 @@ json_array_dup_element
 json_array_get_elements
 json_array_get_length
 json_array_remove_element
+JsonArrayForeach
+json_array_foreach_element
 
 <SUBSECTION>
 json_array_add_array_element

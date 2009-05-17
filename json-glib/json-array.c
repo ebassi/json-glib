@@ -667,3 +667,38 @@ json_array_remove_element (JsonArray *array,
 
   json_node_free (g_ptr_array_remove_index (array->elements, index_));
 }
+
+/**
+ * json_array_foreach_element:
+ * @array: a #JsonArray
+ * @func: the function to be called on each element
+ * @data: data to be passed to the function
+ *
+ * Iterates over all elements of @array and calls @func on
+ * each one of them.
+ *
+ * It is safe to change the value of a #JsonNode of the @array
+ * from within the iterator @func, but it is not safe to add or
+ * remove elements from the @array.
+ *
+ * Since: 0.8
+ */
+void
+json_array_foreach_element (JsonArray        *array,
+                            JsonArrayForeach  func,
+                            gpointer          data)
+{
+  gint i;
+
+  g_return_if_fail (array != NULL);
+  g_return_if_fail (func != NULL);
+
+  for (i = 0; i < array->elements->len; i++)
+    {
+      JsonNode *element_node;
+
+      element_node = g_ptr_array_index (array->elements, i);
+
+      (* func) (array, i, element_node, data);
+    }
+}
