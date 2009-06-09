@@ -1,5 +1,7 @@
 include $(top_srcdir)/Makefile.decl
 
+ACLOCAL_AMFLAGS = -I build/autotools
+
 SUBDIRS = json-glib doc
 
 if ENABLE_GLIB_TEST

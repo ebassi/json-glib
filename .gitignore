@@ -5,6 +5,7 @@ aclocal.m4
 autom4te.cache
 /build/autotools/*.m4
 !/build/autotools/shave.m4
+!/build/autotools/as-compiler-flag.m4
 configure
 config.guess
 config.h
