@@ -123,3 +123,33 @@ EXTRA_DIST += \
 	$(NULL)
 
 TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
+
+if HAVE_INTROSPECTION
+BUILT_GIRSOURCES =
+
+Json-1.0.gir: $(INTROSPECTION_SCANNER) libjson-glib-1.0.la
+	$(INTROSPECTION_SCANNER) -v --namespace Json --nsversion=1.0 \
+	     $(INCLUDES) \
+	     --c-include='json-glib/json-glib.h' \
+             --include=GObject-2.0 \
+	     --library=json-glib-1.0 \
+             --pkg gobject-2.0 \
+             --output $@ \
+	     $(source_h) \
+	     $(source_c)
+
+BUILT_GIRSOURCES += Json-1.0.gir
+
+# INTROSPECTION_GIRDIR/INTROSPECTION_TYPELIBDIR aren't the right place to
+# install anything - we need to install inside our prefix.
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(BUILT_GIRSOURCES)
+
+typelibsdir = $(libdir)/girepository-1.0/
+typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
+
+%.typelib: %.gir $(INTROSPECTION_COMPILER)
+	$(QUIET_GEN)$(DEBUG) $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=. $(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
+
+CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
+endif # HAVE_INTROSPECTION

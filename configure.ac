@@ -117,6 +117,8 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
 
 GTK_DOC_CHECK([1.11])
 
+GOBJECT_INTROSPECTION_CHECK([0.6.3])
+
 SHAVE_INIT([build/autotools], [enable])
 
 AC_CONFIG_FILES([
@@ -140,9 +142,10 @@ AC_OUTPUT
 echo ""
 echo " Json-GLib $VERSION"
 echo ""
-echo "                Prefix: ${prefix}"
-echo "           Debug level: ${enable_debug}"
-echo "        Compiler flags: ${MAINTAINER_CFLAGS}"
-echo "         API reference: ${enable_gtk_doc}"
-echo "     Enable test suite: ${enable_glibtest}"
+echo "                   Prefix: ${prefix}"
+echo "              Debug level: ${enable_debug}"
+echo "           Compiler flags: ${MAINTAINER_CFLAGS}"
+echo "            API reference: ${enable_gtk_doc}"
+echo "        Enable test suite: ${enable_glibtest}"
+echo " Build introspection data: ${enable_introspection}"
 echo ""

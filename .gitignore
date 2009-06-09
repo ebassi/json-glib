@@ -6,6 +6,7 @@ autom4te.cache
 /build/autotools/*.m4
 !/build/autotools/shave.m4
 !/build/autotools/as-compiler-flag.m4
+!/build/autotools/introspection.m4
 configure
 config.guess
 config.h
@@ -27,6 +28,8 @@ json-glib.pc
 json-enum-types.[ch]
 json-marshal.[ch]
 json-version.h
+Json-1.0.gir
+Json-1.0.typelib
 *.la
 stamp-json-enum-types.h
 stamp-json-marshal.h
