@@ -23,7 +23,7 @@
 
 #include <glib.h>
 
-#include "json-types.h"
+#include "json-types-private.h"
 
 /**
  * SECTION:json-node

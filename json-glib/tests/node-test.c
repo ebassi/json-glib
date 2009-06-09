@@ -8,7 +8,7 @@ test_copy_null (void)
   JsonNode *node = json_node_new (JSON_NODE_NULL);
   JsonNode *copy = json_node_copy (node);
 
-  g_assert_cmpint (node->type, ==, copy->type);
+  g_assert_cmpint (json_node_get_node_type (node), ==, json_node_get_node_type (copy));
   g_assert_cmpint (json_node_get_value_type (node), ==, json_node_get_value_type (copy));
   g_assert_cmpstr (json_node_type_name (node), ==, json_node_type_name (copy));
 
@@ -25,7 +25,7 @@ test_copy_value (void)
   json_node_set_string (node, "hello");
 
   copy = json_node_copy (node);
-  g_assert_cmpint (node->type, ==, copy->type);
+  g_assert_cmpint (json_node_get_node_type (node), ==, json_node_get_node_type (copy));
   g_assert_cmpstr (json_node_type_name (node), ==, json_node_type_name (copy));
   g_assert_cmpstr (json_node_get_string (node), ==, json_node_get_string (copy));
 
@@ -48,7 +48,7 @@ test_copy_object (void)
 
   copy = json_node_copy (node);
 
-  g_assert_cmpint (node->type, ==, copy->type);
+  g_assert_cmpint (json_node_get_node_type (node), ==, json_node_get_node_type (copy));
   g_assert (json_node_get_object (node) == json_node_get_object (copy));
 
   json_node_free (copy);
@@ -60,7 +60,7 @@ test_null (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_NULL);
 
-  g_assert_cmpint (node->type, ==, JSON_NODE_NULL);
+  g_assert_cmpint (json_node_get_node_type (node), ==, JSON_NODE_NULL);
   g_assert_cmpint (json_node_get_value_type (node), ==, G_TYPE_INVALID);
   g_assert_cmpstr (json_node_type_name (node), ==, "NULL");
 

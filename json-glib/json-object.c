@@ -24,7 +24,7 @@
 
 #include <glib.h>
 
-#include "json-types.h"
+#include "json-types-private.h"
 
 /**
  * SECTION:json-object
@@ -47,13 +47,6 @@
  * To retrieve the size of the object (that is, the number of members it has),
  * use json_object_get_size().
  */
-
-struct _JsonObject
-{
-  GHashTable *members;
-
-  volatile gint ref_count;
-};
 
 GType
 json_object_get_type (void)

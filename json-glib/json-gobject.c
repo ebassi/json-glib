@@ -39,6 +39,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "json-types-private.h"
+
 #include "json-gobject.h"
 #include "json-parser.h"
 #include "json-generator.h"

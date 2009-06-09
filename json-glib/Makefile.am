@@ -40,6 +40,7 @@ source_h = \
 
 source_h_private = \
 	$(srcdir)/json-scanner.h 	\
+	$(srcdir)/json-types-private.h	\
 	$(NULL)
 
 source_c = \

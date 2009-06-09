@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#include "json-types.h"
+#include "json-types-private.h"
 
 /**
  * SECTION:json-array
@@ -39,13 +39,6 @@
  * To retrieve the entire array in list form, use json_array_get_elements().
  * To retrieve the length of the array, use json_array_get_length().
  */
-
-struct _JsonArray
-{
-  GPtrArray *elements;
-
-  volatile gint ref_count;
-};
 
 GType
 json_array_get_type (void)
