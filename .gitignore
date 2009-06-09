@@ -3,10 +3,13 @@ Makefile
 Makefile.in
 aclocal.m4
 autom4te.cache
+/build/autotools/*.m4
+!/build/autotools/shave.m4
 configure
 config.guess
 config.h
 config.h.in
+config.h.in~
 config.log
 config.status
 config.sub
