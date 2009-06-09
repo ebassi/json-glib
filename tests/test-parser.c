@@ -519,15 +519,15 @@ main (int   argc,
   g_type_init ();
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add_func ("/json-parser/empty-string", test_empty);
-  g_test_add_func ("/json-parser/empty-array", test_empty_array);
-  g_test_add_func ("/json-parser/simple-array", test_simple_array);
-  g_test_add_func ("/json-parser/nested-array", test_nested_array);
-  g_test_add_func ("/json-parser/empty-object", test_empty_object);
-  g_test_add_func ("/json-parser/simple-object", test_simple_object);
-  g_test_add_func ("/json-parser/nested-object", test_nested_object);
-  g_test_add_func ("/json-parser/assignment", test_assignment);
-  g_test_add_func ("/json-parser/unicode-escape", test_unicode_escape);
+  g_test_add_func ("/parser/empty-string", test_empty);
+  g_test_add_func ("/parser/empty-array", test_empty_array);
+  g_test_add_func ("/parser/simple-array", test_simple_array);
+  g_test_add_func ("/parser/nested-array", test_nested_array);
+  g_test_add_func ("/parser/empty-object", test_empty_object);
+  g_test_add_func ("/parser/simple-object", test_simple_object);
+  g_test_add_func ("/parser/nested-object", test_nested_object);
+  g_test_add_func ("/parser/assignment", test_assignment);
+  g_test_add_func ("/parser/unicode-escape", test_unicode_escape);
 
   return g_test_run ();
 }

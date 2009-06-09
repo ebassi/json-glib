@@ -346,11 +346,11 @@ main (int   argc,
   g_type_init ();
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add_func ("/json-generator/empty-array", test_empty_array);
-  g_test_add_func ("/json-generator/empty-object", test_empty_object);
-  g_test_add_func ("/json-generator/simple-array", test_simple_array);
-  g_test_add_func ("/json-generator/nested-array", test_nested_array);
-  g_test_add_func ("/json-generator/simple-object", test_simple_object);
+  g_test_add_func ("/generator/empty-array", test_empty_array);
+  g_test_add_func ("/generator/empty-object", test_empty_object);
+  g_test_add_func ("/generator/simple-array", test_simple_array);
+  g_test_add_func ("/generator/nested-array", test_nested_array);
+  g_test_add_func ("/generator/simple-object", test_simple_object);
 
   return g_test_run ();
 }
