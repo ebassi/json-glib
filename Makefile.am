@@ -2,13 +2,13 @@ include $(top_srcdir)/Makefile.decl
 
 ACLOCAL_AMFLAGS = -I build/autotools
 
-SUBDIRS = json-glib doc
+SUBDIRS = build json-glib doc
 
 if ENABLE_GLIB_TEST
 SUBDIRS += tests
 endif
 
-DIST_SUBDIRS = json-glib doc tests
+DIST_SUBDIRS = build json-glib doc tests
 
 pcfiles = json-glib-1.0.pc
 
@@ -25,6 +25,13 @@ CLEANFILES = $(pcfiles) test-report.xml
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-maintainer-flags
 
 dist-hook:
-	git-log --stat > ChangeLog.in && \
-	cp -f ChangeLog.in $(distdir)/ChangeLog && \
-	rm -f ChangeLog.in
+	@if test -d "$(srcdir)/.git"; then \
+	  echo Generating ChangeLog ; \
+	  ( cd "$(srcdir)" \
+	    && $(top_srcdir)/missing --run git log --stat ) > ChangeLog.tmp \
+	  && mv -f ChangeLog.tmp $(top_distdir)/ChangeLog \
+	  || ( rm -f ChangeLog.tmp; \
+	       echo Failed to generate ChangeLog >&2 ); \
+	else \
+	  echo A git checkout is required to generate a ChangeLog >&2; \
+	fi

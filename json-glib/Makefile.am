@@ -32,25 +32,25 @@ BUILT_SOURCES = json-marshal.h json-marshal.c json-enum-types.h json-enum-types.
 STAMP_FILES = stamp-json-marshal.h stamp-json-enum-types.h
 
 source_h = \
-	$(srcdir)/json-generator.h 	\
-	$(srcdir)/json-gobject.h 	\
-	$(srcdir)/json-parser.h 	\
-	$(srcdir)/json-types.h 		\
+	$(top_srcdir)/json-glib/json-generator.h 	\
+	$(top_srcdir)/json-glib/json-gobject.h 		\
+	$(top_srcdir)/json-glib/json-parser.h 		\
+	$(top_srcdir)/json-glib/json-types.h 		\
 	$(NULL)
 
 source_h_private = \
-	$(srcdir)/json-scanner.h 	\
-	$(srcdir)/json-types-private.h	\
+	$(top_srcdir)/json-glib/json-scanner.h 		\
+	$(top_srcdir)/json-glib/json-types-private.h	\
 	$(NULL)
 
 source_c = \
-	json-array.c 		\
-	json-generator.c 	\
-	json-gobject.c 		\
-	json-node.c 		\
-	json-object.c 		\
-	json-parser.c 		\
-	json-scanner.c 		\
+	$(srcdir)/json-array.c 		\
+	$(srcdir)/json-generator.c 	\
+	$(srcdir)/json-gobject.c 	\
+	$(srcdir)/json-node.c 		\
+	$(srcdir)/json-object.c 	\
+	$(srcdir)/json-parser.c 	\
+	$(srcdir)/json-scanner.c 	\
 	$(NULL)
 
 json-marshal.h: stamp-json-marshal.h
@@ -115,6 +115,7 @@ DISTCLEANFILES = json-version.h
 
 EXTRA_DIST += \
 	json-version.h.in 	\
+	json-types-private.h	\
 	json-scanner.h 		\
 	json-glib.h 		\
 	json-marshal.list 	\
