@@ -52,6 +52,7 @@ CFILE_GLOB=$(top_srcdir)/json-glib/*.c
 # e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
 IGNORE_HFILES=\
 	json-scanner.h \
+	json-types-private.h \
 	json-private.h \
 	json-marshal.h \
 	json-glib.h \
