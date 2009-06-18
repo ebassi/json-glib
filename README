@@ -1,5 +1,5 @@
 JSON-GLib - A JSON parser for GLib-based libraries and applications
-===================================================================
+===============================================================================
 
 JSON-GLib implements a full JSON parser using GLib and GObject.
 
@@ -27,11 +27,11 @@ REQUIREMENTS
 In order to build JSON-GLib you will need:
 
   * pkg-config
-  * gtk-doc >= 1.8
+  * gtk-doc >= 1.11
   * GLib >= 2.16
 
 INSTALLATION
-------------
+-------------------------------------------------------------------------------
 To build JSON-GLib just run:
 
   $ ./configure
@@ -39,7 +39,7 @@ To build JSON-GLib just run:
   # make install
 
 BUGS
-----
+-------------------------------------------------------------------------------
 
 If you find a bug in JSON-GLib, please create a Bugzilla entry here:
 
@@ -54,15 +54,15 @@ Attaching:
   symbols obtained through gdb is greatly appreaciated
 
 HACKING
--------
+-------------------------------------------------------------------------------
 
 JSON-GLib is developed mainly inside a GIT repository available at:
 
-  git://github.com/ebassi/json-glib.git
+  http://git.gnome.org/cgit/json-glib
 
 You can clone the GIT repository with:
 
-  git clone git://github.com/ebassi/json-glib.git
+  git clone git://git.gnome.org/json-glib
 
 If you want to contribute functionality or bug fixes to JSON-GLib you
 can either notify me to pull from your GIT repository or send me a set
@@ -74,7 +74,17 @@ or:
 
   git send-email -k -s
 
-AUTHOR
-------
+Make sure you always run the test suite when you are fixing bugs. New
+features should come with a test unit.
+
+AUTHOR, COPYRIGHT AND LICENSING
+-------------------------------------------------------------------------------
 JSON-GLib has been written by Emmanuele Bassi
-Copyright (C) 2007  OpenedHand Ltd.
+
+JSON-GLib is released under the terms of the GNU Lesser General Public License,
+either version 2.1 or (at your option) any later version.
+
+See the file COPYING for details.
+
+Copyright (C) 2007  OpenedHand Ltd
+Copyright (C) 2009  Intel Corp.
