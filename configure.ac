@@ -75,23 +75,25 @@ AC_ARG_ENABLE([debug],
               [],
               [enable_debug=debug_default])
 
-AS_IF([test "x$enable_debug" = "xyes"],
-      [
-        test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
-        JSON_DEBUG_CFLAGS="-DJSON_ENABLE_DEBUG"
-      ],
+AS_CASE([$enable_debug],
 
-      [test "x$enable_debug" = "xminimum"],
-      [
-        JSON_DEBUG_CFLAGS="-DJSON_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
-      ],
+        [yes],
+        [
+          test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
+          JSON_DEBUG_CFLAGS="-DJSON_ENABLE_DEBUG"
+        ],
 
-      [test "x$enable_debug" = "xno"],
-      [
-        JSON_DEBUG_CFLAGS="-DG_DISABLE_ASSERT -DG_DISABLE_CHECKS -DG_DISABLE_CAST_CHECKS"
-      ],
+        [minimum],
+        [
+          JSON_DEBUG_CFLAGS="-DJSON_ENABLE_DEBUG -DG_DISABLE_CAST_CHECKS"
+        ],
 
-      [AC_MSG_ERROR([Unknown argument to --enable-debug])]
+        [no],
+        [
+          JSON_DEBUG_CFLAGS="-DG_DISABLE_ASSERT -DG_DISABLE_CHECKS -DG_DISABLE_CAST_CHECKS"
+        ],
+
+        [AC_MSG_ERROR([Unknown argument to --enable-debug])]
 )
 
 AC_SUBST(JSON_DEBUG_CFLAGS)
