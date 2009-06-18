@@ -23,7 +23,7 @@ AC_INIT([json-glib],
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE([1.10])
 AM_CONFIG_HEADER([config.h])
 
 AM_DISABLE_STATIC
@@ -59,11 +59,11 @@ AC_FUNC_MMAP
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
 
-PKG_CHECK_MODULES(JSON, gobject-2.0 >= glib_req_version)
+PKG_CHECK_MODULES(JSON, [gobject-2.0 >= glib_req_version])
 AC_SUBST(JSON_CFLAGS)
 AC_SUBST(JSON_LIBS)
 
-AM_CONDITIONAL(ENABLE_GLIB_TEST, test "x$enable_glibtest" = "xyes")
+AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
 
 dnl = Enable debug level ===================================================
 
