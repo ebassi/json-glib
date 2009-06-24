@@ -399,7 +399,7 @@ json_object_set_object_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_ARRAY);
+  node = json_node_new (JSON_NODE_OBJECT);
   json_node_take_object (node, value);
   object_set_member_internal (object, member_name, node);
 }
