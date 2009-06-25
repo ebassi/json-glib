@@ -383,7 +383,7 @@ json_object_set_array_member (JsonObject  *object,
  * Convenience function for setting an object @value of
  * @member_name inside @object.
  *
- * The @object will take ownership of the passed #JsonArray
+ * The @object will take ownership of the passed #JsonObject
  *
  * See also: json_object_set_member()
  *
