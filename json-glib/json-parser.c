@@ -77,10 +77,10 @@ static const struct
   guint name_offset;
   guint token;
 } symbols[] = {
-  {  0, JSON_TOKEN_TRUE },
+  {  0, JSON_TOKEN_TRUE  },
   {  5, JSON_TOKEN_FALSE },
-  { 11, JSON_TOKEN_NULL },
-  { 16, JSON_TOKEN_VAR }
+  { 11, JSON_TOKEN_NULL  },
+  { 16, JSON_TOKEN_VAR   }
 };
 
 static const guint n_symbols = G_N_ELEMENTS (symbols);
@@ -755,8 +755,8 @@ json_parse_object (JsonParser *parser,
 }
 
 static guint
-json_parse_statement (JsonParser *parser,
-                      JsonScanner   *scanner)
+json_parse_statement (JsonParser  *parser,
+                      JsonScanner *scanner)
 {
   JsonParserPrivate *priv = parser->priv;
   guint token;
@@ -816,6 +816,7 @@ json_parse_statement (JsonParser *parser,
 
     case JSON_TOKEN_NULL:
       priv->root = priv->current_node = json_node_new (JSON_NODE_NULL);
+      json_scanner_get_next_token (scanner);
       return G_TOKEN_NONE;
 
     case JSON_TOKEN_TRUE:
@@ -823,6 +824,7 @@ json_parse_statement (JsonParser *parser,
       priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
       json_node_set_boolean (priv->current_node,
                              token == JSON_TOKEN_TRUE ? TRUE : FALSE);
+      json_scanner_get_next_token (scanner);
       return G_TOKEN_NONE;
 
     case '-':
@@ -851,6 +853,7 @@ json_parse_statement (JsonParser *parser,
                 return G_TOKEN_INT;
               }
 
+            json_scanner_get_next_token (scanner);
             return G_TOKEN_NONE;
           }
         else
@@ -862,12 +865,15 @@ json_parse_statement (JsonParser *parser,
     case G_TOKEN_FLOAT:
     case G_TOKEN_STRING:
       priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
+
       if (token == G_TOKEN_INT)
         json_node_set_int (priv->current_node, scanner->value.v_int);
       else if (token == G_TOKEN_FLOAT)
         json_node_set_double (priv->current_node, scanner->value.v_float);
       else
         json_node_set_string (priv->current_node, scanner->value.v_string);
+
+      json_scanner_get_next_token (scanner);
       return G_TOKEN_NONE;
 
     default:
