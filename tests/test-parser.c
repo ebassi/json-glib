@@ -15,6 +15,17 @@ static const gchar *test_empty_object_string = "{ }";
 
 static const struct {
   const gchar *str;
+  JsonNodeType type;
+  GType gtype;
+} test_base_values[] = {
+  { "null", JSON_NODE_NULL, G_TYPE_INVALID },
+  { "42", JSON_NODE_VALUE, G_TYPE_INT },
+  { "true", JSON_NODE_VALUE, G_TYPE_BOOLEAN },
+  { "\"string\"", JSON_NODE_VALUE, G_TYPE_STRING }
+};
+
+static const struct {
+  const gchar *str;
   gint len;
   gint element;
   JsonNodeType type;
@@ -70,6 +81,7 @@ static const struct
   { "{ \"test\" : \"foo \\u00e8\" }", "test", "foo è" }
 };
 
+static guint n_test_base_values    = G_N_ELEMENTS (test_base_values);
 static guint n_test_simple_arrays  = G_N_ELEMENTS (test_simple_arrays);
 static guint n_test_nested_arrays  = G_N_ELEMENTS (test_nested_arrays);
 static guint n_test_simple_objects = G_N_ELEMENTS (test_simple_objects);
@@ -103,6 +115,52 @@ test_empty (void)
         g_print ("checking json_parser_get_root...\n");
 
       g_assert (NULL == json_parser_get_root (parser));
+    }
+
+  g_object_unref (parser);
+}
+
+static void
+test_base_value (void)
+{
+  gint i;
+  JsonParser *parser;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("checking json_parser_load_from_data with base-values...\n");
+
+  for (i = 0; i < n_test_base_values; i++)
+    {
+      GError *error = NULL;
+
+      if (!json_parser_load_from_data (parser, test_base_values[i].str, -1, &error))
+        {
+          if (g_test_verbose ())
+            g_print ("Error: %s\n", error->message);
+
+          g_error_free (error);
+          g_object_unref (parser);
+          exit (1);
+        }
+      else
+        {
+          JsonNode *root;
+
+          g_assert (NULL != json_parser_get_root (parser));
+
+          root = json_parser_get_root (parser);
+          g_assert (root != NULL);
+
+          if (g_test_verbose ())
+            g_print ("checking root node is of the desired type %s...\n",
+                     test_base_values[i].gtype == G_TYPE_INVALID ? "<null>"
+                                                                 : g_type_name (test_base_values[i].gtype));
+          g_assert_cmpint (JSON_NODE_TYPE (root), ==, test_base_values[i].type);
+          g_assert_cmpint (json_node_get_value_type (root), ==, test_base_values[i].gtype);
+       }
     }
 
   g_object_unref (parser);
@@ -520,6 +578,7 @@ main (int   argc,
   g_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/parser/empty-string", test_empty);
+  g_test_add_func ("/parser/base-value", test_base_value);
   g_test_add_func ("/parser/empty-array", test_empty_array);
   g_test_add_func ("/parser/simple-array", test_simple_array);
   g_test_add_func ("/parser/nested-array", test_nested_array);
