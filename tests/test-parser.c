@@ -249,20 +249,20 @@ test_simple_array (void)
           array = json_node_get_array (root);
           g_assert (array != NULL);
 
-         if (g_test_verbose ())
-           g_print ("checking array is of the desired length (%d)...\n",
-                    test_simple_arrays[i].len);
-         g_assert_cmpint (json_array_get_length (array), ==, test_simple_arrays[i].len);
+          if (g_test_verbose ())
+            g_print ("checking array is of the desired length (%d)...\n",
+                     test_simple_arrays[i].len);
+          g_assert_cmpint (json_array_get_length (array), ==, test_simple_arrays[i].len);
 
-         if (g_test_verbose ())
-           g_print ("checking element %d is of the desired type %s...\n",
-                    test_simple_arrays[i].element,
-                    g_type_name (test_simple_arrays[i].gtype));
-         node = json_array_get_element (array, test_simple_arrays[i].element);
-         g_assert (node != NULL);
-         g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_arrays[i].type);
-         g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_arrays[i].gtype);
-       }
+          if (g_test_verbose ())
+            g_print ("checking element %d is of the desired type %s...\n",
+                     test_simple_arrays[i].element,
+                     g_type_name (test_simple_arrays[i].gtype));
+          node = json_array_get_element (array, test_simple_arrays[i].element);
+          g_assert (node != NULL);
+          g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_arrays[i].type);
+          g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_arrays[i].gtype);
+        }
     }
 
   g_object_unref (parser);
@@ -308,10 +308,10 @@ test_nested_array (void)
           array = json_node_get_array (root);
           g_assert (array != NULL);
 
-         if (g_test_verbose ())
-           g_print ("checking array is not empty...\n");
-         g_assert_cmpint (json_array_get_length (array), >, 0);
-       }
+          if (g_test_verbose ())
+            g_print ("checking array is not empty...\n");
+          g_assert_cmpint (json_array_get_length (array), >, 0);
+        }
     }
 
   g_object_unref (parser);
@@ -400,20 +400,20 @@ test_simple_object (void)
           object = json_node_get_object (root);
           g_assert (object != NULL);
 
-         if (g_test_verbose ())
-           g_print ("checking object is of the desired size (%d)...\n",
-                    test_simple_objects[i].size);
-         g_assert_cmpint (json_object_get_size (object), ==, test_simple_objects[i].size);
+          if (g_test_verbose ())
+            g_print ("checking object is of the desired size (%d)...\n",
+                     test_simple_objects[i].size);
+          g_assert_cmpint (json_object_get_size (object), ==, test_simple_objects[i].size);
 
-         if (g_test_verbose ())
-           g_print ("checking member '%s' is of the desired type %s...\n",
-                    test_simple_objects[i].member,
-                    g_type_name (test_simple_objects[i].gtype));
-         node = json_object_get_member (object, test_simple_objects[i].member);
-         g_assert (node != NULL);
-         g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_objects[i].type);
-         g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_objects[i].gtype);
-       }
+          if (g_test_verbose ())
+            g_print ("checking member '%s' is of the desired type %s...\n",
+                     test_simple_objects[i].member,
+                     g_type_name (test_simple_objects[i].gtype));
+          node = json_object_get_member (object, test_simple_objects[i].member);
+          g_assert (node != NULL);
+          g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_objects[i].type);
+          g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_objects[i].gtype);
+        }
     }
 
   g_object_unref (parser);
@@ -459,10 +459,10 @@ test_nested_object (void)
           object = json_node_get_object (root);
           g_assert (object != NULL);
 
-         if (g_test_verbose ())
-           g_print ("checking object is not empty...\n");
-         g_assert_cmpint (json_object_get_size (object), >, 0);
-       }
+          if (g_test_verbose ())
+            g_print ("checking object is not empty...\n");
+          g_assert_cmpint (json_object_get_size (object), >, 0);
+        }
     }
 
   g_object_unref (parser);
@@ -504,7 +504,7 @@ test_assignment (void)
           g_assert (var != NULL);
           g_assert_cmpstr (var, ==, test_assignments[i].var);
           g_assert (NULL != json_parser_get_root (parser));
-       }
+        }
     }
 
   g_object_unref (parser);
@@ -550,21 +550,21 @@ test_unicode_escape (void)
           object = json_node_get_object (root);
           g_assert (object != NULL);
 
-         if (g_test_verbose ())
-           g_print ("checking object is not empty...\n");
-         g_assert_cmpint (json_object_get_size (object), >, 0);
+          if (g_test_verbose ())
+            g_print ("checking object is not empty...\n");
+          g_assert_cmpint (json_object_get_size (object), >, 0);
 
-         node = json_object_get_member (object, test_unicode[i].member);
-         g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+          node = json_object_get_member (object, test_unicode[i].member);
+          g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
 
-         if (g_test_verbose ())
-           g_print ("checking simple string equality...\n");
-         g_assert_cmpstr (json_node_get_string (node), ==, test_unicode[i].match);
+          if (g_test_verbose ())
+            g_print ("checking simple string equality...\n");
+          g_assert_cmpstr (json_node_get_string (node), ==, test_unicode[i].match);
 
-         if (g_test_verbose ())
-           g_print ("checking for valid UTF-8...\n");
-         g_assert (g_utf8_validate (json_node_get_string (node), -1, NULL));
-       }
+          if (g_test_verbose ())
+            g_print ("checking for valid UTF-8...\n");
+          g_assert (g_utf8_validate (json_node_get_string (node), -1, NULL));
+        }
     }
 
   g_object_unref (parser);
