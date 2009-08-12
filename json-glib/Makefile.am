@@ -131,7 +131,7 @@ BUILT_GIRSOURCES =
 Json-1.0.gir: $(INTROSPECTION_SCANNER) libjson-glib-1.0.la
 	$(INTROSPECTION_SCANNER) -v --namespace Json --nsversion=1.0 \
 	     $(INCLUDES) \
-	     --c-include='json-glib/json-glib.h' \
+	     --c-include='json-glib/json-object.h' \
              --include=GObject-2.0 \
 	     --library=json-glib-1.0 \
              --pkg gobject-2.0 \
