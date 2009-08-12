@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include <glib.h>
-#include <json-glib/json-types.h>
+#include <json-glib/json-glib.h>
 
 static void
 test_empty_object (void)

@@ -1,5 +1,5 @@
 #include <glib/gtestutils.h>
-#include <json-glib/json-types.h>
+#include <json-glib/json-glib.h>
 #include <string.h>
 
 static void
