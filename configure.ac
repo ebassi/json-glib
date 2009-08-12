@@ -1,6 +1,6 @@
 m4_define([json_major_version], [0])
 m4_define([json_minor_version], [7])
-m4_define([json_micro_version], [5])
+m4_define([json_micro_version], [6])
 
 m4_define([json_version], [json_major_version.json_minor_version.json_micro_version])
 
