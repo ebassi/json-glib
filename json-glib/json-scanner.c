@@ -119,6 +119,7 @@ static JsonScannerConfig json_scanner_config_template =
   TRUE			/* char_2_token */,
   TRUE			/* symbol_2_token */,
   FALSE			/* scope_0_fallback */,
+  TRUE                  /* store_int64 */
 };
 
 /* --- defines --- */

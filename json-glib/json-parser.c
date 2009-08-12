@@ -470,8 +470,8 @@ json_parse_array (JsonParser *parser,
         {
         case G_TOKEN_INT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_int (node, negative ? scanner->value.v_int * -1
-                                            : scanner->value.v_int);
+          json_node_set_int (node, negative ? scanner->value.v_int64 * -1
+                                            : scanner->value.v_int64);
           break;
 
         case G_TOKEN_FLOAT:
@@ -699,8 +699,8 @@ json_parse_object (JsonParser *parser,
         {
         case G_TOKEN_INT:
           node = json_node_new (JSON_NODE_VALUE);
-          json_node_set_int (node, negative ? scanner->value.v_int * -1
-                                            : scanner->value.v_int);
+          json_node_set_int (node, negative ? scanner->value.v_int64 * -1
+                                            : scanner->value.v_int64);
           break;
 
         case G_TOKEN_FLOAT:
@@ -843,7 +843,7 @@ json_parse_statement (JsonParser  *parser,
               {
               case G_TOKEN_INT:
                 json_node_set_int (priv->current_node,
-                                   scanner->value.v_int * -1);
+                                   scanner->value.v_int64 * -1);
                 break;
               case G_TOKEN_FLOAT:
                 json_node_set_double (priv->current_node,
@@ -867,7 +867,7 @@ json_parse_statement (JsonParser  *parser,
       priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
 
       if (token == G_TOKEN_INT)
-        json_node_set_int (priv->current_node, scanner->value.v_int);
+        json_node_set_int (priv->current_node, scanner->value.v_int64);
       else if (token == G_TOKEN_FLOAT)
         json_node_set_double (priv->current_node, scanner->value.v_float);
       else
