@@ -16,6 +16,8 @@ Overview of changes for 0.8.0
 * Deprecate json_object_add_member()
 * Add convenience accessors for JsonObject and JsonArray
 * Add convenience iteration functions for JsonObject and JsonArray
+* Automatically promote integers to gint64, to compensate for the
+  lack of integer size in the JSON specificiation
 
 Overview of changes for 0.6.0
 =============================
