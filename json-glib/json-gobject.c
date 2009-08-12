@@ -216,29 +216,50 @@ json_deserialize_pspec (GValue     *value,
 
     case JSON_NODE_VALUE:
       json_node_get_value (node, &node_value);
+#if 0
+      {
+        gchar *node_str = g_strdup_value_contents (&node_value);
+        g_debug ("%s: value type '%s' := node value type '%s' -> '%s'",
+                 G_STRLOC,
+                 g_type_name (G_VALUE_TYPE (value)),
+                 g_type_name (G_VALUE_TYPE (&node_value)),
+                 node_str);
+        g_free (node_str);
+      }
+#endif
 
       switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value)))
         {
         case G_TYPE_BOOLEAN:
-        case G_TYPE_INT:
+        case G_TYPE_INT64:
         case G_TYPE_DOUBLE:
         case G_TYPE_STRING:
           g_value_copy (&node_value, value);
           retval = TRUE;
           break;
 
+        case G_TYPE_INT:
+          g_value_set_int (value, (gint) g_value_get_int64 (&node_value));
+          retval = TRUE;
+          break;
+
         case G_TYPE_CHAR:
-          g_value_set_char (value, (gchar) g_value_get_int (&node_value));
+          g_value_set_char (value, (gchar) g_value_get_int64 (&node_value));
           retval = TRUE;
           break;
 
         case G_TYPE_UINT:
-          g_value_set_uint (value, (gint) g_value_get_int (&node_value));
+          g_value_set_uint (value, (guint) g_value_get_int64 (&node_value));
           retval = TRUE;
           break;
 
         case G_TYPE_UCHAR:
-          g_value_set_uchar (value, (guchar) g_value_get_int (&node_value));
+          g_value_set_uchar (value, (guchar) g_value_get_int64 (&node_value));
+          retval = TRUE;
+          break;
+
+        case G_TYPE_FLOAT:
+          g_value_set_float (value, (gfloat) g_value_get_double (&node_value));
           retval = TRUE;
           break;
 
@@ -246,9 +267,9 @@ json_deserialize_pspec (GValue     *value,
           {
             gint enum_value;
 
-            if (G_VALUE_HOLDS (&node_value, G_TYPE_INT))
+            if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
               {
-                enum_value = g_value_get_int (&node_value);
+                enum_value = g_value_get_int64 (&node_value);
                 retval = TRUE;
               }
             else if (G_VALUE_HOLDS (&node_value, G_TYPE_STRING))
@@ -267,9 +288,9 @@ json_deserialize_pspec (GValue     *value,
           {
             gint flags_value;
 
-            if (G_VALUE_HOLDS (&node_value, G_TYPE_INT))
+            if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
               {
-                flags_value = g_value_get_int (&node_value);
+                flags_value = g_value_get_int64 (&node_value);
                 retval = TRUE;
               }
             else if (G_VALUE_HOLDS (&node_value, G_TYPE_STRING))
@@ -309,7 +330,7 @@ json_serialize_pspec (const GValue *real_value,
 
   switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (real_value)))
     {
-    case G_TYPE_INT:
+    case G_TYPE_INT64:
     case G_TYPE_BOOLEAN:
     case G_TYPE_DOUBLE:
       /* JSON native types */
@@ -320,9 +341,14 @@ json_serialize_pspec (const GValue *real_value,
       g_value_unset (&value);
       break;
 
+    case G_TYPE_INT:
+      retval = json_node_new (JSON_NODE_VALUE);
+      json_node_set_int (retval, g_value_get_int (real_value));
+      break;
+
     case G_TYPE_FLOAT:
       retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_double (retval, (gdouble) g_value_get_float (real_value));
+      json_node_set_double (retval, g_value_get_float (real_value));
       break;
 
     case G_TYPE_STRING:
@@ -367,21 +393,27 @@ json_serialize_pspec (const GValue *real_value,
 
     case G_TYPE_UINT:
       retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, (gint) g_value_get_uint (real_value));
+      json_node_set_int (retval, g_value_get_uint (real_value));
       break;
 
     case G_TYPE_LONG:
+      retval = json_node_new (JSON_NODE_VALUE);
+      json_node_set_int (retval, g_value_get_long (real_value));
+      break;
+
     case G_TYPE_ULONG:
+      retval = json_node_new (JSON_NODE_VALUE);
+      json_node_set_int (retval, g_value_get_long (real_value));
       break;
 
     case G_TYPE_CHAR:
       retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, (gint) g_value_get_char (real_value));
+      json_node_set_int (retval, g_value_get_char (real_value));
       break;
 
     case G_TYPE_UCHAR:
       retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, (gint) g_value_get_uchar (real_value));
+      json_node_set_int (retval, g_value_get_uchar (real_value));
       break;
 
     case G_TYPE_ENUM:

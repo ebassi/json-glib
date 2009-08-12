@@ -76,19 +76,19 @@ test_value (void)
 
   g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
 
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 42);
+  g_value_init (&value, G_TYPE_INT64);
+  g_value_set_int64 (&value, 42);
 
-  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_TYPE_INT);
-  g_assert_cmpint (g_value_get_int (&value), ==, 42);
+  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_TYPE_INT64);
+  g_assert_cmpint (g_value_get_int64 (&value), ==, 42);
 
   json_node_set_value (node, &value);
   json_node_get_value (node, &check);
 
   g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_VALUE_TYPE (&check));
-  g_assert_cmpint (g_value_get_int (&value), ==, g_value_get_int (&check));
-  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_INT);
-  g_assert_cmpint (g_value_get_int (&check), ==, 42);
+  g_assert_cmpint (g_value_get_int64 (&value), ==, g_value_get_int64 (&check));
+  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_INT64);
+  g_assert_cmpint (g_value_get_int64 (&check), ==, 42);
 
   g_value_unset (&value);
   g_value_unset (&check);

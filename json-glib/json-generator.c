@@ -290,8 +290,8 @@ dump_value (JsonGenerator *generator,
 
   switch (G_VALUE_TYPE (&value))
     {
-    case G_TYPE_INT:
-      g_string_append_printf (buffer, "%d", g_value_get_int (&value));
+    case G_TYPE_INT64:
+      g_string_append_printf (buffer, "%" G_GINT64_FORMAT, g_value_get_int64 (&value));
       break;
 
     case G_TYPE_STRING:

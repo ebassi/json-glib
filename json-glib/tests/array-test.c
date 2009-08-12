@@ -56,7 +56,7 @@ static const struct {
   JsonNodeType element_type;
   GType element_gtype;
 } type_verify[] = {
-  { JSON_NODE_VALUE, G_TYPE_INT },
+  { JSON_NODE_VALUE, G_TYPE_INT64 },
   { JSON_NODE_VALUE, G_TYPE_BOOLEAN },
   { JSON_NODE_VALUE, G_TYPE_STRING },
   { JSON_NODE_NULL, G_TYPE_INVALID }

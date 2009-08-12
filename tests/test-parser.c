@@ -19,7 +19,7 @@ static const struct {
   GType gtype;
 } test_base_values[] = {
   { "null", JSON_NODE_NULL, G_TYPE_INVALID },
-  { "42", JSON_NODE_VALUE, G_TYPE_INT },
+  { "42", JSON_NODE_VALUE, G_TYPE_INT64 },
   { "true", JSON_NODE_VALUE, G_TYPE_BOOLEAN },
   { "\"string\"", JSON_NODE_VALUE, G_TYPE_STRING }
 };
@@ -54,7 +54,7 @@ static const struct {
   JsonNodeType type;
   GType gtype;
 } test_simple_objects[] = {
-  { "{ \"test\" : 42 }", 1, "test", JSON_NODE_VALUE, G_TYPE_INT },
+  { "{ \"test\" : 42 }", 1, "test", JSON_NODE_VALUE, G_TYPE_INT64 },
   { "{ \"foo\" : \"bar\", \"baz\" : null }", 2, "baz", JSON_NODE_NULL, G_TYPE_INVALID },
   { "{ \"channel\" : \"/meta/connect\" }", 1, "channel", JSON_NODE_VALUE, G_TYPE_STRING }
 };

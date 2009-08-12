@@ -223,7 +223,7 @@ json_object_set_member (JsonObject  *object,
 void
 json_object_set_int_member (JsonObject  *object,
                             const gchar *member_name,
-                            gint         value)
+                            gint64       value)
 {
   JsonNode *node;
 
@@ -570,7 +570,7 @@ json_object_get_member (JsonObject  *object,
  *
  * Since: 0.8
  */
-gint
+gint64
 json_object_get_int_member (JsonObject  *object,
                             const gchar *member_name)
 {

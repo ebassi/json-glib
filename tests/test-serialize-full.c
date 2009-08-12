@@ -154,13 +154,8 @@ test_object_serialize_property (JsonSerializable *serializable,
       
       boxed = g_value_get_boxed (value);
 
-      val = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (val, boxed->foo);
-      json_object_set_member (obj, "foo", val);
-
-      val = json_node_new (JSON_NODE_VALUE);
-      json_node_set_boolean (val, boxed->bar);
-      json_object_set_member (obj, "bar", val);
+      json_object_set_int_member (obj, "foo", boxed->foo);
+      json_object_set_boolean_member (obj, "bar", boxed->bar);
 
       json_node_take_object (retval, obj);
 

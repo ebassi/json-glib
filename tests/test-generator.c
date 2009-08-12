@@ -151,8 +151,8 @@ test_nested_array (void)
   }
 
   val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 42);
+  g_value_init (&value, G_TYPE_INT64);
+  g_value_set_int64 (&value, 42);
   json_node_set_value (val, &value);
   json_array_add_element (array, val);
   g_value_unset (&value);
