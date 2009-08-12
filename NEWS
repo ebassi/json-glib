@@ -18,6 +18,8 @@ Overview of changes for 0.8.0
 * Add convenience iteration functions for JsonObject and JsonArray
 * Automatically promote integers to gint64, to compensate for the
   lack of integer size in the JSON specificiation
+* Disallow the inclusion of single header files: only json-glib,h
+  and json-gobject.h can be included directly
 
 Overview of changes for 0.6.0
 =============================
