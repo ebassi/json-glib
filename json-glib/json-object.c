@@ -35,11 +35,7 @@
  *
  * #JsonArray is the representation of the object type inside JSON. It contains
  * #JsonNode<!-- -->s, which may contain fundamental types, arrays or other
- * objects. Each member of an object is accessed using its name. Please note
- * that the member names are normalized internally before being used; every
- * delimiter matching the %G_STR_DELIMITER macro will be transformed into an
- * underscore, so for instance "member-name" and "member_name" are equivalent
- * for a #JsonObject.
+ * objects. Each member of an object is accessed using its name.
  *
  * Since objects can be expensive, they are reference counted. You can control
  * the lifetime of a #JsonObject using json_object_ref() and json_object_unref().
