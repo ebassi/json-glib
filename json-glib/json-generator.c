@@ -532,13 +532,14 @@ json_generator_new (void)
 /**
  * json_generator_to_data:
  * @generator: a #JsonGenerator
- * @length: return location for the length of the returned buffer, or %NULL
+ * @length: (out): return location for the length of the returned
+ *   buffer, or %NULL
  *
  * Generates a JSON data stream from @generator and returns it as a
  * buffer.
  *
- * Return value: a newly allocated buffer holding a JSON data stream. Use
- *   g_free() to free the allocated resources.
+ * Return value: a newly allocated buffer holding a JSON data stream.
+ *   Use g_free() to free the allocated resources.
  */
 gchar *
 json_generator_to_data (JsonGenerator *generator,
@@ -620,8 +621,8 @@ json_generator_to_file (JsonGenerator  *generator,
  * Sets @node as the root of the JSON data stream to be serialized by
  * the #JsonGenerator.
  *
- * Note: the node is copied by the generator object, so it can be safely
- * freed after calling this function.
+ * <note>The node is copied by the generator object, so it can be safely
+ * freed after calling this function.</note>
  */
 void
 json_generator_set_root (JsonGenerator *generator,

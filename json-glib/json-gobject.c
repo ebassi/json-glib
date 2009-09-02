@@ -341,16 +341,6 @@ json_serialize_pspec (const GValue *real_value,
       g_value_unset (&value);
       break;
 
-    case G_TYPE_INT:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_int (real_value));
-      break;
-
-    case G_TYPE_FLOAT:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_double (retval, g_value_get_float (real_value));
-      break;
-
     case G_TYPE_STRING:
       /* strings might be NULL */
       if (!g_value_get_string (real_value))
@@ -361,6 +351,16 @@ json_serialize_pspec (const GValue *real_value,
           json_node_set_string (retval, g_value_get_string (real_value));
           break;
         }
+      break;
+
+    case G_TYPE_INT:
+      retval = json_node_new (JSON_NODE_VALUE);
+      json_node_set_int (retval, g_value_get_int (real_value));
+      break;
+
+    case G_TYPE_FLOAT:
+      retval = json_node_new (JSON_NODE_VALUE);
+      json_node_set_double (retval, g_value_get_float (real_value));
       break;
 
     case G_TYPE_BOXED:
@@ -449,7 +449,7 @@ json_serialize_pspec (const GValue *real_value,
  * Asks a #JsonSerializable implementation to serialize a #GObject
  * property into a #JsonNode object.
  *
- * Return value: a #JsonNode containing the serialize property
+ * Return value: a #JsonNode containing the serialized property
  */
 JsonNode *
 json_serializable_serialize_property (JsonSerializable *serializable,
@@ -695,7 +695,7 @@ json_construct_gobject (GType         gtype,
 /**
  * json_serialize_gobject:
  * @gobject: a #GObject
- * @length: return value for the length of the buffer, or %NULL
+ * @length: (out): return value for the length of the buffer, or %NULL
  *
  * Serializes a #GObject into a JSON data stream. If @gobject implements
  * the #JsonSerializableIface interface, it will be asked to serizalize all
