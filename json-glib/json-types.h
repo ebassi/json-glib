@@ -131,6 +131,8 @@ JsonNode *            json_node_copy            (JsonNode     *node);
 void                  json_node_free            (JsonNode     *node);
 JsonNodeType          json_node_get_node_type   (JsonNode     *node);
 GType                 json_node_get_value_type  (JsonNode     *node);
+void                  json_node_set_parent      (JsonNode     *node,
+                                                 JsonNode     *parent);
 JsonNode *            json_node_get_parent      (JsonNode     *node);
 G_CONST_RETURN gchar *json_node_type_name       (JsonNode     *node);
 

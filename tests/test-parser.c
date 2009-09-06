@@ -154,6 +154,7 @@ test_base_value (void)
 
           root = json_parser_get_root (parser);
           g_assert (root != NULL);
+          g_assert (json_node_get_parent (root) == NULL);
 
           if (g_test_verbose ())
             g_print ("checking root node is of the desired type %s...\n",
@@ -198,6 +199,7 @@ test_empty_array (void)
         g_print ("checking root node is an array...\n");
       root = json_parser_get_root (parser);
       g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_ARRAY);
+      g_assert (json_node_get_parent (root) == NULL);
 
       array = json_node_get_array (root);
       g_assert (array != NULL);
@@ -246,6 +248,7 @@ test_simple_array (void)
             g_print ("checking root node is an array...\n");
           root = json_parser_get_root (parser);
           g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_ARRAY);
+          g_assert (json_node_get_parent (root) == NULL);
 
           array = json_node_get_array (root);
           g_assert (array != NULL);
@@ -261,6 +264,7 @@ test_simple_array (void)
                      g_type_name (test_simple_arrays[i].gtype));
           node = json_array_get_element (array, test_simple_arrays[i].element);
           g_assert (node != NULL);
+          g_assert (json_node_get_parent (node) == root);
           g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_arrays[i].type);
           g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_arrays[i].gtype);
         }
@@ -305,6 +309,7 @@ test_nested_array (void)
             g_print ("checking root node is an array...\n");
           root = json_parser_get_root (parser);
           g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_ARRAY);
+          g_assert (json_node_get_parent (root) == NULL);
 
           array = json_node_get_array (root);
           g_assert (array != NULL);
@@ -348,7 +353,9 @@ test_empty_object (void)
       if (g_test_verbose ())
         g_print ("checking root node is an object...\n");
       root = json_parser_get_root (parser);
+      g_assert (json_node_get_parent (root) == NULL);
       g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+      g_assert (json_node_get_parent (root) == NULL);
 
       object = json_node_get_object (root);
       g_assert (object != NULL);
@@ -397,6 +404,7 @@ test_simple_object (void)
             g_print ("checking root node is an object...\n");
           root = json_parser_get_root (parser);
           g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+          g_assert (json_node_get_parent (root) == NULL);
 
           object = json_node_get_object (root);
           g_assert (object != NULL);
@@ -412,6 +420,7 @@ test_simple_object (void)
                      g_type_name (test_simple_objects[i].gtype));
           node = json_object_get_member (object, test_simple_objects[i].member);
           g_assert (node != NULL);
+          g_assert (json_node_get_parent (node) == root);
           g_assert_cmpint (JSON_NODE_TYPE (node), ==, test_simple_objects[i].type);
           g_assert_cmpint (json_node_get_value_type (node), ==, test_simple_objects[i].gtype);
         }
@@ -456,6 +465,7 @@ test_nested_object (void)
             g_print ("checking root node is an object...\n");
           root = json_parser_get_root (parser);
           g_assert_cmpint (JSON_NODE_TYPE (root), ==, JSON_NODE_OBJECT);
+          g_assert (json_node_get_parent (root) == NULL);
 
           object = json_node_get_object (root);
           g_assert (object != NULL);

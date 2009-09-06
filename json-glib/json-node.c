@@ -485,6 +485,24 @@ json_node_type_name (JsonNode *node)
 }
 
 /**
+ * json_node_set_parent:
+ * @node: a #JsonNode
+ * @parent: the parent #JsonNode of @node
+ *
+ * Sets the parent #JsonNode of @node
+ *
+ * Since: 0.8
+ */
+void
+json_node_set_parent (JsonNode *node,
+                      JsonNode *parent)
+{
+  g_return_if_fail (node != NULL);
+
+  node->parent = parent;
+}
+
+/**
  * json_node_get_parent:
  * @node: a #JsonNode
  *

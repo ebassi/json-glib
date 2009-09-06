@@ -445,7 +445,7 @@ json_parse_array (JsonParser  *parser,
             }
 
           json_array_add_element (array, node);
-          node->parent = priv->current_node;
+          json_node_set_parent (node, priv->current_node);
 
           g_signal_emit (parser, parser_signals[ARRAY_ELEMENT], 0,
                          array,
@@ -486,7 +486,7 @@ json_parse_array (JsonParser  *parser,
             }
 
           json_array_add_element (array, node);
-          node->parent = priv->current_node;
+          json_node_set_parent (node, priv->current_node);
 
           g_signal_emit (parser, parser_signals[ARRAY_ELEMENT], 0,
                          array,
@@ -515,7 +515,7 @@ json_parse_array (JsonParser  *parser,
         }
 
       json_array_add_element (array, node);
-      node->parent = priv->current_node;
+      json_node_set_parent (node, priv->current_node);
 
       g_signal_emit (parser, parser_signals[ARRAY_ELEMENT], 0,
                      array,
@@ -622,7 +622,7 @@ json_parse_object (JsonParser *parser,
             }
 
           json_object_set_member (object, name, node);
-          node->parent = priv->current_node;
+          json_node_set_parent (node, priv->current_node);
 
           g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
                          object,
@@ -665,7 +665,7 @@ json_parse_object (JsonParser *parser,
             }
 
           json_object_set_member (object, name, node);
-          node->parent = priv->current_node;
+          json_node_set_parent (node, priv->current_node);
           
           g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
                          object,
@@ -697,8 +697,8 @@ json_parse_object (JsonParser *parser,
         }
 
       json_object_set_member (object, name, node);
-      node->parent = priv->current_node;
-          
+      json_node_set_parent (node, priv->current_node);
+
       g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
                      object,
                      name);
