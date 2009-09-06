@@ -121,23 +121,40 @@
     <title>JSON-GLib Additional Reference</title>
 
     <xi:include href="xml/json-version.xml"/>
+
+    <chapter>
+      <title>Object Hierarchy</title>
+      <xi:include href="xml/tree_index.sgml"/>
+    </chapter>
+
   </part>
 
   <index>
     <title>Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback/></xi:include>
+  </index>
+
+  <index role="deprecated">
+    <title>Index of deprecated symbols</title>
+    <xi:include href="xml/api-index-deprecated.xml"><xi:fallback/></xi:include>
   </index>
 
   <index role="0.4">
     <title>Index of new symbols in 0.4</title>
+    <xi:include href="xml/api-index-0.4.xml"><xi:fallback/></xi:include>
   </index>
 
   <index role="0.6">
     <title>Index of new symbols in 0.6</title>
+    <xi:include href="xml/api-index-0.6.xml"><xi:fallback/></xi:include>
   </index>
 
   <index role="0.8">
     <title>Index of new symbols in 0.8</title>
+    <xi:include href="xml/api-index-0.8.xml"><xi:fallback/></xi:include>
   </index>
+
+  <xi:include href="xml/annotation-glossary.xml"/>
 
   <appendix id="license">
     <title>License</title>
