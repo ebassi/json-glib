@@ -13,7 +13,7 @@ m4_define([lt_age], [m4_eval(json_binary_age - json_interface_age)])
 
 m4_define([glib_req_version], [2.15])
 
-AC_PREREQ([2.59])
+AC_PREREQ([2.61])
 
 AC_INIT([json-glib],
         [json_version],
@@ -121,14 +121,26 @@ GTK_DOC_CHECK([1.11])
 
 GOBJECT_INTROSPECTION_CHECK([0.6.3])
 
-SHAVE_INIT([build/autotools], [enable])
+m4_ifdef([AM_SILENT_RULES],
+         [
+           AM_SILENT_RULES([yes])
+           use_shave=no
+         ],
+         [
+           SHAVE_INIT([build/autotools], [enable])
+           AC_CONFIG_FILES([
+                build/autotools/shave-libtool
+                build/autotools/shave
+           ])
+           use_shave=yes
+         ])
+
+AM_CONDITIONAL([USE_SHAVE], [test "x$use_shave" = "xyes"])
 
 AC_CONFIG_FILES([
         Makefile
         build/Makefile
         build/autotools/Makefile
-        build/autotools/shave-libtool
-        build/autotools/shave
         json-glib/Makefile
         json-glib/json-version.h
         json-glib/tests/Makefile

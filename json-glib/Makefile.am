@@ -1,6 +1,10 @@
 include $(top_srcdir)/Makefile.decl
 
+if USE_SHAVE
 QUIET_GEN = $(Q:@=@echo '  GEN   '$@;)
+else
+QUIET_GEN = $(AM_V_GEN)
+endif # USE_SHAVE
 
 if ENABLE_GLIB_TEST
 SUBDIRS = . tests
@@ -129,7 +133,7 @@ if HAVE_INTROSPECTION
 BUILT_GIRSOURCES =
 
 Json-1.0.gir: $(INTROSPECTION_SCANNER) libjson-glib-1.0.la
-	$(INTROSPECTION_SCANNER) \
+	$(QUIET_GEN)$(INTROSPECTION_SCANNER) \
 		-v --namespace Json --nsversion=1.0 \
 		$(INCLUDES) \
 		--c-include='json-glib/json-object.h' \
