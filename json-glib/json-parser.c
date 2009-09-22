@@ -59,11 +59,11 @@ struct _JsonParserPrivate
 
   GError *last_error;
 
-  guint has_assignment : 1;
-  guint is_filename    : 1;
-
   gchar *variable_name;
   gchar *filename;
+
+  guint has_assignment : 1;
+  guint is_filename    : 1;
 };
 
 static const gchar symbol_names[] =
@@ -847,8 +847,8 @@ json_parse_statement (JsonParser  *parser,
 
 static void
 json_scanner_msg_handler (JsonScanner *scanner,
-                          gchar    *message,
-                          gboolean  is_error)
+                          gchar       *message,
+                          gboolean     is_error)
 {
   JsonParser *parser = scanner->user_data;
   JsonParserPrivate *priv = parser->priv;
@@ -1093,6 +1093,7 @@ json_parser_load_from_data (JsonParser   *parser,
 
   priv->is_filename = FALSE;
   g_free (priv->filename);
+  priv->filename = NULL;
 
   internal_error = NULL;
   if (!json_parser_load (parser, data, length, &internal_error))
