@@ -337,6 +337,7 @@ json_parse_value (JsonParser   *parser,
                   guint         token,
                   JsonNode    **node)
 {
+  JsonNode *current_node = parser->priv->current_node;
   gboolean is_negative = FALSE;
 
   if (token == '-')
@@ -383,8 +384,19 @@ json_parse_value (JsonParser   *parser,
       break;
 
     default:
-      *node = NULL;
-      return G_TOKEN_RIGHT_BRACE;
+      {
+        JsonNodeType cur_type;
+
+        *node = NULL;
+
+        cur_type = json_node_get_node_type (current_node);
+        if (cur_type == JSON_NODE_ARRAY)
+          return G_TOKEN_RIGHT_BRACE;
+        else if (cur_type == JSON_NODE_OBJECT)
+          return G_TOKEN_RIGHT_CURLY;
+        else
+          return G_TOKEN_SYMBOL;
+      }
     }
 
   return G_TOKEN_NONE;
