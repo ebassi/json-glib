@@ -20,6 +20,8 @@ Overview of changes for 0.8.0
   lack of integer size in the JSON specificiation
 * Disallow the inclusion of single header files: only json-glib,h
   and json-gobject.h can be included directly
+* Documentation fixes
+* Clean up and remove code duplication inside the Parser object
 
 Overview of changes for 0.6.0
 =============================
