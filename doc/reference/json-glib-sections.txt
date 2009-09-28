@@ -84,8 +84,13 @@ json_array_get_type
 <FILE>json-node</FILE>
 <TITLE>JSON Node</TITLE>
 JsonNodeType
-JSON_NODE_TYPE
 JsonNode
+JSON_NODE_TYPE
+JSON_NODE_HOLDS
+JSON_NODE_HOLDS_VALUE
+JSON_NODE_HOLDS_OBJECT
+JSON_NODE_HOLDS_ARRAY
+JSON_NODE_HOLDS_NULL
 json_node_new
 json_node_copy
 json_node_free

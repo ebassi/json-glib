@@ -60,7 +60,7 @@ test_null (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_NULL);
 
-  g_assert_cmpint (json_node_get_node_type (node), ==, JSON_NODE_NULL);
+  g_assert (JSON_NODE_HOLDS_NULL (node));
   g_assert_cmpint (json_node_get_value_type (node), ==, G_TYPE_INVALID);
   g_assert_cmpstr (json_node_type_name (node), ==, "NULL");
 
