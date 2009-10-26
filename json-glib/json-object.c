@@ -123,7 +123,9 @@ json_object_unref (JsonObject *object)
     g_atomic_int_compare_and_exchange (&object->ref_count, old_ref, old_ref - 1);
   else
     {
+      g_list_free (object->members_ordered);
       g_hash_table_destroy (object->members);
+      object->members_ordered = NULL;
       object->members = NULL;
 
       g_slice_free (JsonObject, object);
@@ -135,9 +137,12 @@ object_set_member_internal (JsonObject  *object,
                             const gchar *member_name,
                             JsonNode    *node)
 {
-  g_hash_table_replace (object->members,
-                        g_strdup (member_name),
-                        node);
+  gchar *name = g_strdup (member_name);
+
+  if (g_hash_table_lookup (object->members, name) == NULL)
+    object->members_ordered = g_list_prepend (object->members_ordered, name);
+
+  g_hash_table_replace (object->members, name, node);
 }
 
 /**
@@ -459,9 +464,13 @@ g_hash_table_get_values (GHashTable *hash_table)
 GList *
 json_object_get_members (JsonObject *object)
 {
+  GList *copy;
+
   g_return_val_if_fail (object != NULL, NULL);
 
-  return g_hash_table_get_keys (object->members);
+  copy = g_list_copy (object->members_ordered);
+
+  return g_list_reverse (copy);
 }
 
 /**
@@ -795,32 +804,23 @@ void
 json_object_remove_member (JsonObject  *object,
                            const gchar *member_name)
 {
+  GList *l;
+
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
+  for (l = object->members_ordered; l != NULL; l = l->next)
+    {
+      const gchar *name = l->data;
+
+      if (g_strcmp0 (name, member_name) == 0)
+        {
+          object->members_ordered = g_list_delete_link (object->members_ordered, l);
+          break;
+        }
+    }
+
   g_hash_table_remove (object->members, member_name);
-}
-
-typedef struct _ForeachClosure  ForeachClosure;
-
-struct _ForeachClosure
-{
-  JsonObject *object;
-
-  JsonObjectForeach func;
-  gpointer data;
-};
-
-static void
-json_object_foreach_internal (gpointer key,
-                              gpointer value,
-                              gpointer data)
-{
-  ForeachClosure *clos = data;
-  const gchar *member_name = key;
-  JsonNode *member_node = value;
-
-  clos->func (clos->object, member_name, member_node, clos->data);
 }
 
 /**
@@ -843,15 +843,18 @@ json_object_foreach_member (JsonObject        *object,
                             JsonObjectForeach  func,
                             gpointer           data)
 {
-  ForeachClosure clos;
+  GList *members, *l;
 
   g_return_if_fail (object != NULL);
   g_return_if_fail (func != NULL);
 
-  clos.object = object;
-  clos.func = func;
-  clos.data = data;
-  g_hash_table_foreach (object->members,
-                        json_object_foreach_internal,
-                        &clos);
+  /* the list is stored in reverse order to have constant time additions */
+  members = g_list_last (object->members_ordered);
+  for (l = members; l != NULL; l = l->prev)
+    {
+      const gchar *member_name = l->data;
+      JsonNode *member_node = g_hash_table_lookup (object->members, member_name);
+
+      func (object, member_name, member_node, data);
+    }
 }

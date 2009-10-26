@@ -196,11 +196,12 @@ test_simple_object (void)
   data = json_generator_to_data (generator, &len);
 
   if (g_test_verbose ())
-    g_print ("checking simple array `%s' (expected: %s)\n",
+    g_print ("checking simple object `%s' (expected: %s)\n",
              data,
              simple_object);
 
   g_assert_cmpint (len, ==, strlen (simple_object));
+  g_assert_cmpstr (data, ==, simple_object);
 
   /* we cannot compare the strings literal because JsonObject does not
    * guarantee any ordering

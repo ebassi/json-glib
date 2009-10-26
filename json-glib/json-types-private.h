@@ -53,6 +53,9 @@ struct _JsonObject
 {
   GHashTable *members;
 
+  /* the members of the object, ordered in reverse */
+  GList *members_ordered;
+
   volatile gint ref_count;
 };
 
