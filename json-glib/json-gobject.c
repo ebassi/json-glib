@@ -482,7 +482,7 @@ json_gobject_new (GType       gtype,
         }
 
     next_member:
-      members_left = g_list_prepend (members_left, pspec->name);
+      members_left = g_list_prepend (members_left, l->data);
     }
 
   retval = g_object_newv (gtype,
