@@ -187,14 +187,90 @@ json_gobject_new (GType       gtype,
   JsonSerializableIface *iface = NULL;
   JsonSerializable *serializable = NULL;
   gboolean deserialize_property;
-  GList *members, *l;
+  GList *members, *members_left, *l;
   guint n_members;
   GObjectClass *klass;
   GObject *retval;
+  GArray *construct_params;
+  gint n, i;
 
   klass = g_type_class_ref (gtype);
-  retval = g_object_new (gtype, NULL);
 
+  n_members = json_object_get_size (object);
+  members = json_object_get_members (object);
+  members_left = NULL;
+
+  /* first pass: construct and construct-only properties; here
+   * we cannot use Serializable because we don't have an
+   * instance yet; we use the default implementation of
+   * json_deserialize_pspec() to deserialize known types
+   *
+   * FIXME - find a way to allow deserialization for these
+   * properties
+   */
+  construct_params = g_array_sized_new (FALSE, FALSE, sizeof (GParameter), n_members);
+
+  for (l = members; l != NULL; l = l->next)
+    {
+      const gchar *member_name = l->data;
+      GParamSpec *pspec;
+      GParameter param = { NULL, };
+      JsonNode *val;
+      GValue value = { 0, };
+      gboolean res = FALSE;
+
+      pspec = g_object_class_find_property (klass, member_name);
+      if (!pspec)
+        goto next_member;
+
+      if (!(pspec->flags & G_PARAM_CONSTRUCT_ONLY) ||
+          !(pspec->flags & G_PARAM_CONSTRUCT_ONLY))
+        goto next_member;
+
+      if (!(pspec->flags & G_PARAM_WRITABLE))
+        goto next_member;
+
+      g_value_init (&param.value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+
+      val = json_object_get_member (object, member_name);
+      res = json_deserialize_pspec (&param.value, pspec, val);
+      if (!res)
+        g_value_unset (&param.value);
+      else
+        {
+          param.name = g_strdup (pspec->name);
+
+          g_array_append_val (construct_params, param);
+
+          continue;
+        }
+
+    next_member:
+      members_left = g_list_prepend (members_left, pspec->name);
+    }
+
+  retval = g_object_newv (gtype,
+                          construct_params->len,
+                          (GParameter *) construct_params->data);
+
+  /* free the contents of the GArray */
+  for (i = 0; i < construct_params->len; i++)
+    {
+      GParameter *param = &g_array_index (construct_params, GParameter, i);
+
+      g_free ((gchar *) param->name);
+      g_value_unset (&param->value);
+    }
+
+  g_array_free (construct_params, TRUE);
+  g_list_free (members);
+
+  /* we use g_list_prepend() above, but we want to maintain
+   * the ordering of json_object_get_members() here
+   */
+  members = g_list_reverse (members_left);
+
+  /* do the Serializable type check once */
   if (g_type_is_a (gtype, JSON_TYPE_SERIALIZABLE))
     {
       serializable = JSON_SERIALIZABLE (retval);
@@ -205,9 +281,6 @@ json_gobject_new (GType       gtype,
     deserialize_property = FALSE;
 
   g_object_freeze_notify (retval);
-
-  n_members = json_object_get_size (object);
-  members = json_object_get_members (object);
 
   for (l = members; l != NULL; l = l->next)
     {
@@ -221,7 +294,9 @@ json_gobject_new (GType       gtype,
       if (!pspec)
         continue;
 
-      if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
+      /* we should have dealt with these above */
+      if ((pspec->flags & G_PARAM_CONSTRUCT_ONLY) ||
+          (pspec->flags & G_PARAM_CONSTRUCT))
         continue;
 
       if (!(pspec->flags & G_PARAM_WRITABLE))
@@ -242,6 +317,9 @@ json_gobject_new (GType       gtype,
       if (!res)
         res = json_deserialize_pspec (&value, pspec, val);
 
+      /* FIXME - we probably want to be able to have a custom
+       * set_property() for Serializable implementations
+       */
       if (res)
         g_object_set_property (retval, pspec->name, &value);
 
@@ -492,7 +570,7 @@ json_serialize_pspec (const GValue *real_value,
       break;
 
     case G_TYPE_STRING:
-      /* strings might be NULL */
+      /* strings might be NULL, so we handle it differently */
       if (!g_value_get_string (real_value))
         retval = json_node_new (JSON_NODE_NULL);
       else
@@ -536,8 +614,7 @@ json_serialize_pspec (const GValue *real_value,
         }
       else
         {
-          g_warning ("Unsupported type `%s'",
-                     g_type_name (G_VALUE_TYPE (real_value)));
+          g_warning ("Unsupported type `%s'", g_type_name (G_VALUE_TYPE (real_value)));
         }
       break;
 
@@ -595,8 +672,7 @@ json_serialize_pspec (const GValue *real_value,
       break;
 
     default:
-      g_warning ("Unsupported type `%s'",
-                 g_type_name (G_VALUE_TYPE (real_value)));
+      g_warning ("Unsupported type `%s'", g_type_name (G_VALUE_TYPE (real_value)));
       break;
     }
 

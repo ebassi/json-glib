@@ -297,7 +297,8 @@ test_object_class_init (TestObjectClass *klass)
                                    PROP_BAR,
                                    g_param_spec_boolean ("bar", "Bar", "Bar",
                                                          FALSE,
-                                                         G_PARAM_READWRITE));
+                                                         G_PARAM_READWRITE |
+                                                         G_PARAM_CONSTRUCT_ONLY));
   g_object_class_install_property (gobject_class,
                                    PROP_BAZ,
                                    g_param_spec_string ("baz", "Baz", "Baz",
@@ -330,7 +331,7 @@ static void
 test_object_init (TestObject *object)
 {
   object->foo = 0;
-  object->bar = TRUE;
+  object->bar = FALSE;
   object->baz = NULL; 
 
   object->blah.foo = object->foo;
@@ -346,7 +347,7 @@ test_object_init (TestObject *object)
 static const gchar *var_test =
 "{\n"
 "  \"foo\"  : 42,\n"
-"  \"bar\"  : false,\n"
+"  \"bar\"  : true,\n"
 "  \"baz\"  : \"hello\",\n"
 "  \"meh\"  : \"baz\",\n"
 "  \"mah\"  : [ \"hello\", \", \", \"world\", \"!\" ],\n"
@@ -377,12 +378,12 @@ test_deserialize (void)
              " baz: %s\n"
              " meh: %s\n",
              TEST_OBJECT (object)->foo == 42            ? "<true>" : "<false>",
-             TEST_OBJECT (object)->bar == FALSE         ? "<true>" : "<false>",
+             TEST_OBJECT (object)->bar == TRUE          ? "<true>" : "<false>",
              TEST_OBJECT (object)->baz != NULL          ? "<true>" : "<false>",
              TEST_OBJECT (object)->meh == TEST_ENUM_BAZ ? "<true>" : "<false>");
 
   g_assert_cmpint (TEST_OBJECT (object)->foo, ==, 42);
-  g_assert_cmpint (TEST_OBJECT (object)->bar, ==, FALSE);
+  g_assert_cmpint (TEST_OBJECT (object)->bar, ==, TRUE);
   g_assert_cmpstr (TEST_OBJECT (object)->baz, ==, "hello");
   g_assert_cmpint (TEST_OBJECT (object)->meh, ==, TEST_ENUM_BAZ);
 
