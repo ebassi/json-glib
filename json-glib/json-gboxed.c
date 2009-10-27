@@ -245,12 +245,14 @@ json_boxed_serialize (GType          gboxed_type,
 }
 
 /**
- * json_boxed_serialize:
+ * json_boxed_deserialize:
  * @gboxed_type: a boxed type
  * @node: a #JsonNode
  *
- * Deserializes @node into @boxed, a pointer to a #GBoxed of type
- * @gboxed_type
+ * Deserializes @node into a #GBoxed of @gboxed_type
+ *
+ * Return value: the newly allocated #GBoxed. Use g_boxed_free() to
+ *   release the resources allocated by this function
  *
  * Since: 0.10
  */
