@@ -6,9 +6,7 @@ NULL =
 noinst_PROGRAMS = $(TEST_PROGS)
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/json-glib
-AM_CFLAGS = -g $(JSON_CFLAGS)
-AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS)
-
+AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS) $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 progs_ldadd = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
 
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
@@ -28,6 +26,10 @@ test_serialize_simple_LDADD    = $(progs_ldadd)
 TEST_PROGS                     += test-serialize-complex
 test_serialize_complex_SOURCES  = test-serialize-complex.c
 test_serialize_complex_LDADD    = $(progs_ldadd)
+
+TEST_PROGS                   += test-serialize-boxed
+test_serialize_boxed_SOURCES  = test-serialize-boxed.c
+test_serialize_boxed_LDADD    = $(progs_ldadd)
 
 TEST_PROGS                  += test-serialize-full
 test_serialize_full_SOURCES  = test-serialize-full.c

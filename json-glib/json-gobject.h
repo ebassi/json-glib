@@ -79,6 +79,43 @@ gboolean  json_serializable_deserialize_property (JsonSerializable *serializable
                                                   GParamSpec       *pspec,
                                                   JsonNode         *property_node);
 
+/**
+ * JsonBoxedSerializeFunc:
+ * @boxed: a #GBoxed
+ *
+ * Serializes the passed #GBoxed and stores it inside a #JsonNode
+ *
+ * Return value: the newly created #JsonNode
+ *
+ * Since: 0.10
+ */
+typedef JsonNode *(* JsonBoxedSerializeFunc) (gconstpointer boxed);
+
+/**
+ * JsonBoxedDeserializeFunc:
+ * @node: a #JsonNode
+ *
+ * Deserializes the contents of the passed #JsonNode into a #GBoxed
+ *
+ * Return value: the newly created boxed type
+ *
+ * Since: 0.10
+ */
+typedef gpointer (* JsonBoxedDeserializeFunc) (JsonNode *node);
+
+void      json_boxed_register_transform_func (GType                     gboxed_type,
+                                              JsonNodeType              node_type,
+                                              JsonBoxedSerializeFunc    serialize_func,
+                                              JsonBoxedDeserializeFunc  deserialize_func);
+gboolean  json_boxed_can_serialize           (GType                     gboxed_type,
+                                              JsonNodeType             *node_type);
+gboolean  json_boxed_can_deserialize         (GType                     gboxed_type,
+                                              JsonNodeType              node_type);
+JsonNode *json_boxed_serialize               (GType                     gboxed_type,
+                                              JsonNodeType              node_type,
+                                              gconstpointer             boxed);
+gpointer  json_boxed_deserialize             (GType                     gboxed_type,
+                                              JsonNode                 *node);
 
 GObject *json_construct_gobject (GType         gtype,
                                  const gchar  *data,
