@@ -129,14 +129,14 @@ static void
 test_object_init (TestObject *object)
 {
   object->foo = 42;
-  object->bar = TRUE;
+  object->bar = FALSE;
   object->baz = g_strdup ("Test");
 }
 
 static void
 test_serialize (void)
 {
-  TestObject *obj = g_object_new (TEST_TYPE_OBJECT, NULL);
+  TestObject *obj = g_object_new (TEST_TYPE_OBJECT, "bar", TRUE, NULL);
   gchar *data;
   gsize len;
 
