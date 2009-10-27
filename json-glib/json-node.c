@@ -469,6 +469,23 @@ json_node_type_name (JsonNode *node)
   switch (node->type)
     {
     case JSON_NODE_OBJECT:
+    case JSON_NODE_ARRAY:
+    case JSON_NODE_NULL:
+      return json_node_type_get_name (node->type);
+
+    case JSON_NODE_VALUE:
+      return g_type_name (G_VALUE_TYPE (&(node->data.value)));
+    }
+
+  return "unknown";
+}
+
+G_CONST_RETURN gchar *
+json_node_type_get_name (JsonNodeType node_type)
+{
+  switch (node_type)
+    {
+    case JSON_NODE_OBJECT:
       return "JsonObject";
 
     case JSON_NODE_ARRAY:
@@ -478,7 +495,11 @@ json_node_type_name (JsonNode *node)
       return "NULL";
 
     case JSON_NODE_VALUE:
-      return g_type_name (G_VALUE_TYPE (&(node->data.value)));
+      return "Value";
+
+    default:
+      g_assert_not_reached ();
+      break;
     }
 
   return "unknown";

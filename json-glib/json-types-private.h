@@ -59,6 +59,8 @@ struct _JsonObject
   volatile gint ref_count;
 };
 
+G_CONST_RETURN gchar *json_node_type_get_name (JsonNodeType node_type);
+
 G_END_DECLS
 
 #endif /* __JSON_TYPES_PRIVATE_H__ */
