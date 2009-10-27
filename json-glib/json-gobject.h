@@ -117,12 +117,16 @@ JsonNode *json_boxed_serialize               (GType                     gboxed_t
 gpointer  json_boxed_deserialize             (GType                     gboxed_type,
                                               JsonNode                 *node);
 
-GObject *json_construct_gobject (GType         gtype,
-                                 const gchar  *data,
-                                 gsize         length,
-                                 GError      **error);
-gchar *  json_serialize_gobject (GObject      *gobject,
-                                 gsize        *length) G_GNUC_MALLOC;
+GObject *   json_gobject_new       (GType       gtype,
+                                    JsonObject *object);
+JsonObject *json_gobject_dump      (GObject *gobject);
+
+GObject *   json_construct_gobject (GType         gtype,
+                                    const gchar  *data,
+                                    gsize         length,
+                                    GError      **error);
+gchar *     json_serialize_gobject (GObject      *gobject,
+                                    gsize        *length) G_GNUC_MALLOC;
 
 G_END_DECLS
 

@@ -417,7 +417,20 @@ flags_from_string (GType        type,
   return ret;
 }
 
-static GObject *
+/**
+ * json_gobject_new:
+ * @gtype: the type of the #GObject to create
+ * @object: a #JsonObject describing the object instance
+ *
+ * Creates a new #GObject of type @gtype, and constructs it
+ * using the members of the passed #JsonObject
+ *
+ * Return value: (transfer full): The newly created #GObject
+ *   instance. Use g_object_unref() when done
+ *
+ * Since: 0.10
+ */
+GObject *
 json_gobject_new (GType       gtype,
                   JsonObject *object)
 {
@@ -571,7 +584,20 @@ json_gobject_new (GType       gtype,
   return retval;
 }
 
-static JsonObject *
+/**
+ * json_gobject_dump:
+ * @gobject: a #GObject
+ *
+ * Creates a #JsonObject representing the passed #GObject
+ * instance. Each member of the returned JSON object will
+ * map to a property of the #GObject
+ *
+ * Return value: (transfer full): the newly created #JsonObject.
+ *   Use json_object_unref() when done
+ *
+ * Since: 0.10
+ */
+JsonObject *
 json_gobject_dump (GObject *gobject)
 {
   JsonSerializableIface *iface = NULL;
