@@ -266,7 +266,19 @@ json_deserialize_pspec (GValue     *value,
   switch (JSON_NODE_TYPE (node))
     {
     case JSON_NODE_OBJECT:
-      return FALSE;
+      if (g_type_is_a (G_VALUE_TYPE (value), G_TYPE_OBJECT))
+        {
+          GObject *object;
+
+          object = json_gobject_new (G_VALUE_TYPE (value), json_node_get_object (node));
+          if (object != NULL)
+            g_value_take_object (value, object);
+          else
+            g_value_set_object (value, NULL);
+
+          retval = TRUE;
+        }
+      break;
 
     case JSON_NODE_ARRAY:
       if (G_VALUE_HOLDS (value, G_TYPE_STRV))

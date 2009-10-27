@@ -42,6 +42,8 @@ struct _TestObject
   TestBoxed blah;
   TestEnum meh;
   gchar **mah;
+
+  TestObject *test;
 };
 
 struct _TestObjectClass
@@ -114,7 +116,8 @@ enum
   PROP_BAZ,
   PROP_BLAH,
   PROP_MEH,
-  PROP_MAH
+  PROP_MAH,
+  PROP_TEST
 };
 
 static void json_serializable_iface_init (gpointer g_iface);
@@ -191,6 +194,9 @@ test_object_finalize (GObject *gobject)
   g_free (TEST_OBJECT (gobject)->baz);
   g_strfreev (TEST_OBJECT (gobject)->mah);
 
+  if (TEST_OBJECT (gobject)->test != NULL)
+    g_object_unref (TEST_OBJECT (gobject)->test);
+
   G_OBJECT_CLASS (test_object_parent_class)->finalize (gobject);
 }
 
@@ -205,19 +211,28 @@ test_object_set_property (GObject      *gobject,
     case PROP_FOO:
       TEST_OBJECT (gobject)->foo = g_value_get_int (value);
       break;
+
     case PROP_BAR:
       TEST_OBJECT (gobject)->bar = g_value_get_boolean (value);
       break;
+
     case PROP_BAZ:
       g_free (TEST_OBJECT (gobject)->baz);
       TEST_OBJECT (gobject)->baz = g_value_dup_string (value);
       break;
+
     case PROP_MEH:
       TEST_OBJECT (gobject)->meh = g_value_get_enum (value);
       break;
+
     case PROP_MAH:
       TEST_OBJECT (gobject)->mah = g_strdupv (g_value_get_boxed (value));
       break;
+
+    case PROP_TEST:
+      TEST_OBJECT (gobject)->test = g_value_dup_object (value);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
     }
@@ -234,21 +249,31 @@ test_object_get_property (GObject    *gobject,
     case PROP_FOO:
       g_value_set_int (value, TEST_OBJECT (gobject)->foo);
       break;
+
     case PROP_BAR:
       g_value_set_boolean (value, TEST_OBJECT (gobject)->bar);
       break;
+
     case PROP_BAZ:
       g_value_set_string (value, TEST_OBJECT (gobject)->baz);
       break;
+
     case PROP_BLAH:
       g_value_set_boxed (value, &(TEST_OBJECT (gobject)->blah));
       break;
+
     case PROP_MEH:
       g_value_set_enum (value, TEST_OBJECT (gobject)->meh);
       break;
+
     case PROP_MAH:
       g_value_set_boxed (value, TEST_OBJECT (gobject)->mah);
       break;
+
+    case PROP_TEST:
+      g_value_set_object (value, TEST_OBJECT (gobject)->test);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
     }
@@ -294,6 +319,11 @@ test_object_class_init (TestObjectClass *klass)
                                    g_param_spec_boxed ("mah", "Mah", "Mah",
                                                        G_TYPE_STRV,
                                                        G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_TEST,
+                                   g_param_spec_object ("test", "Test", "Test",
+                                                        TEST_TYPE_OBJECT,
+                                                        G_PARAM_READWRITE));
 }
 
 static void
@@ -309,20 +339,28 @@ test_object_init (TestObject *object)
   object->meh = TEST_ENUM_BAR;
 
   object->mah = NULL;
+
+  object->test = NULL;
 }
 
 static const gchar *var_test =
 "{\n"
-"  \"foo\" : 42,\n"
-"  \"bar\" : false,\n"
-"  \"baz\" : \"hello\",\n"
-"  \"meh\" : \"baz\",\n"
-"  \"mah\" : [ \"hello\", \", \", \"world\", \"!\" ]\n"
+"  \"foo\"  : 42,\n"
+"  \"bar\"  : false,\n"
+"  \"baz\"  : \"hello\",\n"
+"  \"meh\"  : \"baz\",\n"
+"  \"mah\"  : [ \"hello\", \", \", \"world\", \"!\" ],\n"
+"  \"test\" : {\n"
+"    \"bar\" : true,\n"
+"    \"baz\" : \"world\",\n"
+"    \"meh\" : \"foo\"\n"
+"  }\n"
 "}";
 
 static void
 test_deserialize (void)
 {
+  TestObject *test;
   GObject *object;
   GError *error;
   gchar *str;
@@ -353,8 +391,14 @@ test_deserialize (void)
 
   str = g_strjoinv (NULL, TEST_OBJECT (object)->mah);
   g_assert_cmpstr (str, ==, "hello, world!");
-
   g_free (str);
+
+  g_assert (TEST_IS_OBJECT (TEST_OBJECT (object)->test));
+  test = TEST_OBJECT (TEST_OBJECT (object)->test);
+  g_assert (test->bar);
+  g_assert_cmpstr (test->baz, ==, "world");
+  g_assert_cmpint (test->meh, ==, TEST_ENUM_FOO);
+
   g_object_unref (object);
 }
 
