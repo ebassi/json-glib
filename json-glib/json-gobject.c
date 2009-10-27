@@ -576,6 +576,20 @@ json_serialize_pspec (const GValue *real_value,
       json_node_set_int (retval, g_value_get_flags (real_value));
       break;
 
+    case G_TYPE_OBJECT:
+      {
+        GObject *object = g_value_get_object (real_value);
+
+        if (object != NULL)
+          {
+            retval = json_node_new (JSON_NODE_OBJECT);
+            json_node_take_object (retval, json_gobject_dump (object));
+          }
+        else
+          retval = json_node_new (JSON_NODE_NULL);
+      }
+      break;
+
     case G_TYPE_NONE:
       retval = json_node_new (JSON_NODE_NULL);
       break;
