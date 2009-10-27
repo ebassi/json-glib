@@ -46,9 +46,11 @@
 #include "json-generator.h"
 
 /* forward declaration */
-static gboolean json_deserialize_pspec (GValue     *value,
-                                        GParamSpec *pspec,
-                                        JsonNode   *node);
+static JsonNode *json_serialize_pspec   (const GValue *real_value,
+                                         GParamSpec   *pspec);
+static gboolean  json_deserialize_pspec (GValue       *value,
+                                         GParamSpec   *pspec,
+                                         JsonNode     *node);
 
 static gboolean
 enum_from_string (GType        type,
@@ -253,6 +255,60 @@ json_gobject_new (GType       gtype,
   g_type_class_unref (klass);
 
   return retval;
+}
+
+static JsonObject *
+json_gobject_dump (GObject *gobject)
+{
+  JsonSerializableIface *iface = NULL;
+  JsonSerializable *serializable = NULL;
+  gboolean serialize_property = FALSE;
+  JsonObject *object;
+  GParamSpec **pspecs;
+  guint n_pspecs, i;
+
+  if (JSON_IS_SERIALIZABLE (gobject))
+    {
+      serializable = JSON_SERIALIZABLE (gobject);
+      iface = JSON_SERIALIZABLE_GET_IFACE (gobject);
+      serialize_property = (iface->serialize_property != NULL);
+    }
+
+  object = json_object_new ();
+
+  pspecs = g_object_class_list_properties (G_OBJECT_GET_CLASS (gobject), &n_pspecs);
+  for (i = 0; i < n_pspecs; i++)
+    {
+      GParamSpec *pspec = pspecs[i];
+      GValue value = { 0, };
+      JsonNode *node = NULL;
+
+      /* read only what we can */
+      if (!(pspec->flags & G_PARAM_READABLE))
+        continue;
+
+      g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+      g_object_get_property (gobject, pspec->name, &value);
+
+      if (serialize_property)
+        {
+          node = iface->serialize_property (serializable, pspec->name,
+                                            &value,
+                                            pspec);
+        }
+
+      if (!node)
+        node = json_serialize_pspec (&value, pspec);
+
+      if (node)
+        json_object_set_member (object, pspec->name, node);
+
+      g_value_unset (&value);
+    }
+
+  g_free (pspecs);
+
+  return object;
 }
 
 static gboolean
@@ -734,62 +790,14 @@ gchar *
 json_serialize_gobject (GObject *gobject,
                         gsize   *length)
 {
-  JsonSerializableIface *iface = NULL;
-  JsonSerializable *serializable = NULL;
-  gboolean serialize_property = FALSE;
   JsonGenerator *gen;
   JsonNode *root;
-  JsonObject *object;
-  GParamSpec **pspecs;
-  guint n_pspecs, i;
   gchar *data;
 
   g_return_val_if_fail (G_OBJECT (gobject), NULL);
 
-  if (JSON_IS_SERIALIZABLE (gobject))
-    {
-      serializable = JSON_SERIALIZABLE (gobject);
-      iface = JSON_SERIALIZABLE_GET_IFACE (gobject);
-      serialize_property = (iface->serialize_property != NULL);
-    }
-
-  object = json_object_new ();
-
   root = json_node_new (JSON_NODE_OBJECT);
-  json_node_take_object (root, object);
-
-  pspecs = g_object_class_list_properties (G_OBJECT_GET_CLASS (gobject),
-                                           &n_pspecs);
-  for (i = 0; i < n_pspecs; i++)
-    {
-      GParamSpec *pspec = pspecs[i];
-      GValue value = { 0, };
-      JsonNode *node = NULL;
-
-      /* read only what we can */
-      if (!(pspec->flags & G_PARAM_READABLE))
-        continue;
-
-      g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
-      g_object_get_property (gobject, pspec->name, &value);
-
-      if (serialize_property)
-        {
-          node = iface->serialize_property (serializable, pspec->name,
-                                            &value,
-                                            pspec);
-        }
-
-      if (!node)
-        node = json_serialize_pspec (&value, pspec);
-
-      if (node)
-        json_object_set_member (object, pspec->name, node);
-
-      g_value_unset (&value);
-    }
-
-  g_free (pspecs);
+  json_node_take_object (root, json_gobject_dump (gobject));
 
   gen = g_object_new (JSON_TYPE_GENERATOR,
                       "root", root,
@@ -799,6 +807,7 @@ json_serialize_gobject (GObject *gobject,
 
   data = json_generator_to_data (gen, length);
   g_object_unref (gen);
+
   json_node_free (root);
 
   return data;
