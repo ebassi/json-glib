@@ -115,6 +115,8 @@
     <title>JSON-GLib Advanced API</title>
 
     <xi:include href="xml/json-gobject.xml"/>
+    <xi:include href="xml/json-serializable.xml"/>
+    <xi:include href="xml/json-gboxed.xml"/>
   </part>
 
   <part id="json-tools">

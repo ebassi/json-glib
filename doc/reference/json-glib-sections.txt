@@ -193,15 +193,11 @@ json_generator_get_type
 </SECTION>
 
 <SECTION>
-<FILE>json-gobject</FILE>
-<TITLE>GObject integration</TITLE>
+<FILE>json-serializable</FILE>
+<TITLE>Serializable Interface</TITLE>
 JsonSerializableIface
 json_serializable_serialize_property
 json_serializable_deserialize_property
-
-<SUBSECTION>
-json_serialize_gobject
-json_construct_gobject
 
 <SUBSECTION Standard>
 JSON_TYPE_SERIALIZABLE
@@ -212,6 +208,31 @@ JSON_SERIALIZABLE_GET_IFACE
 <SUBSECTION Private>
 JsonSerializable
 json_serializable_get_type
+</SECTION>
+
+<SECTION>
+<FILE>json-gboxed</FILE>
+<TITLE>Boxed Types Serialization</TITLE>
+JsonBoxedSerializeFunc
+JsonBoxedDeserializeFunc
+json_boxed_register_transform_func
+
+<SUBSECTION>
+json_boxed_can_serialize
+json_boxed_can_deserialize
+json_boxed_serialize
+json_boxed_deserialize
+</SECTION>
+
+<SECTION>
+<FILE>json-gobject</FILE>
+<TITLE>GObject Serialization</TITLE>
+json_gobject_new
+json_gobject_dump
+
+<SUBSECTION>
+json_construct_gobject
+json_serialize_gobject
 </SECTION>
 
 <SECTION>

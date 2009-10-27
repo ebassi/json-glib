@@ -45,14 +45,13 @@ CFILE_GLOB = $(top_srcdir)/json-glib/*.c
 # Header files to ignore when scanning.
 # e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
 IGNORE_HFILES = \
-	json-scanner.h \
-	json-types-private.h \
-	json-private.h \
-	json-marshal.h \
-	json-glib.h \
-	json-enum-types.h \
-	stamp-json-enum-types.h \
-	stamp-json-marshal.h
+	json-scanner.h 		\
+	json-types-private.h 	\
+	json-gobject-private.h	\
+	json-private.h 		\
+	json-marshal.h 		\
+	json-glib.h 		\
+	json-enum-types.h
 
 EXTRA_HFILES =
 
