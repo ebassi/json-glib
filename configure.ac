@@ -120,6 +120,7 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
                             -Winit-self -Wempty-body"])
       ]
 )
+AC_SUBST([MAINTAINER_CFLAGS])
 
 GTK_DOC_CHECK([1.11])
 
