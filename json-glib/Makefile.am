@@ -42,17 +42,20 @@ source_h = \
 
 source_h_private = \
 	$(top_srcdir)/json-glib/json-scanner.h 		\
+	$(top_srcdir)/json-glib/json-gobject-private.h	\
 	$(top_srcdir)/json-glib/json-types-private.h	\
 	$(NULL)
 
 source_c = \
 	$(srcdir)/json-array.c 		\
+	$(srcdir)/json-gboxed.c		\
 	$(srcdir)/json-generator.c 	\
 	$(srcdir)/json-gobject.c 	\
 	$(srcdir)/json-node.c 		\
 	$(srcdir)/json-object.c 	\
 	$(srcdir)/json-parser.c 	\
 	$(srcdir)/json-scanner.c 	\
+	$(srcdir)/json-serializable.c	\
 	$(NULL)
 
 # glib-mkenums rules
@@ -88,6 +91,7 @@ jsoninclude_DATA = \
 EXTRA_DIST += \
 	json-version.h.in 	\
 	json-types-private.h	\
+	json-gobject-private.h	\
 	json-scanner.h 		\
 	json-glib.h 		\
 	$(NULL)
