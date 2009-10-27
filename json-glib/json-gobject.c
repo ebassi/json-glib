@@ -45,6 +45,11 @@
 #include "json-parser.h"
 #include "json-generator.h"
 
+/* forward declaration */
+static gboolean json_deserialize_pspec (GValue     *value,
+                                        GParamSpec *pspec,
+                                        JsonNode   *node);
+
 static gboolean
 enum_from_string (GType        type,
                   const gchar *string,
@@ -171,6 +176,83 @@ flags_from_string (GType        type,
     }
 
   return ret;
+}
+
+static GObject *
+json_gobject_new (GType       gtype,
+                  JsonObject *object)
+{
+  JsonSerializableIface *iface = NULL;
+  JsonSerializable *serializable = NULL;
+  gboolean deserialize_property;
+  GList *members, *l;
+  guint n_members;
+  GObjectClass *klass;
+  GObject *retval;
+
+  klass = g_type_class_ref (gtype);
+  retval = g_object_new (gtype, NULL);
+
+  if (g_type_is_a (gtype, JSON_TYPE_SERIALIZABLE))
+    {
+      serializable = JSON_SERIALIZABLE (retval);
+      iface = JSON_SERIALIZABLE_GET_IFACE (serializable);
+      deserialize_property = (iface->deserialize_property != NULL);
+    }
+  else
+    deserialize_property = FALSE;
+
+  g_object_freeze_notify (retval);
+
+  n_members = json_object_get_size (object);
+  members = json_object_get_members (object);
+
+  for (l = members; l != NULL; l = l->next)
+    {
+      const gchar *member_name = l->data;
+      GParamSpec *pspec;
+      JsonNode *val;
+      GValue value = { 0, };
+      gboolean res = FALSE;
+
+      pspec = g_object_class_find_property (klass, member_name);
+      if (!pspec)
+        continue;
+
+      if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
+        continue;
+
+      if (!(pspec->flags & G_PARAM_WRITABLE))
+        continue;
+
+      g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+
+      val = json_object_get_member (object, member_name);
+
+      if (deserialize_property)
+        {
+          res = iface->deserialize_property (serializable, pspec->name,
+                                             &value,
+                                             pspec,
+                                             val);
+        }
+
+      if (!res)
+        res = json_deserialize_pspec (&value, pspec, val);
+
+      if (res)
+        g_object_set_property (retval, pspec->name, &value);
+
+      g_value_unset (&value);
+    }
+
+  g_list_free (members);
+
+  g_object_thaw_notify (retval);
+
+  g_type_class_unref (klass);
+
+  return retval;
 }
 
 static gboolean
@@ -583,16 +665,9 @@ json_construct_gobject (GType         gtype,
                         gsize         length,
                         GError      **error)
 {
-  JsonSerializableIface *iface = NULL;
-  JsonSerializable *serializable = NULL;
-  gboolean deserialize_property;
   JsonParser *parser;
   JsonNode *root;
-  JsonObject *object;
   GError *parse_error;
-  GList *members, *l;
-  guint n_members;
-  GObjectClass *klass;
   GObject *retval;
 
   g_return_val_if_fail (gtype != G_TYPE_INVALID, NULL);
@@ -624,69 +699,8 @@ json_construct_gobject (GType         gtype,
       return NULL;
     }
 
-  klass = g_type_class_ref (gtype);
-  retval = g_object_new (gtype, NULL);
+  retval = json_gobject_new (gtype, json_node_get_object (root));
 
-  if (g_type_is_a (gtype, JSON_TYPE_SERIALIZABLE))
-    {
-      serializable = JSON_SERIALIZABLE (retval);
-      iface = JSON_SERIALIZABLE_GET_IFACE (serializable);
-      deserialize_property = (iface->deserialize_property != NULL);
-    }
-  else
-    deserialize_property = FALSE;
-
-  object = json_node_get_object (root);
-
-  g_object_freeze_notify (retval);
-
-  n_members = json_object_get_size (object);
-  members = json_object_get_members (object);
-
-  for (l = members; l != NULL; l = l->next)
-    {
-      const gchar *member_name = l->data;
-      GParamSpec *pspec;
-      JsonNode *val;
-      GValue value = { 0, };
-      gboolean res = FALSE;
-
-      pspec = g_object_class_find_property (klass, member_name);
-      if (!pspec)
-        continue;
-
-      if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
-        continue;
-
-      if (!(pspec->flags & G_PARAM_WRITABLE))
-        continue;
-
-      g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
-
-      val = json_object_get_member (object, member_name);
-
-      if (deserialize_property)
-        {
-          res = iface->deserialize_property (serializable, pspec->name,
-                                             &value,
-                                             pspec,
-                                             val);
-        }
-
-      if (!res)
-        res = json_deserialize_pspec (&value, pspec, val);
-
-      if (res)
-        g_object_set_property (retval, pspec->name, &value);
-
-      g_value_unset (&value);
-    }
-
-  g_list_free (members);
-
-  g_object_thaw_notify (retval);
-
-  g_type_class_unref (klass);
   g_object_unref (parser);
 
   return retval;
