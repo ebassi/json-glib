@@ -150,7 +150,6 @@ test_object_serialize_property (JsonSerializable *serializable,
     {
       TestBoxed *boxed;
       JsonObject *obj;
-      JsonNode *val;
 
       retval = json_node_new (JSON_NODE_OBJECT);
       obj = json_object_new ();

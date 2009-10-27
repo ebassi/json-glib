@@ -125,7 +125,7 @@ static void
 test_nested_array (void)
 {
   JsonGenerator *generator = json_generator_new ();
-  JsonNode *root, *val, *nested_val;
+  JsonNode *root, *val;
   JsonArray *array, *nested;
   GValue value = { 0, };
   gchar *data;
@@ -175,7 +175,7 @@ static void
 test_simple_object (void)
 {
   JsonGenerator *generator = json_generator_new ();
-  JsonNode *root, *val;
+  JsonNode *root;
   JsonObject *object;
   gchar *data;
   gsize len;
