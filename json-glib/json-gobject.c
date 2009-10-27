@@ -192,7 +192,7 @@ json_gobject_new (GType       gtype,
   GObjectClass *klass;
   GObject *retval;
   GArray *construct_params;
-  gint n, i;
+  gint i;
 
   klass = g_type_class_ref (gtype);
 
@@ -216,7 +216,6 @@ json_gobject_new (GType       gtype,
       GParamSpec *pspec;
       GParameter param = { NULL, };
       JsonNode *val;
-      GValue value = { 0, };
       gboolean res = FALSE;
 
       pspec = g_object_class_find_property (klass, member_name);
