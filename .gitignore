@@ -31,8 +31,8 @@ json-version.h
 Json-1.0.gir
 Json-1.0.typelib
 *.la
-stamp-json-enum-types.h
-stamp-json-marshal.h
+stamp-enum-types
+stamp-marshal
 array-test
 object-test
 node-test

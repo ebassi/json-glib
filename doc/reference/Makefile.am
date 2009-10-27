@@ -78,8 +78,9 @@ expand_content_files =
 INCLUDES = -I$(top_srcdir) -I$(top_builddir) $(JSON_CFLAGS)
 GTKDOC_LIBS = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
 
-# needed to avoid including $(top_srcdir)/Makefile.decls which redeclares
-# EXTRA_DIST and generates a warning when the gtk-doc.make include below
+# needed to avoid including Makefile.am.gtest which redeclares
+# EXTRA_DIST and generates a warning when the gtk-doc.make include
+# below
 test-report:
 	@true
 

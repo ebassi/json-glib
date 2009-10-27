@@ -1,4 +1,5 @@
-include $(top_srcdir)/Makefile.decl
+include $(top_srcdir)/build/autotools/Makefile.am.gtest
+include $(top_srcdir)/build/autotools/Makefile.am.silent
 
 ACLOCAL_AMFLAGS = -I build/autotools
 
@@ -13,7 +14,7 @@ DIST_SUBDIRS = build json-glib doc tests
 pcfiles = json-glib-1.0.pc
 
 json-glib-1.0.pc: json-glib.pc
-	@cp -f $< $@
+	$(QUIET_GEN)cp -f $< $@
 
 pkgconfig_DATA = $(pcfiles)
 pkgconfigdir = $(libdir)/pkgconfig

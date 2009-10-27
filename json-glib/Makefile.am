@@ -1,12 +1,8 @@
-include $(top_srcdir)/Makefile.decl
-
-if USE_SHAVE
-QUIET_GEN = $(Q:@=@echo '  GEN   '$@;)
-else
-QUIET_GEN = $(AM_V_GEN)
-endif # USE_SHAVE
+include $(top_srcdir)/build/autotools/Makefile.am.gtest
+include $(top_srcdir)/build/autotools/Makefile.am.silent
 
 if ENABLE_GLIB_TEST
+# build this directory *before* the tests/
 SUBDIRS = . tests
 endif
 
@@ -14,14 +10,7 @@ DIST_SUBDIRS = tests
 
 NULL =
 
-INCLUDES = \
-	-I$(top_srcdir) 		\
-	-DPREFIX=\""$(prefix)"\" 	\
-	-DLIBDIR=\""$(libdir)"\" 	\
-	-DJSON_COMPILATION=1		\
-	-DG_DISABLE_DEPRECATED 		\
-	-DG_LOG_DOMAIN=\"Json\" 	\
-	$(NULL)
+INCLUDES = -I$(top_srcdir)
 
 LDADD = \
 	$(JSON_LT_LDFLAGS) \
@@ -29,11 +18,20 @@ LDADD = \
 	-export-symbols-regex "^json.*" \
 	-rpath $(libdir)
 
-AM_CPPFLAGS = $(JSON_CFLAGS) $(JSON_DEBUG_CFLAGS) $(MAINTAINER_CFLAGS)
+AM_CPPFLAGS = \
+	-DPREFIX=\""$(prefix)"\" 	\
+	-DLIBDIR=\""$(libdir)"\" 	\
+	-DJSON_COMPILATION=1		\
+	-DG_DISABLE_DEPRECATED 		\
+	-DG_LOG_DOMAIN=\"Json\" 	\
+	$(JSON_DEBUG_CFLAGS) 		\
+	$(NULL)
 
-BUILT_SOURCES = json-marshal.h json-marshal.c json-enum-types.h json-enum-types.c
+AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
+BUILT_SOURCES =
 
-STAMP_FILES = stamp-json-marshal.h stamp-json-enum-types.h
+CLEANFILES =
+DISTCLEANFILES = json-version.h
 
 source_h = \
 	$(top_srcdir)/json-glib/json-generator.h 	\
@@ -57,42 +55,16 @@ source_c = \
 	$(srcdir)/json-scanner.c 	\
 	$(NULL)
 
-json-marshal.h: stamp-json-marshal.h
-	@true
-stamp-json-marshal.h: Makefile json-marshal.list
-	$(QUIET_GEN)$(GLIB_GENMARSHAL) \
-		--prefix=_json_marshal \
-		--header \
-	$(srcdir)/json-marshal.list > xgen-jmh \
-	&& (cmp -s xgen-jmh json-marshal.h || cp -f xgen-jmh json-marshal.h) \
-	&& rm -f xgen-jmh \
-	&& echo timestamp > $(@F)
+# glib-mkenums rules
+glib_enum_h = json-enum-types.h
+glib_enum_c = json-enum-types.c
+glib_enum_headers = $(source_h)
+include $(top_srcdir)/build/autotools/Makefile.am.enums
 
-json-marshal.c: Makefile json-marshal.list
-	$(QUIET_GEN)(echo "#include \"json-marshal.h\"" ; \
-	  $(GLIB_GENMARSHAL) \
-		--prefix=_json_marshal \
-		--body \
-	  $(srcdir)/json-marshal.list ) > xgen-jmc \
-	&& cp -f xgen-jmc json-marshal.c \
-	&& rm -f xgen-jmc
-
-json-enum-types.h: stamp-json-enum-types.h
-	@true
-stamp-json-enum-types.h: $(source_h) Makefile
-	$(QUIET_GEN)$(GLIB_MKENUMS) \
-		--template $(srcdir)/json-enum-types.h.in \
-	$(source_h) > xgen-ceth \
-	&& (cmp -s xgen-ceth json-enum-types.h || cp xgen-ceth json-enum-types.h) \
-	&& rm -f xgen-ceth \
-	&& echo timestamp > $(@F)
-
-json-enum-types.c: json-enum-types.h
-	$(QUIET_GEN)$(GLIB_MKENUMS) \
-		--template $(srcdir)/json-enum-types.c.in \
-	$(source_h) > xgen-cetc \
-	&& cp xgen-cetc json-enum-types.c \
-	&& rm -f xgen-cetc
+# glib-genmarshal rules
+glib_marshal_list = json-marshal.list
+glib_marshal_prefix = _json_marshal
+include $(top_srcdir)/build/autotools/Makefile.am.marshal
 
 lib_LTLIBRARIES = libjson-glib-1.0.la
 
@@ -113,18 +85,11 @@ jsoninclude_DATA = \
 	$(top_srcdir)/json-glib/json-glib.h		\
 	$(NULL)
 
-CLEANFILES = $(STAMP_FILES) $(BUILT_SOURCES)
-
-DISTCLEANFILES = json-version.h
-
 EXTRA_DIST += \
 	json-version.h.in 	\
 	json-types-private.h	\
 	json-scanner.h 		\
 	json-glib.h 		\
-	json-marshal.list 	\
-	json-enum-types.h.in 	\
-	json-enum-types.c.in	\
 	$(NULL)
 
 TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
@@ -136,6 +101,7 @@ Json-1.0.gir: $(INTROSPECTION_SCANNER) libjson-glib-1.0.la
 	$(QUIET_GEN)$(INTROSPECTION_SCANNER) \
 		-v --namespace Json --nsversion=1.0 \
 		$(INCLUDES) \
+		$(AM_CPPFLAGS) \
 		--c-include='json-glib/json-object.h' \
 		--include=GObject-2.0 \
 		--library=json-glib-1.0 \

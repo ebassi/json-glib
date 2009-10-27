@@ -1,18 +1,15 @@
-include $(top_srcdir)/Makefile.decl
+include $(top_srcdir)/build/autotools/Makefile.am.gtest
+include $(top_srcdir)/build/autotools/Makefile.am.silent
 
 NULL =
 
 noinst_PROGRAMS = $(TEST_PROGS)
 
-INCLUDES = -I$(top_srcdir) $(JSON_CFLAGS)
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/json-glib
+AM_CFLAGS = -g $(JSON_CFLAGS)
+AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS)
+
 progs_ldadd = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
-
-AM_CPPFLAGS = \
-	-I$(top_srcdir) \
-	-I$(top_srcdir)/json-glib \
-	$(JSON_DEBUG_CFLAGS)
-
-AM_CFLAGS = -g
 
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
 
