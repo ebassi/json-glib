@@ -23,8 +23,46 @@
  * SECTION:json-gboxed
  * @short_description: Serialize and deserialize GBoxed types
  *
- * FIXME
+ * GLib's #GBoxed type is a generic wrapper for arbitrary C structures.
  *
+ * JSON-GLib allows serialization and deserialization of a #GBoxed type
+ * by registering functions mapping a #JsonNodeType to a specific
+ * #GType.
+ *
+ * When registering a #GBoxed type you should also register the
+ * corresponding transformation functions, e.g.:
+ *
+ * |[
+ *   GType
+ *   my_struct_get_type (void)
+ *   {
+ *     static GType boxed_type = 0;
+ *
+ *     if (boxed_type == 0)
+ *       {
+ *         boxed_type =
+ *           g_boxed_type_register_static (g_intern_static_string ("MyStruct"),
+ *                                         (GBoxedCopyFunc) my_struct_copy,
+ *                                         (GBoxedFreeFunc) my_struct_free);
+ *
+ *         json_boxed_register_transform_func (boxed_type, JSON_NODE_OBJECT,
+ *                                             my_struct_serialize,
+ *                                             my_struct_deserialize);
+ *       }
+ *
+ *     return boxed_type;
+ *   }
+ * ]|
+ *
+ * The serialization function will be invoked by json_boxed_serialize():
+ * it will be passed a pointer to the C structure and it must return a
+ * #JsonNode. The deserialization function will be invoked by
+ * json_boxed_deserialize(): it will be passed a #JsonNode and it must
+ * return a newly allocated C structure.
+ *
+ * It is possible to check whether a #GBoxed type can be deserialized
+ * from a specific #JsonNodeType, and whether a #GBoxed can be serialized
+ * and to which specific #JsonNodeType.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -153,12 +191,15 @@ json_boxed_register_transform_func (GType                    gboxed_type,
  * json_boxed_can_serialize:
  * @gboxed_type: a boxed type
  * @node_type: (out): the #JsonNode type to which the boxed type can be
- *   deserialized into
+ *   serialized into
  *
  * Checks whether it is possible to serialize a #GBoxed of
- * type @gboxed_type into a #JsonNode of type @node_type
+ * type @gboxed_type into a #JsonNode. The type of the
+ * #JsonNode is placed inside @node_type if the function
+ * returns %TRUE and it's undefined otherwise.
  *
- * Return value: %TRUE if the type can be serialized, %FALSE otherwise
+ * Return value: %TRUE if the type can be serialized,
+ *   and %FALSE otherwise.
  *
  * Since: 0.10
  */

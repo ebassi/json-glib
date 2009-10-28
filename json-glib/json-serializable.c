@@ -21,7 +21,10 @@
  * SECTION:json-serializable
  * @short_description: Interface for serialize and deserialize special GObjects
  *
- * FIXME
+ * #JsonSerializable is an interface for #GObject classes that
+ * allows controlling how the class is going to be serialized
+ * or deserialized by json_construct_gobject() and
+ * json_serialize_gobject() respectively.
  */
 
 #ifdef HAVE_CONFIG_H
