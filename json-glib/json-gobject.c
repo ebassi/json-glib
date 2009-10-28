@@ -173,20 +173,7 @@ flags_from_string (GType        type,
   return ret;
 }
 
-/**
- * json_gobject_new:
- * @gtype: the type of the #GObject to create
- * @object: a #JsonObject describing the object instance
- *
- * Creates a new #GObject of type @gtype, and constructs it
- * using the members of the passed #JsonObject
- *
- * Return value: (transfer full): The newly created #GObject
- *   instance. Use g_object_unref() when done
- *
- * Since: 0.10
- */
-GObject *
+static GObject *
 json_gobject_new (GType       gtype,
                   JsonObject *object)
 {
@@ -340,20 +327,7 @@ json_gobject_new (GType       gtype,
   return retval;
 }
 
-/**
- * json_gobject_dump:
- * @gobject: a #GObject
- *
- * Creates a #JsonObject representing the passed #GObject
- * instance. Each member of the returned JSON object will
- * map to a property of the #GObject
- *
- * Return value: (transfer full): the newly created #JsonObject.
- *   Use json_object_unref() when done
- *
- * Since: 0.10
- */
-JsonObject *
+static JsonObject *
 json_gobject_dump (GObject *gobject)
 {
   JsonSerializableIface *iface = NULL;
@@ -716,6 +690,58 @@ json_serialize_pspec (const GValue *real_value,
       g_warning ("Unsupported type `%s'", g_type_name (G_VALUE_TYPE (real_value)));
       break;
     }
+
+  return retval;
+}
+
+/**
+ * json_gobject_deserialize:
+ * @gtype: the type of the #GObject to create
+ * @node: a #JsonNode of type %JSON_NODE_OBJECT describing the
+ *   instance of type @gtype
+ *
+ * Creates a new #GObject of type @gtype, and constructs it
+ * using the members of the passed #JsonObject
+ *
+ * Return value: (transfer full): The newly created #GObject
+ *   instance. Use g_object_unref() to free the resources
+ *   allocated by this function
+ *
+ * Since: 0.10
+ */
+GObject *
+json_gobject_deserialize (GType     gtype,
+                          JsonNode *node)
+{
+  g_return_val_if_fail (g_type_is_a (gtype, G_TYPE_OBJECT), NULL);
+  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT, NULL);
+
+  return json_gobject_new (gtype, json_node_get_object (node));
+}
+
+/**
+ * json_gobject_serialize:
+ * @gobject: a #GObject
+ *
+ * Creates a #JsonNode representing the passed #GObject
+ * instance. Each member of the returned JSON object will
+ * map to a property of the #GObject
+ *
+ * Return value: (transfer full): the newly created #JsonNode
+ *   of type %JSON_NODE_OBJECT. Use json_node_free() to free
+ *   the resources allocated by this function
+ *
+ * Since: 0.10
+ */
+JsonNode *
+json_gobject_serialize (GObject *gobject)
+{
+  JsonNode *retval;
+
+  g_return_val_if_fail (G_IS_OBJECT (gobject), NULL);
+
+  retval = json_node_new (JSON_NODE_OBJECT);
+  json_node_take_object (retval, json_gobject_dump (gobject));
 
   return retval;
 }

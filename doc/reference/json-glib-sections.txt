@@ -227,8 +227,8 @@ json_boxed_deserialize
 <SECTION>
 <FILE>json-gobject</FILE>
 <TITLE>GObject Serialization</TITLE>
-json_gobject_new
-json_gobject_dump
+json_gobject_serialize
+json_gobject_deserialize
 
 <SUBSECTION>
 json_construct_gobject
