@@ -121,12 +121,22 @@ JsonNode *json_gobject_serialize             (GObject                  *gobject)
 GObject * json_gobject_deserialize           (GType                     gtype,
                                               JsonNode                 *node);
 
+GObject * json_gobject_from_data             (GType                     gtype,
+                                              const gchar              *data,
+                                              gssize                    length,
+                                              GError                  **error);
+gchar *   json_gobject_to_data               (GObject                  *gobject,
+                                              gsize                    *length);
+
+#ifndef JSON_DISABLE_DEPRECATED
 GObject * json_construct_gobject   (GType         gtype,
                                     const gchar  *data,
                                     gsize         length,
                                     GError      **error);
 gchar *   json_serialize_gobject   (GObject      *gobject,
                                     gsize        *length) G_GNUC_MALLOC;
+#endif
+
 
 G_END_DECLS
 

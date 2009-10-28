@@ -750,7 +750,7 @@ json_gobject_serialize (GObject *gobject)
  * json_construct_gobject:
  * @gtype: the #GType of object to construct
  * @data: a JSON data stream
- * @length: length of the data stream, or -1 if it is NUL-terminated
+ * @length: length of the data stream
  * @error: return location for a #GError, or %NULL
  *
  * Deserializes a JSON data stream and creates the corresponding
@@ -764,11 +764,41 @@ json_gobject_serialize (GObject *gobject)
  * Return value: a #GObject or %NULL
  *
  * Since: 0.4
+ *
+ * Deprecated: 0.10: Use json_gobject_from_data() instead
  */
 GObject *
 json_construct_gobject (GType         gtype,
                         const gchar  *data,
                         gsize         length,
+                        GError      **error)
+{
+  return json_gobject_from_data (gtype, data, strlen (data), error);
+}
+
+/**
+ * json_gobject_from_data:
+ * @gtype: the #GType of object to construct
+ * @data: a JSON data stream
+ * @length: length of the data stream, or -1 if it is NUL-terminated
+ * @error: return location for a #GError, or %NULL
+ *
+ * Deserializes a JSON data stream and creates the corresponding
+ * #GObject class. If @gtype implements the #JsonSerializableIface
+ * interface, it will be asked to deserialize all the JSON members
+ * into the respective properties; otherwise, the default implementation
+ * will be used to translate the compatible JSON native types.
+ *
+ * Note: the JSON data stream must be an object declaration.
+ *
+ * Return value: a #GObject or %NULL
+ *
+ * Since: 0.10
+ */
+GObject *
+json_gobject_from_data (GType         gtype,
+                        const gchar  *data,
+                        gssize        length,
                         GError      **error)
 {
   JsonParser *parser;
@@ -805,7 +835,7 @@ json_construct_gobject (GType         gtype,
       return NULL;
     }
 
-  retval = json_gobject_new (gtype, json_node_get_object (root));
+  retval = json_gobject_deserialize (gtype, root);
 
   g_object_unref (parser);
 
@@ -823,10 +853,36 @@ json_construct_gobject (GType         gtype,
  * translate the compatible types into JSON native types.
  *
  * Return value: a JSON data stream representing the passed #GObject
+ *
+ * Deprecated: 0.10: Use json_gobject_to_data() instead
  */
 gchar *
 json_serialize_gobject (GObject *gobject,
                         gsize   *length)
+{
+  return json_gobject_to_data (gobject, length);
+}
+
+/**
+ * json_serialize_gobject:
+ * @gobject: a #GObject
+ * @length: (out): return value for the length of the buffer, or %NULL
+ *
+ * Serializes a #GObject into a JSON data stream, iterating recursively
+ * over each property.
+ *
+ * If @gobject implements the #JsonSerializableIface interface, it will
+ * be asked to serialize all its properties; otherwise, the default
+ * implementation will be use to translate the compatible types into
+ * JSON native types.
+ *
+ * Return value: a JSON data stream representing the passed #GObject
+ *
+ * Since: 0.10
+ */
+gchar *
+json_gobject_to_data (GObject *gobject,
+                      gsize   *length)
 {
   JsonGenerator *gen;
   JsonNode *root;
@@ -834,8 +890,7 @@ json_serialize_gobject (GObject *gobject,
 
   g_return_val_if_fail (G_OBJECT (gobject), NULL);
 
-  root = json_node_new (JSON_NODE_OBJECT);
-  json_node_take_object (root, json_gobject_dump (gobject));
+  root = json_gobject_serialize (gobject);
 
   gen = g_object_new (JSON_TYPE_GENERATOR,
                       "root", root,
