@@ -136,9 +136,9 @@ Json-1.0.gir: $(INTROSPECTION_SCANNER) libjson-glib-1.0.la
 	$(QUIET_GEN)$(INTROSPECTION_SCANNER) \
 		-v --namespace Json --nsversion=1.0 \
 		$(INCLUDES) \
-		--c-include='json-glib/json-object.h' \
+		--c-include='json-glib/json-gobject.h' \
 		--include=GObject-2.0 \
-		--library=json-glib-1.0 \
+		--library=libjson-glib-1.0.la \
 		--libtool="$(top_builddir)/libtool" \
 		--pkg gobject-2.0 \
 		--output $@ \
@@ -156,7 +156,12 @@ typelibsdir = $(libdir)/girepository-1.0/
 typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
 
 %.typelib: %.gir $(INTROSPECTION_COMPILER)
-	$(QUIET_GEN)$(DEBUG) $(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=. $(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
+	$(QUIET_GEN)\
+	$(DEBUG) $(INTROSPECTION_COMPILER) \
+		--includedir=$(srcdir) \
+		--includedir=. \
+		$(INTROSPECTION_COMPILER_OPTS) $< \
+		-o $(@F)
 
 CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
