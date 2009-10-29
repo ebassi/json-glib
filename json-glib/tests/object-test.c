@@ -103,6 +103,18 @@ test_foreach_member (void)
   json_object_unref (object);
 }
 
+static void
+test_empty_member (void)
+{
+  JsonObject *object = json_object_new ();
+
+  json_object_set_string_member (object, "string", "");
+  g_assert (json_object_has_member (object, "string"));
+  g_assert_cmpstr (json_object_get_string_member (object, "string"), ==, "");
+
+  json_object_unref (object);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -114,6 +126,7 @@ main (int   argc,
   g_test_add_func ("/object/add-member", test_add_member);
   g_test_add_func ("/object/remove-member", test_remove_member);
   g_test_add_func ("/object/foreach-member", test_foreach_member);
+  g_test_add_func ("/object/empty-member", test_empty_member);
 
   return g_test_run ();
 }
