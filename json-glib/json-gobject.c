@@ -200,7 +200,7 @@ json_deserialize_pspec (GValue     *value,
               if (JSON_NODE_TYPE (val) != JSON_NODE_VALUE)
                 continue;
 
-              if (json_node_get_string (val) != NULL);
+              if (json_node_get_string (val) != NULL)
                 g_ptr_array_add (str_array, (gpointer) json_node_get_string (val));
             }
 
