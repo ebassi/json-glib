@@ -13,16 +13,41 @@ static const gchar *test_empty_string = "";
 static const gchar *test_empty_array_string = "[ ]";
 static const gchar *test_empty_object_string = "{ }";
 
+static void
+verify_int_value (JsonNode *node)
+{
+  g_assert_cmpint (42, ==, json_node_get_int (node));
+}
+
+static void
+verify_boolean_value (JsonNode *node)
+{
+  g_assert_cmpint (TRUE, ==, json_node_get_boolean (node));
+}
+
+static void
+verify_string_value (JsonNode *node)
+{
+  g_assert_cmpstr ("string", ==, json_node_get_string (node));
+}
+
+static void
+verify_double_value (JsonNode *node)
+{
+  g_assert_cmpfloat (10.2e3, ==, json_node_get_double (node));
+}
+
 static const struct {
   const gchar *str;
   JsonNodeType type;
   GType gtype;
+  void (* verify_value) (JsonNode *node);
 } test_base_values[] = {
-  { "null",       JSON_NODE_NULL, G_TYPE_INVALID },
-  { "42",         JSON_NODE_VALUE, G_TYPE_INT64 },
-  { "true",       JSON_NODE_VALUE, G_TYPE_BOOLEAN },
-  { "\"string\"", JSON_NODE_VALUE, G_TYPE_STRING },
-  { "10.2e3",     JSON_NODE_VALUE, G_TYPE_DOUBLE }
+  { "null",       JSON_NODE_NULL,  G_TYPE_INVALID, NULL, },
+  { "42",         JSON_NODE_VALUE, G_TYPE_INT64,   verify_int_value },
+  { "true",       JSON_NODE_VALUE, G_TYPE_BOOLEAN, verify_boolean_value },
+  { "\"string\"", JSON_NODE_VALUE, G_TYPE_STRING,  verify_string_value },
+  { "10.2e3",     JSON_NODE_VALUE, G_TYPE_DOUBLE,  verify_double_value }
 };
 
 static const struct {
@@ -163,6 +188,9 @@ test_base_value (void)
                                                                  : g_type_name (test_base_values[i].gtype));
           g_assert_cmpint (JSON_NODE_TYPE (root), ==, test_base_values[i].type);
           g_assert_cmpint (json_node_get_value_type (root), ==, test_base_values[i].gtype);
+
+          if (test_base_values[i].verify_value)
+            test_base_values[i].verify_value (root);
        }
     }
 
