@@ -1,3 +1,10 @@
+Overview of changes for 0.8.2
+=============================
+* Fix bug 1856: Parsing bare values
+* Fix building the introspection data
+* Fix parsing of GStrv properties to JSON arrays
+* Test suite fixes
+
 Overview of changes for 0.8.0
 =============================
 * Remove the in-tree Vala bindings: they are part of Vala, now
