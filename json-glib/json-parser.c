@@ -839,6 +839,7 @@ json_parse_statement (JsonParser  *parser,
     case G_TOKEN_INT:
     case G_TOKEN_FLOAT:
     case G_TOKEN_STRING:
+      json_scanner_get_next_token (scanner);
       priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
 
       if (token == G_TOKEN_INT)
