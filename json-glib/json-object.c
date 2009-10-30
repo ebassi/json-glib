@@ -402,53 +402,6 @@ json_object_set_object_member (JsonObject  *object,
   object_set_member_internal (object, member_name, node);
 }
 
-/* FIXME: yuck */
-#if GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 14
-static void
-get_keys (gpointer key,
-          gpointer value,
-          gpointer user_data)
-{
-  GList **keys = user_data;
-
-  *keys = g_list_prepend (*keys, key);
-}
-
-static void
-get_values (gpointer key,
-            gpointer value,
-            gpointer user_data)
-{
-  GList **values = user_data;
-
-  *values = g_list_prepend (*values, value);
-}
-
-static GList *
-g_hash_table_get_keys (GHashTable *hash_table)
-{
-  GList *retval = NULL;
-
-  g_return_val_if_fail (hash_table != NULL, NULL);
-
-  g_hash_table_foreach (hash_table, get_keys, &retval);
-
-  return retval;
-}
-
-static GList *
-g_hash_table_get_values (GHashTable *hash_table)
-{
-  GList *retval = NULL;
-
-  g_return_val_if_fail (hash_table != NULL, NULL);
-
-  g_hash_table_foreach (hash_table, get_values, &retval);
-
-  return retval;
-}
-#endif /* GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 14 */
-
 /**
  * json_object_get_members:
  * @object: a #JsonObject
@@ -487,9 +440,15 @@ json_object_get_members (JsonObject *object)
 GList *
 json_object_get_values (JsonObject *object)
 {
+  GList *values, *l;
+
   g_return_val_if_fail (object != NULL, NULL);
 
-  return g_hash_table_get_values (object->members);
+  values = NULL;
+  for (l = object->members_ordered; l != NULL; l = l->next)
+    values = g_list_prepend (values, g_hash_table_lookup (object->members, l->data));
+
+  return values;
 }
 
 /**
