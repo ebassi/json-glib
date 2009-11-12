@@ -86,6 +86,8 @@ enum
   PROP_BLAH
 };
 
+static JsonSerializableIface *serializable_iface = NULL;
+
 static void json_serializable_iface_init (gpointer g_iface);
 
 G_DEFINE_TYPE_WITH_CODE (TestObject, test_object, G_TYPE_OBJECT,
@@ -121,6 +123,10 @@ test_object_serialize_property (JsonSerializable *serializable,
 
       json_node_take_object (retval, obj);
     }
+  else
+    retval = serializable_iface->serialize_property (serializable,
+                                                     name,
+                                                     value, pspec);
 
   return retval;
 }
@@ -129,6 +135,8 @@ static void
 json_serializable_iface_init (gpointer g_iface)
 {
   JsonSerializableIface *iface = g_iface;
+
+  serializable_iface = g_type_default_interface_peek (JSON_TYPE_SERIALIZABLE);
 
   iface->serialize_property = test_object_serialize_property;
 }
@@ -235,6 +243,10 @@ static void
 test_serialize (void)
 {
   TestObject *obj = g_object_new (TEST_TYPE_OBJECT, NULL);
+  JsonParser *parser = json_parser_new ();
+  GError *error = NULL;
+  JsonObject *object;
+  JsonNode *node;
   gchar *data;
   gsize len;
 
@@ -244,7 +256,27 @@ test_serialize (void)
   if (g_test_verbose ())
     g_print ("TestObject:\n%s\n", data);
 
+  parser = json_parser_new ();
+  json_parser_load_from_data (parser, data, -1, &error);
+  g_assert (error == NULL);
+
+  node = json_parser_get_root (parser);
+  g_assert (json_node_get_node_type (node) == JSON_NODE_OBJECT);
+
+  object = json_node_get_object (node);
+  g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 42);
+  g_assert (json_object_get_boolean_member (object, "bar"));
+  g_assert_cmpstr (json_object_get_string_member (object, "baz"), ==, "Test");
+
+  node = json_object_get_member (object, "blah");
+  g_assert (json_node_get_node_type (node) == JSON_NODE_OBJECT);
+
+  object = json_node_get_object (node);
+  g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 42);
+  g_assert (json_object_get_boolean_member (object, "bar"));
+
   g_free (data);
+  g_object_unref (parser);
   g_object_unref (obj);
 }
 
