@@ -132,9 +132,9 @@ gchar *   json_gobject_to_data               (GObject                  *gobject,
 GObject * json_construct_gobject   (GType         gtype,
                                     const gchar  *data,
                                     gsize         length,
-                                    GError      **error);
+                                    GError      **error) G_GNUC_DEPRECATED;
 gchar *   json_serialize_gobject   (GObject      *gobject,
-                                    gsize        *length) G_GNUC_MALLOC;
+                                    gsize        *length) G_GNUC_MALLOC G_GNUC_DEPRECATED;
 #endif
 
 
