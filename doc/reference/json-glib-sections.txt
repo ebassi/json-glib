@@ -199,6 +199,10 @@ JsonSerializableIface
 json_serializable_serialize_property
 json_serializable_deserialize_property
 
+<SUBSECTION>
+json_serializable_default_serialize_property
+json_serializable_default_deserialize_property
+
 <SUBSECTION Standard>
 JSON_TYPE_SERIALIZABLE
 JSON_SERIALIZABLE

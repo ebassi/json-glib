@@ -69,15 +69,25 @@ struct _JsonSerializableIface
 
 GType     json_serializable_get_type (void) G_GNUC_CONST;
 
-JsonNode *json_serializable_serialize_property   (JsonSerializable *serializable,
-                                                  const gchar      *property_name,
-                                                  const GValue     *value,
-                                                  GParamSpec       *pspec);
-gboolean  json_serializable_deserialize_property (JsonSerializable *serializable,
-                                                  const gchar      *property_name,
-                                                  GValue           *value,
-                                                  GParamSpec       *pspec,
-                                                  JsonNode         *property_node);
+JsonNode *json_serializable_serialize_property           (JsonSerializable *serializable,
+                                                          const gchar      *property_name,
+                                                          const GValue     *value,
+                                                          GParamSpec       *pspec);
+gboolean  json_serializable_deserialize_property         (JsonSerializable *serializable,
+                                                          const gchar      *property_name,
+                                                          GValue           *value,
+                                                          GParamSpec       *pspec,
+                                                          JsonNode         *property_node);
+
+JsonNode *json_serializable_default_serialize_property   (JsonSerializable *serializable,
+                                                          const gchar      *property_name,
+                                                          const GValue     *value,
+                                                          GParamSpec       *pspec);
+gboolean  json_serializable_default_deserialize_property (JsonSerializable *serializable,
+                                                          const gchar      *property_name,
+                                                          GValue           *value,
+                                                          GParamSpec       *pspec,
+                                                          JsonNode         *property_node);
 
 /**
  * JsonBoxedSerializeFunc:

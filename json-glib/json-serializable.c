@@ -155,3 +155,95 @@ json_serializable_get_type (void)
 
   return iface_type;
 }
+
+/**
+ * json_serializable_default_serialize_property:
+ * @serializable: a #JsonSerializable object
+ * @property_name: the name of the property
+ * @value: the value of the property
+ * @pspec: a #GParamSpec
+ *
+ * Calls the default implementation of the #JsonSerializable
+ * serialize_property() virtual function
+ *
+ * This function can be used inside a custom implementation
+ * of the serialize_property() virtual function in lieu of:
+ *
+ * |[
+ *   JsonSerializable *iface;
+ *   JsonNode *node;
+ *
+ *   iface = g_type_default_interface_peek (JSON_TYPE_SERIALIZABLE);
+ *   node = iface->serialize_property (serializable, property_name,
+ *                                     value,
+ *                                     pspec);
+ * ]|
+ *
+ * Return value: (transfer full): a #JsonNode containing the serialized
+ *   property
+ *
+ * Since: 0.10
+ */
+JsonNode *
+json_serializable_default_serialize_property (JsonSerializable *serializable,
+                                              const gchar      *property_name,
+                                              const GValue     *value,
+                                              GParamSpec       *pspec)
+{
+  g_return_val_if_fail (JSON_IS_SERIALIZABLE (serializable), NULL);
+  g_return_val_if_fail (property_name != NULL, NULL);
+  g_return_val_if_fail (value != NULL, NULL);
+  g_return_val_if_fail (pspec != NULL, NULL);
+
+  return json_serializable_real_serialize (serializable,
+                                           property_name,
+                                           value, pspec);
+}
+
+/**
+ * json_serializable_default_deserialize_property:
+ * @serializable: a #JsonSerializable
+ * @property_name: the name of the property
+ * @value: a pointer to an uninitialized #GValue
+ * @pspec: a #GParamSpec
+ * @property_node: a #JsonNode containing the serialized property
+ *
+ * Calls the default implementation of the #JsonSerializable
+ * deserialize_property() virtual function
+ *
+ * This function can be used inside a custom implementation
+ * of the deserialize_property() virtual function in lieu of:
+ *
+ * |[
+ *   JsonSerializable *iface;
+ *   gboolean res;
+ *
+ *   iface = g_type_default_interface_peek (JSON_TYPE_SERIALIZABLE);
+ *   res = iface->deserialize_property (serializable, property_name,
+ *                                      value,
+ *                                      pspec,
+ *                                      property_node);
+ * ]|
+ *
+ * Return value: %TRUE if the property was successfully deserialized.
+ *
+ * Since: 0.10
+ */
+gboolean
+json_serializable_default_deserialize_property (JsonSerializable *serializable,
+                                                const gchar      *property_name,
+                                                GValue           *value,
+                                                GParamSpec       *pspec,
+                                                JsonNode         *property_node)
+{
+  g_return_val_if_fail (JSON_IS_SERIALIZABLE (serializable), FALSE);
+  g_return_val_if_fail (property_name != NULL, FALSE);
+  g_return_val_if_fail (value != NULL, FALSE);
+  g_return_val_if_fail (pspec != NULL, FALSE);
+  g_return_val_if_fail (property_node != NULL, FALSE);
+
+  return json_serializable_real_deserialize (serializable,
+                                             property_name,
+                                             value, pspec,
+                                             property_node);
+}
