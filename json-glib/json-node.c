@@ -125,7 +125,7 @@ json_node_new (JsonNodeType type)
  * Copies @node. If the node contains complex data types then the reference
  * count of the objects is increased.
  *
- * Return value: the copied #JsonNode
+ * Return value: (transfer full): the copied #JsonNode
  */
 JsonNode *
 json_node_copy (JsonNode *node)
@@ -220,7 +220,7 @@ json_node_take_object (JsonNode   *node,
  *
  * Retrieves the #JsonObject stored inside a #JsonNode
  *
- * Return value: the #JsonObject
+ * Return value: (transfer none): the #JsonObject
  */
 JsonObject *
 json_node_get_object (JsonNode *node)
@@ -238,7 +238,7 @@ json_node_get_object (JsonNode *node)
  * Retrieves the #JsonObject inside @node. The reference count of
  * the returned object is increased.
  *
- * Return value: the #JsonObject
+ * Return value: (transfer full): the #JsonObject
  */
 JsonObject *
 json_node_dup_object (JsonNode *node)
@@ -305,7 +305,7 @@ json_node_take_array (JsonNode  *node,
  *
  * Retrieves the #JsonArray stored inside a #JsonNode
  *
- * Return value: the #JsonArray
+ * Return value: (transfer none): the #JsonArray
  */
 JsonArray *
 json_node_get_array (JsonNode *node)
@@ -323,7 +323,8 @@ json_node_get_array (JsonNode *node)
  * Retrieves the #JsonArray stored inside a #JsonNode and returns it
  * with its reference count increased by one.
  *
- * Return value: the #JsonArray with its reference count increased.
+ * Return value: (transfer full): the #JsonArray with its reference
+ *   count increased.
  */
 JsonArray *
 json_node_dup_array (JsonNode *node)
@@ -597,8 +598,8 @@ json_node_get_string (JsonNode *node)
  *
  * Gets a copy of the string value stored inside a #JsonNode
  *
- * Return value: a newly allocated string containing a copy of
- *   the #JsonNode contents
+ * Return value: (transfer full): a newly allocated string containing a copy
+ *   of the #JsonNode contents. Use g_free() to free the allocated resources
  */
 gchar *
 json_node_dup_string (JsonNode *node)

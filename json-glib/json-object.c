@@ -409,10 +409,11 @@ json_object_set_object_member (JsonObject  *object,
  * Retrieves all the names of the members of a #JsonObject. You can
  * obtain the value for each member using json_object_get_member().
  *
- * Return value: a #GList of member names. The content of the list
- *   is owned by the #JsonObject and should never be modified or
- *   freed. When you have finished using the returned list, use
- *   g_list_free() to free the resources it has allocated.
+ * Return value: (element-type utf8) (transfer container): a #GList
+ *   of member names. The content of the list is owned by the #JsonObject
+ *   and should never be modified or freed. When you have finished using
+ *   the returned list, use g_list_free() to free the resources it has
+ *   allocated.
  */
 GList *
 json_object_get_members (JsonObject *object)
@@ -432,10 +433,10 @@ json_object_get_members (JsonObject *object)
  *
  * Retrieves all the values of the members of a #JsonObject.
  *
- * Return value: a #GList of #JsonNode<!-- -->s. The content of the
- *   list is owned by the #JsonObject and should never be modified
- *   or freed. When you have finished using the returned list, use
- *   g_list_free() to free the resources it has allocated.
+ * Return value: (element-type JsonNode) (transfer container): a #GList of
+ *   #JsonNode<!-- -->s. The content of the list is owned by the #JsonObject
+ *   and should never be modified or freed. When you have finished using the
+ *   returned list, use g_list_free() to free the resources it has allocated.
  */
 GList *
 json_object_get_values (JsonObject *object)
@@ -459,8 +460,8 @@ json_object_get_values (JsonObject *object)
  * Retrieves a copy of the #JsonNode containing the value of @member_name
  * inside a #JsonObject
  *
- * Return value: a copy of the node for the requested object member
- *   or %NULL. Use json_node_free() when done.
+ * Return value: (transfer full) a copy of the node for the requested
+ *   object member or %NULL. Use json_node_free() when done.
  *
  * Since: 0.6
  */
@@ -667,7 +668,7 @@ json_object_get_string_member (JsonObject  *object,
  *
  * See also: json_object_get_member()
  *
- * Return value: the array inside the object's member
+ * Return value: (transfer none): the array inside the object's member
  *
  * Since: 0.8
  */
@@ -697,7 +698,7 @@ json_object_get_array_member (JsonObject  *object,
  *
  * See also: json_object_get_member()
  *
- * Return value: the object inside the object's member
+ * Return value: (transfer none): the object inside the object's member
  *
  * Since: 0.8
  */

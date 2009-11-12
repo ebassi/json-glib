@@ -157,10 +157,10 @@ json_array_unref (JsonArray *array)
  *
  * Gets the elements of a #JsonArray as a list of #JsonNode<!-- -->s.
  *
- * Return value: a #GList containing the elements of the array. The
- *   contents of the list are owned by the array and should never be
- *   modified or freed. Use g_list_free() on the returned list when
- *   done using it
+ * Return value: (element-type JsonNode) (transfer container): a #GList
+ *   containing the elements of the array. The contents of the list are
+ *   owned by the array and should never be modified or freed. Use
+ *   g_list_free() on the returned list when done using it
  */
 GList *
 json_array_get_elements (JsonArray *array)
@@ -186,8 +186,8 @@ json_array_get_elements (JsonArray *array)
  * Retrieves a copy of the #JsonNode containing the value of the
  * element at @index_ inside a #JsonArray
  *
- * Return value: a copy of the #JsonNode at the requested index.
- *   Use json_node_free() when done.
+ * Return value: (transfer full): a copy of the #JsonNode at the requested
+ *   index. Use json_node_free() when done.
  *
  * Since: 0.6
  */
@@ -386,7 +386,7 @@ json_array_get_null_element (JsonArray *array,
  *
  * See also: json_array_get_element(), json_node_get_array()
  *
- * Return value: the array
+ * Return value: (transfer none): the array
  *
  * Since: 0.8
  */
@@ -416,7 +416,7 @@ json_array_get_array_element (JsonArray *array,
  *
  * See also: json_array_get_element(), json_node_get_object()
  *
- * Return value: the object
+ * Return value: (transfer none): the object
  *
  * Since: 0.8
  */
@@ -669,7 +669,7 @@ json_array_remove_element (JsonArray *array,
  * json_array_foreach_element:
  * @array: a #JsonArray
  * @func: the function to be called on each element
- * @data: data to be passed to the function
+ * @data: (allow-none): data to be passed to the function
  *
  * Iterates over all elements of @array and calls @func on
  * each one of them.
