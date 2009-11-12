@@ -117,7 +117,9 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
         AS_COMPILER_FLAGS([MAINTAINER_CFLAGS],
                           ["-Werror -Wall -Wshadow -Wcast-align
                             -Wno-uninitialized -Wformat-security
-                            -Winit-self -Wempty-body"])
+                            -Wno-strict-aliasing -Winit-self
+                            -Wempty-body -Wdeclaration-after-statement
+                            -Wno-strict-aliasing -Wno-strict-aliasing"])
       ]
 )
 AC_SUBST([MAINTAINER_CFLAGS])
