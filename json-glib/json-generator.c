@@ -306,7 +306,12 @@ dump_value (JsonGenerator *generator,
       break;
 
     case G_TYPE_DOUBLE:
-      g_string_append_printf (buffer, "%f", g_value_get_double (&value));
+      {
+        gchar buf[65];
+
+        g_ascii_formatd (buf, 65, "%d", g_value_get_double (&value));
+        g_string_append (buffer, buf);
+      }
       break;
 
     case G_TYPE_BOOLEAN:
