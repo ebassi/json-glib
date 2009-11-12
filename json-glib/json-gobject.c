@@ -360,14 +360,17 @@ json_gobject_dump (GObject *gobject)
       g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
       g_object_get_property (gobject, pspec->name, &value);
 
+      /* if there is a serialization vfunc, then it is completely responsible
+       * for serializing the property, possibly by calling the implementation
+       * of the default JsonSerializable interface through chaining up
+       */
       if (serialize_property)
         {
           node = iface->serialize_property (serializable, pspec->name,
                                             &value,
                                             pspec);
         }
-
-      if (!node)
+      else
         node = json_serialize_pspec (&value, pspec);
 
       if (node)
