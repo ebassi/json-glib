@@ -223,7 +223,7 @@ test_serialize_boxed (void)
 
   obj = g_object_new (TEST_TYPE_OBJECT, "blah", &boxed, NULL);
 
-  data = json_serialize_gobject (obj, &len);
+  data = json_gobject_to_data (obj, &len);
 
   g_assert_cmpint (len, ==, strlen (serialize_data));
   g_assert_cmpstr (data, ==, serialize_data);
@@ -241,7 +241,7 @@ test_deserialize_boxed (void)
 
   GObject *obj;
 
-  obj = json_construct_gobject (TEST_TYPE_OBJECT, serialize_data, -1, NULL);
+  obj = json_gobject_from_data (TEST_TYPE_OBJECT, serialize_data, -1, NULL);
   g_assert (TEST_IS_OBJECT (obj));
   g_assert_cmpint (TEST_OBJECT (obj)->blah.foo, ==, 42);
   g_assert (TEST_OBJECT (obj)->blah.bar);

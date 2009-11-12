@@ -366,7 +366,7 @@ test_deserialize (void)
   gchar *str;
 
   error = NULL;
-  object = json_construct_gobject (TEST_TYPE_OBJECT, var_test, -1, &error);
+  object = json_gobject_from_data (TEST_TYPE_OBJECT, var_test, -1, &error);
   if (error)
     g_error ("*** Unable to parse buffer: %s\n", error->message);
 

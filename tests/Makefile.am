@@ -6,7 +6,7 @@ NULL =
 noinst_PROGRAMS = $(TEST_PROGS)
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/json-glib
-AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS) $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
+AM_CPPFLAGS = -DJSON_DISABLE_DEPRECATED $(JSON_DEBUG_CFLAGS) $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 progs_ldadd = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
 
 TESTS_ENVIRONMENT = srcdir=$(srcdir)

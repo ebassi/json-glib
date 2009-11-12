@@ -250,7 +250,7 @@ test_serialize (void)
   gchar *data;
   gsize len;
 
-  data = json_serialize_gobject (G_OBJECT (obj), &len);
+  data = json_gobject_to_data (G_OBJECT (obj), &len);
 
   g_assert_cmpint (len, >, 0);
   if (g_test_verbose ())
