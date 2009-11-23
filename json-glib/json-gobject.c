@@ -627,9 +627,7 @@ json_serialize_pspec (const GValue *real_value,
         {
           gpointer boxed = g_value_get_boxed (real_value);
 
-          retval = json_boxed_serialize (G_VALUE_TYPE (real_value),
-                                         node_type,
-                                         boxed);
+          retval = json_boxed_serialize (G_VALUE_TYPE (real_value), boxed);
         }
       else
         g_warning ("Boxed type '%s' is not handled by JSON-GLib",

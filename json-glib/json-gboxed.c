@@ -86,8 +86,11 @@ struct _BoxedTransform
   JsonBoxedDeserializeFunc deserialize;
 };
 
-G_LOCK_DEFINE_STATIC (boxed_transforms);
-static GSList *boxed_transforms = NULL;
+G_LOCK_DEFINE_STATIC (boxed_serialize);
+static GSList *boxed_serialize = NULL;
+
+G_LOCK_DEFINE_STATIC (boxed_deserialize);
+static GSList *boxed_deserialize = NULL;
 
 static gint
 boxed_transforms_cmp (gconstpointer a,
@@ -114,8 +117,9 @@ boxed_transforms_find (gconstpointer a,
 }
 
 static BoxedTransform *
-lookup_boxed_transform (GType        gboxed_type,
-                        JsonNodeType node_type)
+lookup_boxed_transform (GSList       *transforms,
+                        GType         gboxed_type,
+                        JsonNodeType  node_type)
 {
   BoxedTransform lookup;
   GSList *t;
@@ -123,7 +127,7 @@ lookup_boxed_transform (GType        gboxed_type,
   lookup.boxed_type = gboxed_type;
   lookup.node_type = node_type;
 
-  t = g_slist_find_custom (boxed_transforms, &lookup, boxed_transforms_find);
+  t = g_slist_find_custom (transforms, &lookup, boxed_transforms_find);
   if (t == NULL)
     return NULL;
 
@@ -131,41 +135,30 @@ lookup_boxed_transform (GType        gboxed_type,
 }
 
 /**
- * json_boxed_register_transform_func:
+ * json_boxed_register_serialize_func:
  * @gboxed_type: a boxed type
  * @node_type: a node type
- * @serialize_func: (allow-none): serialization function for @boxed_type
- *   into a #JsonNode of type @node_type; can be %NULL if @deserialize_func
- *   is not %NULL
- * @deserialize_func: (allow-none): deserialization function for @boxed_type
- *   from a #JsonNode of type @node_type; can be %NULL if @serialize_func
- *   is not %NULL
+ * @serialize_func: serialization function for @boxed_type into
+ *   a #JsonNode of type @node_type
  *
- * Registers a serialization and deserialization functions for a #GBoxed
- * of type @gboxed_type to and from a #JsonNode of type @node_type
+ * Registers a serialization function for a #GBoxed of type @gboxed_type
+ * to a #JsonNode of type @node_type
  *
  * Since: 0.10
  */
 void
-json_boxed_register_transform_func (GType                    gboxed_type,
-                                    JsonNodeType             node_type,
-                                    JsonBoxedSerializeFunc   serialize_func,
-                                    JsonBoxedDeserializeFunc deserialize_func)
+json_boxed_register_serialize_func (GType                  gboxed_type,
+                                    JsonNodeType           node_type,
+                                    JsonBoxedSerializeFunc serialize_func)
 {
   BoxedTransform *t;
 
   g_return_if_fail (G_TYPE_IS_BOXED (gboxed_type));
   g_return_if_fail (G_TYPE_IS_ABSTRACT (gboxed_type) == FALSE);
 
-  if (serialize_func == NULL)
-    g_return_if_fail (deserialize_func != NULL);
+  G_LOCK (boxed_serialize);
 
-  if (deserialize_func == NULL)
-    g_return_if_fail (serialize_func != NULL);
-
-  G_LOCK (boxed_transforms);
-
-  t = lookup_boxed_transform (gboxed_type, node_type);
+  t = lookup_boxed_transform (boxed_serialize, gboxed_type, node_type);
   if (t == NULL)
     {
       t = g_slice_new (BoxedTransform);
@@ -173,18 +166,62 @@ json_boxed_register_transform_func (GType                    gboxed_type,
       t->boxed_type = gboxed_type;
       t->node_type = node_type;
       t->serialize = serialize_func;
-      t->deserialize = deserialize_func;
 
-      boxed_transforms = g_slist_insert_sorted (boxed_transforms, t,
-                                                boxed_transforms_cmp);
+      boxed_serialize = g_slist_insert_sorted (boxed_serialize, t,
+                                               boxed_transforms_cmp);
     }
   else
-    g_warning ("A transformation for the boxed type %s into "
+    g_warning ("A serialization function for the boxed type %s into "
                "JSON nodes of type %s already exists",
                g_type_name (gboxed_type),
                json_node_type_get_name (node_type));
 
-  G_UNLOCK (boxed_transforms);
+  G_UNLOCK (boxed_serialize);
+}
+
+/**
+ * json_boxed_register_deserialize_func:
+ * @gboxed_type: a boxed type
+ * @node_type: a node type
+ * @deserialize_func: deserialization function for @boxed_type from
+ *   a #JsonNode of type @node_type
+ *
+ * Registers a deserialization function for a #GBoxed of type @gboxed_type
+ * from a #JsonNode of type @node_type
+ *
+ * Since: 0.10
+ */
+void
+json_boxed_register_deserialize_func (GType                    gboxed_type,
+                                      JsonNodeType             node_type,
+                                      JsonBoxedDeserializeFunc deserialize_func)
+{
+  BoxedTransform *t;
+
+  g_return_if_fail (G_TYPE_IS_BOXED (gboxed_type));
+  g_return_if_fail (G_TYPE_IS_ABSTRACT (gboxed_type) == FALSE);
+
+  G_LOCK (boxed_deserialize);
+
+  t = lookup_boxed_transform (boxed_deserialize, gboxed_type, node_type);
+  if (t == NULL)
+    {
+      t = g_slice_new (BoxedTransform);
+
+      t->boxed_type = gboxed_type;
+      t->node_type = node_type;
+      t->deserialize = deserialize_func;
+
+      boxed_deserialize = g_slist_insert_sorted (boxed_deserialize, t,
+                                                 boxed_transforms_cmp);
+    }
+  else
+    g_warning ("A deserialization function for the boxed type %s from "
+               "JSON nodes of type %s already exists",
+               g_type_name (gboxed_type),
+               json_node_type_get_name (node_type));
+
+  G_UNLOCK (boxed_deserialize);
 }
 
 /**
@@ -212,8 +249,8 @@ json_boxed_can_serialize (GType         gboxed_type,
   g_return_val_if_fail (G_TYPE_IS_BOXED (gboxed_type), FALSE);
   g_return_val_if_fail (G_TYPE_IS_ABSTRACT (gboxed_type) == FALSE, FALSE);
 
-  t = lookup_boxed_transform (gboxed_type, -1);
-  if (t != NULL && t->serialize != NULL)
+  t = lookup_boxed_transform (boxed_serialize, gboxed_type, -1);
+  if (t != NULL)
     {
       if (node_type)
         *node_type = t->node_type;
@@ -245,8 +282,8 @@ json_boxed_can_deserialize (GType        gboxed_type,
   g_return_val_if_fail (G_TYPE_IS_BOXED (gboxed_type), FALSE);
   g_return_val_if_fail (G_TYPE_IS_ABSTRACT (gboxed_type) == FALSE, FALSE);
 
-  t = lookup_boxed_transform (gboxed_type, node_type);
-  if (t != NULL && t->deserialize != NULL)
+  t = lookup_boxed_transform (boxed_deserialize, gboxed_type, node_type);
+  if (t != NULL)
     return TRUE;
 
   return FALSE;
@@ -255,11 +292,10 @@ json_boxed_can_deserialize (GType        gboxed_type,
 /**
  * json_boxed_serialize:
  * @gboxed_type: a boxed type
- * @node_type: a #JsonNode type
  * @boxed: a pointer to a #GBoxed of type @gboxed_type
  *
  * Serializes @boxed, a pointer to a #GBoxed of type @gboxed_type,
- * into a #JsonNode of type @node_type
+ * into a #JsonNode
  *
  * Return value: a #JsonNode with the serialization of the boxed
  *   type, or %NULL if serialization either failed or was not
@@ -268,9 +304,8 @@ json_boxed_can_deserialize (GType        gboxed_type,
  * Since: 0.10
  */
 JsonNode *
-json_boxed_serialize (GType          gboxed_type,
-                      JsonNodeType   node_type,
-                      gconstpointer  boxed)
+json_boxed_serialize (GType         gboxed_type,
+                      gconstpointer boxed)
 {
   BoxedTransform *t;
 
@@ -278,7 +313,7 @@ json_boxed_serialize (GType          gboxed_type,
   g_return_val_if_fail (G_TYPE_IS_ABSTRACT (gboxed_type) == FALSE, NULL);
   g_return_val_if_fail (boxed != NULL, NULL);
 
-  t = lookup_boxed_transform (gboxed_type, node_type);
+  t = lookup_boxed_transform (boxed_serialize, gboxed_type, -1);
   if (t != NULL && t->serialize != NULL)
     return t->serialize (boxed);
 
@@ -310,7 +345,7 @@ json_boxed_deserialize (GType     gboxed_type,
 
   node_type = json_node_get_node_type (node);
 
-  t = lookup_boxed_transform (gboxed_type, node_type);
+  t = lookup_boxed_transform (boxed_deserialize, gboxed_type, node_type);
   if (t != NULL && t->deserialize != NULL)
     return t->deserialize (node);
 

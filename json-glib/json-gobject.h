@@ -113,39 +113,40 @@ typedef JsonNode *(* JsonBoxedSerializeFunc) (gconstpointer boxed);
  */
 typedef gpointer (* JsonBoxedDeserializeFunc) (JsonNode *node);
 
-void      json_boxed_register_transform_func (GType                     gboxed_type,
-                                              JsonNodeType              node_type,
-                                              JsonBoxedSerializeFunc    serialize_func,
-                                              JsonBoxedDeserializeFunc  deserialize_func);
-gboolean  json_boxed_can_serialize           (GType                     gboxed_type,
-                                              JsonNodeType             *node_type);
-gboolean  json_boxed_can_deserialize         (GType                     gboxed_type,
-                                              JsonNodeType              node_type);
-JsonNode *json_boxed_serialize               (GType                     gboxed_type,
-                                              JsonNodeType              node_type,
-                                              gconstpointer             boxed);
-gpointer  json_boxed_deserialize             (GType                     gboxed_type,
-                                              JsonNode                 *node);
+void      json_boxed_register_serialize_func   (GType                    gboxed_type,
+                                                JsonNodeType             node_type,
+                                                JsonBoxedSerializeFunc   serialize_func);
+void      json_boxed_register_deserialize_func (GType                    gboxed_type,
+                                                JsonNodeType             node_type,
+                                                JsonBoxedDeserializeFunc serialize_func);
+gboolean  json_boxed_can_serialize             (GType                    gboxed_type,
+                                                JsonNodeType            *node_type);
+gboolean  json_boxed_can_deserialize           (GType                    gboxed_type,
+                                                JsonNodeType             node_type);
+JsonNode *json_boxed_serialize                 (GType                    gboxed_type,
+                                                gconstpointer            boxed);
+gpointer  json_boxed_deserialize               (GType                    gboxed_type,
+                                                JsonNode                *node);
 
-JsonNode *json_gobject_serialize             (GObject                  *gobject);
-GObject * json_gobject_deserialize           (GType                     gtype,
-                                              JsonNode                 *node);
+JsonNode *json_gobject_serialize               (GObject                 *gobject);
+GObject * json_gobject_deserialize             (GType                    gtype,
+                                                JsonNode                *node);
 
-GObject * json_gobject_from_data             (GType                     gtype,
-                                              const gchar              *data,
-                                              gssize                    length,
-                                              GError                  **error);
-gchar *   json_gobject_to_data               (GObject                  *gobject,
-                                              gsize                    *length);
+GObject * json_gobject_from_data               (GType                    gtype,
+                                                const gchar             *data,
+                                                gssize                   length,
+                                                GError                 **error);
+gchar *   json_gobject_to_data                 (GObject                 *gobject,
+                                                gsize                   *length);
 
 #ifndef JSON_DISABLE_DEPRECATED
-GObject * json_construct_gobject   (GType         gtype,
-                                    const gchar  *data,
-                                    gsize         length,
-                                    GError      **error) G_GNUC_DEPRECATED;
-gchar *   json_serialize_gobject   (GObject      *gobject,
-                                    gsize        *length) G_GNUC_MALLOC G_GNUC_DEPRECATED;
-#endif
+GObject * json_construct_gobject               (GType                    gtype,
+                                                const gchar             *data,
+                                                gsize                    length,
+                                                GError                 **error) G_GNUC_DEPRECATED;
+gchar *   json_serialize_gobject               (GObject                 *gobject,
+                                                gsize                   *length) G_GNUC_MALLOC G_GNUC_DEPRECATED;
+#endif /* JSON_DISABLE_DEPRECATED */
 
 
 G_END_DECLS

@@ -121,9 +121,10 @@ test_boxed_get_type (void)
       if (g_test_verbose ())
         g_print ("Registering transform functions\n");
 
-      json_boxed_register_transform_func (b_type, JSON_NODE_OBJECT,
-                                          test_boxed_serialize,
-                                          test_boxed_deserialize);
+      json_boxed_register_serialize_func (b_type, JSON_NODE_OBJECT,
+                                          test_boxed_serialize);
+      json_boxed_register_deserialize_func (b_type, JSON_NODE_OBJECT,
+                                            test_boxed_deserialize);
     }
 
   return b_type;

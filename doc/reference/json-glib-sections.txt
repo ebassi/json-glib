@@ -219,7 +219,8 @@ json_serializable_get_type
 <TITLE>Boxed Types Serialization</TITLE>
 JsonBoxedSerializeFunc
 JsonBoxedDeserializeFunc
-json_boxed_register_transform_func
+json_boxed_register_serialize_func
+json_boxed_register_deserialize_func
 
 <SUBSECTION>
 json_boxed_can_serialize
