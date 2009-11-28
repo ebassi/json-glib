@@ -118,7 +118,7 @@ void      json_boxed_register_serialize_func   (GType                    gboxed_
                                                 JsonBoxedSerializeFunc   serialize_func);
 void      json_boxed_register_deserialize_func (GType                    gboxed_type,
                                                 JsonNodeType             node_type,
-                                                JsonBoxedDeserializeFunc serialize_func);
+                                                JsonBoxedDeserializeFunc deserialize_func);
 gboolean  json_boxed_can_serialize             (GType                    gboxed_type,
                                                 JsonNodeType            *node_type);
 gboolean  json_boxed_can_deserialize           (GType                    gboxed_type,
