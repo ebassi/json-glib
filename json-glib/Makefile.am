@@ -12,12 +12,6 @@ NULL =
 
 INCLUDES = -I$(top_srcdir)
 
-LDADD = \
-	$(JSON_LT_LDFLAGS) \
-	-export-dynamic \
-	-export-symbols-regex "^json.*" \
-	-rpath $(libdir)
-
 AM_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" 	\
 	-DLIBDIR=\""$(libdir)"\" 	\
@@ -29,6 +23,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
+
 BUILT_SOURCES =
 
 CLEANFILES =
@@ -73,13 +68,8 @@ include $(top_srcdir)/build/autotools/Makefile.am.marshal
 lib_LTLIBRARIES = libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
-libjson_glib_1_0_la_SOURCES = \
-	$(source_c) \
-	$(source_h) \
-	$(source_h_priv) \
-	$(BUILT_SOURCES) \
-	$(NULL)
-libjson_glib_1_0_la_LDFLAGS = $(LDADD)
+libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
@@ -89,13 +79,7 @@ jsoninclude_DATA = \
 	$(top_srcdir)/json-glib/json-glib.h		\
 	$(NULL)
 
-EXTRA_DIST += \
-	json-version.h.in 	\
-	json-types-private.h	\
-	json-gobject-private.h	\
-	json-scanner.h 		\
-	json-glib.h 		\
-	$(NULL)
+EXTRA_DIST += json-version.h.in json-glib.h
 
 TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
 
