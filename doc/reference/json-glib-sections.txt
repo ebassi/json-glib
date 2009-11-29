@@ -234,6 +234,8 @@ json_boxed_deserialize
 <TITLE>GObject Serialization</TITLE>
 json_gobject_serialize
 json_gobject_deserialize
+json_gobject_to_data
+json_gobject_from_data
 
 <SUBSECTION>
 json_construct_gobject
