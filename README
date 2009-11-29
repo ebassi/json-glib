@@ -19,16 +19,20 @@ for C developers. GLib and GObject are extensively used by the GTK+
 toolkit and by the GNOME project.
 
 For more information, see:
- * JSON: http://www.json.org
- * GLib and GObject: http://www.gtk.org
+  • JSON: http://www.json.org
+  • GLib and GObject: http://www.gtk.org
 
 REQUIREMENTS
 ------------
 In order to build JSON-GLib you will need:
 
-  * pkg-config
-  * gtk-doc >= 1.11
-  * GLib >= 2.16
+  • pkg-config
+  • gtk-doc >= 1.11
+  • GLib >= 2.16
+
+Optionally, JSON-GLib depends on:
+
+  • GObject-Introspection >= 0.6.4
 
 INSTALLATION
 -------------------------------------------------------------------------------
@@ -46,12 +50,13 @@ If you find a bug in JSON-GLib, please create a Bugzilla entry here:
   http://bugzilla.openedhand.com/enter_bug.cgi?product=json-glib
 
 Attaching:
-- the version of JSON-GLib
-  - if it is a development version, the branch of the git repository
-- the JSON data that produced the bug (if any)
-- a small test case, if none of the test units exhibit the behaviour
-- in case of a segmentation fault, a full stack trace with debugging
-  symbols obtained through gdb is greatly appreaciated
+
+  • the version of JSON-GLib
+    ◦ if it is a development version, the branch of the git repository
+  • the JSON data that produced the bug (if any)
+  • a small test case, if none of the test units exhibit the behaviour
+  • in case of a segmentation fault, a full stack trace with debugging
+    symbols obtained through gdb is greatly appreaciated
 
 HACKING
 -------------------------------------------------------------------------------
