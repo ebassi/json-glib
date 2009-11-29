@@ -44,7 +44,6 @@ To build JSON-GLib just run:
 
 BUGS
 -------------------------------------------------------------------------------
-
 If you find a bug in JSON-GLib, please create a Bugzilla entry here:
 
   http://bugzilla.openedhand.com/enter_bug.cgi?product=json-glib
@@ -58,9 +57,18 @@ Attaching:
   • in case of a segmentation fault, a full stack trace with debugging
     symbols obtained through gdb is greatly appreaciated
 
+RELEASE NOTES
+-------------------------------------------------------------------------------
+• Prior to JSON-GLib 0.10, a JsonSerializable implementation could
+  automatically fall back to the default serialization code by simply
+  returning NULL from an overridden JsonSerializable::serialize_property()
+  virtual function. Since JSON-GLib 0.10 this is not possible any more. A
+  JsonSerializable is always expected to serialize and deserialize all
+  properties. JSON-GLib provides public API for the default implementation
+  in case the serialization code wants to fall back to that.
+
 HACKING
 -------------------------------------------------------------------------------
-
 JSON-GLib is developed mainly inside a GIT repository available at:
 
   http://git.gnome.org/cgit/json-glib
