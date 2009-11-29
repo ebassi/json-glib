@@ -6,6 +6,11 @@ m4_define([json_micro_version], [1])
 
 m4_define([json_version], [json_major_version.json_minor_version.json_micro_version])
 
+m4_define([json_release_status],
+          [m4_if(m4_eval(json_micro_version % 2), [1], [git],
+                 [m4_if(m4_eval(json_minor_version % 2), [1], [snapshot],
+                                                              [release])])])
+
 # bump up by 1 for every micro release with no API changes, otherwise
 # set to 0. after release, bump up by 1
 m4_define([json_interface_age], [0])
@@ -42,10 +47,12 @@ JSON_MAJOR_VERSION=json_major_version
 JSON_MINOR_VERSION=json_minor_version
 JSON_MICRO_VERSION=json_micro_version
 JSON_VERSION=json_version
+JSON_RELEASE_STATUS=json_release_status
 AC_SUBST(JSON_MAJOR_VERSION)
 AC_SUBST(JSON_MICRO_VERSION)
 AC_SUBST(JSON_MINOR_VERSION)
 AC_SUBST(JSON_VERSION)
+AC_SUBST(JSON_RELEASE_STATUS)
 
 JSON_LT_CURRENT=lt_current
 JSON_LT_REVISION=lt_revision
@@ -160,13 +167,19 @@ AC_CONFIG_FILES([
 
 AC_OUTPUT
 
+dnl === Summary ===============================================================
+
 echo ""
-echo " Json-GLib $VERSION"
+echo " Json-GLib - $VERSION (${JSON_RELEASE_STATUS})"
 echo ""
-echo "                   Prefix: ${prefix}"
-echo "              Debug level: ${enable_debug}"
-echo "           Compiler flags: ${MAINTAINER_CFLAGS}"
-echo "            API reference: ${enable_gtk_doc}"
-echo "        Enable test suite: ${enable_glibtest}"
-echo " Build introspection data: ${enable_introspection}"
+echo " • Prefix: ${prefix}"
+echo ""
+echo " • Debug level: ${enable_debug}"
+echo " • Compiler flags: ${MAINTAINER_CFLAGS}"
+echo " • Use shave: ${use_shave}"
+echo ""
+echo " • API reference: ${enable_gtk_doc}"
+echo ""
+echo " • Enable test suite: ${enable_glibtest}"
+echo " • Build introspection data: ${enable_introspection}"
 echo ""
