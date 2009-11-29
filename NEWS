@@ -1,3 +1,18 @@
+Overview of changes for 0.10.0
+==============================
+• Fix generation of doubles [Cornelius Hald]
+• Add more units to the test suite
+• Add JsonNode macros for quick type checking
+• Guarantee insertion order when parsing and generating JSON Objects
+• Serialize GParamSpecObject properties
+• Add serialization and deserialization for GBoxed types
+• Add API for serializing GObjects to, and deserializing from, JsonNode
+• Build environment fixes
+• Documentation fixes
+• Generate correct introspection data
+• Make JsonSerializable in complete control of deserialization [Tristan Van
+  Berkom]
+
 Overview of changes for 0.8.0
 =============================
 * Remove the in-tree Vala bindings: they are part of Vala, now
