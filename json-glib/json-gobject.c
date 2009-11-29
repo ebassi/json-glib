@@ -865,7 +865,7 @@ json_serialize_gobject (GObject *gobject,
 }
 
 /**
- * json_serialize_gobject:
+ * json_gobject_to_data:
  * @gobject: a #GObject
  * @length: (out): return value for the length of the buffer, or %NULL
  *
