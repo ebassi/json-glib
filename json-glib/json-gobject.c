@@ -503,7 +503,7 @@ json_deserialize_pspec (GValue     *value,
 
         case G_TYPE_ENUM:
           {
-            gint enum_value;
+            gint enum_value = 0;
 
             if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
               {
@@ -524,7 +524,7 @@ json_deserialize_pspec (GValue     *value,
 
         case G_TYPE_FLAGS:
           {
-            gint flags_value;
+            gint flags_value = 0;
 
             if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
               {
