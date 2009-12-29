@@ -7,7 +7,8 @@ EXTRA_DIST = \
 	Makefile.am.silent	\
 	Makefile.am.enums	\
 	Makefile.am.marshal	\
-	Makefile.am.gtest
+	Makefile.am.gtest	\
+	Makefile.am.gcov
 
 DISTCLEANFILES = shave-libtool shave
 

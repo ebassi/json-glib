@@ -1,5 +1,5 @@
-include $(top_srcdir)/build/autotools/Makefile.am.gtest
 include $(top_srcdir)/build/autotools/Makefile.am.silent
+include $(top_srcdir)/build/autotools/Makefile.am.gtest
 
 if ENABLE_GLIB_TEST
 # build this directory *before* the tests/
@@ -22,7 +22,7 @@ AM_CPPFLAGS = \
 	$(JSON_DEBUG_CFLAGS) 		\
 	$(NULL)
 
-AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
+AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS) $(GCOV_CFLAGS)
 
 BUILT_SOURCES =
 
@@ -69,7 +69,7 @@ lib_LTLIBRARIES = libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
-libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(GCOV_LDFLAGS) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
@@ -120,3 +120,6 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
 
 CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
+
+gcov_sources = $(source_c)
+include $(top_srcdir)/build/autotools/Makefile.am.gcov

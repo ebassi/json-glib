@@ -76,7 +76,7 @@ AC_SUBST(JSON_LIBS)
 
 AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
 
-dnl = Enable debug level ===================================================
+dnl = Enable debug level ======================================================
 
 m4_define([debug_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [minimum])])
 
@@ -109,7 +109,7 @@ AS_CASE([$enable_debug],
 
 AC_SUBST(JSON_DEBUG_CFLAGS)
 
-dnl = Enable strict compiler flags =========================================
+dnl = Enable strict compiler flags ============================================
 
 # use strict compiler flags only on development releases
 m4_define([maintainer_flags_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [no])])
@@ -130,6 +130,26 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
       ]
 )
 AC_SUBST([MAINTAINER_CFLAGS])
+
+dnl = GCOV coverage checks ====================================================
+AC_MSG_CHECKING([whether to build with gcov testing])
+AC_ARG_ENABLE([gcov],
+              [AS_HELP_STRING([--enable-gcov],
+                              [Whether to enable coverage testing (requires gcc and gcov)])],
+              [],
+              [enable_gcov=no])
+
+AS_IF([test "x$enable_gcov" = "xyes" && test "x$GCC" = "xyes"],
+      [
+        GCOV_CFLAGS="$CFLAGS -fprofile-arcs -ftest-coverage"
+        GCOV_LDFLAGS="$LDFLAGS -fprofile-arcs -ftest-coverage"
+      ]
+)
+
+AM_CONDITIONAL([GCOV_ENABLED], [test "x$enable_gcov" = "xyes"])
+AC_SUBST([GCOV_CFLAGS])
+AC_SUBST([GCOV_LDFLAGS])
+AC_MSG_RESULT([$enable_gcov])
 
 GTK_DOC_CHECK([1.11])
 
@@ -182,4 +202,5 @@ echo " • API reference: ${enable_gtk_doc}"
 echo ""
 echo " • Enable test suite: ${enable_glibtest}"
 echo " • Build introspection data: ${enable_introspection}"
+echo " • Enable coverage test: ${enable_gcov}"
 echo ""
