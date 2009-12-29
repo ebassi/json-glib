@@ -23,7 +23,7 @@ EXTRA_DIST += json-glib.pc.in
 
 CLEANFILES = $(pcfiles) test-report.xml
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-maintainer-flags
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-maintainer-flags --enable-introspection
 
 dist-hook:
 	@if test -d "$(srcdir)/.git"; then \
