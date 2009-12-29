@@ -17,6 +17,21 @@ static const gchar *simple_array = "[ true, false, null, 42, \"foo\" ]";
 static const gchar *nested_array = "[ true, [ false, null ], 42 ]";
 
 static const gchar *simple_object = "{ \"Bool1\" : true, \"Bool2\" : false, \"Null\" : null, \"Int\" : 42, \"String\" : \"foo\" }";
+/* taken from the RFC 4627, Examples section */
+static const gchar *nested_object =
+"{ "
+  "\"Image\" : { "
+    "\"Width\" : 800, "
+    "\"Height\" : 600, "
+    "\"Title\" : \"View from 15th Floor\", "
+    "\"Thumbnail\" : { "
+      "\"Url\" : \"http://www.example.com/image/481989943\", "
+      "\"Height\" : 125, "
+      "\"Width\" : \"100\" "
+    "}, "
+    "\"IDs\" : [ 116, 943, 234, 38793 ] "
+  "} "
+"}";
 
 static void
 test_empty_array (void)
@@ -212,11 +227,6 @@ test_simple_object (void)
   g_object_unref (generator);
 }
 
-#if 0
-/* this is just overkill, but I'll add it commented out, so it
- * can be enabled if I feel like running this just to compare
- * the length of the strings
- */
 static void
 test_nested_object (void)
 {
@@ -232,13 +242,6 @@ test_nested_object (void)
   object = json_object_new ();
 
   val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_STRING);
-  g_value_set_string (&value, "View from 15th Floor");
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Title", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
   g_value_init (&value, G_TYPE_INT);
   g_value_set_int (&value, 800);
   json_node_set_value (val, &value);
@@ -251,6 +254,42 @@ test_nested_object (void)
   json_node_set_value (val, &value);
   json_object_set_member (object, "Height", val);
   g_value_unset (&value);
+
+  val = json_node_new (JSON_NODE_VALUE);
+  g_value_init (&value, G_TYPE_STRING);
+  g_value_set_string (&value, "View from 15th Floor");
+  json_node_set_value (val, &value);
+  json_object_set_member (object, "Title", val);
+  g_value_unset (&value);
+
+  {
+    val = json_node_new (JSON_NODE_OBJECT);
+    nested = json_object_new ();
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_STRING);
+    g_value_set_string (&value, "http://www.example.com/image/481989943");
+    json_node_set_value (nested_val, &value);
+    json_object_set_member (nested, "Url", nested_val);
+    g_value_unset (&value);
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_INT);
+    g_value_set_int (&value, 125);
+    json_node_set_value (nested_val, &value);
+    json_object_set_member (nested, "Height", nested_val);
+    g_value_unset (&value);
+
+    nested_val = json_node_new (JSON_NODE_VALUE);
+    g_value_init (&value, G_TYPE_STRING);
+    g_value_set_string (&value, "100");
+    json_node_set_value (nested_val, &value);
+    json_object_set_member (nested, "Width", nested_val);
+    g_value_unset (&value);
+
+    json_node_take_object (val, nested);
+    json_object_set_member (object, "Thumbnail", val);
+  }
 
   {
     val = json_node_new (JSON_NODE_ARRAY);
@@ -288,36 +327,10 @@ test_nested_object (void)
     json_object_set_member (object, "IDs", val);
   }
 
-  {
-    val = json_node_new (JSON_NODE_OBJECT);
-    nested = json_object_new ();
+  nested = json_object_new ();
+  json_object_set_object_member (nested, "Image", object);
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, "http://www.example.com/image/481989943");
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Url", nested_val);
-    g_value_unset (&value);
-
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 125);
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Width", nested_val);
-    g_value_unset (&value);
-
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 100);
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Height", nested_val);
-    g_value_unset (&value);
-
-    json_node_take_object (val, nested);
-    json_object_set_member (object, "Thumbnail", val);
-  }
-
-  json_node_take_object (root, object);
+  json_node_take_object (root, nested);
   json_generator_set_root (generator, root);
 
   g_object_set (generator, "pretty", FALSE, NULL);
@@ -329,16 +342,12 @@ test_nested_object (void)
              nested_object);
 
   g_assert_cmpint (len, ==, strlen (nested_object));
-
-  /* we cannot compare the strings literal because JsonObject does not
-   * guarantee any ordering
-   */
+  g_assert_cmpstr (data, ==, nested_object);
 
   g_free (data);
   json_node_free (root);
   g_object_unref (generator);
 }
-#endif
 
 int
 main (int   argc,
@@ -352,6 +361,7 @@ main (int   argc,
   g_test_add_func ("/generator/simple-array", test_simple_array);
   g_test_add_func ("/generator/nested-array", test_nested_array);
   g_test_add_func ("/generator/simple-object", test_simple_object);
+  g_test_add_func ("/generator/nested-object", test_nested_object);
 
   return g_test_run ();
 }
