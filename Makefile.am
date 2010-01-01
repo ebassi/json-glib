@@ -36,3 +36,6 @@ dist-hook:
 	else \
 	  echo A git checkout is required to generate a ChangeLog >&2; \
 	fi
+
+gcov:
+	( cd json-glib && $(MAKE) $(AM_MAKEFLAGS) $@ ) || exit $?
