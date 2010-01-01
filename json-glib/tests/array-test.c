@@ -49,17 +49,19 @@ test_remove_element (void)
 
 typedef struct _TestForeachFixture
 {
+  GList *elements;
   gint n_elements;
+  gint iterations;
 } TestForeachFixture;
 
 static const struct {
   JsonNodeType element_type;
   GType element_gtype;
 } type_verify[] = {
-  { JSON_NODE_VALUE, G_TYPE_INT64 },
+  { JSON_NODE_VALUE, G_TYPE_INT64   },
   { JSON_NODE_VALUE, G_TYPE_BOOLEAN },
-  { JSON_NODE_VALUE, G_TYPE_STRING },
-  { JSON_NODE_NULL, G_TYPE_INVALID }
+  { JSON_NODE_VALUE, G_TYPE_STRING  },
+  { JSON_NODE_NULL,  G_TYPE_INVALID }
 };
 
 static void
@@ -70,10 +72,11 @@ verify_foreach (JsonArray *array,
 {
   TestForeachFixture *fixture = user_data;
 
+  g_assert (g_list_find (fixture->elements, element_node));
   g_assert (json_node_get_node_type (element_node) == type_verify[index_].element_type);
   g_assert (json_node_get_value_type (element_node) == type_verify[index_].element_gtype);
 
-  fixture->n_elements += 1;
+  fixture->iterations += 1;
 }
 
 static void
@@ -87,10 +90,19 @@ test_foreach_element (void)
   json_array_add_string_element (array, "hello");
   json_array_add_null_element (array);
 
+  fixture.elements = json_array_get_elements (array);
+  g_assert (fixture.elements != NULL);
+
+  fixture.n_elements = json_array_get_length (array);
+  g_assert_cmpint (fixture.n_elements, ==, g_list_length (fixture.elements));
+
+  fixture.iterations = 0;
+
   json_array_foreach_element (array, verify_foreach, &fixture);
 
-  g_assert_cmpint (fixture.n_elements, ==, json_array_get_length (array));
+  g_assert_cmpint (fixture.iterations, ==, fixture.n_elements);
 
+  g_list_free (fixture.elements);
   json_array_unref (array);
 }
 
