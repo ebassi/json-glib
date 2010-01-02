@@ -85,37 +85,19 @@ static void
 test_simple_array (void)
 {
   JsonGenerator *generator = json_generator_new ();
-  JsonNode *root, *val;
+  JsonNode *root;
   JsonArray *array;
-  GValue value = { 0, };
   gchar *data;
   gsize len;
 
   root = json_node_new (JSON_NODE_ARRAY);
-  array = json_array_sized_new (6);
+  array = json_array_sized_new (5);
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&value, TRUE);
-  json_node_set_value (val, &value);
-  json_array_add_element (array, val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  json_node_set_boolean (val, FALSE);
-  json_array_add_element (array, val);
-
-  val = json_node_new (JSON_NODE_NULL);
-  json_array_add_element (array, val);
-
+  json_array_add_boolean_element (array, TRUE);
+  json_array_add_boolean_element (array, FALSE);
+  json_array_add_null_element (array);
   json_array_add_int_element (array, 42);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_STRING);
-  g_value_set_string (&value, "foo");
-  json_node_set_value (val, &value);
-  json_array_add_element (array, val);
-  g_value_unset (&value);
+  json_array_add_string_element (array, "foo");
 
   json_node_take_array (root, array);
   json_generator_set_root (generator, root);
@@ -140,24 +122,18 @@ static void
 test_nested_array (void)
 {
   JsonGenerator *generator = json_generator_new ();
-  JsonNode *root, *val;
+  JsonNode *root;
   JsonArray *array, *nested;
-  GValue value = { 0, };
   gchar *data;
   gsize len;
 
   root = json_node_new (JSON_NODE_ARRAY);
   array = json_array_sized_new (3);
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&value, TRUE);
-  json_node_set_value (val, &value);
-  json_array_add_element (array, val);
-  g_value_unset (&value);
+  json_array_add_boolean_element (array, TRUE);
 
   {
-    nested = json_array_new ();
+    nested = json_array_sized_new (2);
 
     json_array_add_boolean_element (nested, FALSE);
     json_array_add_null_element (nested);
@@ -165,12 +141,7 @@ test_nested_array (void)
     json_array_add_array_element (array, nested);
   }
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT64);
-  g_value_set_int64 (&value, 42);
-  json_node_set_value (val, &value);
-  json_array_add_element (array, val);
-  g_value_unset (&value);
+  json_array_add_int_element (array, 42);
 
   json_node_take_array (root, array);
   json_generator_set_root (generator, root);
@@ -218,10 +189,6 @@ test_simple_object (void)
   g_assert_cmpint (len, ==, strlen (simple_object));
   g_assert_cmpstr (data, ==, simple_object);
 
-  /* we cannot compare the strings literal because JsonObject does not
-   * guarantee any ordering
-   */
-
   g_free (data);
   json_node_free (root);
   g_object_unref (generator);
@@ -231,100 +198,38 @@ static void
 test_nested_object (void)
 {
   JsonGenerator *generator = json_generator_new ();
-  JsonNode *root, *val, *nested_val;
+  JsonNode *root;
   JsonObject *object, *nested;
   JsonArray *array;
-  GValue value = { 0, };
   gchar *data;
   gsize len;
 
   root = json_node_new (JSON_NODE_OBJECT);
   object = json_object_new ();
 
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 800);
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Width", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_INT);
-  g_value_set_int (&value, 600);
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Height", val);
-  g_value_unset (&value);
-
-  val = json_node_new (JSON_NODE_VALUE);
-  g_value_init (&value, G_TYPE_STRING);
-  g_value_set_string (&value, "View from 15th Floor");
-  json_node_set_value (val, &value);
-  json_object_set_member (object, "Title", val);
-  g_value_unset (&value);
+  json_object_set_int_member (object, "Width", 800);
+  json_object_set_int_member (object, "Height", 600);
+  json_object_set_string_member (object, "Title", "View from 15th Floor");
 
   {
-    val = json_node_new (JSON_NODE_OBJECT);
     nested = json_object_new ();
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, "http://www.example.com/image/481989943");
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Url", nested_val);
-    g_value_unset (&value);
+    json_object_set_string_member (nested, "Url", "http://www.example.com/image/481989943");
+    json_object_set_int_member (nested, "Height", 125);
+    json_object_set_string_member (nested, "Width", "100");
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 125);
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Height", nested_val);
-    g_value_unset (&value);
-
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, "100");
-    json_node_set_value (nested_val, &value);
-    json_object_set_member (nested, "Width", nested_val);
-    g_value_unset (&value);
-
-    json_node_take_object (val, nested);
-    json_object_set_member (object, "Thumbnail", val);
+    json_object_set_object_member (object, "Thumbnail", nested);
   }
 
   {
-    val = json_node_new (JSON_NODE_ARRAY);
     array = json_array_new ();
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 116);
-    json_node_set_value (nested_val, &value);
-    json_array_add_element (array, nested_val);
-    g_value_unset (&value);
+    json_array_add_int_element (array, 116);
+    json_array_add_int_element (array, 943);
+    json_array_add_int_element (array, 234);
+    json_array_add_int_element (array, 38793);
 
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 943);
-    json_node_set_value (nested_val, &value);
-    json_array_add_element (array, nested_val);
-    g_value_unset (&value);
-
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 234);
-    json_node_set_value (nested_val, &value);
-    json_array_add_element (array, nested_val);
-    g_value_unset (&value);
-
-    nested_val = json_node_new (JSON_NODE_VALUE);
-    g_value_init (&value, G_TYPE_INT);
-    g_value_set_int (&value, 38793);
-    json_node_set_value (nested_val, &value);
-    json_array_add_element (array, nested_val);
-    g_value_unset (&value);
-
-    json_node_take_array (val, array);
-    json_object_set_member (object, "IDs", val);
+    json_object_set_array_member (object, "IDs", array);
   }
 
   nested = json_object_new ();
