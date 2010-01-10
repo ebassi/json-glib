@@ -141,8 +141,8 @@ AC_ARG_ENABLE([gcov],
 
 AS_IF([test "x$enable_gcov" = "xyes" && test "x$GCC" = "xyes"],
       [
-        GCOV_CFLAGS="$CFLAGS -fprofile-arcs -ftest-coverage"
-        GCOV_LDFLAGS="$LDFLAGS -fprofile-arcs -ftest-coverage"
+        GCOV_CFLAGS="$CFLAGS -O0 -g -fprofile-arcs -ftest-coverage"
+        GCOV_LDFLAGS="$LDFLAGS -lgcov"
       ]
 )
 
