@@ -45,9 +45,10 @@
  *                                         (GBoxedCopyFunc) my_struct_copy,
  *                                         (GBoxedFreeFunc) my_struct_free);
  *
- *         json_boxed_register_transform_func (boxed_type, JSON_NODE_OBJECT,
- *                                             my_struct_serialize,
- *                                             my_struct_deserialize);
+ *         json_boxed_register_serialize_func (boxed_type, JSON_NODE_OBJECT,
+ *                                             my_struct_serialize);
+ *         json_boxed_register_deserialize_func (boxed_type, JSON_NODE_OBJECT,
+ *                                               my_struct_deserialize);
  *       }
  *
  *     return boxed_type;
@@ -57,8 +58,8 @@
  * The serialization function will be invoked by json_boxed_serialize():
  * it will be passed a pointer to the C structure and it must return a
  * #JsonNode. The deserialization function will be invoked by
- * json_boxed_deserialize(): it will be passed a #JsonNode and it must
- * return a newly allocated C structure.
+ * json_boxed_deserialize(): it will be passed a #JsonNode for the
+ * declared type and it must return a newly allocated C structure.
  *
  * It is possible to check whether a #GBoxed type can be deserialized
  * from a specific #JsonNodeType, and whether a #GBoxed can be serialized
