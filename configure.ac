@@ -32,7 +32,7 @@ AC_INIT([json-glib],
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.10])
+AM_INIT_AUTOMAKE([1.10 no-define -Wno-portability dist-bzip2])
 AM_CONFIG_HEADER([config.h])
 
 AM_DISABLE_STATIC
