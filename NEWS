@@ -1,3 +1,8 @@
+Overview of changes for 0.10.2
+==============================
+• Documentation fixes for GBoxed transformation functions
+• Zero all fields of JsonObject on creation
+
 Overview of changes for 0.10.0
 ==============================
 • Fix generation of doubles [Cornelius Hald]
