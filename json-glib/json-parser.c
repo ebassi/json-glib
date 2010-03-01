@@ -428,14 +428,6 @@ json_parse_array (JsonParser  *parser,
     {
       JsonNode *node = NULL;
 
-      if (token == G_TOKEN_COMMA)
-        {
-          /* swallow the comma */
-          token = json_scanner_get_next_token (scanner);
-
-          continue;
-        }
-
       /* nested object */
       if (token == G_TOKEN_LEFT_CURLY)
         {
@@ -467,14 +459,19 @@ json_parse_array (JsonParser  *parser,
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
-          if (token != G_TOKEN_COMMA)
+          if (token == G_TOKEN_COMMA)
             {
-              json_array_unref (array);
+              token = json_scanner_get_next_token (scanner);
 
-              return G_TOKEN_RIGHT_BRACE;
+              if (token == G_TOKEN_RIGHT_BRACE)
+                return G_TOKEN_SYMBOL;
+
+              continue;
             }
 
-          continue;
+          json_array_unref (array);
+
+          return G_TOKEN_RIGHT_BRACE;
         }
 
       /* nested array */
@@ -508,14 +505,19 @@ json_parse_array (JsonParser  *parser,
           if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
-          if (token != G_TOKEN_COMMA)
+          if (token == G_TOKEN_COMMA)
             {
-              json_array_unref (array);
+              token = json_scanner_get_next_token (scanner);
 
-              return G_TOKEN_RIGHT_BRACE;
+              if (token == G_TOKEN_RIGHT_BRACE)
+                return G_TOKEN_SYMBOL;
+
+              continue;
             }
 
-          continue;
+          json_array_unref (array);
+
+          return G_TOKEN_RIGHT_BRACE;
         }
 
       /* value */
@@ -534,12 +536,23 @@ json_parse_array (JsonParser  *parser,
                      json_array_get_length (array));
 
       token = json_scanner_get_next_token (scanner);
-      if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_BRACE)
-        {
-          json_array_unref (array);
+      if (token == G_TOKEN_RIGHT_BRACE)
+        break;
 
-          return G_TOKEN_RIGHT_BRACE;
+      if (token == G_TOKEN_COMMA)
+        {
+          token = json_scanner_get_next_token (scanner);
+
+          if (token == G_TOKEN_RIGHT_BRACE)
+            {
+              json_array_unref (array);
+              return G_TOKEN_SYMBOL;
+            }
+
+          continue;
         }
+
+      return G_TOKEN_RIGHT_BRACE;
     }
 
   json_node_take_array (priv->current_node, array);
@@ -575,14 +588,6 @@ json_parse_object (JsonParser *parser,
     {
       JsonNode *node = NULL;
       gchar *name = NULL;
-
-      if (token == G_TOKEN_COMMA)
-        {
-          /* swallow the comma */
-          token = json_scanner_get_next_token (scanner);
-
-          continue;
-        }
 
       if (token == G_TOKEN_STRING)
         {
@@ -646,14 +651,22 @@ json_parse_object (JsonParser *parser,
           if (token == G_TOKEN_RIGHT_CURLY)
             break;
 
-          if (token != G_TOKEN_COMMA)
+          if (token == G_TOKEN_COMMA)
             {
-              json_object_unref (object);
+              token = json_scanner_get_next_token (scanner);
 
-              return G_TOKEN_RIGHT_CURLY;
+              if (token == G_TOKEN_RIGHT_CURLY)
+                {
+                  json_object_unref (object);
+                  return G_TOKEN_STRING;
+                }
+
+              continue;
             }
 
-          continue;
+          json_object_unref (object);
+
+          return G_TOKEN_RIGHT_CURLY;
         }
      
       if (token == G_TOKEN_LEFT_BRACE)
@@ -686,17 +699,25 @@ json_parse_object (JsonParser *parser,
           g_free (name);
 
           token = json_scanner_get_next_token (scanner);
-          if (token == G_TOKEN_RIGHT_CURLY)
+          if (token == G_TOKEN_RIGHT_BRACE)
             break;
 
-          if (token != G_TOKEN_COMMA)
+          if (token == G_TOKEN_COMMA)
             {
-              json_object_unref (object);
+              token = json_scanner_get_next_token (scanner);
 
-              return G_TOKEN_RIGHT_CURLY;
+              if (token == G_TOKEN_RIGHT_CURLY)
+                {
+                  json_object_unref (object);
+                  return G_TOKEN_STRING;
+                }
+
+              continue;
             }
 
-          continue;
+          json_object_unref (object);
+
+          return G_TOKEN_RIGHT_CURLY;
         }
 
       /* value */
@@ -718,8 +739,26 @@ json_parse_object (JsonParser *parser,
       g_free (name);
 
       token = json_scanner_get_next_token (scanner);
-      if (token != G_TOKEN_COMMA && token != G_TOKEN_RIGHT_CURLY)
-        return G_TOKEN_RIGHT_CURLY;
+
+      if (token == G_TOKEN_RIGHT_CURLY)
+        break;
+
+      if (token == G_TOKEN_COMMA)
+        {
+          token = json_scanner_get_next_token (scanner);
+
+          if (token == G_TOKEN_RIGHT_CURLY)
+            {
+              json_object_unref (object);
+              return G_TOKEN_STRING;
+            }
+
+          continue;
+        }
+
+      json_object_unref (object);
+
+      return G_TOKEN_RIGHT_CURLY;
     }
 
   json_node_take_object (priv->current_node, object);
@@ -990,7 +1029,7 @@ json_parser_load (JsonParser   *parser,
                * message handler we install
                */
               json_scanner_unexp_token (scanner, expected_token,
-                                        NULL, "keyword",
+                                        NULL, "value",
                                         symbol_name, msg,
                                         TRUE);
 
