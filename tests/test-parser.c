@@ -117,7 +117,8 @@ static const struct
   { "[ true, ]" },
   { "{ \"foo\" : true \"bar\" : false }" },
   { "[ true, [ false, ] ]" },
-  { "{ \"foo\" : { \"bar\" : false, } }" }
+  { "{ \"foo\" : { \"bar\" : false, } }" },
+  { "[ { }, { }, { }, ]" }
 };
 
 static guint n_test_base_values    = G_N_ELEMENTS (test_base_values);
