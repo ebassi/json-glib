@@ -87,7 +87,26 @@ static const struct {
 };
 
 static const gchar *test_nested_objects[] = {
-  "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }"
+  "{ \"array\" : [ false, \"foo\" ], \"object\" : { \"foo\" : true } }",
+  "{ "
+    "\"type\" : \"ClutterGroup\", "
+    "\"width\" : 1, "
+    "\"children\" : [ "
+      "{ "
+        "\"type\" : \"ClutterRectangle\", "
+        "\"children\" : [ "
+          "{ \"type\" : \"ClutterText\", \"text\" : \"hello there\" }"
+        "] "
+      "}, "
+      "{ "
+        "\"type\" : \"ClutterGroup\", "
+        "\"width\" : 1, "
+        "\"children\" : [ "
+          "{ \"type\" : \"ClutterText\", \"text\" : \"hello\" }"
+        "] "
+      "} "
+    "] "
+  "}"
 };
 
 static const struct {
