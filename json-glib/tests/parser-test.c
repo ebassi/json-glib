@@ -83,7 +83,8 @@ static const struct {
   { "{ \"test\" : 42 }", 1, "test", JSON_NODE_VALUE, G_TYPE_INT64 },
   { "{ \"name\" : \"\", \"state\" : 1 }", 2, "name", JSON_NODE_VALUE, G_TYPE_STRING },
   { "{ \"foo\" : \"bar\", \"baz\" : null }", 2, "baz", JSON_NODE_NULL, G_TYPE_INVALID },
-  { "{ \"channel\" : \"/meta/connect\" }", 1, "channel", JSON_NODE_VALUE, G_TYPE_STRING }
+  { "{ \"channel\" : \"/meta/connect\" }", 1, "channel", JSON_NODE_VALUE, G_TYPE_STRING },
+  { "{ \"halign\":0.5, \"valign\":0.5 }", 2, "valign", JSON_NODE_VALUE, G_TYPE_DOUBLE }
 };
 
 static const gchar *test_nested_objects[] = {
