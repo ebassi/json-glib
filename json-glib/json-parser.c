@@ -359,18 +359,26 @@ json_parse_value (JsonParser   *parser,
     {
     case G_TOKEN_INT:
       *node = json_node_new (JSON_NODE_VALUE);
+      JSON_NOTE (PARSER, "abs(node): %" G_GINT64_FORMAT " (sign: %s)",
+                 scanner->value.v_int64,
+                 is_negative ? "negative" : "positive");
       json_node_set_int (*node, is_negative ? scanner->value.v_int64 * -1
                                             : scanner->value.v_int64);
       break;
 
     case G_TOKEN_FLOAT:
       *node = json_node_new (JSON_NODE_VALUE);
+      JSON_NOTE (PARSER, "abs(node): %.6f (sign: %s)",
+                 scanner->value.v_float,
+                 is_negative ? "negative" : "positive");
       json_node_set_double (*node, is_negative ? scanner->value.v_float * -1.0
                                                : scanner->value.v_float);
       break;
 
     case G_TOKEN_STRING:
       *node = json_node_new (JSON_NODE_VALUE);
+      JSON_NOTE (PARSER, "node: '%s'",
+                 scanner->value.v_string);
       json_node_set_string (*node, scanner->value.v_string);
       break;
 
