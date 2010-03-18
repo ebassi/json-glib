@@ -46,7 +46,7 @@ BUGS
 -------------------------------------------------------------------------------
 If you find a bug in JSON-GLib, please create a Bugzilla entry here:
 
-  http://bugzilla.openedhand.com/enter_bug.cgi?product=json-glib
+  http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib
 
 Attaching:
 
