@@ -26,7 +26,7 @@ AC_PREREQ([2.61])
 
 AC_INIT([json-glib],
         [json_version],
-        [http://bugzilla.openedhand.com/enter_bug.cgi?product=json-glib],
+        [http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib],
         [json-glib])
 
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
