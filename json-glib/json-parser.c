@@ -841,67 +841,14 @@ json_parse_statement (JsonParser  *parser,
       break;
 
     case JSON_TOKEN_NULL:
-      priv->root = priv->current_node = json_node_new (JSON_NODE_NULL);
-      json_scanner_get_next_token (scanner);
-      return G_TOKEN_NONE;
-
     case JSON_TOKEN_TRUE:
     case JSON_TOKEN_FALSE:
-      priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
-      json_node_set_boolean (priv->current_node,
-                             token == JSON_TOKEN_TRUE ? TRUE : FALSE);
-      json_scanner_get_next_token (scanner);
-      return G_TOKEN_NONE;
-
     case '-':
-      {
-        guint next_token;
-        
-        token = json_scanner_get_next_token (scanner);
-        next_token = json_scanner_peek_next_token (scanner);
-
-        if (next_token == G_TOKEN_INT || next_token == G_TOKEN_FLOAT)
-          {
-            priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
-            
-            token = json_scanner_get_next_token (scanner);
-            switch (token)
-              {
-              case G_TOKEN_INT:
-                json_node_set_int (priv->current_node,
-                                   scanner->value.v_int64 * -1);
-                break;
-              case G_TOKEN_FLOAT:
-                json_node_set_double (priv->current_node,
-                                      scanner->value.v_float * -1.0);
-                break;
-              default:
-                return G_TOKEN_INT;
-              }
-
-            json_scanner_get_next_token (scanner);
-            return G_TOKEN_NONE;
-          }
-        else
-          return G_TOKEN_INT;
-      }
-      break;
-
     case G_TOKEN_INT:
     case G_TOKEN_FLOAT:
     case G_TOKEN_STRING:
-      json_scanner_get_next_token (scanner);
-      priv->root = priv->current_node = json_node_new (JSON_NODE_VALUE);
-
-      if (token == G_TOKEN_INT)
-        json_node_set_int (priv->current_node, scanner->value.v_int64);
-      else if (token == G_TOKEN_FLOAT)
-        json_node_set_double (priv->current_node, scanner->value.v_float);
-      else
-        json_node_set_string (priv->current_node, scanner->value.v_string);
-
-      json_scanner_get_next_token (scanner);
-      return G_TOKEN_NONE;
+      token = json_scanner_get_next_token (scanner);
+      return json_parse_value (parser, scanner, token, &priv->root);
 
     default:
       json_scanner_get_next_token (scanner);
