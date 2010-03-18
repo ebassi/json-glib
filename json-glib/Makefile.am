@@ -37,13 +37,15 @@ source_h = \
 	$(NULL)
 
 source_h_private = \
-	$(top_srcdir)/json-glib/json-scanner.h 		\
+	$(top_srcdir)/json-glib/json-debug.h		\
 	$(top_srcdir)/json-glib/json-gobject-private.h	\
+	$(top_srcdir)/json-glib/json-scanner.h 		\
 	$(top_srcdir)/json-glib/json-types-private.h	\
 	$(NULL)
 
 source_c = \
 	$(srcdir)/json-array.c 		\
+	$(srcdir)/json-debug.c		\
 	$(srcdir)/json-gboxed.c		\
 	$(srcdir)/json-generator.c 	\
 	$(srcdir)/json-gobject.c 	\
