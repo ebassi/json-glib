@@ -309,7 +309,7 @@ dump_value (JsonGenerator *generator,
       {
         gchar buf[65];
 
-        g_ascii_formatd (buf, 65, "%d", g_value_get_double (&value));
+        g_ascii_formatd (buf, 65, "%g", g_value_get_double (&value));
         g_string_append (buffer, buf);
       }
       break;
