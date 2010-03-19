@@ -1,3 +1,10 @@
+Overview of changes for 0.10.4
+==============================
+• Improve the strictness of the JsonParser code by refactoring a large
+  chunk of it
+• Fix JsonGenerator when dumping nodes with a floating point value
+• Add negative conformance test cases
+
 Overview of changes for 0.10.2
 ==============================
 • Documentation fixes for GBoxed transformation functions
