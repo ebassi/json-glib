@@ -597,8 +597,7 @@ json_parse_object (JsonParser   *parser,
         {
           JSON_NOTE (PARSER, "Missing object member name separator");
 
-          /* FIXME - MISSING_COLON */
-          priv->error_code = JSON_PARSER_ERROR_PARSE;
+          priv->error_code = JSON_PARSER_ERROR_MISSING_COLON;
 
           g_free (name);
           json_object_unref (object);

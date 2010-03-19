@@ -139,7 +139,8 @@ static const struct
   { "{ \"foo\" : true \"bar\" : false }", JSON_PARSER_ERROR_MISSING_COMMA },
   { "[ true, [ false, ] ]", JSON_PARSER_ERROR_TRAILING_COMMA },
   { "{ \"foo\" : { \"bar\" : false, } }", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "[ { }, { }, { }, ]", JSON_PARSER_ERROR_TRAILING_COMMA }
+  { "[ { }, { }, { }, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
+  { "{ \"foo\" false }", JSON_PARSER_ERROR_MISSING_COLON }
 };
 
 static guint n_test_base_values    = G_N_ELEMENTS (test_base_values);
