@@ -49,12 +49,20 @@ typedef struct _JsonParserClass         JsonParserClass;
 /**
  * JsonParserError:
  * @JSON_PARSER_ERROR_PARSE: parse error
+ * @JSON_PARSER_ERROR_TRAILING_COMMA: unexpected trailing comma
+ * @JSON_PARSER_ERROR_MISSING_COMMA: expected comma
+ * @JSON_PARSER_ERROR_INVALID_BAREWORD: invalid bareword
  * @JSON_PARSER_ERROR_UNKNOWN: unknown error
  *
  * Error enumeration for #JsonParser
+ *
+ * This enumeration can be extended at later date
  */
 typedef enum {
   JSON_PARSER_ERROR_PARSE,
+  JSON_PARSER_ERROR_TRAILING_COMMA,
+  JSON_PARSER_ERROR_MISSING_COMMA,
+  JSON_PARSER_ERROR_INVALID_BAREWORD,
   
   JSON_PARSER_ERROR_UNKNOWN
 } JsonParserError;

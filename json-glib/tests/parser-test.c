@@ -131,14 +131,15 @@ static const struct
 static const struct
 {
   const gchar *str;
+  JsonParserError code;
 } test_invalid[] = {
-  { "test" },
-  { "[ foo, ]" },
-  { "[ true, ]" },
-  { "{ \"foo\" : true \"bar\" : false }" },
-  { "[ true, [ false, ] ]" },
-  { "{ \"foo\" : { \"bar\" : false, } }" },
-  { "[ { }, { }, { }, ]" }
+  { "test", JSON_PARSER_ERROR_INVALID_BAREWORD },
+  { "[ foo, ]", JSON_PARSER_ERROR_INVALID_BAREWORD },
+  { "[ true, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
+  { "{ \"foo\" : true \"bar\" : false }", JSON_PARSER_ERROR_MISSING_COMMA },
+  { "[ true, [ false, ] ]", JSON_PARSER_ERROR_TRAILING_COMMA },
+  { "{ \"foo\" : { \"bar\" : false, } }", JSON_PARSER_ERROR_TRAILING_COMMA },
+  { "[ { }, { }, { }, ]", JSON_PARSER_ERROR_TRAILING_COMMA }
 };
 
 static guint n_test_base_values    = G_N_ELEMENTS (test_base_values);
@@ -671,8 +672,7 @@ test_invalid_json (void)
                                         &error);
 
       g_assert (!res);
-      g_assert (error != NULL);
-      g_assert (error->domain == JSON_PARSER_ERROR);
+      g_assert_error (error, JSON_PARSER_ERROR, test_invalid[i].code);
 
       if (g_test_verbose ())
         g_print ("Error: %s\n", error->message);

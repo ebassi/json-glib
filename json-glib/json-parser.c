@@ -1,8 +1,9 @@
 /* json-parser.c - JSON streams parser
  * 
  * This file is part of JSON-GLib
- * Copyright (C) 2007  OpenedHand Ltd.
- * Copyright (C) 2009  Intel Corp.
+ *
+ * Copyright © 2007, 2008, 2009 OpenedHand Ltd
+ * Copyright © 2009, 2010 Intel Corp.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -48,8 +49,7 @@ json_parser_error_quark (void)
   return g_quark_from_static_string ("json-parser-error");
 }
 
-#define JSON_PARSER_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_PARSER, JsonParserPrivate))
+#define JSON_PARSER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_PARSER, JsonParserPrivate))
 
 struct _JsonParserPrivate
 {
@@ -58,6 +58,7 @@ struct _JsonParserPrivate
 
   JsonScanner *scanner;
 
+  JsonParserError error_code;
   GError *last_error;
 
   gchar *variable_name;
@@ -325,6 +326,9 @@ json_parser_init (JsonParser *parser)
   priv->root = NULL;
   priv->current_node = NULL;
 
+  priv->error_code = JSON_PARSER_ERROR_PARSE;
+  priv->last_error = NULL;
+
   priv->has_assignment = FALSE;
   priv->variable_name = NULL;
 
@@ -338,7 +342,8 @@ json_parse_value (JsonParser   *parser,
                   guint         token,
                   JsonNode    **node)
 {
-  JsonNode *current_node = parser->priv->current_node;
+  JsonParserPrivate *priv = parser->priv;
+  JsonNode *current_node = priv->current_node;
   gboolean is_negative = FALSE;
 
   if (token == '-')
@@ -385,11 +390,14 @@ json_parse_value (JsonParser   *parser,
     case JSON_TOKEN_TRUE:
     case JSON_TOKEN_FALSE:
       *node = json_node_new (JSON_NODE_VALUE);
+      JSON_NOTE (PARSER, "node: '%s'",
+                 JSON_TOKEN_TRUE ? "<true>" : "<false>");
       json_node_set_boolean (*node, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
       break;
 
     case JSON_TOKEN_NULL:
       *node = json_node_new (JSON_NODE_NULL);
+      JSON_NOTE (PARSER, "node: <null>");
       break;
 
     default:
@@ -404,7 +412,10 @@ json_parse_value (JsonParser   *parser,
         else if (cur_type == JSON_NODE_OBJECT)
           return G_TOKEN_RIGHT_CURLY;
         else
-          return G_TOKEN_SYMBOL;
+          {
+            priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
+            return G_TOKEN_SYMBOL;
+          }
       }
     }
 
@@ -475,7 +486,11 @@ json_parse_array (JsonParser  *parser,
               token = json_scanner_get_next_token (scanner);
 
               if (token == G_TOKEN_RIGHT_BRACE)
-                return G_TOKEN_SYMBOL;
+                {
+                  json_array_unref (array);
+                  priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
+                  return G_TOKEN_SYMBOL;
+                }
 
               continue;
             }
@@ -523,7 +538,11 @@ json_parse_array (JsonParser  *parser,
               token = json_scanner_get_next_token (scanner);
 
               if (token == G_TOKEN_RIGHT_BRACE)
-                return G_TOKEN_SYMBOL;
+                {
+                  json_array_unref (array);
+                  priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
+                  return G_TOKEN_SYMBOL;
+                }
 
               continue;
             }
@@ -557,12 +576,14 @@ json_parse_array (JsonParser  *parser,
           if (token == G_TOKEN_RIGHT_BRACE)
             {
               json_array_unref (array);
+              priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
               return G_TOKEN_SYMBOL;
             }
         }
       else if (token != G_TOKEN_RIGHT_BRACE)
         {
           json_array_unref (array);
+          priv->error_code = JSON_PARSER_ERROR_MISSING_COMMA;
           return G_TOKEN_RIGHT_BRACE;
         }
     }
@@ -671,6 +692,7 @@ json_parse_object (JsonParser *parser,
               if (token == G_TOKEN_RIGHT_CURLY)
                 {
                   json_object_unref (object);
+                  priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
                   return G_TOKEN_STRING;
                 }
 
@@ -723,6 +745,7 @@ json_parse_object (JsonParser *parser,
               if (token == G_TOKEN_RIGHT_CURLY)
                 {
                   json_object_unref (object);
+                  priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
                   return G_TOKEN_STRING;
                 }
 
@@ -760,6 +783,7 @@ json_parse_object (JsonParser *parser,
             {
               g_free (name);
               json_object_unref (object);
+              priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
               return G_TOKEN_STRING;
             }
         }
@@ -767,6 +791,7 @@ json_parse_object (JsonParser *parser,
         {
           g_free (name);
           json_object_unref (object);
+          priv->error_code = JSON_PARSER_ERROR_MISSING_COMMA;
           return G_TOKEN_RIGHT_CURLY;
         }
 
@@ -814,7 +839,10 @@ json_parse_statement (JsonParser  *parser,
         /* ... swallow the variable name... */
         next_token = json_scanner_get_next_token (scanner);
         if (next_token != G_TOKEN_IDENTIFIER)
-          return G_TOKEN_IDENTIFIER;
+          {
+            priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
+            return G_TOKEN_IDENTIFIER;
+          }
 
         name = g_strdup (scanner->value.v_identifier);
 
@@ -852,6 +880,7 @@ json_parse_statement (JsonParser  *parser,
 
     default:
       json_scanner_get_next_token (scanner);
+      priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
       return G_TOKEN_SYMBOL;
     }
 }
@@ -869,7 +898,7 @@ json_scanner_msg_handler (JsonScanner *scanner,
       GError *error = NULL;
 
       g_set_error (&error, JSON_PARSER_ERROR,
-                   JSON_PARSER_ERROR_PARSE,
+                   priv->error_code,
                    "%s:%d: Parse error: %s",
                    priv->is_filename ? priv->filename : "<none>",
                    scanner->line,
