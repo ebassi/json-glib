@@ -513,7 +513,7 @@ json_parse_array (JsonParser   *parser,
             }
         }
 
-      JSON_NOTE (PARSER, "Array element %d completed", idx++);
+      JSON_NOTE (PARSER, "Array element %d completed", idx + 1);
       json_node_set_parent (element, priv->current_node);
       json_array_add_element (array, element);
 
