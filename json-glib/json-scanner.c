@@ -892,7 +892,7 @@ json_scanner_get_unichar (JsonScanner *scanner,
         break;
     }
 
-  g_assert (g_unichar_validate (uchar));
+  g_assert (g_unichar_validate (uchar) || g_unichar_type (uchar) == G_UNICODE_SURROGATE);
 
   return uchar;
 }
@@ -1439,6 +1439,20 @@ json_scanner_get_token_ll (JsonScanner *scanner,
                               gunichar ucs;
 
                               ucs = json_scanner_get_unichar (scanner, line_p, position_p);
+
+                              if (g_unichar_type (ucs) == G_UNICODE_SURROGATE)
+                                {
+                                  /* read next surrogate */
+                                  if ('\\' == json_scanner_get_char (scanner, line_p, position_p)
+                                      && 'u' == json_scanner_get_char (scanner, line_p, position_p))
+                                    {
+                                      gunichar ucs_lo = json_scanner_get_unichar (scanner, line_p, position_p);
+                                      g_assert (g_unichar_type (ucs_lo) == G_UNICODE_SURROGATE);
+                                      ucs = (((ucs & 0x3ff) << 10) | (ucs_lo & 0x3ff)) + 0x10000;
+                                    }
+                                }
+
+                              g_assert (g_unichar_validate (ucs));
                               gstring = g_string_append_unichar (gstring, ucs);
                             }
                           break;
