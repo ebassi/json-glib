@@ -51,7 +51,7 @@ typedef struct _JsonParserClass         JsonParserClass;
  * @JSON_PARSER_ERROR_PARSE: parse error
  * @JSON_PARSER_ERROR_TRAILING_COMMA: unexpected trailing comma
  * @JSON_PARSER_ERROR_MISSING_COMMA: expected comma
- * @JSON_PARSER_ERROR_MISSING_COLOR: expected colon
+ * @JSON_PARSER_ERROR_MISSING_COLON: expected colon
  * @JSON_PARSER_ERROR_INVALID_BAREWORD: invalid bareword
  * @JSON_PARSER_ERROR_UNKNOWN: unknown error
  *
