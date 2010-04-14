@@ -283,7 +283,7 @@ json_parser_class_init (JsonParserClass *klass)
   /**
    * JsonParser::array-end:
    * @parser: the #JsonParser that received the signal
-   * @array: the parsed #JsonArrary
+   * @array: the parsed #JsonArray
    *
    * The ::array-end signal is emitted each time the #JsonParser
    * has successfully parsed an entire #JsonArray
