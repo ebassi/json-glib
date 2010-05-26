@@ -890,6 +890,7 @@ json_parser_load (JsonParser   *parser,
       else
         {
           guint expected_token;
+          gint cur_token;
 
           /* we try to show the expected token, if possible */
           expected_token = json_parse_statement (parser, scanner);
@@ -898,8 +899,10 @@ json_parser_load (JsonParser   *parser,
               const gchar *symbol_name;
               gchar *msg;
 
+              cur_token = scanner->token;
               msg = NULL;
               symbol_name = NULL;
+
               if (scanner->scope_id == 0)
                 {
                   if (expected_token > JSON_TOKEN_INVALID &&
@@ -913,13 +916,13 @@ json_parser_load (JsonParser   *parser,
                         msg = g_strconcat ("e.g. '", symbol_name, "'", NULL);
                     }
 
-                  if (scanner->token > JSON_TOKEN_INVALID &&
-                      scanner->token < JSON_TOKEN_LAST)
+                  if (cur_token > JSON_TOKEN_INVALID &&
+                      cur_token < JSON_TOKEN_LAST)
                     {
                       symbol_name = "???";
 
                       for (i = 0; i < n_symbols; i++)
-                        if (symbols[i].token == scanner->token)
+                        if (symbols[i].token == cur_token)
                           symbol_name = symbol_names + symbols[i].name_offset;
                     }
                 }
