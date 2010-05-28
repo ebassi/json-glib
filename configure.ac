@@ -22,23 +22,25 @@ m4_define([lt_age], [m4_eval(json_binary_age - json_interface_age)])
 
 m4_define([glib_req_version], [2.15])
 
-AC_PREREQ([2.61])
+AC_PREREQ([2.63])
 
 AC_INIT([json-glib],
         [json_version],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib],
         [json-glib])
 
+AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.10 no-define -Wno-portability dist-bzip2])
-AM_CONFIG_HEADER([config.h])
+AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2])
 
-AM_DISABLE_STATIC
+AM_SILENT_RULES([yes])
 AM_PATH_GLIB_2_0
 AM_PROG_CC_C_O
-AM_PROG_LIBTOOL
+
+LT_PREREQ([2.2.6])
+LT_INIT([disable-static])
 
 # Honor aclocal flags
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
@@ -60,12 +62,6 @@ JSON_LT_AGE=lt_age
 JSON_LT_VERSION="$JSON_LT_CURRENT:$JSON_LT_REVISION:$JSON_LT_AGE"
 JSON_LT_LDFLAGS="-version-info $JSON_LT_VERSION"
 AC_SUBST(JSON_LT_LDFLAGS)
-
-AC_HEADER_STDC
-AC_CHECK_HEADERS([unistd.h])
-AC_C_CONST
-AC_FUNC_MALLOC
-AC_FUNC_MMAP
 
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
@@ -122,11 +118,11 @@ AC_ARG_ENABLE([maintainer-flags],
 AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
       [
         AS_COMPILER_FLAGS([MAINTAINER_CFLAGS],
-                          ["-Werror -Wall -Wshadow -Wcast-align
-                            -Wno-uninitialized -Wformat-security
+                          ["-Wall -Wshadow -Wcast-align
+                            -Wno-uninitialized -Wformat -Wformat-security
                             -Wno-strict-aliasing -Winit-self
                             -Wempty-body -Wdeclaration-after-statement
-                            -Wno-strict-aliasing -Wno-strict-aliasing"])
+                            -Wno-strict-aliasing"])
       ]
 )
 AC_SUBST([MAINTAINER_CFLAGS])
@@ -151,25 +147,9 @@ AC_SUBST([GCOV_CFLAGS])
 AC_SUBST([GCOV_LDFLAGS])
 AC_MSG_RESULT([$enable_gcov])
 
-GTK_DOC_CHECK([1.11])
+GTK_DOC_CHECK([1.13])
 
-GOBJECT_INTROSPECTION_CHECK([0.6.4])
-
-m4_ifdef([AM_SILENT_RULES],
-         [
-           AM_SILENT_RULES([yes])
-           use_shave=no
-         ],
-         [
-           SHAVE_INIT([build/autotools], [enable])
-           AC_CONFIG_FILES([
-                build/autotools/shave-libtool
-                build/autotools/shave
-           ])
-           use_shave=yes
-         ])
-
-AM_CONDITIONAL([USE_SHAVE], [test "x$use_shave" = "xyes"])
+GOBJECT_INTROSPECTION_CHECK([0.6.7])
 
 AC_CONFIG_FILES([
         Makefile
