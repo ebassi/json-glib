@@ -30,6 +30,7 @@ CLEANFILES =
 DISTCLEANFILES = json-version.h
 
 source_h = \
+	$(top_srcdir)/json-glib/json-builder.h		\
 	$(top_srcdir)/json-glib/json-generator.h 	\
 	$(top_srcdir)/json-glib/json-gobject.h 		\
 	$(top_srcdir)/json-glib/json-parser.h 		\
@@ -45,6 +46,7 @@ source_h_private = \
 
 source_c = \
 	$(srcdir)/json-array.c 		\
+	$(srcdir)/json-builder.c	\
 	$(srcdir)/json-debug.c		\
 	$(srcdir)/json-gboxed.c		\
 	$(srcdir)/json-generator.c 	\

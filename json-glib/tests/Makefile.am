@@ -34,3 +34,6 @@ TEST_PROGS             += generator-test
 generator_test_SOURCES  = generator-test.c
 generator_test_LDADD    = $(progs_ldadd)
 
+TEST_PROGS           += builder-test
+builder_test_SOURCES  = builder-test.c
+builder_test_LDADD    = $(progs_ldadd)
