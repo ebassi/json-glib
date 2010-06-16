@@ -313,8 +313,14 @@ json_object_set_string_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_string (node, value);
+  if (value != NULL)
+    {
+      node = json_node_new (JSON_NODE_VALUE);
+      json_node_set_string (node, value);
+    }
+  else
+    node = json_node_new (JSON_NODE_NULL);
+
   object_set_member_internal (object, member_name, node);
 }
 
@@ -368,8 +374,14 @@ json_object_set_array_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_ARRAY);
-  json_node_take_array (node, value);
+  if (value != NULL)
+    {
+      node = json_node_new (JSON_NODE_ARRAY);
+      json_node_take_array (node, value);
+    }
+  else
+    node = json_node_new (JSON_NODE_NULL);
+
   object_set_member_internal (object, member_name, node);
 }
 
@@ -398,8 +410,14 @@ json_object_set_object_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_OBJECT);
-  json_node_take_object (node, value);
+  if (value != NULL)
+    {
+      node = json_node_new (JSON_NODE_OBJECT);
+      json_node_take_object (node, value);
+    }
+  else
+    node = json_node_new (JSON_NODE_NULL);
+
   object_set_member_internal (object, member_name, node);
 }
 
@@ -654,7 +672,10 @@ json_object_get_string_member (JsonObject  *object,
 
   node = object_get_member_internal (object, member_name);
   g_return_val_if_fail (node != NULL, NULL);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE, NULL);
+  g_return_val_if_fail (JSON_NODE_HOLDS_VALUE (node) || JSON_NODE_HOLDS_NULL (node), NULL);
+
+  if (JSON_NODE_HOLDS_NULL (node))
+    return NULL;
 
   return json_node_get_string (node);
 }
@@ -684,7 +705,10 @@ json_object_get_array_member (JsonObject  *object,
 
   node = object_get_member_internal (object, member_name);
   g_return_val_if_fail (node != NULL, NULL);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_ARRAY, NULL);
+  g_return_val_if_fail (JSON_NODE_HOLDS_ARRAY (node) || JSON_NODE_HOLDS_NULL (node), NULL);
+
+  if (JSON_NODE_HOLDS_NULL (node))
+    return NULL;
 
   return json_node_get_array (node);
 }
@@ -714,7 +738,10 @@ json_object_get_object_member (JsonObject  *object,
 
   node = object_get_member_internal (object, member_name);
   g_return_val_if_fail (node != NULL, NULL);
-  g_return_val_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT, NULL);
+  g_return_val_if_fail (JSON_NODE_HOLDS_OBJECT (node) || JSON_NODE_HOLDS_NULL (node), NULL);
+
+  if (JSON_NODE_HOLDS_NULL (node))
+    return NULL;
 
   return json_node_get_object (node);
 }

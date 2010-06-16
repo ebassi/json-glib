@@ -112,6 +112,10 @@ test_empty_member (void)
   g_assert (json_object_has_member (object, "string"));
   g_assert_cmpstr (json_object_get_string_member (object, "string"), ==, "");
 
+  json_object_set_string_member (object, "null", NULL);
+  g_assert (json_object_has_member (object, "null"));
+  g_assert (json_object_get_string_member (object, "null") == NULL);
+
   json_object_unref (object);
 }
 
