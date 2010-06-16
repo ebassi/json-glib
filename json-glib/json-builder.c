@@ -22,7 +22,9 @@
 
 /**
  * SECTION:json-builder
+ * @Title: JsonBuilder
  * @short_description: Generates JSON trees
+ * @See_Also: JsonGenerator
  *
  * #JsonBuilder provides an object for generating a JSON tree.
  * You can generate only one tree with one #JsonBuilder instance.
@@ -640,7 +642,6 @@ json_builder_add_string_value (JsonBuilder *builder, const gchar *value)
 /**
  * json_builder_add_null_value:
  * @builder: a #JsonBuilder
- * @value: the value of the member or element
  *
  * If called after json_builder_set_member_name(), sets null as member of the
  * most recent opened object, otherwise null is added as element of the most

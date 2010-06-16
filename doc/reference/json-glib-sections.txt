@@ -257,3 +257,35 @@ JSON_VERSION_HEX
 <SUBSECTION>
 JSON_CHECK_VERSION
 </SECTION>
+
+<SECTION>
+<FILE>json-builder</FILE>
+JsonBuilder
+JsonBuilderClass
+json_builder_new
+json_builder_get_root
+json_builder_reset
+<SUBSECTION>
+json_builder_begin_array
+json_builder_end_array
+json_builder_begin_object
+json_builder_set_member_name
+json_builder_end_object
+<SUBSECTION>
+json_builder_add_value
+json_builder_add_int_value
+json_builder_add_double_value
+json_builder_add_boolean_value
+json_builder_add_string_value
+json_builder_add_null_value
+<SUBSECTION Standard>
+JSON_TYPE_BUILDER
+JSON_BUILDER
+JSON_BUILDER_CLASS
+JSON_IS_BUILDER
+JSON_IS_BUILDER_CLASS
+JSON_BUILDER_GET_CLASS
+<SUBSECTION Private>
+JsonBuilderPrivate
+json_builder_get_type
+</SECTION>
