@@ -93,6 +93,8 @@ TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
 if HAVE_INTROSPECTION
 INTROSPECTION_GIRS = Json-1.0.gir
 
+Json-1.0.gir: libjson-glib-1.0.la Makefile
+
 Json_1_0_gir_NAMESPACE = Json
 Json_1_0_gir_VERSION = 1.0
 Json_1_0_gir_LIBS = libjson-glib-1.0.la
