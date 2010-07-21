@@ -71,7 +71,7 @@ HACKING
 -------------------------------------------------------------------------------
 JSON-GLib is developed mainly inside a GIT repository available at:
 
-  http://git.gnome.org/cgit/json-glib
+  http://git.gnome.org/browse/json-glib
 
 You can clone the GIT repository with:
 
@@ -99,5 +99,5 @@ either version 2.1 or (at your option) any later version.
 
 See the file COPYING for details.
 
-Copyright (C) 2007  OpenedHand Ltd
-Copyright (C) 2009  Intel Corp.
+Copyright (C) 2007, 2008  OpenedHand Ltd
+Copyright (C) 2009, 2010  Intel Corp.
