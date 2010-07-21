@@ -1,3 +1,13 @@
+Overview of changes for 0.12.0
+==============================
+• Support surrogate pairs in JSON strings [Eiichi Sato]
+• Update the test suite
+• Add (optional) coverage reports
+• Improve strictness of JsonParser
+• Improve error reporting of JsonParser
+• Add JsonBuilder, a convenience API for programmatic building
+  of JSON trees [Luca Bruno]
+
 Overview of changes for 0.10.0
 ==============================
 • Fix generation of doubles [Cornelius Hald]
