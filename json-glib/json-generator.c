@@ -619,6 +619,43 @@ json_generator_to_file (JsonGenerator  *generator,
 }
 
 /**
+ * json_generator_to_stream:
+ * @generator: a #JsonGenerator
+ * @stream: a #GOutputStream
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: return location for a #GError, or %NULL
+ *
+ * Outputs JSON data and streams it (synchronously) to @stream.
+ *
+ * Return value: %TRUE if the write operation was successful, and %FALSE
+ *   on failure. In case of error, the #GError will be filled accordingly
+ *
+ * Since: 0.12
+ */
+gboolean
+json_generator_to_stream (JsonGenerator  *generator,
+                          GOutputStream  *stream,
+                          GCancellable   *cancellable,
+                          GError        **error)
+{
+  gboolean retval;
+  gchar *buffer;
+  gsize len;
+
+  g_return_val_if_fail (JSON_IS_GENERATOR (generator), FALSE);
+  g_return_val_if_fail (G_IS_OUTPUT_STREAM (stream), FALSE);
+
+  if (g_cancellable_set_error_if_cancelled (cancellable, error))
+    return FALSE;
+
+  buffer = json_generator_to_data (generator, &len);
+  retval = g_output_stream_write (stream, buffer, len, cancellable, error);
+  g_free (buffer);
+
+  return retval;
+}
+
+/**
  * json_generator_set_root:
  * @generator: a #JsonGenerator
  * @node: a #JsonNode
