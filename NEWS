@@ -7,6 +7,8 @@ Overview of changes for 0.12.0
 • Improve error reporting of JsonParser
 • Add JsonBuilder, a convenience API for programmatic building
   of JSON trees [Luca Bruno]
+• Add methods for JsonParser and JsonGenerator to handle Input|OutputStream
+  objects coming from GIO.
 
 Overview of changes for 0.10.0
 ==============================
