@@ -11,6 +11,8 @@ INCLUDES = \
 AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS)
 AM_CFLAGS = -g $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 
+EXTRA_DIST += stream-load.json
+
 noinst_PROGRAMS = $(TEST_PROGS)
 progs_ldadd = $(top_builddir)/json-glib/libjson-glib-1.0.la
 

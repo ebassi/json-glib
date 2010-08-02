@@ -684,6 +684,82 @@ test_invalid_json (void)
   g_object_unref (parser);
 }
 
+static void
+test_stream_sync (void)
+{
+  JsonParser *parser;
+  GFile *file;
+  GFileInputStream *stream;
+  GError *error = NULL;
+  JsonNode *root;
+
+  parser = json_parser_new ();
+
+  file = g_file_new_for_path ("stream-load.json");
+  stream = g_file_read (file, NULL, &error);
+  g_assert (error == NULL);
+  g_assert (stream != NULL);
+
+  json_parser_load_from_stream (parser, G_INPUT_STREAM (stream), NULL, &error);
+  g_assert (error == NULL);
+
+  root = json_parser_get_root (parser);
+  g_assert (root != NULL);
+  g_assert (JSON_NODE_HOLDS_ARRAY (root));
+
+  g_object_unref (stream);
+  g_object_unref (file);
+  g_object_unref (parser);
+}
+
+static void
+on_load_complete (GObject      *gobject,
+                  GAsyncResult *result,
+                  gpointer      user_data)
+{
+  JsonParser *parser = JSON_PARSER (gobject);
+  GMainLoop *main_loop = user_data;
+  GError *error = NULL;
+  JsonNode *root;
+  gboolean res;
+
+  res = json_parser_load_from_stream_finish (parser, result, &error);
+  g_assert (res);
+  g_assert (error == NULL);
+
+  root = json_parser_get_root (parser);
+  g_assert (root != NULL);
+  g_assert (JSON_NODE_HOLDS_ARRAY (root));
+
+  g_main_loop_quit (main_loop);
+}
+
+static void
+test_stream_async (void)
+{
+  GMainLoop *main_loop;
+  GError *error = NULL;
+  JsonParser *parser = json_parser_new ();
+  GFile *file = g_file_new_for_path ("stream-load.json");
+  GFileInputStream *stream = g_file_read (file, NULL, &error);
+
+  g_assert (error == NULL);
+  g_assert (stream != NULL);
+
+  main_loop = g_main_loop_new (NULL, FALSE);
+
+  json_parser_load_from_stream_async (parser, G_INPUT_STREAM (stream), NULL,
+                                      on_load_complete,
+                                      main_loop);
+
+  g_main_loop_run (main_loop);
+
+  g_main_loop_unref (main_loop);
+  g_object_unref (stream);
+  g_object_unref (file);
+  g_object_unref (parser);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -702,6 +778,8 @@ main (int   argc,
   g_test_add_func ("/parser/assignment", test_assignment);
   g_test_add_func ("/parser/unicode-escape", test_unicode_escape);
   g_test_add_func ("/parser/invalid-json", test_invalid_json);
+  g_test_add_func ("/parser/stream-sync", test_stream_sync);
+  g_test_add_func ("/parser/stream-async", test_stream_async);
 
   return g_test_run ();
 }
