@@ -30,7 +30,7 @@
 
 #include <glib-object.h>
 #include <gio/gio.h>
-#include "json-types.h"
+#include <json-glib/json-types.h>
 
 G_BEGIN_DECLS
 
