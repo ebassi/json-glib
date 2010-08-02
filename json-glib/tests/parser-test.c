@@ -695,7 +695,7 @@ test_stream_sync (void)
 
   parser = json_parser_new ();
 
-  file = g_file_new_for_path ("stream-load.json");
+  file = g_file_new_for_path (TESTS_DATA_DIR "/stream-load.json");
   stream = g_file_read (file, NULL, &error);
   g_assert (error == NULL);
   g_assert (stream != NULL);
@@ -740,7 +740,7 @@ test_stream_async (void)
   GMainLoop *main_loop;
   GError *error = NULL;
   JsonParser *parser = json_parser_new ();
-  GFile *file = g_file_new_for_path ("stream-load.json");
+  GFile *file = g_file_new_for_path (TESTS_DATA_DIR "/stream-load.json");
   GFileInputStream *stream = g_file_read (file, NULL, &error);
 
   g_assert (error == NULL);

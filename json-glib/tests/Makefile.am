@@ -8,7 +8,7 @@ INCLUDES = \
 	-I$(top_srcdir)/json-glib	\
 	$(NULL)
 
-AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS)
+AM_CPPFLAGS = $(JSON_DEBUG_CFLAGS) -DTESTS_DATA_DIR=\""$(top_srcdir)/json-glib/tests"\"
 AM_CFLAGS = -g $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 
 EXTRA_DIST += stream-load.json
