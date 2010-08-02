@@ -4,9 +4,6 @@ Makefile.in
 aclocal.m4
 autom4te.cache
 /build/autotools/*.m4
-/build/autotools/shave-libtool
-/build/autotools/shave
-!/build/autotools/shave.m4
 !/build/autotools/as-compiler-flag.m4
 !/build/autotools/introspection.m4
 !/build/autotools/Makefile.am.*

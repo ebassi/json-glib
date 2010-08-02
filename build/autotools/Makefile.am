@@ -7,8 +7,6 @@ EXTRA_DIST = \
 	Makefile.am.gtest	\
 	Makefile.am.gcov
 
-DISTCLEANFILES = shave-libtool shave
-
 # needed to avoid including Makefile.am.gtest
 test-report:
 	@true

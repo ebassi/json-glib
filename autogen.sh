@@ -13,18 +13,9 @@ test ${TEST_TYPE} ${FILE} || {
 }
 
 which gnome-autogen.sh || {
-        echo "*** You need to install gnome-common from GNOME SVN:"
-        echo "***  svn co http://svn.gnome.org/svn/gnome-common/trunk gnome-common"
+        echo "*** You need to install gnome-common from GNOME Git:"
+        echo "***   git clone git://git.gnome.org/gnome-common"
         exit 1
 }
 
-REQUIRED_AUTOMAKE_VERSION=1.10 USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . gnome-autogen.sh
-
-# we need to patch gtk-doc.make to support pretty output with
-# libtool 1.x.  Should be fixed in the next version of gtk-doc.
-# To be more resilient with the various versions of gtk-doc one
-# can find, just sed gkt-doc.make rather than patch it.
-sed -e 's#) --mode=compile#) --tag=CC --mode=compile#' gtk-doc.make > gtk-doc.temp \
-                && mv gtk-doc.temp gtk-doc.make
-sed -e 's#) --mode=link#) --tag=CC --mode=link#' gtk-doc.make > gtk-doc.temp \
-                && mv gtk-doc.temp gtk-doc.make
+REQUIRED_AUTOMAKE_VERSION=1.11 USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . gnome-autogen.sh
