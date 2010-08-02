@@ -20,7 +20,7 @@ m4_define([lt_current], [m4_eval(100 * json_minor_version + json_micro_version -
 m4_define([lt_revision], [json_interface_age])
 m4_define([lt_age], [m4_eval(json_binary_age - json_interface_age)])
 
-m4_define([glib_req_version], [2.15])
+m4_define([glib_req_version], [2.20])
 
 AC_PREREQ([2.63])
 
@@ -66,7 +66,7 @@ AC_SUBST(JSON_LT_LDFLAGS)
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
 
-PKG_CHECK_MODULES(JSON, [gobject-2.0 >= glib_req_version])
+PKG_CHECK_MODULES(JSON, [gobject-2.0 >= glib_req_version gio-2.0])
 AC_SUBST(JSON_CFLAGS)
 AC_SUBST(JSON_LIBS)
 
@@ -147,9 +147,9 @@ AC_SUBST([GCOV_CFLAGS])
 AC_SUBST([GCOV_LDFLAGS])
 AC_MSG_RESULT([$enable_gcov])
 
-GTK_DOC_CHECK([1.13])
+GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
 
-GOBJECT_INTROSPECTION_CHECK([0.6.7])
+GOBJECT_INTROSPECTION_CHECK([0.6.14])
 
 AC_CONFIG_FILES([
         Makefile
