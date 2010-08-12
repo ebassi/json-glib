@@ -41,6 +41,7 @@ json-glib.pc
 /json-glib/tests/object-test
 /json-glib/tests/node-test
 /json-glib/tests/parser-test
+/json-glib/tests/reader-test
 libtool
 ltmain.sh
 missing
