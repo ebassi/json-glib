@@ -102,6 +102,7 @@
     <chapter>
       <title>Parser</title>
       <xi:include href="xml/json-parser.xml"/>
+      <xi:include href="xml/json-reader.xml"/>
     </chapter>
 
     <chapter>
