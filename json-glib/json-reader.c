@@ -75,7 +75,6 @@
 #include "json-types-private.h"
 
 #include "json-debug.h"
-#include "json-parser.h"
 
 #define json_reader_return_if_error_set(r)      G_STMT_START {  \
         if (((JsonReader *) (r))->priv->error != NULL)          \
@@ -87,8 +86,6 @@
 
 struct _JsonReaderPrivate
 {
-  JsonParser *parser;
-
   JsonNode *root;
 
   JsonNode *current_node;
@@ -104,11 +101,9 @@ json_reader_dispose (GObject *gobject)
 {
   JsonReaderPrivate *priv = JSON_READER (gobject)->priv;
 
-  if (priv->parser != NULL)
+  if (priv->root != NULL)
     {
-      g_object_unref (priv->parser);
-
-      priv->parser = NULL;
+      json_node_free (priv->root);
       priv->root = NULL;
       priv->current_node = NULL;
       priv->previous_node = NULL;
@@ -135,8 +130,6 @@ json_reader_init (JsonReader *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, JSON_TYPE_READER,
                                             JsonReaderPrivate);
-
-  self->priv->parser = json_parser_new ();
 }
 
 GQuark
@@ -161,67 +154,6 @@ json_reader_new (void)
   return g_object_new (JSON_TYPE_READER, NULL);
 }
 
-/**
- * json_reader_load_from_data:
- * @reader: a #JsonReader
- * @data: the data to be parsed
- * @length: the length of @data, or -1
- * @error: return location for a #GError, or %NULL
- *
- * Loads a JSON string and parses it.
- *
- * If @reader already contained a JSON DOM, it will be reset.
- *
- * Return value: %TRUE if the data was successfully parsed, and %FALSE
- *   otherwise. In case of failure, the #GError will be set accordingly
- *
- * Since: 0.12
- */
-gboolean
-json_reader_load_from_data (JsonReader   *reader,
-                            const gchar  *data,
-                            gssize        length,
-                            GError      **error)
-{
-  JsonReaderPrivate *priv;
-  GError *internal_error;
-  gboolean retval;
-
-  g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
-
-  priv = reader->priv;
-
-  if (priv->root != NULL)
-    {
-      priv->root = NULL;
-
-      priv->current_node = NULL;
-      priv->previous_node = NULL;
-    }
-
-  if (priv->error != NULL)
-    g_clear_error (&priv->error);
-
-  internal_error = NULL;
-  retval = json_parser_load_from_data (priv->parser, data, length, &internal_error);
-  if (retval)
-    {
-      priv->root = json_parser_get_root (priv->parser);
-
-      priv->current_node = priv->root;
-      priv->previous_node = NULL;
-
-      priv->error = NULL;
-    }
-  else
-    {
-      priv->error = g_error_copy (internal_error);
-      g_propagate_error (error, internal_error);
-    }
-
-  return retval;
-}
-
 /*
  * json_reader_unset_error:
  * @reader: a #JsonReader
@@ -233,6 +165,42 @@ json_reader_unset_error (JsonReader *reader)
 {
   if (reader->priv->error != NULL)
     g_clear_error (&(reader->priv->error));
+}
+
+/**
+ * json_reader_set_root:
+ * @reader: a #JsonReader
+ * @root: a #JsonNode
+ *
+ * Sets the root #JsonNode to be read by @reader. The @reader will take
+ * a copy of @root
+ *
+ * If another #JsonNode is currently set as root, it will be replaced.
+ *
+ * Since: 0.12
+ */
+void
+json_reader_set_root (JsonReader *reader,
+                      JsonNode   *root)
+{
+  JsonReaderPrivate *priv;
+
+  g_return_if_fail (JSON_IS_READER (reader));
+  g_return_if_fail (root != NULL);
+
+  priv = reader->priv;
+
+  if (priv->root != NULL)
+    {
+      json_node_free (priv->root);
+      priv->root = NULL;
+      priv->current_node = NULL;
+      priv->previous_node = NULL;
+    }
+
+  priv->root = json_node_copy (root);
+  priv->current_node = priv->root;
+  priv->previous_node = NULL;
 }
 
 /*

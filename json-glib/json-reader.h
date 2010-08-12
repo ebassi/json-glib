@@ -110,10 +110,8 @@ GType json_reader_get_type (void) G_GNUC_CONST;
 
 JsonReader *           json_reader_new               (void);
 
-gboolean               json_reader_load_from_data    (JsonReader   *reader,
-                                                      const gchar  *data,
-                                                      gssize        length,
-                                                      GError      **error);
+void                   json_reader_set_root          (JsonReader   *reader,
+                                                      JsonNode     *root);
 
 G_CONST_RETURN GError *json_reader_get_error         (JsonReader   *reader);
 

@@ -14,11 +14,14 @@ static const gchar *test_base_object_data =
 static void
 test_base_object (void)
 {
+  JsonParser *parser = json_parser_new ();
   JsonReader *reader = json_reader_new ();
   GError *error = NULL;
 
-  json_reader_load_from_data (reader, test_base_object_data, -1, &error);
+  json_parser_load_from_data (parser, test_base_object_data, -1, &error);
   g_assert (error == NULL);
+
+  json_reader_set_root (reader, json_parser_get_root (parser));
 
   g_assert (json_reader_is_object (reader));
   g_assert_cmpint (json_reader_count_members (reader), ==, 3);
@@ -37,16 +40,20 @@ test_base_object (void)
   g_assert (json_reader_get_error (reader) == NULL);
 
   g_object_unref (reader);
+  g_object_unref (parser);
 }
 
 static void
 test_base_array (void)
 {
+  JsonParser *parser = json_parser_new ();
   JsonReader *reader = json_reader_new ();
   GError *error = NULL;
 
-  json_reader_load_from_data (reader, test_base_array_data, -1, &error);
+  json_parser_load_from_data (parser, test_base_array_data, -1, &error);
   g_assert (error == NULL);
+
+  json_reader_set_root (reader, json_parser_get_root (parser));
 
   g_assert (json_reader_is_array (reader));
   g_assert_cmpint (json_reader_count_elements (reader), ==, 7);

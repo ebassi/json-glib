@@ -299,7 +299,7 @@ json_builder_get_type
 JsonReader
 JsonReaderClass
 json_reader_new
-json_reader_load_from_data
+json_reader_set_root
 <SUBSECTION>
 json_reader_read_element
 json_reader_end_element
