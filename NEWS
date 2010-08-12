@@ -9,6 +9,8 @@ Overview of changes for 0.12.0
   of JSON trees [Luca Bruno]
 • Add methods for JsonParser and JsonGenerator to handle Input|OutputStream
   objects coming from GIO.
+• Add JsonReader, a convenience API for cursor-based parsing of
+  JSON trees
 
 Overview of changes for 0.10.0
 ==============================
