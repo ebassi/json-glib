@@ -131,11 +131,11 @@ gint                   json_reader_count_members     (JsonReader   *reader);
 
 gboolean               json_reader_is_value          (JsonReader   *reader);
 JsonNode *             json_reader_get_value         (JsonReader   *reader);
-gint64                 json_reader_get_value_int     (JsonReader   *reader);
-gdouble                json_reader_get_value_double  (JsonReader   *reader);
-G_CONST_RETURN gchar * json_reader_get_value_string  (JsonReader   *reader);
-gboolean               json_reader_get_value_boolean (JsonReader   *reader);
-gboolean               json_reader_get_value_null    (JsonReader   *reader);
+gint64                 json_reader_get_int_value     (JsonReader   *reader);
+gdouble                json_reader_get_double_value  (JsonReader   *reader);
+G_CONST_RETURN gchar * json_reader_get_string_value  (JsonReader   *reader);
+gboolean               json_reader_get_boolean_value (JsonReader   *reader);
+gboolean               json_reader_get_null_value    (JsonReader   *reader);
 
 G_END_DECLS
 

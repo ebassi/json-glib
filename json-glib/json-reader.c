@@ -41,7 +41,7 @@
  * /&ast; in case of error, this will return NULL, otherwise it will
  *  &ast; return the value of the element
  *  &ast;/
- * str = json_reader_get_value_string (value);
+ * str = json_reader_get_string_value (value);
  *
  * /&ast; this function resets the error state if any was set &ast;/
  * json_reader_end_element (reader);
@@ -375,7 +375,7 @@ json_reader_is_value (JsonReader *reader)
  *
  * |[
  * json_reader_read_element (reader, 0);
- * int_value = json_reader_get_value_int (reader);
+ * int_value = json_reader_get_int_value (reader);
  * ]|
  *
  * After reading the value, json_reader_end_element() should be called to
@@ -383,11 +383,11 @@ json_reader_is_value (JsonReader *reader)
  *
  * |[
  * json_reader_read_element (reader, 1);
- * str_value = json_reader_get_value_string (reader);
+ * str_value = json_reader_get_string_value (reader);
  * json_reader_end_element (reader);
  *
  * json_reader_read_element (reader, 2);
- * str_value = json_reader_get_value_string (reader);
+ * str_value = json_reader_get_string_value (reader);
  * json_reader_end_element (reader);
  * ]|
  *
@@ -508,7 +508,7 @@ json_reader_count_elements (JsonReader *reader)
  *
  * |[
  * json_reader_read_member (reader, "width");
- * width = json_reader_get_value_int (reader);
+ * width = json_reader_get_int_value (reader);
  * ]|
  *
  * After reading the value, json_reader_end_member() should be called to
@@ -516,11 +516,11 @@ json_reader_count_elements (JsonReader *reader)
  *
  * |[
  * json_reader_read_member (reader, "author");
- * author = json_reader_get_value_string (reader);
+ * author = json_reader_get_string_value (reader);
  * json_reader_end_element (reader);
  *
  * json_reader_read_element (reader, "title");
- * title = json_reader_get_value_string (reader);
+ * title = json_reader_get_string_value (reader);
  * json_reader_end_element (reader);
  * ]|
  *
@@ -657,7 +657,7 @@ json_reader_get_value (JsonReader *reader)
 }
 
 /**
- * json_reader_get_value_int:
+ * json_reader_get_int_value:
  * @reader: a #JsonReader
  *
  * Retrieves the integer value of the current position of @reader
@@ -667,7 +667,7 @@ json_reader_get_value (JsonReader *reader)
  * Since: 0.12
  */
 gint64
-json_reader_get_value_int (JsonReader *reader)
+json_reader_get_int_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), 0);
   json_reader_return_val_if_error_set (reader, 0);
@@ -682,7 +682,7 @@ json_reader_get_value_int (JsonReader *reader)
 }
 
 /**
- * json_reader_get_value_double:
+ * json_reader_get_double_value:
  * @reader: a #JsonReader
  *
  * Retrieves the floating point value of the current position of @reader
@@ -692,7 +692,7 @@ json_reader_get_value_int (JsonReader *reader)
  * Since: 0.12
  */
 gdouble
-json_reader_get_value_double (JsonReader *reader)
+json_reader_get_double_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), 0.0);
   json_reader_return_val_if_error_set (reader, 0.0);
@@ -707,7 +707,7 @@ json_reader_get_value_double (JsonReader *reader)
 }
 
 /**
- * json_reader_get_value_string:
+ * json_reader_get_string_value:
  * @reader: a #JsonReader
  *
  * Retrieves the string value of the current position of @reader
@@ -717,7 +717,7 @@ json_reader_get_value_double (JsonReader *reader)
  * Since: 0.12
  */
 G_CONST_RETURN gchar *
-json_reader_get_value_string (JsonReader *reader)
+json_reader_get_string_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), NULL);
   json_reader_return_val_if_error_set (reader, NULL);
@@ -732,7 +732,7 @@ json_reader_get_value_string (JsonReader *reader)
 }
 
 /**
- * json_reader_get_value_boolean:
+ * json_reader_get_boolean_value:
  * @reader: a #JsonReader
  *
  * Retrieves the boolean value of the current position of @reader
@@ -742,7 +742,7 @@ json_reader_get_value_string (JsonReader *reader)
  * Since: 0.12
  */
 gboolean
-json_reader_get_value_boolean (JsonReader *reader)
+json_reader_get_boolean_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
   json_reader_return_val_if_error_set (reader, FALSE);
@@ -757,7 +757,7 @@ json_reader_get_value_boolean (JsonReader *reader)
 }
 
 /**
- * json_reader_get_value_null:
+ * json_reader_get_null_value:
  * @reader: a #JsonReader
  *
  * Checks whether the value of the current position of @reader is 'null'
@@ -767,7 +767,7 @@ json_reader_get_value_boolean (JsonReader *reader)
  * Since: 0.12
  */
 gboolean
-json_reader_get_value_null (JsonReader *reader)
+json_reader_get_null_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
   json_reader_return_val_if_error_set (reader, FALSE);

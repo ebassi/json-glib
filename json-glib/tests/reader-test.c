@@ -25,7 +25,7 @@ test_base_object (void)
 
   g_assert (json_reader_read_member (reader, "foo"));
   g_assert (json_reader_is_value (reader));
-  g_assert_cmpstr (json_reader_get_value_string (reader), ==, "bar");
+  g_assert_cmpstr (json_reader_get_string_value (reader), ==, "bar");
   json_reader_end_member (reader);
 
   g_assert (!json_reader_read_member (reader, "bar"));
@@ -53,12 +53,12 @@ test_base_array (void)
 
   json_reader_read_element (reader, 0);
   g_assert (json_reader_is_value (reader));
-  g_assert_cmpint (json_reader_get_value_int (reader), ==, 0);
+  g_assert_cmpint (json_reader_get_int_value (reader), ==, 0);
   json_reader_end_element (reader);
 
   json_reader_read_element (reader, 3);
   g_assert (json_reader_is_value (reader));
-  g_assert_cmpstr (json_reader_get_value_string (reader), ==, "foo");
+  g_assert_cmpstr (json_reader_get_string_value (reader), ==, "foo");
   json_reader_end_element (reader);
 
   json_reader_read_element (reader, 5);
@@ -71,7 +71,7 @@ test_base_array (void)
 
   json_reader_read_member (reader, "bar");
   g_assert (json_reader_is_value (reader));
-  g_assert_cmpint (json_reader_get_value_int (reader), ==, 42);
+  g_assert_cmpint (json_reader_get_int_value (reader), ==, 42);
   json_reader_end_member (reader);
 
   json_reader_end_element (reader);
