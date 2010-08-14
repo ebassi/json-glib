@@ -13,6 +13,8 @@ AM_CFLAGS = -g $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 
 EXTRA_DIST += stream-load.json
 
+DISTCLEANFILES =
+
 noinst_PROGRAMS = $(TEST_PROGS)
 progs_ldadd = $(JSON_LIBS) \
 	$(top_builddir)/json-glib/libjson-glib-1.0.la
@@ -44,3 +46,5 @@ builder_test_LDADD      = $(progs_ldadd)
 TEST_PROGS             += reader-test
 reader_test_SOURCES     = reader-test.c
 reader_test_LDADD       = $(progs_ldadd)
+
+-include $(top_srcdir)/build/autotools/Makefile.am.gitignore

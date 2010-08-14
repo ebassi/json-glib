@@ -3,6 +3,8 @@ include $(top_srcdir)/build/autotools/Makefile.am.silent
 
 NULL =
 
+DISTCLEANFILES =
+
 noinst_PROGRAMS = $(TEST_PROGS)
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/json-glib
@@ -28,3 +30,5 @@ test_serialize_boxed_LDADD    = $(progs_ldadd)
 TEST_PROGS                  += test-serialize-full
 test_serialize_full_SOURCES  = test-serialize-full.c
 test_serialize_full_LDADD    = $(progs_ldadd)
+
+-include $(top_srcdir)/build/autotools/Makefile.am.gitignore
