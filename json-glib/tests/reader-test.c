@@ -15,7 +15,7 @@ static void
 test_base_object (void)
 {
   JsonParser *parser = json_parser_new ();
-  JsonReader *reader = json_reader_new ();
+  JsonReader *reader = json_reader_new (NULL);
   GError *error = NULL;
 
   json_parser_load_from_data (parser, test_base_object_data, -1, &error);
@@ -47,7 +47,7 @@ static void
 test_base_array (void)
 {
   JsonParser *parser = json_parser_new ();
-  JsonReader *reader = json_reader_new ();
+  JsonReader *reader = json_reader_new (NULL);
   GError *error = NULL;
 
   json_parser_load_from_data (parser, test_base_array_data, -1, &error);

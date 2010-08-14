@@ -108,7 +108,7 @@ struct _JsonReaderClass
 GQuark json_reader_error_quark (void);
 GType json_reader_get_type (void) G_GNUC_CONST;
 
-JsonReader *           json_reader_new               (void);
+JsonReader *           json_reader_new               (JsonNode     *node);
 
 void                   json_reader_set_root          (JsonReader   *reader,
                                                       JsonNode     *root);

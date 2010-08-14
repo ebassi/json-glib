@@ -94,6 +94,17 @@ struct _JsonReaderPrivate
   GError *error;
 };
 
+enum
+{
+  PROP_0,
+
+  PROP_ROOT,
+
+  LAST_PROP
+};
+
+static GParamSpec *reader_properties[LAST_PROP] = { NULL, };
+
 G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT);
 
 static void
@@ -116,13 +127,69 @@ json_reader_dispose (GObject *gobject)
 }
 
 static void
+json_reader_set_property (GObject      *gobject,
+                          guint         prop_id,
+                          const GValue *value,
+                          GParamSpec   *pspec)
+{
+  switch (prop_id)
+    {
+    case PROP_ROOT:
+      json_reader_set_root (JSON_READER (gobject), g_value_get_boxed (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
+json_reader_get_property (GObject    *gobject,
+                          guint       prop_id,
+                          GValue     *value,
+                          GParamSpec *pspec)
+{
+  switch (prop_id)
+    {
+    case PROP_ROOT:
+      g_value_set_boxed (value, JSON_READER (gobject)->priv->root);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
 json_reader_class_init (JsonReaderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GParamSpec *pspec;
 
   g_type_class_add_private (klass, sizeof (JsonReaderPrivate));
 
+  gobject_class->set_property = json_reader_set_property;
+  gobject_class->get_property = json_reader_get_property;
   gobject_class->dispose = json_reader_dispose;
+
+  /**
+   * JsonReader:root:
+   *
+   * The root of the JSON tree that the #JsonReader should read.
+   *
+   * Since: 0.12
+   */
+  pspec = g_param_spec_boxed ("root",
+                              "Root Node",
+                              "The root of the tree to read",
+                              JSON_TYPE_NODE,
+                              G_PARAM_READWRITE |
+                              G_PARAM_CONSTRUCT |
+                              G_PARAM_STATIC_STRINGS);
+  g_object_class_install_property (gobject_class, PROP_ROOT, pspec);
+  reader_properties[PROP_ROOT] = pspec;
 }
 
 static void
@@ -140,8 +207,10 @@ json_reader_error_quark (void)
 
 /**
  * json_reader_new:
+ * @node: (allow-none): a #JsonNode, or %NULL
  *
- * Creates a new #JsonReader instance
+ * Creates a new #JsonReader. You can use this object to read the contents of
+ * the JSON tree starting from @node
  *
  * Return value: the newly created #JsonReader. Use g_object_unref() to
  *   release the allocated resources when done
@@ -149,9 +218,9 @@ json_reader_error_quark (void)
  * Since: 0.12
  */
 JsonReader *
-json_reader_new (void)
+json_reader_new (JsonNode *node)
 {
-  return g_object_new (JSON_TYPE_READER, NULL);
+  return g_object_new (JSON_TYPE_READER, "root", node, NULL);
 }
 
 /*
@@ -170,7 +239,7 @@ json_reader_unset_error (JsonReader *reader)
 /**
  * json_reader_set_root:
  * @reader: a #JsonReader
- * @root: a #JsonNode
+ * @root: (allow-none): a #JsonNode
  *
  * Sets the root #JsonNode to be read by @reader. The @reader will take
  * a copy of @root
@@ -186,9 +255,11 @@ json_reader_set_root (JsonReader *reader,
   JsonReaderPrivate *priv;
 
   g_return_if_fail (JSON_IS_READER (reader));
-  g_return_if_fail (root != NULL);
 
   priv = reader->priv;
+
+  if (priv->root == root)
+    return;
 
   if (priv->root != NULL)
     {
@@ -198,9 +269,18 @@ json_reader_set_root (JsonReader *reader,
       priv->previous_node = NULL;
     }
 
-  priv->root = json_node_copy (root);
-  priv->current_node = priv->root;
-  priv->previous_node = NULL;
+  if (root != NULL)
+    {
+      priv->root = json_node_copy (root);
+      priv->current_node = priv->root;
+      priv->previous_node = NULL;
+    }
+
+#if GLIB_CHECK_VERSION (2, 25, 9)
+  g_object_notify_by_pspec (G_OBJECT (reader), reader_properties[PROP_ROOT]);
+#else
+  g_object_notify (G_OBJECT (reader), "root");
+#endif
 }
 
 /*
