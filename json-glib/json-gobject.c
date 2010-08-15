@@ -216,7 +216,7 @@ json_gobject_new (GType       gtype,
         goto next_member;
 
       if (!(pspec->flags & G_PARAM_CONSTRUCT_ONLY) ||
-          !(pspec->flags & G_PARAM_CONSTRUCT_ONLY))
+          !(pspec->flags & G_PARAM_CONSTRUCT))
         goto next_member;
 
       if (!(pspec->flags & G_PARAM_WRITABLE))
