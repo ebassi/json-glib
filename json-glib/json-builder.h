@@ -45,7 +45,10 @@ typedef struct _JsonBuilderClass      JsonBuilderClass;
 /**
  * JsonBuilder:
  *
- * JSON tree builder.
+ * The <structname>JsonBuilder</structname> structure contains only
+ * private data and shouls be accessed using the provided API
+ *
+ * Since: 0.12
  */
 struct _JsonBuilder
 {
@@ -58,7 +61,10 @@ struct _JsonBuilder
 /**
  * JsonBuilderClass:
  *
- * #JsonBuilder class
+ * The <structname>JsonBuilder</structname> structure contains only
+ * private data
+ *
+ * Since: 0.12
  */
 struct _JsonBuilderClass
 {
@@ -72,28 +78,28 @@ struct _JsonBuilderClass
 
 GType json_builder_get_type (void) G_GNUC_CONST;
 
-JsonBuilder   *json_builder_new                (void);
-JsonNode      *json_builder_get_root           (JsonBuilder  *builder);
-void           json_builder_reset              (JsonBuilder  *builder);
+JsonBuilder *json_builder_new                (void);
+JsonNode    *json_builder_get_root           (JsonBuilder  *builder);
+void         json_builder_reset              (JsonBuilder  *builder);
 
-JsonBuilder   *json_builder_begin_array        (JsonBuilder  *builder);
-JsonBuilder   *json_builder_end_array          (JsonBuilder  *builder);
-JsonBuilder   *json_builder_begin_object       (JsonBuilder  *builder);
-JsonBuilder   *json_builder_end_object         (JsonBuilder  *builder);
+JsonBuilder *json_builder_begin_array        (JsonBuilder  *builder);
+JsonBuilder *json_builder_end_array          (JsonBuilder  *builder);
+JsonBuilder *json_builder_begin_object       (JsonBuilder  *builder);
+JsonBuilder *json_builder_end_object         (JsonBuilder  *builder);
 
-JsonBuilder   *json_builder_set_member_name    (JsonBuilder  *builder,
-                                                const gchar  *member_name);
-JsonBuilder   *json_builder_add_value          (JsonBuilder  *builder,
-                                                JsonNode     *node);
-JsonBuilder   *json_builder_add_int_value      (JsonBuilder  *builder,
-                                                gint64        value);
-JsonBuilder   *json_builder_add_double_value   (JsonBuilder  *builder,
-                                                gdouble       value);
-JsonBuilder   *json_builder_add_boolean_value  (JsonBuilder  *builder,
-                                                gboolean      value);
-JsonBuilder   *json_builder_add_string_value   (JsonBuilder  *builder,
-                                                const gchar  *value);
-JsonBuilder   *json_builder_add_null_value     (JsonBuilder  *builder);
+JsonBuilder *json_builder_set_member_name    (JsonBuilder  *builder,
+                                              const gchar  *member_name);
+JsonBuilder *json_builder_add_value          (JsonBuilder  *builder,
+                                              JsonNode     *node);
+JsonBuilder *json_builder_add_int_value      (JsonBuilder  *builder,
+                                              gint64        value);
+JsonBuilder *json_builder_add_double_value   (JsonBuilder  *builder,
+                                              gdouble       value);
+JsonBuilder *json_builder_add_boolean_value  (JsonBuilder  *builder,
+                                              gboolean      value);
+JsonBuilder *json_builder_add_string_value   (JsonBuilder  *builder,
+                                              const gchar  *value);
+JsonBuilder *json_builder_add_null_value     (JsonBuilder  *builder);
 
 G_END_DECLS
 
