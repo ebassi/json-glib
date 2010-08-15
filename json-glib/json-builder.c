@@ -231,7 +231,7 @@ json_builder_reset (JsonBuilder *builder)
  * Can be called for first or only if the call is associated to an object member
  * or an array element.
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_begin_object (JsonBuilder *builder)
@@ -283,7 +283,7 @@ json_builder_begin_object (JsonBuilder *builder)
  *
  * Cannot be called after json_builder_set_member_name().
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_end_object (JsonBuilder *builder)
@@ -317,7 +317,7 @@ json_builder_end_object (JsonBuilder *builder)
  * Can be called for first or only if the call is associated to an object member
  * or an array element.
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_begin_array (JsonBuilder *builder)
@@ -369,7 +369,7 @@ json_builder_begin_array (JsonBuilder *builder)
  *
  * Cannot be called after json_builder_set_member_name().
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_end_array (JsonBuilder *builder)
@@ -403,7 +403,7 @@ json_builder_end_array (JsonBuilder *builder)
  *
  * Can be called only if the call is associated to an object.
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_set_member_name (JsonBuilder *builder, const gchar *member_name)
@@ -431,7 +431,7 @@ json_builder_set_member_name (JsonBuilder *builder, const gchar *member_name)
  * most recent opened object, otherwise @node is added as element of the most
  * recent opened array.
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_value (JsonBuilder *builder, JsonNode *node)
@@ -475,7 +475,7 @@ json_builder_add_value (JsonBuilder *builder, JsonNode *node)
  *
  * See also: json_builder_add_value()
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_int_value (JsonBuilder *builder, gint64 value)
@@ -518,7 +518,7 @@ json_builder_add_int_value (JsonBuilder *builder, gint64 value)
  *
  * See also: json_builder_add_value()
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_double_value (JsonBuilder *builder, gdouble value)
@@ -562,7 +562,7 @@ json_builder_add_double_value (JsonBuilder *builder, gdouble value)
  *
  * See also: json_builder_add_value()
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_boolean_value (JsonBuilder *builder, gboolean value)
@@ -606,7 +606,7 @@ json_builder_add_boolean_value (JsonBuilder *builder, gboolean value)
  *
  * See also: json_builder_add_value()
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_string_value (JsonBuilder *builder, const gchar *value)
@@ -649,7 +649,7 @@ json_builder_add_string_value (JsonBuilder *builder, const gchar *value)
  *
  * See also: json_builder_add_value()
  *
- * Return value: the #JsonBuilder, or %NULL if the call was inconsistent
+ * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
 json_builder_add_null_value (JsonBuilder *builder)
