@@ -103,7 +103,7 @@ Json_1_0_gir_LIBS = libjson-glib-1.0.la
 Json_1_0_gir_FILES = $(source_h) $(source_c)
 Json_1_0_gir_CFLAGS = $(INCLUDES) $(AM_CPPFLAGS)
 Json_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
-Json_1_0_gir_PACKAGES = gobject-2.0 gio-2.0
+Json_1_0_gir_SCANNERFLAGS = --pkg-export json-glib-1.0
 
 girdir = $(datadir)/gir-1.0
 dist_gir_DATA = Json-1.0.gir
