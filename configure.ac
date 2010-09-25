@@ -149,7 +149,7 @@ AC_MSG_RESULT([$enable_gcov])
 
 GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
 
-GOBJECT_INTROSPECTION_CHECK([0.6.14])
+GOBJECT_INTROSPECTION_CHECK([0.9.5])
 
 AC_CONFIG_FILES([
         Makefile
