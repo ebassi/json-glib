@@ -692,8 +692,8 @@ json_array_remove_element (JsonArray *array,
 /**
  * json_array_foreach_element:
  * @array: a #JsonArray
- * @func: the function to be called on each element
- * @data: (allow-none): data to be passed to the function
+ * @func: (scope call): the function to be called on each element
+ * @data: (closure): data to be passed to the function
  *
  * Iterates over all elements of @array and calls @func on
  * each one of them.

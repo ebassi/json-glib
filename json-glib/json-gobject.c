@@ -762,7 +762,7 @@ json_gobject_serialize (GObject *gobject)
  *
  * Note: the JSON data stream must be an object declaration.
  *
- * Return value: a #GObject or %NULL
+ * Return value: (transfer full): a #GObject or %NULL
  *
  * Since: 0.4
  *
@@ -792,7 +792,7 @@ json_construct_gobject (GType         gtype,
  *
  * Note: the JSON data stream must be an object declaration.
  *
- * Return value: a #GObject or %NULL
+ * Return value: (transfer full): a #GObject or %NULL
  *
  * Since: 0.10
  */
