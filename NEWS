@@ -11,6 +11,7 @@ Overview of changes for 0.12.0
   objects coming from GIO.
 • Add JsonReader, a convenience API for cursor-based parsing of
   JSON trees
+• Depend on GObject-Introspection ≥ 0.9.5
 
 Overview of changes for 0.10.0
 ==============================

@@ -27,12 +27,12 @@ REQUIREMENTS
 In order to build JSON-GLib you will need:
 
   • pkg-config
-  • gtk-doc >= 1.13
-  • GLib, GIO >= 2.16
+  • gtk-doc ≥ 1.13
+  • GLib, GIO ≥ 2.16
 
 Optionally, JSON-GLib depends on:
 
-  • GObject-Introspection >= 0.6.14
+  • GObject-Introspection ≥ 0.9.5
 
 INSTALLATION
 -------------------------------------------------------------------------------
