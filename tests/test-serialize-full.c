@@ -126,18 +126,6 @@ G_DEFINE_TYPE_WITH_CODE (TestObject, test_object, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (JSON_TYPE_SERIALIZABLE,
                                                 json_serializable_iface_init));
 
-static gboolean
-test_object_deserialize_property (JsonSerializable *serializable,
-                                  const gchar      *name,
-                                  GValue           *value,
-                                  GParamSpec       *pspec,
-                                  JsonNode         *node)
-{
-  gboolean retval = FALSE;
-
-  return retval;
-}
-
 static JsonNode *
 test_object_serialize_property (JsonSerializable *serializable,
                                 const gchar      *name,
@@ -184,7 +172,6 @@ json_serializable_iface_init (gpointer g_iface)
   JsonSerializableIface *iface = g_iface;
 
   iface->serialize_property = test_object_serialize_property;
-  iface->deserialize_property = test_object_deserialize_property;
 }
 
 static void
@@ -382,7 +369,7 @@ test_deserialize (void)
              TEST_OBJECT (object)->meh == TEST_ENUM_BAZ ? "<true>" : "<false>");
 
   g_assert_cmpint (TEST_OBJECT (object)->foo, ==, 42);
-  g_assert_cmpint (TEST_OBJECT (object)->bar, ==, TRUE);
+  g_assert (TEST_OBJECT (object)->bar);
   g_assert_cmpstr (TEST_OBJECT (object)->baz, ==, "hello");
   g_assert_cmpint (TEST_OBJECT (object)->meh, ==, TEST_ENUM_BAZ);
 
