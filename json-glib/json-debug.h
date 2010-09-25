@@ -6,7 +6,8 @@
 G_BEGIN_DECLS
 
 typedef enum {
-  JSON_DEBUG_PARSER = 1 << 0
+  JSON_DEBUG_PARSER  = 1 << 0,
+  JSON_DEBUG_GOBJECT = 1 << 1
 } JsonDebugFlags;
 
 #ifdef JSON_ENABLE_DEBUG

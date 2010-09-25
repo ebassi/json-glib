@@ -9,7 +9,8 @@ static gboolean     json_debug_flags_set = FALSE;
 
 #ifdef JSON_ENABLE_DEBUG
 static const GDebugKey json_debug_keys[] = {
-  { "parser", JSON_DEBUG_PARSER }
+  { "parser", JSON_DEBUG_PARSER },
+  { "gobject", JSON_DEBUG_GOBJECT }
 };
 #endif /* JSON_ENABLE_DEBUG */
 
