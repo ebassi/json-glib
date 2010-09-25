@@ -36,6 +36,7 @@
 
 #include "json-types-private.h"
 #include "json-gobject-private.h"
+#include "json-debug.h"
 
 /**
  * json_serializable_serialize_property:
@@ -111,6 +112,7 @@ json_serializable_real_deserialize (JsonSerializable *serializable,
                                     GParamSpec       *pspec,
                                     JsonNode         *node)
 {
+  JSON_NOTE (GOBJECT, "Default deserialization for property '%s'", pspec->name);
   return json_deserialize_pspec (value, pspec, node);
 }
 
@@ -120,6 +122,7 @@ json_serializable_real_serialize (JsonSerializable *serializable,
                                   const GValue     *value,
                                   GParamSpec       *pspec)
 {
+  JSON_NOTE (GOBJECT, "Default serialization for property '%s'", pspec->name);
   return json_serialize_pspec (value, pspec);
 }
 

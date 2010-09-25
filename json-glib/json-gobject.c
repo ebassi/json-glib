@@ -42,6 +42,7 @@
 #include "json-types-private.h"
 #include "json-gobject-private.h"
 
+#include "json-debug.h"
 #include "json-parser.h"
 #include "json-generator.h"
 
@@ -300,6 +301,7 @@ json_gobject_new (GType       gtype,
 
       if (deserialize_property)
         {
+          JSON_NOTE (GOBJECT, "Using JsonSerializable for property '%s'", pspec->name);
           res = iface->deserialize_property (serializable, pspec->name,
                                              &value,
                                              pspec,
@@ -307,13 +309,21 @@ json_gobject_new (GType       gtype,
         }
 
       if (!res)
-        res = json_deserialize_pspec (&value, pspec, val);
+        {
+          JSON_NOTE (GOBJECT, "Using json_deserialize_pspec for property '%s'", pspec->name);
+          res = json_deserialize_pspec (&value, pspec, val);
+        }
 
       /* FIXME - we probably want to be able to have a custom
        * set_property() for Serializable implementations
        */
       if (res)
-        g_object_set_property (retval, pspec->name, &value);
+        {
+          JSON_NOTE (GOBJECT, "Calling set_property('%s', '%s')",
+                     pspec->name,
+                     g_type_name (G_VALUE_TYPE (&value)));
+          g_object_set_property (retval, pspec->name, &value);
+        }
 
       g_value_unset (&value);
     }
