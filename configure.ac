@@ -61,6 +61,19 @@ JSON_LT_REVISION=lt_revision
 JSON_LT_AGE=lt_age
 JSON_LT_VERSION="$JSON_LT_CURRENT:$JSON_LT_REVISION:$JSON_LT_AGE"
 JSON_LT_LDFLAGS="-version-info $JSON_LT_VERSION"
+
+AC_MSG_CHECKING([if building for some Win32 platform])
+case "$host" in
+  *-*-mingw*|*-*-cygwin*)
+    JSON_LT_LDFLAGS="$JSON_LT_LDFLAGS -no-undefined"
+    platform_win32=yes
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_win32])
+
 AC_SUBST(JSON_LT_LDFLAGS)
 
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
