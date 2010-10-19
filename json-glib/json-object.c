@@ -47,18 +47,7 @@
  * use json_object_get_size().
  */
 
-GType
-json_object_get_type (void)
-{
-  static GType object_type = 0;
-
-  if (G_UNLIKELY (!object_type))
-    object_type = g_boxed_type_register_static (g_intern_static_string ("JsonObject"),
-                                                (GBoxedCopyFunc) json_object_ref,
-                                                (GBoxedFreeFunc) json_object_unref);
-
-  return object_type;
-}
+G_DEFINE_BOXED_TYPE (JsonObject, json_object, json_object_ref, json_object_unref);
 
 /**
  * json_object_new:

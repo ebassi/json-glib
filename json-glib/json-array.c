@@ -44,18 +44,7 @@
  * To retrieve the length of the array, use json_array_get_length().
  */
 
-GType
-json_array_get_type (void)
-{
-  static GType array_type = 0;
-
-  if (G_UNLIKELY (!array_type))
-    array_type = g_boxed_type_register_static (g_intern_static_string ("JsonArray"),
-                                               (GBoxedCopyFunc) json_array_ref,
-                                               (GBoxedFreeFunc) json_array_unref);
-
-  return array_type;
-}
+G_DEFINE_BOXED_TYPE (JsonArray, json_array, json_array_ref, json_array_unref);
 
 /**
  * json_array_new:

@@ -48,18 +48,7 @@
  * they contain.
  */
 
-GType
-json_node_get_type (void)
-{
-  static GType node_type = 0;
-
-  if (G_UNLIKELY (node_type == 0))
-    node_type = g_boxed_type_register_static (g_intern_static_string ("JsonNode"),
-                                              (GBoxedCopyFunc) json_node_copy,
-                                              (GBoxedFreeFunc) json_node_free);
-
-  return node_type;
-}
+G_DEFINE_BOXED_TYPE (JsonNode, json_node, json_node_copy, json_node_free);
 
 /**
  * json_node_get_value_type:
