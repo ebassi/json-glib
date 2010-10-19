@@ -126,38 +126,17 @@ json_serializable_real_serialize (JsonSerializable *serializable,
   return json_serialize_pspec (value, pspec);
 }
 
+/* typedef to satisfy G_DEFINE_INTERFACE's naming */
+typedef JsonSerializableIface   JsonSerializableInterface;
+
 static void
-json_serializable_base_init (gpointer g_class,
-                             gpointer data)
+json_serializable_default_init (JsonSerializableInterface *iface)
 {
-  static gboolean is_initialized = FALSE;
-
-  if (G_UNLIKELY (!is_initialized))
-    {
-      JsonSerializableIface *iface = g_class;
-
-      iface->serialize_property = json_serializable_real_serialize;
-      iface->deserialize_property = json_serializable_real_deserialize;
-
-      is_initialized = TRUE;
-    }
+  iface->serialize_property = json_serializable_real_serialize;
+  iface->deserialize_property = json_serializable_real_deserialize;
 }
 
-GType
-json_serializable_get_type (void)
-{
-  static GType iface_type = 0;
-
-  if (!iface_type)
-    iface_type =
-      g_type_register_static_simple (G_TYPE_INTERFACE,
-                                     g_intern_static_string ("JsonSerializable"),
-                                     sizeof (JsonSerializableIface),
-                                     json_serializable_base_init,
-                                     0, NULL, 0);
-
-  return iface_type;
-}
+G_DEFINE_INTERFACE (JsonSerializable, json_serializable, G_TYPE_OBJECT);
 
 /**
  * json_serializable_default_serialize_property:
