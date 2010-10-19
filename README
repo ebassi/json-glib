@@ -28,7 +28,7 @@ In order to build JSON-GLib you will need:
 
   • pkg-config
   • gtk-doc ≥ 1.13
-  • GLib, GIO ≥ 2.16
+  • GLib, GIO ≥ 2.26
 
 Optionally, JSON-GLib depends on:
 
