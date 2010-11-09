@@ -256,6 +256,16 @@ json_serialize_gobject
 </SECTION>
 
 <SECTION>
+<FILE>json-gvariant</FILE>
+
+<SUBSECTION>
+json_gvariant_serialize
+json_gvariant_serialize_data
+json_gvariant_deserialize
+json_gvariant_deserialize_data
+</SECTION>
+
+<SECTION>
 <FILE>json-version</FILE>
 <TITLE>Versioning information</TITLE>
 JSON_MAJOR_VERSION

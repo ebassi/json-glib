@@ -36,6 +36,7 @@ source_h = \
 	$(top_srcdir)/json-glib/json-parser.h 		\
 	$(top_srcdir)/json-glib/json-reader.h		\
 	$(top_srcdir)/json-glib/json-types.h 		\
+	$(top_srcdir)/json-glib/json-gvariant.h		\
 	$(NULL)
 
 source_h_private = \
@@ -58,6 +59,7 @@ source_c = \
 	$(srcdir)/json-reader.c		\
 	$(srcdir)/json-scanner.c 	\
 	$(srcdir)/json-serializable.c	\
+	$(srcdir)/json-gvariant.c	\
 	$(NULL)
 
 # glib-mkenums rules

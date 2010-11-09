@@ -38,6 +38,8 @@
 
 #include <json-glib/json-gobject.h>
 
+#include <json-glib/json-gvariant.h>
+
 #undef __JSON_GLIB_INSIDE__
 
 #endif /* __JSON_GLIB_H__ */

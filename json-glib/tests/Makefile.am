@@ -47,4 +47,8 @@ TEST_PROGS             += reader-test
 reader_test_SOURCES     = reader-test.c
 reader_test_LDADD       = $(progs_ldadd)
 
+TEST_PROGS             += gvariant-test
+gvariant_test_SOURCES   = gvariant-test.c
+gvariant_test_LDADD     = $(progs_ldadd)
+
 -include $(top_srcdir)/build/autotools/Makefile.am.gitignore

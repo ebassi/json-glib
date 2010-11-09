@@ -119,6 +119,7 @@
     <xi:include href="xml/json-gobject.xml"/>
     <xi:include href="xml/json-serializable.xml"/>
     <xi:include href="xml/json-gboxed.xml"/>
+    <xi:include href="xml/json-gvariant.xml"/>
   </part>
 
   <part id="json-tools">
