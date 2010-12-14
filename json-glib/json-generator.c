@@ -67,7 +67,8 @@ enum
 static gchar *dump_value  (JsonGenerator *generator,
                            gint           level,
                            const gchar   *name,
-                           JsonNode      *node);
+                           JsonNode      *node,
+                           gsize         *length);
 static gchar *dump_array  (JsonGenerator *generator,
                            gint           level,
                            const gchar   *name,
@@ -265,7 +266,8 @@ static gchar *
 dump_value (JsonGenerator *generator,
             gint           level,
             const gchar   *name,
-            JsonNode      *node)
+            JsonNode      *node,
+            gsize         *length)
 {
   JsonGeneratorPrivate *priv = generator->priv;
   gboolean pretty = priv->pretty;
@@ -325,6 +327,9 @@ dump_value (JsonGenerator *generator,
 
   g_value_unset (&value);
 
+  if (length)
+    *length = buffer->len;
+
   return g_string_free (buffer, FALSE);
 }
 
@@ -379,7 +384,7 @@ dump_array (JsonGenerator *generator,
           break;
 
         case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, NULL, cur);
+          value = dump_value (generator, sub_level, NULL, cur, NULL);
           g_string_append (buffer, value);
           g_free (value);
           break;
@@ -474,7 +479,7 @@ dump_object (JsonGenerator *generator,
           break;
 
         case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, member_name, cur);
+          value = dump_value (generator, sub_level, member_name, cur, NULL);
           g_string_append (buffer, value);
           g_free (value);
           break;
@@ -581,7 +586,7 @@ json_generator_to_data (JsonGenerator *generator,
       break;
 
     case JSON_NODE_VALUE:
-      retval = NULL;
+      retval = dump_value (generator, 0, NULL, root, length);
       break;
     }
 
