@@ -178,10 +178,19 @@ json_parser_error_quark
 JsonGenerator
 JsonGeneratorClass
 json_generator_new
+json_generator_set_root
+json_generator_get_root
+json_generator_set_pretty
+json_generator_get_pretty
+json_generator_set_indent
+json_generator_get_indent
+json_generator_set_indent_char
+json_generator_get_indent_char
+
+<SUBSECTION>
 json_generator_to_file
 json_generator_to_data
 json_generator_to_stream
-json_generator_set_root
 
 <SUBSECTION Standard>
 JSON_TYPE_GENERATOR

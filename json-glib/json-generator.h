@@ -77,19 +77,30 @@ struct _JsonGeneratorClass
 
 GType json_generator_get_type (void) G_GNUC_CONST;
 
-JsonGenerator *json_generator_new       (void);
-gchar *        json_generator_to_data   (JsonGenerator  *generator,
-                                         gsize          *length);
-gboolean       json_generator_to_file   (JsonGenerator  *generator,
-                                         const gchar    *filename,
-                                         GError        **error);
-gboolean       json_generator_to_stream (JsonGenerator  *generator,
-                                         GOutputStream  *stream,
-                                         GCancellable   *cancellable,
-                                         GError        **error);
+JsonGenerator * json_generator_new              (void);
 
-void           json_generator_set_root  (JsonGenerator  *generator,
-                                         JsonNode       *node);
+void            json_generator_set_pretty       (JsonGenerator  *generator,
+                                                 gboolean        is_pretty);
+gboolean        json_generator_get_pretty       (JsonGenerator  *generator);
+void            json_generator_set_indent       (JsonGenerator  *generator,
+                                                 guint           indent_level);
+guint           json_generator_get_indent       (JsonGenerator  *generator);
+void            json_generator_set_indent_char  (JsonGenerator  *generator,
+                                                 gunichar        indent_char);
+gunichar        json_generator_get_indent_char  (JsonGenerator  *generator);
+void            json_generator_set_root         (JsonGenerator  *generator,
+                                                 JsonNode       *node);
+JsonNode *      json_generator_get_root         (JsonGenerator  *generator);
+
+gchar *         json_generator_to_data          (JsonGenerator  *generator,
+                                                 gsize          *length);
+gboolean        json_generator_to_file          (JsonGenerator  *generator,
+                                                 const gchar    *filename,
+                                                 GError        **error);
+gboolean        json_generator_to_stream        (JsonGenerator  *generator,
+                                                 GOutputStream  *stream,
+                                                 GCancellable   *cancellable,
+                                                 GError        **error);
 
 G_END_DECLS
 
