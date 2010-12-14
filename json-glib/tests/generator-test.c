@@ -10,6 +10,8 @@
 
 #include <json-glib/json-glib.h>
 
+#include <locale.h>
+
 static const gchar *empty_array  = "[ ]";
 static const gchar *empty_object = "{ }";
 
@@ -32,6 +34,17 @@ static const gchar *nested_object =
     "\"IDs\" : [ 116, 943, 234, 38793 ] "
   "} "
 "}";
+
+static const struct {
+  const gchar *lang;
+  const gchar *sep;
+  guint matches : 1;
+} decimal_separator[] = {
+  { "C", ".",  TRUE },
+  { "de", ",", FALSE },
+  { "en", ".", TRUE },
+  { "fr", ",", FALSE }
+};
 
 static void
 test_empty_array (void)
@@ -254,6 +267,50 @@ test_nested_object (void)
   g_object_unref (generator);
 }
 
+static void
+test_decimal_separator (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+  JsonGenerator *generator = json_generator_new ();
+  gchar *old_locale;
+  gint i;
+
+  json_node_set_double (node, 3.14);
+
+  json_generator_set_root (generator, node);
+
+  old_locale = setlocale (LC_NUMERIC, NULL);
+
+  for (i = 0; i < G_N_ELEMENTS (decimal_separator); i++)
+    {
+      gchar *str, *expected;
+
+      setlocale (LC_NUMERIC, decimal_separator[i].lang);
+
+      str = json_generator_to_data (generator, NULL);
+
+      if (g_test_verbose ())
+        g_print ("%s: value: %.2f - string: '%s'\n",
+                 G_STRFUNC,
+                 json_node_get_double (node),
+                 str);
+
+      g_assert (str != NULL);
+      expected = strstr (str, decimal_separator[i].sep);
+      if (decimal_separator[i].matches)
+        g_assert (expected != NULL);
+      else
+        g_assert (expected == NULL);
+
+      g_free (str);
+   }
+
+  setlocale (LC_NUMERIC, old_locale);
+
+  g_object_unref (generator);
+  json_node_free (node);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -267,6 +324,7 @@ main (int   argc,
   g_test_add_func ("/generator/nested-array", test_nested_array);
   g_test_add_func ("/generator/simple-object", test_simple_object);
   g_test_add_func ("/generator/nested-object", test_nested_object);
+  g_test_add_func ("/generator/decimal-separator", test_decimal_separator);
 
   return g_test_run ();
 }
