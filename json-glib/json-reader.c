@@ -100,10 +100,10 @@ enum
 
   PROP_ROOT,
 
-  LAST_PROP
+  PROP_LAST
 };
 
-static GParamSpec *reader_properties[LAST_PROP] = { NULL, };
+static GParamSpec *reader_properties[PROP_LAST] = { NULL, };
 
 G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT);
 
@@ -166,13 +166,8 @@ static void
 json_reader_class_init (JsonReaderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  GParamSpec *pspec;
 
   g_type_class_add_private (klass, sizeof (JsonReaderPrivate));
-
-  gobject_class->set_property = json_reader_set_property;
-  gobject_class->get_property = json_reader_get_property;
-  gobject_class->dispose = json_reader_dispose;
 
   /**
    * JsonReader:root:
@@ -181,15 +176,19 @@ json_reader_class_init (JsonReaderClass *klass)
    *
    * Since: 0.12
    */
-  pspec = g_param_spec_boxed ("root",
-                              "Root Node",
-                              "The root of the tree to read",
-                              JSON_TYPE_NODE,
-                              G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT |
-                              G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_ROOT, pspec);
-  reader_properties[PROP_ROOT] = pspec;
+  reader_properties[PROP_ROOT] =
+    g_param_spec_boxed ("root",
+                        "Root Node",
+                        "The root of the tree to read",
+                        JSON_TYPE_NODE,
+                        G_PARAM_READWRITE |
+                        G_PARAM_CONSTRUCT |
+                        G_PARAM_STATIC_STRINGS);
+
+  gobject_class->dispose = json_reader_dispose;
+  gobject_class->set_property = json_reader_set_property;
+  gobject_class->get_property = json_reader_get_property;
+  g_object_class_install_properties (gobject_class, PROP_LAST, reader_properties);
 }
 
 static void
@@ -276,11 +275,7 @@ json_reader_set_root (JsonReader *reader,
       priv->previous_node = NULL;
     }
 
-#if GLIB_CHECK_VERSION (2, 25, 9)
   g_object_notify_by_pspec (G_OBJECT (reader), reader_properties[PROP_ROOT]);
-#else
-  g_object_notify (G_OBJECT (reader), "root");
-#endif
 }
 
 /*
