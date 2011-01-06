@@ -1127,7 +1127,7 @@ json_parser_get_current_pos (JsonParser *parser)
 /**
  * json_parser_has_assignment:
  * @parser: a #JsonParser
- * @variable_name: (out) (allow-none): Return location for the variable
+ * @variable_name: (out) (allow-none) (transfer none): Return location for the variable
  *   name, or %NULL
  *
  * A JSON data stream might sometimes contain an assignment, like:

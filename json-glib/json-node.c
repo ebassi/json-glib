@@ -193,7 +193,7 @@ json_node_set_object (JsonNode   *node,
 /**
  * json_node_take_object:
  * @node: a #JsonNode
- * @object: a #JsonObject
+ * @object: (transfer full): a #JsonObject
  *
  * Sets @object inside @node. The reference count of @object is not increased.
  */
@@ -278,7 +278,7 @@ json_node_set_array (JsonNode  *node,
 /**
  * json_node_take_array:
  * @node: a #JsonNode
- * @array: a #JsonArray
+ * @array: (transfer full): a #JsonArray
  *
  * Sets @array into @node without increasing the #JsonArray reference count.
  */
@@ -341,7 +341,7 @@ json_node_dup_array (JsonNode *node)
 /**
  * json_node_get_value:
  * @node: a #JsonNode
- * @value: return location for an uninitialized value
+ * @value: (out): return location for an uninitialized value
  *
  * Retrieves a value from a #JsonNode and copies into @value. When done
  * using it, call g_value_unset() on the #GValue.
@@ -530,7 +530,7 @@ json_node_set_parent (JsonNode *node,
  *
  * Retrieves the parent #JsonNode of @node.
  *
- * Return value: the parent node, or %NULL if @node is the root node
+ * Return value: (transfer none) the parent node, or %NULL if @node is the root node
  */
 JsonNode *
 json_node_get_parent (JsonNode *node)

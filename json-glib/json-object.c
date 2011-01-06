@@ -150,7 +150,7 @@ object_set_member_internal (JsonObject  *object,
  * json_object_add_member:
  * @object: a #JsonObject
  * @member_name: the name of the member
- * @node: the value of the member
+ * @node: (transfer full): the value of the member
  *
  * Adds a member named @member_name and containing @node into a #JsonObject.
  * The object will take ownership of the #JsonNode.
@@ -353,7 +353,7 @@ json_object_set_null_member (JsonObject  *object,
  * json_object_set_array_member:
  * @object: a #JsonObject
  * @member_name: the name of the member
- * @value: the value of the member
+ * @value: (transfer full): the value of the member
  *
  * Convenience function for setting an array @value of
  * @member_name inside @object.
@@ -389,7 +389,7 @@ json_object_set_array_member (JsonObject  *object,
  * json_object_set_object_member:
  * @object: a #JsonObject
  * @member_name: the name of the member
- * @value: the value of the member
+ * @value: (transfer full): the value of the member
  *
  * Convenience function for setting an object @value of
  * @member_name inside @object.
@@ -515,7 +515,7 @@ object_get_member_internal (JsonObject  *object,
  * Retrieves the #JsonNode containing the value of @member_name inside
  * a #JsonObject.
  *
- * Return value: a pointer to the node for the requested object
+ * Return value: (transfer none): a pointer to the node for the requested object
  *   member, or %NULL
  */
 JsonNode *
