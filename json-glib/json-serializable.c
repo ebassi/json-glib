@@ -72,7 +72,7 @@ json_serializable_serialize_property (JsonSerializable *serializable,
  * json_serializable_deserialize_property:
  * @serializable: a #JsonSerializable
  * @property_name: the name of the property
- * @value: a pointer to an uninitialized #GValue
+ * @value: (out): a pointer to an uninitialized #GValue
  * @pspec: a #GParamSpec
  * @property_node: a #JsonNode containing the serialized property
  *

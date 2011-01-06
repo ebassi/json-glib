@@ -204,7 +204,7 @@ json_array_dup_element (JsonArray *array,
  * Retrieves the #JsonNode containing the value of the element at @index_
  * inside a #JsonArray.
  *
- * Return value: a pointer to the #JsonNode at the requested index
+ * Return value: (transfer none): a pointer to the #JsonNode at the requested index
  */
 JsonNode *
 json_array_get_element (JsonArray *array,
@@ -453,7 +453,7 @@ json_array_get_length (JsonArray *array)
 /**
  * json_array_add_element:
  * @array: a #JsonArray
- * @node: a #JsonNode
+ * @node: (transfer full): a #JsonNode
  *
  * Appends @node inside @array. The array will take ownership of the
  * #JsonNode.
@@ -599,7 +599,7 @@ json_array_add_null_element (JsonArray *array)
 /**
  * json_array_add_array_element:
  * @array: a #JsonArray
- * @value: a #JsonArray
+ * @value: (transfer full): a #JsonArray
  *
  * Conveniently adds an array into @array. The @array takes ownership
  * of the newly added #JsonArray
@@ -631,7 +631,7 @@ json_array_add_array_element (JsonArray *array,
 /**
  * json_array_add_object_element:
  * @array: a #JsonArray
- * @value: a #JsonObject
+ * @value: (transfer full): a #JsonObject
  *
  * Conveniently adds an object into @array. The @array takes ownership
  * of the newly added #JsonObject
