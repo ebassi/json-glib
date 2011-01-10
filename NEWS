@@ -1,3 +1,11 @@
+Overview of changes for 0.12.2
+==============================
+• Build fix on win32
+• Implement support for bare values in JsonGenerator
+• Do not require GLib 2.20 for the test suite
+• Do not lose precision when serializing floating point values
+• Improve introspection data
+
 Overview of changes for 0.12.0
 ==============================
 • Support surrogate pairs in JSON strings [Eiichi Sato]
