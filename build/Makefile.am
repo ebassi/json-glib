@@ -1,4 +1,4 @@
-SUBDIRS = autotools
+SUBDIRS = autotools win32
 
 test-report:
 	@true
