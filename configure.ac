@@ -166,15 +166,22 @@ GOBJECT_INTROSPECTION_CHECK([0.9.5])
 
 AC_CONFIG_FILES([
         Makefile
+
         build/Makefile
         build/autotools/Makefile
+        build/win32/Makefile
+        build/win32/vs9/Makefile
+
         json-glib/Makefile
         json-glib/json-version.h
         json-glib/tests/Makefile
+
         tests/Makefile
+
         doc/Makefile
         doc/reference/Makefile
         doc/reference/version.xml
+
         json-glib.pc
 ])
 
