@@ -33,9 +33,15 @@ test_base_object (void)
 
   g_assert (!json_reader_read_member (reader, "bar"));
   g_assert (json_reader_get_error (reader) != NULL);
+#if GLIB_CHECK_VERSION (2, 20, 0)
   g_assert_error ((GError *) json_reader_get_error (reader),
                   JSON_READER_ERROR,
                   JSON_READER_ERROR_INVALID_MEMBER);
+#else
+  g_assert (json_reader_get_error (reader) != NULL);
+  g_assert (json_reader_get_error (reader)->domain == JSON_READER_ERROR);
+  g_assert (json_reader_ger_error (reader)->code == JSON_READER_ERROR_INVALID_MEMBER);
+#endif
   json_reader_end_member (reader);
   g_assert (json_reader_get_error (reader) == NULL);
 
@@ -84,9 +90,15 @@ test_base_array (void)
   json_reader_end_element (reader);
 
   g_assert (!json_reader_read_element (reader, 7));
+#if GLIB_CHECK_VERSION (2, 20, 0)
   g_assert_error ((GError *) json_reader_get_error (reader),
                   JSON_READER_ERROR,
                   JSON_READER_ERROR_INVALID_INDEX);
+#else
+  g_assert (json_reader_get_error (reader) != NULL);
+  g_assert (json_reader_get_error (reader)->domain == JSON_READER_ERROR);
+  g_assert (json_reader_get_error (reader)->code == JSON_READER_ERROR_INVALID_INDEX);
+#endif
   json_reader_end_element (reader);
   g_assert (json_reader_get_error (reader) == NULL);
 

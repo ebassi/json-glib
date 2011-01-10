@@ -673,7 +673,14 @@ test_invalid_json (void)
                                         &error);
 
       g_assert (!res);
+
+#if GLIB_CHECK_VERSION (2, 20, 0)
       g_assert_error (error, JSON_PARSER_ERROR, test_invalid[i].code);
+#else
+      g_assert (error != NULL);
+      g_assert (error->domain == JSON_PARSER_ERROR);
+      g_assert (error->code == test_invalid[i].code);
+#endif
 
       if (g_test_verbose ())
         g_print ("Error: %s\n", error->message);
