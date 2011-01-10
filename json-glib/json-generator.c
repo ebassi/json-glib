@@ -309,10 +309,11 @@ dump_value (JsonGenerator *generator,
 
     case G_TYPE_DOUBLE:
       {
-        gchar buf[65];
+        gchar buf[G_ASCII_DTOSTR_BUF_SIZE];
 
-        g_ascii_formatd (buf, 65, "%g", g_value_get_double (&value));
-        g_string_append (buffer, buf);
+        g_string_append (buffer,
+                         g_ascii_dtostr (buf, sizeof (buf),
+                                         g_value_get_double (&value)));
       }
       break;
 
