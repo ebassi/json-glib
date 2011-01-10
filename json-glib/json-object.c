@@ -188,10 +188,20 @@ json_object_set_member (JsonObject  *object,
                         const gchar *member_name,
                         JsonNode    *node)
 {
+  JsonNode *old_node;
+
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
   g_return_if_fail (node != NULL);
 
+  old_node = g_hash_table_lookup (object->members, member_name);
+  if (old_node == NULL)
+    goto set_member;
+
+  if (old_node == node)
+    return;
+
+set_member:
   object_set_member_internal (object, member_name, node);
 }
 
