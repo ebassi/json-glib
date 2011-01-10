@@ -114,5 +114,7 @@ typelibs_DATA = Json-1.0.typelib
 CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
 
+EXTRA_DIST += json-glib.symbols
+
 gcov_sources = $(source_c)
 include $(top_srcdir)/build/autotools/Makefile.am.gcov
