@@ -33,7 +33,7 @@ AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2])
+AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2 no-dist-gzip])
 
 AM_SILENT_RULES([yes])
 AM_PATH_GLIB_2_0
