@@ -84,7 +84,10 @@
  * </table>
  */
 
-#define G_VARIANT_CLASS_DICTIONARY 'c'
+/* custom extension to the GVariantClass enumeration to differentiate
+ * a single dictionary entry from an array of dictionary entries
+ */
+#define JSON_G_VARIANT_CLASS_DICTIONARY 'c'
 
 typedef void (* GVariantForeachFunc) (GVariant *variant_child,
                                       gpointer  user_data);
@@ -106,7 +109,7 @@ gvariant_foreach (GVariant            *variant,
   GVariant *variant_child;
 
   g_variant_iter_init (&iter, variant);
-  while ( (variant_child = g_variant_iter_next_value (&iter)) != NULL)
+  while ((variant_child = g_variant_iter_next_value (&iter)) != NULL)
     {
       func (variant_child, user_data);
       g_variant_unref (variant_child);
@@ -117,8 +120,8 @@ static void
 gvariant_to_json_array_foreach (GVariant *variant_child,
                                 gpointer  user_data)
 {
+  JsonArray *array = user_data;
   JsonNode *json_child;
-  JsonArray *array = (JsonArray *) user_data;
 
   json_child = json_gvariant_serialize (variant_child);
   json_array_add_element (array, json_child);
@@ -371,11 +374,15 @@ json_gvariant_serialize (GVariant *variant)
             type = g_variant_get_type_string (variant);
 
             if (type[1] == G_VARIANT_CLASS_DICT_ENTRY)
-              /* array of dictionary entries => JsonObject */
-              json_node = gvariant_to_json_object (variant);
+              {
+                /* array of dictionary entries => JsonObject */
+                json_node = gvariant_to_json_object (variant);
+              }
             else
-              /* array of anything else => JsonArray */
-              json_node = gvariant_to_json_array (variant);
+              {
+                /* array of anything else => JsonArray */
+                json_node = gvariant_to_json_array (variant);
+              }
 
             break;
           }
@@ -489,7 +496,7 @@ json_to_gvariant_get_next_class (JsonNode     *json_node,
           break;
 
         case JSON_NODE_OBJECT:
-          class = G_VARIANT_CLASS_DICTIONARY;
+          class = JSON_G_VARIANT_CLASS_DICTIONARY;
           break;
 
         case JSON_NODE_NULL:
@@ -501,9 +508,9 @@ json_to_gvariant_get_next_class (JsonNode     *json_node,
     }
   else
     {
-      if ( (*signature)[0] == G_VARIANT_CLASS_ARRAY
-           && (*signature)[1] == G_VARIANT_CLASS_DICT_ENTRY)
-        return G_VARIANT_CLASS_DICTIONARY;
+      if ((*signature)[0] == G_VARIANT_CLASS_ARRAY &&
+          (*signature)[1] == G_VARIANT_CLASS_DICT_ENTRY)
+        return JSON_G_VARIANT_CLASS_DICTIONARY;
       else
         return (*signature)[0];
     }
@@ -515,9 +522,9 @@ json_node_assert_type (JsonNode       *json_node,
                        GType           sub_type,
                        GError        **error)
 {
-  if (JSON_NODE_TYPE (json_node) != type
-      || (type == JSON_NODE_VALUE
-          && (json_node_get_value_type (json_node) != sub_type) ) )
+  if (JSON_NODE_TYPE (json_node) != type ||
+      (type == JSON_NODE_VALUE &&
+       (json_node_get_value_type (json_node) != sub_type)))
     {
       g_set_error_literal (error,
                            G_IO_ERROR,
@@ -775,9 +782,7 @@ json_to_gvariant_array (JsonNode     *json_node,
       child_signature = signature_get_next_complete_type (signature);
     }
   else
-    {
-      child_signature = g_strdup ("v");
-    }
+    child_signature = g_strdup ("v");
 
   if (json_array_get_length (array) > 0)
     {
@@ -785,7 +790,7 @@ json_to_gvariant_array (JsonNode     *json_node,
       guint len;
 
       len = json_array_get_length (array);
-      for (i=0; i<len; i++)
+      for (i = 0; i < len; i++)
         {
           JsonNode *json_child;
           GVariant *variant_child;
@@ -809,7 +814,7 @@ json_to_gvariant_array (JsonNode     *json_node,
         }
     }
 
-  if (! roll_back)
+  if (!roll_back)
     {
       gchar *array_signature;
 
@@ -827,9 +832,7 @@ json_to_gvariant_array (JsonNode     *json_node,
         (*signature)--;
     }
   else
-    {
-      g_list_foreach (children, json_to_gvariant_foreach_free, NULL);
-    }
+    g_list_foreach (children, json_to_gvariant_foreach_free, NULL);
 
   g_list_free (children);
   g_free (child_signature);
@@ -1120,6 +1123,14 @@ json_to_gvariant_recurse (JsonNode      *json_node,
   class = json_to_gvariant_get_next_class (json_node, signature);
   class_type[0] = class;
 
+  if (class == JSON_G_VARIANT_CLASS_DICTIONARY)
+    {
+      if (json_node_assert_type (json_node, JSON_NODE_OBJECT, 0, error))
+        variant = json_to_gvariant_dictionary (json_node, signature, error);
+
+      goto out;
+    }
+
   switch (class)
     {
     case G_VARIANT_CLASS_BOOLEAN:
@@ -1176,11 +1187,6 @@ json_to_gvariant_recurse (JsonNode      *json_node,
         variant = json_to_gvariant_dict_entry (json_node, signature, error);
       break;
 
-    case G_VARIANT_CLASS_DICTIONARY:
-      if (json_node_assert_type (json_node, JSON_NODE_OBJECT, 0, error))
-        variant = json_to_gvariant_dictionary (json_node, signature, error);
-      break;
-
     default:
       {
         gchar *err_msg;
@@ -1195,6 +1201,7 @@ json_to_gvariant_recurse (JsonNode      *json_node,
       }
     }
 
+out:
   if (signature)
     (*signature)++;
 
@@ -1238,10 +1245,8 @@ json_gvariant_deserialize (JsonNode     *json_node,
                            "Invalid GVariant type string");
       return NULL;
     }
-  else
-    {
-      return json_to_gvariant_recurse (json_node, &signature, error);
-    }
+
+  return json_to_gvariant_recurse (json_node, &signature, error);
 }
 
 /**
