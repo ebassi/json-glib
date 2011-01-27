@@ -293,7 +293,12 @@ dump_value (JsonGenerator *generator,
     }
 
   if (name && name[0] != '\0')
-    g_string_append_printf (buffer, "\"%s\" : ", name);
+    {
+      if (pretty)
+        g_string_append_printf (buffer, "\"%s\" : ", name);
+      else
+        g_string_append_printf (buffer, "\"%s\":", name);
+    }
 
   json_node_get_value (node, &value);
 
@@ -364,14 +369,17 @@ dump_array (JsonGenerator *generator,
     }
 
   if (name && name[0] != '\0')
-    g_string_append_printf (buffer, "\"%s\" : ", name);
+    {
+      if (pretty)
+        g_string_append_printf (buffer, "\"%s\" : ", name);
+      else
+        g_string_append_printf (buffer, "\"%s\":", name);
+    }
 
   g_string_append_c (buffer, '[');
 
   if (pretty)
     g_string_append_c (buffer, '\n');
-  else
-    g_string_append_c (buffer, ' ');
 
   for (i = 0; i < array_len; i++)
     {
@@ -415,8 +423,6 @@ dump_array (JsonGenerator *generator,
 
       if (pretty)
         g_string_append_c (buffer, '\n');
-      else
-        g_string_append_c (buffer, ' ');
     }
 
   if (pretty)
@@ -456,14 +462,17 @@ dump_object (JsonGenerator *generator,
     }
 
   if (name && name[0] != '\0')
-    g_string_append_printf (buffer, "\"%s\" : ", name);
+    {
+      if (pretty)
+        g_string_append_printf (buffer, "\"%s\" : ", name);
+      else
+        g_string_append_printf (buffer, "\"%s\":", name);
+    }
 
   g_string_append_c (buffer, '{');
 
   if (pretty)
     g_string_append_c (buffer, '\n');
-  else
-    g_string_append_c (buffer, ' ');
 
   members = json_object_get_members (object);
 
@@ -482,8 +491,12 @@ dump_object (JsonGenerator *generator,
             {
               for (j = 0; j < (sub_level * indent); j++)
                 g_string_append_c (buffer, priv->indent_char);
+              g_string_append_printf (buffer, "\"%s\" : null", member_name);
             }
-          g_string_append_printf (buffer, "\"%s\" : null", member_name);
+          else
+            {
+              g_string_append_printf (buffer, "\"%s\":null", member_name);
+            }
           break;
 
         case JSON_NODE_VALUE:
@@ -512,8 +525,6 @@ dump_object (JsonGenerator *generator,
 
       if (pretty)
         g_string_append_c (buffer, '\n');
-      else
-        g_string_append_c (buffer, ' ');
     }
 
   g_list_free (members);

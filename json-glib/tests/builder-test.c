@@ -6,10 +6,10 @@
 
 #include <json-glib/json-glib.h>
 
-static const gchar *complex_object = "{ \"depth1\" : [ 1, { \"depth2\" : [ 3, [ null ], \"after array\" ], \"value2\" : true } ], \"object1\" : { } }\") == 0)";
+static const gchar *complex_object = "{\"depth1\":[1,{\"depth2\":[3,[null],\"after array\"],\"value2\":true}],\"object1\":{}}\") == 0)";
 
-static const gchar *reset_object = "{ \"test\" : \"reset\" }";
-static const gchar *reset_array = "[ \"reset\" ]";
+static const gchar *reset_object = "{\"test\":\"reset\"}";
+static const gchar *reset_array = "[\"reset\"]";
 
 static void
 test_builder_complex (void)

@@ -12,27 +12,27 @@
 
 #include <locale.h>
 
-static const gchar *empty_array  = "[ ]";
-static const gchar *empty_object = "{ }";
+static const gchar *empty_array  = "[]";
+static const gchar *empty_object = "{}";
 
-static const gchar *simple_array = "[ true, false, null, 42, \"foo\" ]"; 
-static const gchar *nested_array = "[ true, [ false, null ], 42 ]";
+static const gchar *simple_array = "[true,false,null,42,\"foo\"]";
+static const gchar *nested_array = "[true,[false,null],42]";
 
-static const gchar *simple_object = "{ \"Bool1\" : true, \"Bool2\" : false, \"Null\" : null, \"Int\" : 42, \"String\" : \"foo\" }";
+static const gchar *simple_object = "{\"Bool1\":true,\"Bool2\":false,\"Null\":null,\"Int\":42,\"String\":\"foo\"}";
 /* taken from the RFC 4627, Examples section */
 static const gchar *nested_object =
-"{ "
-  "\"Image\" : { "
-    "\"Width\" : 800, "
-    "\"Height\" : 600, "
-    "\"Title\" : \"View from 15th Floor\", "
-    "\"Thumbnail\" : { "
-      "\"Url\" : \"http://www.example.com/image/481989943\", "
-      "\"Height\" : 125, "
-      "\"Width\" : \"100\" "
-    "}, "
-    "\"IDs\" : [ 116, 943, 234, 38793 ] "
-  "} "
+"{"
+  "\"Image\":{"
+    "\"Width\":800,"
+    "\"Height\":600,"
+    "\"Title\":\"View from 15th Floor\","
+    "\"Thumbnail\":{"
+      "\"Url\":\"http://www.example.com/image/481989943\","
+      "\"Height\":125,"
+      "\"Width\":\"100\""
+    "},"
+    "\"IDs\":[116,943,234,38793]"
+  "}"
 "}";
 
 static const struct {
