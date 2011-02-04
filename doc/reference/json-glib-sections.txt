@@ -329,6 +329,7 @@ json_reader_read_member
 json_reader_end_member
 json_reader_is_object
 json_reader_count_members
+json_reader_list_members
 <SUBSECTION>
 json_reader_is_value
 json_reader_get_value

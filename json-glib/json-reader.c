@@ -643,6 +643,52 @@ json_reader_end_member (JsonReader *reader)
 }
 
 /**
+ * json_reader_list_members:
+ * @reader: a #JsonReader
+ *
+ * Retrieves a list of member names from the current position, if @reader
+ * is positioned on an object.
+ *
+ * Return value: (transfer full): a newly allocated, %NULL-terminated
+ *   array of strings holding the members name. Use g_strfreev() when
+ *   done.
+ *
+ * Since: 0.14
+ */
+gchar **
+json_reader_list_members (JsonReader *reader)
+{
+  JsonReaderPrivate *priv;
+  GList *members, *l;
+  gchar **retval;
+  gint i;
+
+  g_return_val_if_fail (JSON_IS_READER (reader), NULL);
+
+  priv = reader->priv;
+
+  if (priv->current_node == NULL)
+    return NULL;
+
+  if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
+    return NULL;
+
+  members = json_object_get_members (json_node_get_object (priv->current_node));
+  if (members == NULL)
+    return NULL;
+
+  retval = g_new (gchar*, g_list_length (members) + 1);
+  for (l = members, i = 0; l != NULL; l = l->next, i += 1)
+    retval[i] = g_strdup (l->data);
+
+  retval[i] = NULL;
+
+  g_list_free (members);
+
+  return retval;
+}
+
+/**
  * json_reader_count_members:
  * @reader: a #JsonReader
  *

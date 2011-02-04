@@ -11,12 +11,20 @@ static const gchar *test_base_array_data =
 static const gchar *test_base_object_data =
 "{ \"text\" : \"hello, world!\", \"foo\" : \"bar\", \"blah\" : 47 }";
 
+static const gchar *expected_member_name[] = {
+  "text",
+  "foo",
+  "blah"
+};
+
 static void
 test_base_object (void)
 {
   JsonParser *parser = json_parser_new ();
   JsonReader *reader = json_reader_new (NULL);
   GError *error = NULL;
+  gchar **members;
+  gsize n_members, i;
 
   json_parser_load_from_data (parser, test_base_object_data, -1, &error);
   g_assert (error == NULL);
@@ -25,6 +33,17 @@ test_base_object (void)
 
   g_assert (json_reader_is_object (reader));
   g_assert_cmpint (json_reader_count_members (reader), ==, 3);
+
+  members = json_reader_list_members (reader);
+  g_assert (members != NULL);
+
+  n_members = g_strv_length (members);
+  g_assert_cmpint (n_members, ==, json_reader_count_members (reader));
+
+  for (i = 0; i < n_members; i++)
+    g_assert_cmpstr (members[i], ==, expected_member_name[i]);
+
+  g_strfreev (members);
 
   g_assert (json_reader_read_member (reader, "foo"));
   g_assert (json_reader_is_value (reader));

@@ -126,6 +126,7 @@ gboolean               json_reader_read_member       (JsonReader   *reader,
                                                       const gchar  *member_name);
 void                   json_reader_end_member        (JsonReader   *reader);
 gint                   json_reader_count_members     (JsonReader   *reader);
+gchar **               json_reader_list_members      (JsonReader   *reader);
 
 gboolean               json_reader_is_value          (JsonReader   *reader);
 JsonNode *             json_reader_get_value         (JsonReader   *reader);
