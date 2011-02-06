@@ -110,22 +110,19 @@ static GParamSpec *reader_properties[PROP_LAST] = { NULL, };
 G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT);
 
 static void
-json_reader_dispose (GObject *gobject)
+json_reader_finalize (GObject *gobject)
 {
   JsonReaderPrivate *priv = JSON_READER (gobject)->priv;
 
   if (priv->root != NULL)
-    {
-      json_node_free (priv->root);
-      priv->root = NULL;
-      priv->current_node = NULL;
-      priv->previous_node = NULL;
-    }
+    json_node_free (priv->root);
 
   if (priv->error != NULL)
     g_clear_error (&priv->error);
 
-  G_OBJECT_CLASS (json_reader_parent_class)->dispose (gobject);
+  g_free (priv->current_member);
+
+  G_OBJECT_CLASS (json_reader_parent_class)->finalize (gobject);
 }
 
 static void
@@ -187,7 +184,7 @@ json_reader_class_init (JsonReaderClass *klass)
                         G_PARAM_CONSTRUCT |
                         G_PARAM_STATIC_STRINGS);
 
-  gobject_class->dispose = json_reader_dispose;
+  gobject_class->finalize = json_reader_finalize;
   gobject_class->set_property = json_reader_set_property;
   gobject_class->get_property = json_reader_get_property;
   g_object_class_install_properties (gobject_class, PROP_LAST, reader_properties);
