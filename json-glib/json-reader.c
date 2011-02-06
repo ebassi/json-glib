@@ -91,6 +91,8 @@ struct _JsonReaderPrivate
   JsonNode *current_node;
   JsonNode *previous_node;
 
+  gchar *current_member;
+
   GError *error;
 };
 
@@ -493,11 +495,13 @@ json_reader_read_element (JsonReader *reader,
                                         index_);
 
         priv->previous_node = priv->current_node;
+        g_free (priv->current_member);
 
         members = json_object_get_members (object);
         name = g_list_nth_data (members, index_);
 
         priv->current_node = json_object_get_member (object, name);
+        priv->current_member = g_strdup (name);
 
         g_list_free (members);
       }
@@ -538,6 +542,9 @@ json_reader_end_element (JsonReader *reader)
     tmp = json_node_get_parent (priv->previous_node);
   else
     tmp = NULL;
+
+  g_free (priv->current_member);
+  priv->current_member = NULL;
 
   priv->current_node = priv->previous_node;
   priv->previous_node = tmp;
@@ -639,8 +646,11 @@ json_reader_read_member (JsonReader  *reader,
                                   "object at the current position.",
                                   member_name);
 
+  g_free (priv->current_member);
+
   priv->previous_node = priv->current_node;
   priv->current_node = json_object_get_member (object, member_name);
+  priv->current_member = g_strdup (member_name);
 
   return TRUE;
 }
@@ -672,6 +682,9 @@ json_reader_end_member (JsonReader *reader)
     tmp = json_node_get_parent (priv->previous_node);
   else
     tmp = NULL;
+
+  g_free (priv->current_member);
+  priv->current_member = NULL;
 
   priv->current_node = priv->previous_node;
   priv->previous_node = tmp;
@@ -900,4 +913,23 @@ json_reader_get_null_value (JsonReader *reader)
     return FALSE;
 
   return JSON_NODE_HOLDS_NULL (reader->priv->current_node);
+}
+
+/**
+ * json_reader_get_member_name:
+ * @reader: a #JsonReader
+ *
+ * Retrieves the name of the current member.
+ *
+ * Return value: (transfer none): the name of the member, or %NULL
+ *
+ * Since: 0.14
+ */
+G_CONST_RETURN gchar *
+json_reader_get_member_name (JsonReader *reader)
+{
+  g_return_val_if_fail (JSON_IS_READER (reader), NULL);
+  json_reader_return_val_if_error_set (reader, NULL);
+
+  return reader->priv->current_member;
 }

@@ -142,6 +142,7 @@ json_reader_get_boolean_value
 json_reader_get_double_value
 json_reader_get_error
 json_reader_get_int_value
+json_reader_get_member_name
 json_reader_get_null_value
 json_reader_get_string_value
 json_reader_get_type
