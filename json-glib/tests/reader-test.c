@@ -58,6 +58,12 @@ test_base_object (void)
   json_reader_end_member (reader);
   g_assert (json_reader_get_error (reader) == NULL);
 
+  g_assert (json_reader_read_element (reader, 2));
+  g_assert (json_reader_is_value (reader));
+  g_assert_cmpint (json_reader_get_int_value (reader), ==, 47);
+  json_reader_end_element (reader);
+  g_assert (json_reader_get_error (reader) == NULL);
+
   g_object_unref (reader);
   g_object_unref (parser);
 }

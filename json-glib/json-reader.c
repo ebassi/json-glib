@@ -410,8 +410,8 @@ json_reader_is_value (JsonReader *reader)
  * @reader: a #JsonReader
  * @index_: the index of the element
  *
- * Advances the cursor of @reader to the element @index_ of array at the
- * current position.
+ * Advances the cursor of @reader to the element @index_ of the array
+ * or the object at the current position.
  *
  * You can use the json_reader_get_value* family of functions to retrieve
  * the value of the element; for instance:
@@ -434,9 +434,9 @@ json_reader_is_value (JsonReader *reader)
  * json_reader_end_element (reader);
  * ]|
  *
- * If @reader is not currently on an array, or if the @index_ is bigger than
- * the size of the array, the #JsonReader will be put in an error state until
- * json_reader_end_element() is called.
+ * If @reader is not currently on an array or an object, or if the @index_ is
+ * bigger than the size of the array or the object, the #JsonReader will be
+ * put in an error state until json_reader_end_element() is called.
  *
  * Return value: %TRUE on success, and %FALSE otherwise
  *
@@ -447,7 +447,6 @@ json_reader_read_element (JsonReader *reader,
                           guint       index_)
 {
   JsonReaderPrivate *priv;
-  JsonArray *array;
 
   g_return_val_if_fail (JSON_READER (reader), FALSE);
   json_reader_return_val_if_error_set (reader, FALSE);
@@ -457,21 +456,57 @@ json_reader_read_element (JsonReader *reader,
   if (priv->current_node == NULL)
     priv->current_node = priv->root;
 
-  if (!JSON_NODE_HOLDS_ARRAY (priv->current_node))
+  if (!(JSON_NODE_HOLDS_ARRAY (priv->current_node) ||
+        JSON_NODE_HOLDS_OBJECT (priv->current_node)))
     return json_reader_set_error (reader, JSON_READER_ERROR_NO_ARRAY,
                                   "The current node is of type '%s', but "
-                                  "an array was expected.",
+                                  "an array or an object was expected.",
                                   json_node_type_name (priv->current_node));
 
-  array = json_node_get_array (priv->current_node);
-  if (index_ >= json_array_get_length (array))
-    return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
-                                  "The index '%d' is greater than the size "
-                                  "of the array at the current position.",
-                                  index_);
+  switch (json_node_get_node_type (priv->current_node))
+    {
+    case JSON_NODE_ARRAY:
+      {
+        JsonArray *array = json_node_get_array (priv->current_node);
 
-  priv->previous_node = priv->current_node;
-  priv->current_node = json_array_get_element (array, index_);
+        if (index_ >= json_array_get_length (array))
+          return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
+                                        "The index '%d' is greater than the size "
+                                        "of the array at the current position.",
+                                        index_);
+
+        priv->previous_node = priv->current_node;
+        priv->current_node = json_array_get_element (array, index_);
+      }
+      break;
+
+    case JSON_NODE_OBJECT:
+      {
+        JsonObject *object = json_node_get_object (priv->current_node);
+        GList *members;
+        const gchar *name;
+
+        if (index_ >= json_object_get_size (object))
+          return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
+                                        "The index '%d' is greater than the size "
+                                        "of the object at the current position.",
+                                        index_);
+
+        priv->previous_node = priv->current_node;
+
+        members = json_object_get_members (object);
+        name = g_list_nth_data (members, index_);
+
+        priv->current_node = json_object_get_member (object, name);
+
+        g_list_free (members);
+      }
+      break;
+
+    default:
+      g_assert_not_reached ();
+      return FALSE;
+    }
 
   return TRUE;
 }
