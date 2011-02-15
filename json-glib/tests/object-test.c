@@ -34,6 +34,34 @@ test_add_member (void)
 }
 
 static void
+test_set_member (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+  JsonObject *object = json_object_new ();
+
+  g_assert_cmpint (json_object_get_size (object), ==, 0);
+
+  json_node_set_string (node, "Hello");
+
+  json_object_set_member (object, "String", node);
+  g_assert_cmpint (json_object_get_size (object), ==, 1);
+
+  node = json_object_get_member (object, "String");
+  g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+  g_assert_cmpstr (json_node_get_string (node), ==, "Hello");
+
+  json_object_set_string_member (object, "String", "World");
+  node = json_object_get_member (object, "String");
+  g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+  g_assert_cmpstr (json_node_get_string (node), ==, "World");
+
+  json_object_set_string_member (object, "String", "Goodbye");
+  g_assert_cmpstr (json_object_get_string_member (object, "String"), ==, "Goodbye");
+
+  json_object_unref (object);
+}
+
+static void
 test_remove_member (void)
 {
   JsonObject *object = json_object_new ();
@@ -128,6 +156,7 @@ main (int   argc,
 
   g_test_add_func ("/object/empty-object", test_empty_object);
   g_test_add_func ("/object/add-member", test_add_member);
+  g_test_add_func ("/object/set-member", test_set_member);
   g_test_add_func ("/object/remove-member", test_remove_member);
   g_test_add_func ("/object/foreach-member", test_foreach_member);
   g_test_add_func ("/object/empty-member", test_empty_member);
