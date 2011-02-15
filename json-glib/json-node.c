@@ -341,7 +341,7 @@ json_node_dup_array (JsonNode *node)
 /**
  * json_node_get_value:
  * @node: a #JsonNode
- * @value: (out): return location for an uninitialized value
+ * @value: (out caller-allocates): return location for an uninitialized value
  *
  * Retrieves a value from a #JsonNode and copies into @value. When done
  * using it, call g_value_unset() on the #GValue.
@@ -509,7 +509,7 @@ json_node_type_get_name (JsonNodeType node_type)
 /**
  * json_node_set_parent:
  * @node: a #JsonNode
- * @parent: the parent #JsonNode of @node
+ * @parent: (transfer none): the parent #JsonNode of @node
  *
  * Sets the parent #JsonNode of @node
  *
@@ -530,7 +530,8 @@ json_node_set_parent (JsonNode *node,
  *
  * Retrieves the parent #JsonNode of @node.
  *
- * Return value: (transfer none) the parent node, or %NULL if @node is the root node
+ * Return value: (transfer none): the parent node, or %NULL if @node is
+ *   the root node
  */
 JsonNode *
 json_node_get_parent (JsonNode *node)
