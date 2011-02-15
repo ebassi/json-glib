@@ -194,7 +194,7 @@ json_object_add_member (JsonObject  *object,
  * json_object_set_member:
  * @object: a #JsonObject
  * @member_name: the name of the member
- * @node: the value of the member
+ * @node: (transfer full): the value of the member
  *
  * Sets @node as the value of @member_name inside @object.
  *
@@ -499,7 +499,7 @@ json_object_get_values (JsonObject *object)
  * Retrieves a copy of the #JsonNode containing the value of @member_name
  * inside a #JsonObject
  *
- * Return value: (transfer full) a copy of the node for the requested
+ * Return value: (transfer full): a copy of the node for the requested
  *   object member or %NULL. Use json_node_free() when done.
  *
  * Since: 0.6
