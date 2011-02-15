@@ -25,6 +25,8 @@
 #include "config.h"
 #endif
 
+#include <string.h>
+
 #include <glib.h>
 
 #include "json-types-private.h"
@@ -142,6 +144,25 @@ object_set_member_internal (JsonObject  *object,
 
   if (g_hash_table_lookup (object->members, name) == NULL)
     object->members_ordered = g_list_prepend (object->members_ordered, name);
+  else
+    {
+      GList *l;
+
+      /* if the member already exists then we need to replace the
+       * pointer to its name, to avoid keeping invalid pointers
+       * once we replace the key in the hash table
+       */
+      for (l = object->members_ordered; l != NULL; l =  l->next)
+        {
+          gchar *tmp = l->data;
+
+          if (strcmp (tmp, name) == 0)
+            {
+              l->data = name;
+              break;
+            }
+        }
+    }
 
   g_hash_table_replace (object->members, name, node);
 }
