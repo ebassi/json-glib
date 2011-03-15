@@ -1246,7 +1246,7 @@ json_gvariant_deserialize (JsonNode     *json_node,
       return NULL;
     }
 
-  return json_to_gvariant_recurse (json_node, &signature, error);
+  return json_to_gvariant_recurse (json_node, signature ? &signature : NULL, error);
 }
 
 /**
