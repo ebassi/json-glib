@@ -1211,7 +1211,7 @@ out:
 /**
  * json_gvariant_deserialize:
  * @json_node: A #JsonNode to convert
- * @signature: A valid #GVariant type string, or %NULL
+ * @signature: (allow-none): A valid #GVariant type string, or %NULL
  * @error: A pointer to a #GError
  *
  * Converts a JSON data structure to a GVariant value using @signature to
@@ -1253,7 +1253,7 @@ json_gvariant_deserialize (JsonNode     *json_node,
  * json_gvariant_deserialize_data:
  * @json: A JSON data string
  * @length: The length of @json, or -1 if %NULL-terminated
- * @signature: A valid #GVariant type string, or %NULL
+ * @signature: (allow-none): A valid #GVariant type string, or %NULL
  * @error: A pointer to a #GError
  *
  * Converts a JSON string to a #GVariant value. This method works exactly
