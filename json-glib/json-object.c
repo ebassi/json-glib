@@ -141,16 +141,9 @@ object_set_member_internal (JsonObject  *object,
        * pointer to its name, to avoid keeping invalid pointers
        * once we replace the key in the hash table
        */
-      for (l = object->members_ordered; l != NULL; l =  l->next)
-        {
-          gchar *tmp = l->data;
-
-          if (strcmp (tmp, name) == 0)
-            {
-              l->data = name;
-              break;
-            }
-        }
+      l = g_list_find_custom (object->members_ordered, name, (GCompareFunc) strcmp);
+      if (l != NULL)
+        l->data = name;
     }
 
   g_hash_table_replace (object->members, name, node);
