@@ -1,3 +1,3 @@
-SUBDIRS = vs9
+SUBDIRS = vs9 vs10
 
-EXTRA_DIST = config.h.win32 json-version.h.win32
+EXTRA_DIST = config.h.win32.in config.h.win32

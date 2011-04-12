@@ -7,6 +7,7 @@ EXTRA_DIST =	\
 	install.vcproj			\
 	json-glib.sln			\
 	json-glib.vcproj		\
+	json-glib.vcprojin		\
 	json-glib.vsprops		\
 	node-test.vcproj		\
 	object-test.vcproj		\
