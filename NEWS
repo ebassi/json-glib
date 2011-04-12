@@ -1,3 +1,11 @@
+Overview of changes for 0.12.4
+==============================
+• Fix a bug in JsonObject that led to memory corruption when replacing
+  members.
+• Fix introspection annotations.
+• Use AC_CANONICAL_HOST when building, to ease cross-compiling.
+• List GIO in the Requires: clause of the pkg-config file
+
 Overview of changes for 0.12.2
 ==============================
 • Build fix on win32
