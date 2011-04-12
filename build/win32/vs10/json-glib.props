@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <GlibEtcInstallRoot>..\..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>
+    <CopyDir>$(GlibEtcInstallRoot)</CopyDir>
+    <PrepBuild>
+if exist ..\..\..\config.h goto DONE_CONFIG_H
+
+copy ..\config.h.win32 ..\..\..\config.h
+
+:DONE_CONFIG_H
+
+</PrepBuild>
+    <JsonGlibDoInstall>
+mkdir $(CopyDir)
+
+mkdir $(CopyDir)\bin
+
+mkdir $(CopyDir)\lib
+
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.lib $(CopyDir)\lib
+
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.dll $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
+
+copy ..\..\..\json-glib\tests\stream-load.json $(CopyDir)\bin
+
+
+mkdir $(CopyDir)\include\json-glib
+
+
+copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib
+
+
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib
+
+copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib
+
+</JsonGlibDoInstall>
+    <JsonGlibGenerateDef>echo EXPORTS &gt;"..\..\..\json-glib\json-glib.def" &amp;&amp; cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;"..\..\..\json-glib\json-glib.def"</JsonGlibGenerateDef>
+    <JsonGlibVersion>0.0</JsonGlibVersion>
+    <JsonGlibDefines>JSON_COMPILATION;G_LOG_DOMAIN="Json"</JsonGlibDefines>
+    <JsonGlibLibtoolCompatibleDllPrefix>lib</JsonGlibLibtoolCompatibleDllPrefix>
+    <JsonGlibLibtoolCompatibleDllSuffix>-0.0-0</JsonGlibLibtoolCompatibleDllSuffix>
+    <JsonGlibSeparateVS10DllPrefix />
+    <JsonGlibSeparateVS10DllSuffix>-0-vs10</JsonGlibSeparateVS10DllSuffix>
+    <JsonGlibDllPrefix>$(JsonGlibSeparateVS10DllPrefix)</JsonGlibDllPrefix>
+    <JsonGlibDllSuffix>$(JsonGlibSeparateVS10DllSuffix)</JsonGlibDllSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_PropertySheetDisplayName>jsonglibprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..;..\..\..\json-glib;$(GlibEtcInstallRoot)\include;$(GlibEtcInstallRoot)\lib\glib-2.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;G_DISABLE_DEPRECATED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>msvc_recommended_pragmas.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glib-2.0.lib;gobject-2.0.lib;gio-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(GlibEtcInstallRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="GlibEtcInstallRoot">
+      <Value>$(GlibEtcInstallRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CopyDir">
+      <Value>$(CopyDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PrepBuild">
+      <Value>$(PrepBuild)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDoInstall">
+      <Value>$(JsonGlibDoInstall)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibGenerateDef">
+      <Value>$(JsonGlibGenerateDef)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibVersion">
+      <Value>$(JsonGlibVersion)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDefines">
+      <Value>$(JsonGlibDefines)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibLibtoolCompatibleDllPrefix">
+      <Value>$(JsonGlibLibtoolCompatibleDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibLibtoolCompatibleDllSuffix">
+      <Value>$(JsonGlibLibtoolCompatibleDllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibSeparateVS10DllPrefix">
+      <Value>$(JsonGlibSeparateVS10DllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibSeparateVS10DllSuffix">
+      <Value>$(JsonGlibSeparateVS10DllSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDllPrefix">
+      <Value>$(JsonGlibDllPrefix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibDllSuffix">
+      <Value>$(JsonGlibDllSuffix)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
