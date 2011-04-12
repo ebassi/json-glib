@@ -17,16 +17,12 @@
 		AdditionalDependencies="glib-2.0.lib gobject-2.0.lib gio-2.0.lib"
 		AdditionalLibraryDirectories="$(GlibEtcInstallRoot)\lib"
 	/>
-	<Tool
-		Name="VCPreBuildEventTool"
-		CommandLine="
+	<UserMacro
+		Name="PrepBuild"
+		Value="
 if exist ..\..\..\config.h goto DONE_CONFIG_H&#x0D;&#x0A;
-copy ..\..\..\config.h.win32 ..\..\..\config.h&#x0D;&#x0A;
+copy ..\config.h.win32 ..\..\..\config.h&#x0D;&#x0A;
 :DONE_CONFIG_H&#x0D;&#x0A;
-
-if exist ..\..\..\json-glib\json-version.h goto END&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-version.h.win32 ..\..\..\json-glib\json-version.h&#x0D;&#x0A;
-:END&#x0D;&#x0A;
 "
 	/>
 	<UserMacro
@@ -59,6 +55,14 @@ copy ..\..\..\json-glib\json-types.h $(OutDir)\include\json-glib&#x0D;&#x0A;
 	<UserMacro
 		Name="JsonGlibGenerateDef"
 		Value="echo EXPORTS &gt;&quot;..\..\..\json-glib\json-glib.def&quot; &amp;&amp; cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;&quot;..\..\..\json-glib\json-glib.def&quot;"
+	/>
+	<UserMacro
+		Name="JsonGlibVersion"
+		Value="0.0"
+	/>
+	<UserMacro
+		Name="JsonGlibDefines"
+		Value="JSON_COMPILATION;G_LOG_DOMAIN=\&quot;Json\&quot;"
 	/>
 	<UserMacro
 		Name="JsonGlibLibtoolCompatibleDllPrefix"

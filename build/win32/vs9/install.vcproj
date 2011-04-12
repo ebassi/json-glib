@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -22,17 +25,21 @@
 			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="10"
 			InheritedPropertySheets=".\json-glib.vsprops"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
+				Name="VCPostBuildEventTool"
+				CommandLine="$(JsonGlibDoInstall)"
 			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(GlibEtcInstallRoot)"
+			InheritedPropertySheets=".\json-glib.vsprops"
+			ConfigurationType="10"
+			CharacterSet="2"
+			DeleteExtensionsOnClean=""
+			>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="$(JsonGlibDoInstall)"
@@ -44,18 +51,23 @@
 			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="10"
 			InheritedPropertySheets=".\json-glib.vsprops"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
+				Name="VCPostBuildEventTool"
+				CommandLine="$(JsonGlibDoInstall)"
 			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(GlibEtcInstallRoot)"
+			InheritedPropertySheets=".\json-glib.vsprops"
+			ConfigurationType="10"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			DeleteExtensionsOnClean=""
+			>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="$(JsonGlibDoInstall)"
