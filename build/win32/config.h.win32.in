@@ -34,28 +34,28 @@
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
-#define LT_OBJDIR "./"
+#define LT_OBJDIR ".libs/"
 
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #define NO_MINUS_C_MINUS_O 1
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "fanc999@gmail.com"
+#define PACKAGE_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "json-glib"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "json-glib 0.12.0"
+#define PACKAGE_STRING "json-glib @JSON_MAJOR_VERSION@.@JSON_MINOR_VERSION@.@JSON_MICRO_VERSION@"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "json-glib"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL "http://live.gnome.org/JsonGlib"
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.12.0"
+#define PACKAGE_VERSION "@JSON_MAJOR_VERSION@.@JSON_MINOR_VERSION@.@JSON_MICRO_VERSION@"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
