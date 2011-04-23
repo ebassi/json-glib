@@ -324,6 +324,9 @@ json_gobject_new (GType       gtype,
                      g_type_name (G_VALUE_TYPE (&value)));
           g_object_set_property (retval, pspec->name, &value);
         }
+      else
+	g_warning ("Failed to deserialize \"%s\" property of type \"%s\" for an object of type \"%s\"",
+		   pspec->name, g_type_name (G_VALUE_TYPE (&value)), g_type_name (gtype));
 
       g_value_unset (&value);
     }
