@@ -565,7 +565,19 @@ json_deserialize_pspec (GValue     *value,
       break;
 
     case JSON_NODE_NULL:
-      retval = FALSE;
+      if (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value)) == G_TYPE_STRING)
+	{
+	  g_value_set_string (value, NULL);
+	  retval = TRUE;
+	}
+      else if (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (value)) == G_TYPE_OBJECT)
+	{
+	  g_value_set_object (value, NULL);
+	  retval = TRUE;
+	}
+      else
+	retval = FALSE;
+
       break;
     }
 
