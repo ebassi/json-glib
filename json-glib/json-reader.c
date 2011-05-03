@@ -56,7 +56,7 @@
  *  &ast;/
  * if (!json_reader_read_element (reader, 6))
  *   {
- *     const GError *error = json_reader_get_error (error);
+ *     const GError *error = json_reader_get_error (reader);
  *     g_print ("Unable to read the element: %s", error->message);
  *   }
  * ]|
