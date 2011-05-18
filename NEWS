@@ -1,3 +1,15 @@
+Overview of changes for 0.14.0
+==============================
+• Documentation fixes
+• Bump the dependency on GLib to 2.26
+• Allow building on Windows using VisualStudio [Chun-wei Fan]
+• Add JSON ↔ GVariant translation [Eduardo Lima Mitev]
+• Improve sanity checks when (de)serializing GObject
+  properties [Tristan Van Berkom]
+• Add missing introspection annotations [Luca Bruno]
+• Add JsonReader.list_members()
+• Allow using JsonReader.read_element() on JSON objects
+
 Overview of changes for 0.12.0
 ==============================
 • Support surrogate pairs in JSON strings [Eiichi Sato]
