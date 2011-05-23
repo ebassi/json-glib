@@ -3,6 +3,7 @@
   <PropertyGroup Label="UserMacros">
     <GlibEtcInstallRoot>..\..\..\..\..\vs10\$(Platform)</GlibEtcInstallRoot>
     <CopyDir>$(GlibEtcInstallRoot)</CopyDir>
+	<JsonGlibVersion>1.0</JsonGlibVersion>
     <PrepBuild>
 if exist ..\..\..\config.h goto DONE_CONFIG_H
 
@@ -29,36 +30,35 @@ copy $(SolutionDir)$(Configuration)\$(Platform)\bin\*.exe $(CopyDir)\bin
 copy ..\..\..\json-glib\tests\stream-load.json $(CopyDir)\bin
 
 
-mkdir $(CopyDir)\include\json-glib
+mkdir $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
 
-copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
 
-copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
-copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib
+copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
 </JsonGlibDoInstall>
     <JsonGlibGenerateDef>echo EXPORTS &gt;"..\..\..\json-glib\json-glib.def" &amp;&amp; cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;"..\..\..\json-glib\json-glib.def"</JsonGlibGenerateDef>
-    <JsonGlibVersion>0.0</JsonGlibVersion>
     <JsonGlibDefines>JSON_COMPILATION;G_LOG_DOMAIN="Json"</JsonGlibDefines>
     <JsonGlibLibtoolCompatibleDllPrefix>lib</JsonGlibLibtoolCompatibleDllPrefix>
-    <JsonGlibLibtoolCompatibleDllSuffix>-0.0-0</JsonGlibLibtoolCompatibleDllSuffix>
+    <JsonGlibLibtoolCompatibleDllSuffix>-1.0-0</JsonGlibLibtoolCompatibleDllSuffix>
     <JsonGlibSeparateVS10DllPrefix />
-    <JsonGlibSeparateVS10DllSuffix>-0-vs10</JsonGlibSeparateVS10DllSuffix>
+    <JsonGlibSeparateVS10DllSuffix>-1-vs10</JsonGlibSeparateVS10DllSuffix>
     <JsonGlibDllPrefix>$(JsonGlibSeparateVS10DllPrefix)</JsonGlibDllPrefix>
     <JsonGlibDllSuffix>$(JsonGlibSeparateVS10DllSuffix)</JsonGlibDllSuffix>
   </PropertyGroup>
