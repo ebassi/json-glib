@@ -180,8 +180,6 @@ AC_CONFIG_FILES([
         json-glib/json-version.h
         json-glib/tests/Makefile
 
-        tests/Makefile
-
         doc/Makefile
         doc/reference/Makefile
         doc/reference/version.xml

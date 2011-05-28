@@ -5,12 +5,6 @@ ACLOCAL_AMFLAGS = -I build/autotools
 
 SUBDIRS = build json-glib doc
 
-if ENABLE_GLIB_TEST
-SUBDIRS += tests
-endif
-
-DIST_SUBDIRS = json-glib doc tests build
-
 pcfiles = json-glib-1.0.pc
 
 json-glib-1.0.pc: json-glib.pc
