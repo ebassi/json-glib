@@ -268,6 +268,7 @@ json_builder_begin_object (JsonBuilder *builder)
 
   state = g_slice_new (JsonBuilderState);
   state->data.object = object;
+  state->member_name = NULL;
   state->mode = JSON_BUILDER_MODE_OBJECT;
   g_queue_push_head (builder->priv->stack, state);
 
