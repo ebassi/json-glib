@@ -34,6 +34,7 @@ source_h = \
 	$(top_srcdir)/json-glib/json-generator.h 	\
 	$(top_srcdir)/json-glib/json-gobject.h 		\
 	$(top_srcdir)/json-glib/json-parser.h 		\
+	$(top_srcdir)/json-glib/json-path.h		\
 	$(top_srcdir)/json-glib/json-reader.h		\
 	$(top_srcdir)/json-glib/json-types.h 		\
 	$(top_srcdir)/json-glib/json-gvariant.h		\
@@ -56,6 +57,7 @@ source_c = \
 	$(srcdir)/json-node.c 		\
 	$(srcdir)/json-object.c 	\
 	$(srcdir)/json-parser.c 	\
+	$(srcdir)/json-path.c		\
 	$(srcdir)/json-reader.c		\
 	$(srcdir)/json-scanner.c 	\
 	$(srcdir)/json-serializable.c	\

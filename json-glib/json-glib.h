@@ -31,6 +31,7 @@
 #include <json-glib/json-builder.h>
 #include <json-glib/json-generator.h>
 #include <json-glib/json-parser.h>
+#include <json-glib/json-path.h>
 #include <json-glib/json-reader.h>
 #include <json-glib/json-version.h>
 
