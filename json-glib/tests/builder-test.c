@@ -6,7 +6,9 @@
 
 #include <json-glib/json-glib.h>
 
-static const gchar *complex_object = "{\"depth1\":[1,{\"depth2\":[3,[null],\"after array\"],\"value2\":true}],\"object1\":{}}\") == 0)";
+static const gchar *complex_object = "{\"depth1\":[1,{\"depth2\":[3,[null],\"after array\"],\"value2\":true}],\"object1\":{}}";
+
+static const gchar *empty_object = "{\"a\":{}}";
 
 static const gchar *reset_object = "{\"test\":\"reset\"}";
 static const gchar *reset_array = "[\"reset\"]";
@@ -57,11 +59,12 @@ test_builder_complex (void)
   generator = json_generator_new ();
   json_generator_set_root (generator, node);
   data = json_generator_to_data (generator, &length);
+
   if (g_test_verbose ())
-    {
-      g_print ("Builder complex: %*s", (int)length, data);
-    }
-  g_assert (strncmp (data, complex_object, length) == 0);
+    g_print ("Builder complex: '%*s'\n", (int)length, data);
+
+  g_assert_cmpint (length, ==, strlen (complex_object));
+  g_assert_cmpstr (data, ==, complex_object);
 
   g_free (data);
   json_node_free (node);
@@ -69,7 +72,43 @@ test_builder_complex (void)
 }
 
 static void
-test_builder_reset (oid)
+test_builder_empty (void)
+{
+  JsonBuilder *builder = json_builder_new ();
+  JsonNode *node;
+  JsonGenerator *generator;
+  gsize length;
+  gchar *data;
+
+  json_builder_begin_object (builder);
+
+  json_builder_set_member_name (builder, "a");
+
+  json_builder_begin_object (builder);
+  json_builder_end_object (builder);
+
+  json_builder_end_object (builder);
+
+  node = json_builder_get_root (builder);
+  g_object_unref (builder);
+
+  generator = json_generator_new ();
+  json_generator_set_root (generator, node);
+  data = json_generator_to_data (generator, &length);
+
+  if (g_test_verbose ())
+    g_print ("Builder empty: '%*s'\n", (int)length, data);
+
+  g_assert_cmpint (length, ==, strlen (empty_object));
+  g_assert_cmpstr (data, ==, empty_object);
+
+  g_free (data);
+  json_node_free (node);
+  g_object_unref (generator);
+}
+
+static void
+test_builder_reset (void)
 {
   JsonBuilder *builder = json_builder_new ();
   JsonGenerator *generator = json_generator_new ();
@@ -115,6 +154,7 @@ main (int   argc,
   g_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/builder/complex", test_builder_complex);
+  g_test_add_func ("/builder/complex", test_builder_empty);
   g_test_add_func ("/builder/reset", test_builder_reset);
 
   return g_test_run ();
