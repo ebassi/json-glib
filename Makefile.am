@@ -3,7 +3,7 @@ include $(top_srcdir)/build/autotools/Makefile.am.silent
 
 ACLOCAL_AMFLAGS = -I build/autotools
 
-SUBDIRS = build json-glib doc
+SUBDIRS = json-glib doc build
 
 pcfiles = json-glib-1.0.pc
 
