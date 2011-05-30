@@ -9,6 +9,8 @@ EXTRA_DIST =	\
 	builder-test.vcxproj.filters	\
 	generator-test.vcxproj		\
 	generator-test.vcxproj.filters	\
+	gvariant-test.vcxproj		\
+	gvariant-test.vcxproj.filters	\
 	install.vcxproj			\
 	json-glib.sln			\
 	json-glib.vcxproj		\

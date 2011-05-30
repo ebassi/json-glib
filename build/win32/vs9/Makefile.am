@@ -5,6 +5,7 @@ EXTRA_DIST =	\
 	boxed.vcproj	\
 	builder-test.vcproj		\
 	generator-test.vcproj		\
+	gvariant-test.vcproj	\
 	install.vcproj			\
 	json-glib.sln			\
 	json-glib.vcproj		\

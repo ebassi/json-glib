@@ -44,6 +44,8 @@ copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(JsonGlibVe
 
 copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
+copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
+
 copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
 copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib

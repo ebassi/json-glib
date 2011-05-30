@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "builder-test", "builder-tes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generator-test", "generator-test.vcxproj", "{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gvariant-test", "gvariant-test.vcxproj", "{AA52A332-735D-4177-8CA6-842018E60DED}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "node-test", "node-test.vcxproj", "{04658465-64F9-4F06-B7A7-D40F6EDF26E3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "object-test", "object-test.vcxproj", "{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
@@ -139,6 +141,14 @@ Global
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|Win32.Build.0 = Release|Win32
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|x64.ActiveCfg = Release|x64
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|x64.Build.0 = Release|x64
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Debug|Win32.Build.0 = Debug|Win32
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Debug|x64.ActiveCfg = Debug|x64
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Debug|x64.Build.0 = Debug|x64
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Release|Win32.ActiveCfg = Release|Win32
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Release|Win32.Build.0 = Release|Win32
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Release|x64.ActiveCfg = Release|x64
+		{AA52A332-735D-4177-8CA6-842018E60DED}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
