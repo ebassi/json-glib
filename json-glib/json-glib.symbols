@@ -59,6 +59,10 @@ json_gobject_deserialize
 json_gobject_from_data
 json_gobject_serialize
 json_gobject_to_data
+json_gvariant_deserialize
+json_gvariant_deserialize_data
+json_gvariant_serialize
+json_gvariant_serialize_data
 json_node_copy
 json_node_dup_array
 json_node_dup_object
