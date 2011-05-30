@@ -126,19 +126,19 @@
       <Project>{99fc597f-539a-49bb-9b9a-6c1ef802a17b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="test-serialize-boxed.vcxproj">
+    <ProjectReference Include="boxed.vcxproj">
       <Project>{5016d295-cc2f-4149-80c2-71d7a33791b2}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="test-serialize-complex.vcxproj">
+    <ProjectReference Include="serialize-complex.vcxproj">
       <Project>{c3fcc23b-54cc-4447-b9a7-ce095ea60b16}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="test-serialize-full.vcxproj">
+    <ProjectReference Include="serialize-full.vcxproj">
       <Project>{980282ca-eaea-4f33-8982-39daf018978a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="test-serialize-simple.vcxproj">
+    <ProjectReference Include="serialize-simple.vcxproj">
       <Project>{27afa4cd-917a-4155-9f61-025094a97933}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

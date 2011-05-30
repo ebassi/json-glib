@@ -15,13 +15,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser-test", "parser-test.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reader-test", "reader-test.vcxproj", "{99FC597F-539A-49BB-9B9A-6C1EF802A17B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-serialize-complex", "test-serialize-complex.vcxproj", "{C3FCC23B-54CC-4447-B9A7-CE095EA60B16}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialize-complex", "serialize-complex.vcxproj", "{C3FCC23B-54CC-4447-B9A7-CE095EA60B16}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-serialize-full", "test-serialize-full.vcxproj", "{980282CA-EAEA-4F33-8982-39DAF018978A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialize-full", "serialize-full.vcxproj", "{980282CA-EAEA-4F33-8982-39DAF018978A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-serialize-simple", "test-serialize-simple.vcxproj", "{27AFA4CD-917A-4155-9F61-025094A97933}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialize-simple", "serialize-simple.vcxproj", "{27AFA4CD-917A-4155-9F61-025094A97933}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test-serialize-boxed", "test-serialize-boxed.vcxproj", "{5016D295-CC2F-4149-80C2-71D7A33791B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boxed", "boxed.vcxproj", "{5016D295-CC2F-4149-80C2-71D7A33791B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-glib", "json-glib.vcxproj", "{469DB0A8-E33E-4112-A38C-52A168ECDC03}"
 EndProject
