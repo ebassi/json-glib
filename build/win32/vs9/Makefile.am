@@ -2,6 +2,7 @@ NULL =
 
 EXTRA_DIST =	\
 	array-test.vcproj		\
+	boxed.vcproj	\
 	builder-test.vcproj		\
 	generator-test.vcproj		\
 	install.vcproj			\
@@ -13,8 +14,7 @@ EXTRA_DIST =	\
 	object-test.vcproj		\
 	parser-test.vcproj		\
 	reader-test.vcproj		\
-	test-serialize-boxed.vcproj	\
-	test-serialize-complex.vcproj	\
-	test-serialize-full.vcproj	\
-	test-serialize-simple.vcproj	\
+	serialize-complex.vcproj	\
+	serialize-full.vcproj	\
+	serialize-simple.vcproj	\
 	$(NULL)

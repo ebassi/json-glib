@@ -3,6 +3,8 @@ NULL =
 EXTRA_DIST =	\
 	array-test.vcxproj		\
 	array-test.vcxproj.filters	\
+	boxed.vcxproj	\
+	boxed.vcxproj.filters	\
 	builder-test.vcxproj		\
 	builder-test.vcxproj.filters	\
 	generator-test.vcxproj		\
@@ -22,12 +24,10 @@ EXTRA_DIST =	\
 	parser-test.vcxproj.filters	\
 	reader-test.vcxproj		\
 	reader-test.vcxproj.filters	\
-	test-serialize-boxed.vcxproj	\
-	test-serialize-boxed.vcxproj.filters	\
-	test-serialize-complex.vcxproj	\
-	test-serialize-complex.vcxproj.filters	\
-	test-serialize-full.vcxproj	\
-	test-serialize-full.vcxproj.filters	\
-	test-serialize-simple.vcxproj	\
-	test-serialize-simple.vcxproj.filters	\
+	serialize-complex.vcxproj	\
+	serialize-complex.vcxproj.filters	\
+	serialize-full.vcxproj	\
+	serialize-full.vcxproj.filters	\
+	serialize-simple.vcxproj	\
+	serialize-simple.vcxproj.filters	\
 	$(NULL)
