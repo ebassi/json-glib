@@ -26,6 +26,7 @@ TEST_PROGS += \
 	builder-test		\
 	reader-test		\
 	gvariant-test		\
+	path-test		\
 	boxed			\
 	serialize-simple	\
 	serialize-complex	\
