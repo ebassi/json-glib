@@ -355,3 +355,23 @@ JsonReaderPrivate
 json_reader_get_type
 json_reader_error_quark
 </SECTION>
+
+<SECTION>
+<FILE>json-path</FILE>
+JsonPath
+JsonPathClass
+json_path_new
+JSON_PATH_ERROR
+JsonPathError
+json_path_compile
+json_path_match
+<SUBSECTION>
+json_path_query
+<SUBSECTION Standard>
+JSON_TYPE_PATH
+JSON_PATH
+JSON_IS_PATH
+<SUBSECTION Private>
+json_path_get_type
+json_path_error_quark
+</SECTION>

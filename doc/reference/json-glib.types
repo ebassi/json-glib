@@ -2,5 +2,6 @@
 json_builder_get_type
 json_generator_get_type
 json_parser_get_type
+json_path_get_type
 json_reader_get_type
 json_serializable_get_type

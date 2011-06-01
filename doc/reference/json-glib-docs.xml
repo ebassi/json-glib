@@ -15,7 +15,7 @@
     </copyright>
 
     <copyright>
-      <year>2009, 2010</year>
+      <year>2009, 2010, 2011</year>
       <holder>Intel Corporation</holder>
     </copyright>
 
@@ -103,6 +103,7 @@
       <title>Parser</title>
       <xi:include href="xml/json-parser.xml"/>
       <xi:include href="xml/json-reader.xml"/>
+      <xi:include href="xml/json-path.xml"/>
     </chapter>
 
     <chapter>

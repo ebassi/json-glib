@@ -23,9 +23,179 @@
 /**
  * SECTION:json-path
  * @Title: JsonPath
- * @Short_Desc: JSONPath implementation
+ * @short_description: JSONPath implementation
  *
- * JSONPath is FIXME
+ * #JsonPath is a simple class implementing the JSONPath syntax for extracting
+ * data out of a JSON tree. While the semantics of the JSONPath expressions are
+ * heavily borrowed by the XPath specification for XML, the syntax follows the
+ * ECMAScript origins of JSON.
+ *
+ * Once a #JsonPath instance has been created, it has to compile a JSONPath
+ * expression using json_path_compile() before being able to match it to a
+ * JSON tree; the same #JsonPath instance can be used to match multiple JSON
+ * trees. It it also possible to compile a new JSONPath expression using the
+ * same #JsonPath instance; the previous expression will be discarded only if
+ * the compilation of the new expression is successful.
+ *
+ * The simple convenience function json_path_query() can be used for one-off
+ * matching.
+ *
+ * <refsect2 id="json-path-syntax">
+ *   <title>Syntax of the JSONPath expressions</title>
+ *   <para>A JSONPath expression is composed by path indices and operators.
+ *   Each path index can either be a member name or an element index inside
+ *   a JSON tree. A JSONPath expression must start with the '$' operator; each
+ *   path index is separated using either the dot notation or the bracket
+ *   notation, e.g.:</para>
+ *   |[
+ *     /&ast; dot notation &ast;/
+ *     $.store.book[0].title
+ *     /&ast; bracket notation &ast;/
+ *     $['store']['book'][0]['title']
+ *   ]|
+ *   <para>The available operators are:</para>
+ *   <table frame='all' id="json-path-operators">
+ *     <title>Operators</title>
+ *     <tgroup cols='4'>
+ *       <colspec name='operator'/>
+ *       <colspec name='description'/>
+ *       <colspec name='example'/>
+ *       <colspec name='results'/>
+ *       <thead>
+ *         <row>
+ *           <entry>Operator</entry>
+ *           <entry>Description</entry>
+ *           <entry>Example</entry>
+ *           <entry>Results</entry>
+ *         </row>
+ *       </thead>
+ *       <tbody>
+ *         <row>
+ *           <entry>$</entry>
+ *           <entry>The root node</entry>
+ *           <entry>$</entry>
+ *           <entry>The whole document</entry>
+ *         </row>
+ *         <row>
+ *           <entry>. or []</entry>
+ *           <entry>The child member or element</entry>
+ *           <entry>$.store.book</entry>
+ *           <entry>The contents of the book member of the store object</entry>
+ *         </row>
+ *         <row>
+ *           <entry>..</entry>
+ *           <entry>Recursive descent</entry>
+ *           <entry>$..author</entry>
+ *           <entry>The content of the author member in every object</entry>
+ *         </row>
+ *         <row>
+ *           <entry>*</entry>
+ *           <entry>Wildcard</entry>
+ *           <entry>$.store.book[*].author</entry>
+ *           <entry>The content of the author member of any object of the
+ *           array contained in the book member of the store object</entry>
+ *         </row>
+ *         <row>
+ *           <entry>[]</entry>
+ *           <entry>Subscript</entry>
+ *           <entry>$.store.book[0]</entry>
+ *           <entry>The first element of the array contained in the book
+ *           member of the store object</entry>
+ *         </row>
+ *         <row>
+ *           <entry>[,]</entry>
+ *           <entry>Set</entry>
+ *           <entry>$.store.book[0,1]</entry>
+ *           <entry>The first two elements of the array contained in the
+ *           book member of the store object</entry>
+ *         </row>
+ *         <row>
+ *           <entry>[start:end:step]</entry>
+ *           <entry>Slice</entry>
+ *           <entry>$.store.book[:2]</entry>
+ *           <entry>The first two elements of the array contained in the
+ *           book member of the store object; the start and step are omitted
+ *           and implied to be 0 and 1, respectively</entry>
+ *         </row>
+ *       </tbody>
+ *     </tgroup>
+ *   </table>
+ *   <para>More information about JSONPath is available on Stefan Gössner's
+ *   <ulink url="http://goessner.net/articles/JsonPath/">website</ulink>.</para>
+ * </refsect2>
+ *
+ * <example id="json-path-example">
+ *   <title>Example of JsonPath usage</title>
+ *   <para>The following example shows some of the results of using #JsonPath
+ *   on a JSON tree. We use the following JSON description of a
+ *   bookstore:</para>
+ * <programlisting><![CDATA[
+{ "store": {
+    "book": [
+      { "category": "reference",
+        "author": "Nigel Rees",
+        "title": "Sayings of the Century",
+        "price": "8.95"
+      },
+      { "category": "fiction",
+        "author": "Evelyn Waugh",
+        "title": "Sword of Honour",
+        "price": "12.99"
+      },
+      { "category": "fiction",
+        "author": "Herman Melville",
+        "title": "Moby Dick",
+        "isbn": "0-553-21311-3",
+        "price": "8.99"
+      },
+      { "category": "fiction",
+        "author": "J. R. R. Tolkien",
+        "title": "The Lord of the Rings",
+        "isbn": "0-395-19395-8",
+        "price": "22.99"
+      }
+    ],
+    "bicycle": {
+      "color": "red",
+      "price": "19.95"
+    }
+  }
+}
+]]></programlisting>
+ *   <para>We can parse the JSON using #JsonParser:</para>
+ *   <programlisting>
+ * JsonParser *parser = json_parser_new ();
+ * json_parser_load_from_data (parser, json_data, -1, NULL);
+ *   </programlisting>
+ *   <para>If we run the following code:</para>
+ *   <programlisting>
+ * JsonNode *result;
+ * JsonPath *path = json_path_new ();
+ * json_path_compile (path, "$.store..author", NULL);
+ * result = json_path_match (path, json_parser_get_root (parser));
+ *   </programlisting>
+ *   <para>The <emphasis>result</emphasis> #JsonNode will contain an array
+ *   with all values of the <emphasis>author</emphasis> member of the objects
+ *   in the JSON tree. If we use a #JsonGenerator to convert the #JsonNode
+ *   to a string and print it:</para>
+ *   <programlisting>
+ * JsonGenerator *generator = json_generator_new ();
+ * char *str;
+ * json_generator_set_pretty (generator, TRUE);
+ * json_generator_set_root (generator, result);
+ * str = json_generator_to_data (generator, NULL);
+ * g_print ("Results: %s\n", str);
+ *   </programlisting>
+ *   <para>The output will be:</para>
+ *   <programlisting><![CDATA[
+[
+  "Nigel Rees",
+  "Evelyn Waugh",
+  "Herman Melville",
+  "J. R. R. Tolkien"
+]
+]]></programlisting>
+ * </example>
  *
  * #JsonPath is available since JSON-GLib 0.14
  */
