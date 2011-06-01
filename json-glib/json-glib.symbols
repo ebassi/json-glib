@@ -136,6 +136,12 @@ json_parser_load_from_stream
 json_parser_load_from_stream_async
 json_parser_load_from_stream_finish
 json_parser_new
+json_path_compile
+json_path_error_quark
+json_path_get_type
+json_path_match
+json_path_new
+json_path_query
 json_reader_count_elements
 json_reader_count_members
 json_reader_end_element
