@@ -370,7 +370,7 @@ json_path_compile (JsonPath    *path,
               {
                 g_set_error_literal (error, JSON_PATH_ERROR,
                                      JSON_PATH_ERROR_INVALID_QUERY,
-                                     "Only one root element is allowed");
+                                     "Multiple roots");
                 return FALSE;
               }
 
@@ -378,7 +378,7 @@ json_path_compile (JsonPath    *path,
               {
                 g_set_error (error, JSON_PATH_ERROR,
                              JSON_PATH_ERROR_INVALID_QUERY,
-                             "Root node followed by invalid character '%c'",
+                             "Root node followed by '%c'",
                              *(p + 1));
                 return FALSE;
               }
@@ -400,14 +400,6 @@ json_path_compile (JsonPath    *path,
               {
                 node = g_new0 (PathNode, 1);
                 node->node_type = JSON_PATH_NODE_RECURSIVE_DESCENT;
-
-                /* if the recursive descent operator is followed by
-                 * an open bracket then we need to skip the second '.'
-                 * so that the cursor will find itself on the right
-                 * position for the next token
-                 */
-                if (*(p + 2) == '[')
-                  p += 1;
               }
             else if (*p == '.' && *(p + 1) == '*')
               {
@@ -595,32 +587,6 @@ json_path_compile (JsonPath    *path,
                         goto fail;
                       }
 
-                    if (slice_step == 0)
-                      {
-                        g_set_error (error, JSON_PATH_ERROR,
-                                     JSON_PATH_ERROR_INVALID_QUERY,
-                                     "Invalid step '%d' for slice '[%d:%d]': "
-                                     "the step argument must not be zero",
-                                     slice_step, slice_start, slice_end);
-                        goto fail;
-                      }
-
-                    if (slice_step > 0)
-                      {
-                        if (slice_start >= 0 &&
-                            slice_end >= 0 &&
-                            slice_end < slice_start)
-                          {
-                            g_set_error (error, JSON_PATH_ERROR,
-                                         JSON_PATH_ERROR_INVALID_QUERY,
-                                         "Invalid slice [%d:%d:%d]: the end "
-                                         "of the slice is smaller than the "
-                                         "start.",
-                                         slice_start, slice_end, slice_step);
-                            goto fail;
-                          }
-                      }
-
                     node = g_new0 (PathNode, 1);
                     node->node_type = JSON_PATH_NODE_ELEMENT_SLICE;
                     node->data.slice.start = slice_start;
@@ -664,7 +630,6 @@ json_path_compile (JsonPath    *path,
       p += 1;
     }
 
-  /* the nodes are prepended, so we need to flip the path around */
   nodes = g_list_reverse (nodes);
 
 #ifdef JSON_ENABLE_DEBUG
@@ -806,7 +771,7 @@ walk_path_node (GList      *path,
 
     case JSON_PATH_NODE_RECURSIVE_DESCENT:
       {
-        PathNode *next = path->next->data;
+        PathNode *tmp = path->next->data;
 
         switch (json_node_get_node_type (root))
           {
@@ -820,10 +785,10 @@ walk_path_node (GList      *path,
                 {
                   JsonNode *m = json_object_get_member (object, l->data);
 
-                  if (next->node_type == JSON_PATH_NODE_CHILD_MEMBER &&
-                      strcmp (next->data.member_name, l->data) == 0)
+                  if (tmp->node_type == JSON_PATH_NODE_CHILD_MEMBER &&
+                      strcmp (tmp->data.member_name, l->data) == 0)
                     {
-                      JSON_NOTE (PATH, "entering '%s'", next->data.member_name);
+                      JSON_NOTE (PATH, "entering '%s'", tmp->data.member_name);
                       walk_path_node (path->next, root, results);
                     }
                   else
@@ -847,10 +812,10 @@ walk_path_node (GList      *path,
                 {
                   JsonNode *m = l->data;
 
-                  if (next->node_type == JSON_PATH_NODE_CHILD_ELEMENT &&
-                      next->data.element_index == i)
+                  if (tmp->node_type == JSON_PATH_NODE_CHILD_ELEMENT &&
+                      tmp->data.element_index == i)
                     {
-                      JSON_NOTE (PATH, "entering '%d'", next->data.element_index);
+                      JSON_NOTE (PATH, "entering '%d'", tmp->data.element_index);
                       walk_path_node (path->next, root, results);
                     }
                   else
@@ -946,23 +911,23 @@ walk_path_node (GList      *path,
       if (JSON_NODE_HOLDS_ARRAY (root))
         {
           JsonArray *array = json_node_get_array (root);
-          int i, start, end, step;
+          int i, start, end;
 
           if (node->data.slice.start < 0)
-            start = json_array_get_length (array)
-                  + node->data.slice.start;
+            {
+              start = json_array_get_length (array)
+                    + node->data.slice.start;
+
+              end = json_array_get_length (array)
+                  + node->data.slice.end;
+            }
           else
-            start = node->data.slice.start;
+            {
+              start = node->data.slice.start;
+              end = node->data.slice.end;
+            }
 
-          if (node->data.slice.end < 0)
-            end = json_array_get_length (array)
-                + node->data.slice.end;
-          else
-            end = node->data.slice.end;
-
-          step = node->data.slice.step;
-
-          for (i = start; i < end; i += step)
+          for (i = start; i < end; i += node->data.slice.step)
             {
               JsonNode *element = json_array_get_element (array, i);
 
