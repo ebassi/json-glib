@@ -372,15 +372,16 @@ json_path_compile (JsonPath    *path,
               {
                 g_set_error_literal (error, JSON_PATH_ERROR,
                                      JSON_PATH_ERROR_INVALID_QUERY,
-                                     "Multiple roots");
+                                     _("Only one root node is allowed in a JSONPath expression"));
                 return FALSE;
               }
 
             if (!(*(p + 1) == '.' || *(p + 1) == '['))
               {
+                /* translators: the %c is the invalid character */
                 g_set_error (error, JSON_PATH_ERROR,
                              JSON_PATH_ERROR_INVALID_QUERY,
-                             "Root node followed by '%c'",
+                             _("Root node followed by invalid character '%c'"),
                              *(p + 1));
                 return FALSE;
               }
@@ -486,7 +487,7 @@ json_path_compile (JsonPath    *path,
                           {
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
-                                         "Malformed slice '%*s'",
+                                         _("Malformed slice expression '%*s'"),
                                          end_p - p,
                                          p + 1);
                             goto fail;
@@ -530,7 +531,7 @@ json_path_compile (JsonPath    *path,
                             g_array_unref (indices);
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
-                                         "Invalid set definition '%*s'",
+                                         _("Invalid set definition '%*s'"),
                                          end_p - p,
                                          p + 1);
                             goto fail;
@@ -583,7 +584,7 @@ json_path_compile (JsonPath    *path,
                       {
                         g_set_error (error, JSON_PATH_ERROR,
                                      JSON_PATH_ERROR_INVALID_QUERY,
-                                     "Invalid slice definition '%*s'",
+                                     _("Invalid slice definition '%*s'"),
                                      end_p - p,
                                      p + 1);
                         goto fail;
@@ -611,7 +612,7 @@ json_path_compile (JsonPath    *path,
                   {
                     g_set_error (error, JSON_PATH_ERROR,
                                  JSON_PATH_ERROR_INVALID_QUERY,
-                                 "Invalid array index '%*s'",
+                                 _("Invalid array index definition '%*s'"),
                                  end_p - p,
                                  p + 1);
                     goto fail;

@@ -460,8 +460,8 @@ json_reader_read_element (JsonReader *reader,
   if (!(JSON_NODE_HOLDS_ARRAY (priv->current_node) ||
         JSON_NODE_HOLDS_OBJECT (priv->current_node)))
     return json_reader_set_error (reader, JSON_READER_ERROR_NO_ARRAY,
-                                  "The current node is of type '%s', but "
-                                  "an array or an object was expected.",
+                                  _("The current node is of type '%s', but "
+                                    "an array or an object was expected."),
                                   json_node_type_name (priv->current_node));
 
   switch (json_node_get_node_type (priv->current_node))
@@ -472,8 +472,8 @@ json_reader_read_element (JsonReader *reader,
 
         if (index_ >= json_array_get_length (array))
           return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
-                                        "The index '%d' is greater than the size "
-                                        "of the array at the current position.",
+                                        _("The index '%d' is greater than the size "
+                                          "of the array at the current position."),
                                         index_);
 
         priv->previous_node = priv->current_node;
@@ -489,8 +489,8 @@ json_reader_read_element (JsonReader *reader,
 
         if (index_ >= json_object_get_size (object))
           return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
-                                        "The index '%d' is greater than the size "
-                                        "of the object at the current position.",
+                                        _("The index '%d' is greater than the size "
+                                          "of the object at the current position."),
                                         index_);
 
         priv->previous_node = priv->current_node;
@@ -634,15 +634,15 @@ json_reader_read_member (JsonReader  *reader,
 
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
     return json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
-                                  "The current node is of type '%s', but "
-                                  "an object was expected.",
+                                  _("The current node is of type '%s', but "
+                                    "an object was expected."),
                                   json_node_type_name (priv->current_node));
 
   object = json_node_get_object (priv->current_node);
   if (!json_object_has_member (object, member_name))
     return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_MEMBER,
-                                  "The member '%s' is not defined in the "
-                                  "object at the current position.",
+                                  _("The member '%s' is not defined in the "
+                                    "object at the current position."),
                                   member_name);
 
   g_free (priv->current_member);

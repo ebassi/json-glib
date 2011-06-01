@@ -532,10 +532,12 @@ json_node_assert_type (JsonNode       *json_node,
       (type == JSON_NODE_VALUE &&
        (json_node_get_value_type (json_node) != sub_type)))
     {
-      g_set_error_literal (error,
-                           G_IO_ERROR,
-                           G_IO_ERROR_INVALID_DATA,
-                           "Unexpected data-type in JSON node");
+      /* translators: the '%s' is the type name */
+      g_set_error (error,
+                   G_IO_ERROR,
+                   G_IO_ERROR_INVALID_DATA,
+                   _("Unexpected type '%s' in JSON node"),
+                   g_type_name (json_node_get_value_type (json_node)));
       return FALSE;
     }
   else
@@ -604,7 +606,7 @@ json_to_gvariant_tuple (JsonNode     *json_node,
           g_set_error_literal (error,
                                G_IO_ERROR,
                                G_IO_ERROR_INVALID_DATA,
-                               "Missing elements in JSON array to conform tuple");
+                               _("Missing elements in JSON array to conform to a tuple"));
           roll_back = TRUE;
           break;
         }
@@ -632,7 +634,7 @@ json_to_gvariant_tuple (JsonNode     *json_node,
           g_set_error_literal (error,
                                G_IO_ERROR,
                                G_IO_ERROR_INVALID_DATA,
-                               "Missing closing symbol ')' in GVariant tuple type");
+                               _("Missing closing symbol ')' in the GVariant tuple type"));
           roll_back = TRUE;
         }
       else if (json_array_get_length (array) >= i)
@@ -640,7 +642,7 @@ json_to_gvariant_tuple (JsonNode     *json_node,
           g_set_error_literal (error,
                                G_IO_ERROR,
                                G_IO_ERROR_INVALID_DATA,
-                               "Unexpected extra elements in JSON array");
+                               _("Unexpected extra elements in JSON array"));
           roll_back = TRUE;
         }
       else
@@ -919,7 +921,7 @@ gvariant_simple_from_string (const gchar    *st,
       g_set_error_literal (error,
                            G_IO_ERROR,
                            G_IO_ERROR_INVALID_DATA,
-                           "Invalid string value converting to GVariant");
+                           _("Invalid string value converting to GVariant"));
       if (variant != NULL)
         {
           g_variant_unref (variant);
@@ -975,7 +977,7 @@ json_to_gvariant_dict_entry (JsonNode     *json_node,
       g_set_error_literal (error,
                            G_IO_ERROR,
                            G_IO_ERROR_INVALID_DATA,
-                           "GVariant dictionary entry expects JSON object with exactly one member");
+                           _("A GVariant dictionary entry expects a JSON object with exactly one member"));
       return NULL;
     }
 
@@ -1194,17 +1196,11 @@ json_to_gvariant_recurse (JsonNode      *json_node,
       break;
 
     default:
-      {
-        gchar *err_msg;
-
-        err_msg = g_strdup_printf ("GVariant class '%c' not supported", class);
-        g_set_error_literal (error,
-                             G_IO_ERROR,
-                             G_IO_ERROR_INVALID_DATA,
-                             err_msg);
-        g_free (err_msg);
-        break;
-      }
+      g_set_error (error,
+                   G_IO_ERROR,
+                   G_IO_ERROR_INVALID_DATA,
+                   _("GVariant class '%c' not supported"), class);
+      break;
     }
 
 out:
@@ -1248,7 +1244,7 @@ json_gvariant_deserialize (JsonNode     *json_node,
       g_set_error_literal (error,
                            G_IO_ERROR,
                            G_IO_ERROR_INVALID_ARGUMENT,
-                           "Invalid GVariant type string");
+                           _("Invalid GVariant signature"));
       return NULL;
     }
 
@@ -1293,7 +1289,7 @@ json_gvariant_deserialize_data (const gchar  *json,
       g_set_error_literal (error,
                            G_IO_ERROR,
                            G_IO_ERROR_INVALID_DATA,
-                           "JSON data is empty");
+                           _("JSON data is empty"));
     }
   else
     {
