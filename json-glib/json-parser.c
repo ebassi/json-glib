@@ -36,6 +36,8 @@
 
 #include <string.h>
 
+#include <glib/gi18n-lib.h>
+
 #include "json-types-private.h"
 
 #include "json-debug.h"

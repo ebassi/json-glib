@@ -1,0 +1,7 @@
+DOMAIN = json-glib-1.0
+XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ --keyword=P_ --keyword=C_
+COPYRIGHT_HOLDER = Intel Corporation
+MSGID_BUGS_ADDRESS = http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib
+EXTRA_LOCALE_CATEGORIES =
+
+top_builddir = ..

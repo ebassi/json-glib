@@ -70,6 +70,8 @@
 
 #include <string.h>
 
+#include <glib/gi18n-lib.h>
+
 #include "json-reader.h"
 
 #include "json-types-private.h"

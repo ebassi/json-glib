@@ -166,6 +166,16 @@ GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
 
 GOBJECT_INTROSPECTION_CHECK([0.9.5])
 
+AM_GNU_GETTEXT_VERSION([0.18])
+AM_GNU_GETTEXT([external])
+
+GETTEXT_PACKAGE="json-glib-1.0"
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],
+                   ["$GETTEXT_PACKAGE"],
+                   [The prefix for our gettext translation domains.])
+AS_ALL_LINGUAS
+
 AC_CONFIG_FILES([
         Makefile
 
@@ -183,6 +193,8 @@ AC_CONFIG_FILES([
         doc/Makefile
         doc/reference/Makefile
         doc/reference/version.xml
+
+        po/Makefile.in
 
         json-glib.pc
 ])

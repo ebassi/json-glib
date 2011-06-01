@@ -1,0 +1,6 @@
+# keep sorted alphabetically!
+json-glib/json-gobject.c
+json-glib/json-gvariant.c
+json-glib/json-parser.c
+json-glib/json-path.c
+json-glib/json-reader.c
