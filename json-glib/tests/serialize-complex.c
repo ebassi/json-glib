@@ -214,7 +214,7 @@ test_object_class_init (TestObjectClass *klass)
   g_object_class_install_property (gobject_class,
                                    PROP_BAR,
                                    g_param_spec_boolean ("bar", "Bar", "Bar",
-                                                         FALSE,
+                                                         TRUE,
                                                          G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class,
                                    PROP_BAZ,
@@ -242,7 +242,11 @@ test_object_init (TestObject *object)
 static void
 test_serialize (void)
 {
-  TestObject *obj = g_object_new (TEST_TYPE_OBJECT, NULL);
+  TestObject *obj = g_object_new (TEST_TYPE_OBJECT,
+                                  "foo", 47,
+                                  "bar", FALSE,
+                                  "baz", "Hello, World!",
+                                  NULL);
   JsonParser *parser = json_parser_new ();
   GError *error = NULL;
   JsonObject *object;
@@ -264,16 +268,12 @@ test_serialize (void)
   g_assert (json_node_get_node_type (node) == JSON_NODE_OBJECT);
 
   object = json_node_get_object (node);
-  g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 42);
-  g_assert (json_object_get_boolean_member (object, "bar"));
-  g_assert_cmpstr (json_object_get_string_member (object, "baz"), ==, "Test");
+  g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 47);
+  g_assert (!json_object_get_boolean_member (object, "bar"));
+  g_assert_cmpstr (json_object_get_string_member (object, "baz"), ==, "Hello, World!");
 
-  node = json_object_get_member (object, "blah");
-  g_assert (json_node_get_node_type (node) == JSON_NODE_OBJECT);
-
-  object = json_node_get_object (node);
-  g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 42);
-  g_assert (json_object_get_boolean_member (object, "bar"));
+  /* blah is read-only */
+  g_assert (json_object_has_member (object, "blah"));
 
   g_free (data);
   g_object_unref (parser);
