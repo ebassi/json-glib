@@ -180,7 +180,9 @@ json_gobject_new (GType       gtype,
 {
   JsonSerializableIface *iface = NULL;
   JsonSerializable *serializable = NULL;
+  gboolean find_property;
   gboolean deserialize_property;
+  gboolean set_property;
   GList *members, *members_left, *l;
   guint n_members;
   GObjectClass *klass;
@@ -268,10 +270,16 @@ json_gobject_new (GType       gtype,
     {
       serializable = JSON_SERIALIZABLE (retval);
       iface = JSON_SERIALIZABLE_GET_IFACE (serializable);
+      find_property = (iface->find_property != NULL);
       deserialize_property = (iface->deserialize_property != NULL);
+      set_property = (iface->set_property != NULL);
     }
   else
-    deserialize_property = FALSE;
+    {
+      find_property = FALSE;
+      deserialize_property = FALSE;
+      set_property = FALSE;
+    }
 
   g_object_freeze_notify (retval);
 
@@ -283,8 +291,12 @@ json_gobject_new (GType       gtype,
       GValue value = { 0, };
       gboolean res = FALSE;
 
-      pspec = g_object_class_find_property (klass, member_name);
-      if (!pspec)
+      if (find_property)
+        pspec = json_serializable_find_property (serializable, member_name);
+      else
+        pspec = g_object_class_find_property (klass, member_name);
+
+      if (pspec == NULL)
         continue;
 
       /* we should have dealt with these above */
@@ -314,15 +326,16 @@ json_gobject_new (GType       gtype,
           res = json_deserialize_pspec (&value, pspec, val);
         }
 
-      /* FIXME - we probably want to be able to have a custom
-       * set_property() for Serializable implementations
-       */
       if (res)
         {
           JSON_NOTE (GOBJECT, "Calling set_property('%s', '%s')",
                      pspec->name,
                      g_type_name (G_VALUE_TYPE (&value)));
-          g_object_set_property (retval, pspec->name, &value);
+
+          if (set_property)
+            json_serializable_set_property (serializable, pspec, &value);
+          else
+            g_object_set_property (retval, pspec->name, &value);
         }
       else
 	g_warning ("Failed to deserialize \"%s\" property of type \"%s\" for an object of type \"%s\"",
@@ -345,7 +358,9 @@ json_gobject_dump (GObject *gobject)
 {
   JsonSerializableIface *iface = NULL;
   JsonSerializable *serializable = NULL;
+  gboolean list_properties = FALSE;
   gboolean serialize_property = FALSE;
+  gboolean get_property = FALSE;
   JsonObject *object;
   GParamSpec **pspecs;
   guint n_pspecs, i;
@@ -354,12 +369,18 @@ json_gobject_dump (GObject *gobject)
     {
       serializable = JSON_SERIALIZABLE (gobject);
       iface = JSON_SERIALIZABLE_GET_IFACE (gobject);
+      list_properties = (iface->list_properties != NULL);
       serialize_property = (iface->serialize_property != NULL);
+      get_property = (iface->get_property != NULL);
     }
 
   object = json_object_new ();
 
-  pspecs = g_object_class_list_properties (G_OBJECT_GET_CLASS (gobject), &n_pspecs);
+  if (list_properties)
+    pspecs = json_serializable_list_properties (serializable, &n_pspecs);
+  else
+    pspecs = g_object_class_list_properties (G_OBJECT_GET_CLASS (gobject), &n_pspecs);
+
   for (i = 0; i < n_pspecs; i++)
     {
       GParamSpec *pspec = pspecs[i];
@@ -371,7 +392,11 @@ json_gobject_dump (GObject *gobject)
         continue;
 
       g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (pspec));
-      g_object_get_property (gobject, pspec->name, &value);
+
+      if (get_property)
+        json_serializable_get_property (serializable, pspec, &value);
+      else
+        g_object_get_property (gobject, pspec->name, &value);
 
       /* if there is a serialization vfunc, then it is completely responsible
        * for serializing the property, possibly by calling the implementation

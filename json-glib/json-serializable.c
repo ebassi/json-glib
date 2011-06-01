@@ -126,6 +126,36 @@ json_serializable_real_serialize (JsonSerializable *serializable,
   return json_serialize_pspec (value, pspec);
 }
 
+static GParamSpec *
+json_serializable_real_find_property (JsonSerializable *serializable,
+                                      const char       *name)
+{
+  return g_object_class_find_property (G_OBJECT_GET_CLASS (serializable), name);
+}
+
+static GParamSpec **
+json_serializable_real_list_properties (JsonSerializable *serializable,
+                                        guint            *n_pspecs)
+{
+  return g_object_class_list_properties (G_OBJECT_GET_CLASS (serializable), n_pspecs);
+}
+
+static void
+json_serializable_real_set_property (JsonSerializable *serializable,
+                                     GParamSpec       *pspec,
+                                     const GValue     *value)
+{
+  g_object_set_property (G_OBJECT (serializable), pspec->name, value);
+}
+
+static void
+json_serializable_real_get_property (JsonSerializable *serializable,
+                                     GParamSpec       *pspec,
+                                     GValue           *value)
+{
+  g_object_get_property (G_OBJECT (serializable), pspec->name, value);
+}
+
 /* typedef to satisfy G_DEFINE_INTERFACE's naming */
 typedef JsonSerializableIface   JsonSerializableInterface;
 
@@ -134,6 +164,10 @@ json_serializable_default_init (JsonSerializableInterface *iface)
 {
   iface->serialize_property = json_serializable_real_serialize;
   iface->deserialize_property = json_serializable_real_deserialize;
+  iface->find_property = json_serializable_real_find_property;
+  iface->list_properties = json_serializable_real_list_properties;
+  iface->set_property = json_serializable_real_set_property;
+  iface->get_property = json_serializable_real_get_property;
 }
 
 G_DEFINE_INTERFACE (JsonSerializable, json_serializable, G_TYPE_OBJECT);
@@ -228,4 +262,51 @@ json_serializable_default_deserialize_property (JsonSerializable *serializable,
                                              property_name,
                                              value, pspec,
                                              property_node);
+}
+
+GParamSpec *
+json_serializable_find_property (JsonSerializable *serializable,
+                                 const char       *name)
+{
+  g_return_val_if_fail (JSON_IS_SERIALIZABLE (serializable), NULL);
+  g_return_val_if_fail (name != NULL, NULL);
+
+  return JSON_SERIALIZABLE_GET_IFACE (serializable)->find_property (serializable, name);
+}
+
+GParamSpec **
+json_serializable_list_properties (JsonSerializable *serializable,
+                                   guint            *n_pspecs)
+{
+  g_return_val_if_fail (JSON_IS_SERIALIZABLE (serializable), NULL);
+
+  return JSON_SERIALIZABLE_GET_IFACE (serializable)->list_properties (serializable, n_pspecs);
+}
+
+void
+json_serializable_set_property (JsonSerializable *serializable,
+                                GParamSpec       *pspec,
+                                const GValue     *value)
+{
+  g_return_if_fail (JSON_IS_SERIALIZABLE (serializable));
+  g_return_if_fail (G_IS_PARAM_SPEC (pspec));
+  g_return_if_fail (value != NULL);
+
+  JSON_SERIALIZABLE_GET_IFACE (serializable)->set_property (serializable,
+                                                            pspec,
+                                                            value);
+}
+
+void
+json_serializable_get_property (JsonSerializable *serializable,
+                                GParamSpec       *pspec,
+                                GValue           *value)
+{
+  g_return_if_fail (JSON_IS_SERIALIZABLE (serializable));
+  g_return_if_fail (G_IS_PARAM_SPEC (pspec));
+  g_return_if_fail (value != NULL);
+
+  JSON_SERIALIZABLE_GET_IFACE (serializable)->get_property (serializable,
+                                                            pspec,
+                                                            value);
 }
