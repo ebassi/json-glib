@@ -264,6 +264,18 @@ json_serializable_default_deserialize_property (JsonSerializable *serializable,
                                              property_node);
 }
 
+/**
+ * json_serializable_find_property:
+ * @serializable: a #JsonSerializable
+ * @name: the name of the property
+ *
+ * FIXME
+ *
+ * Return value: (transfer none): the #GParamSpec for the property
+ *   or %NULL if no property was found
+ *
+ * Since: 0.14
+ */
 GParamSpec *
 json_serializable_find_property (JsonSerializable *serializable,
                                  const char       *name)
@@ -274,6 +286,19 @@ json_serializable_find_property (JsonSerializable *serializable,
   return JSON_SERIALIZABLE_GET_IFACE (serializable)->find_property (serializable, name);
 }
 
+/**
+ * json_serializable_list_properties:
+ * @serializable: a #JsonSerializable
+ * @n_pspecs: (out): return location for the length of the array
+ *   of #GParamSpec returned by the function
+ *
+ * FIXME
+ *
+ * Return value: (array length=n_pspecs) (transfer container): an array
+ *   of #GParamSpec. Use g_free() to free the array when done.
+ *
+ * Since: 0.14
+ */
 GParamSpec **
 json_serializable_list_properties (JsonSerializable *serializable,
                                    guint            *n_pspecs)
