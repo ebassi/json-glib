@@ -33,7 +33,7 @@ AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2 no-dist-gzip])
+AM_INIT_AUTOMAKE([1.11 no-define foreign -Wno-portability dist-bzip2 no-dist-gzip])
 
 AM_SILENT_RULES([yes])
 AM_PATH_GLIB_2_0
@@ -140,6 +140,7 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
                             -Wno-strict-aliasing"])
       ]
 )
+MAINTAINER_CFLAGS="${MAINTAINER_CFLAGS#*  }"
 AC_SUBST([MAINTAINER_CFLAGS])
 
 dnl = GCOV coverage checks ====================================================
@@ -209,7 +210,7 @@ echo ""
 echo " • Prefix: ${prefix}"
 echo ""
 echo " • Debug level: ${enable_debug}"
-echo " • Compiler flags: ${MAINTAINER_CFLAGS}"
+echo " • Compiler flags: ${CFLAGS} ${MAINTAINER_CFLAGS}"
 echo ""
 echo " • API reference: ${enable_gtk_doc}"
 echo ""
