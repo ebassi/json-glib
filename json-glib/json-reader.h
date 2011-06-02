@@ -112,6 +112,7 @@ JsonReader *           json_reader_new               (JsonNode     *node);
 
 void                   json_reader_set_root          (JsonReader   *reader,
                                                       JsonNode     *root);
+JsonNode *             json_reader_get_root          (JsonReader   *reader);
 
 G_CONST_RETURN GError *json_reader_get_error         (JsonReader   *reader);
 

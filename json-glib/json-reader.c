@@ -100,14 +100,14 @@ struct _JsonReaderPrivate
 
 enum
 {
-  PROP_0,
+  PROP_INVALID,
 
-  PROP_ROOT,
+  ROOT,
 
-  PROP_LAST
+  LAST_PROP
 };
 
-static GParamSpec *reader_properties[PROP_LAST] = { NULL, };
+static GParamSpec *reader_properties[LAST_PROP] = { NULL, };
 
 G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT);
 
@@ -128,42 +128,6 @@ json_reader_finalize (GObject *gobject)
 }
 
 static void
-json_reader_set_property (GObject      *gobject,
-                          guint         prop_id,
-                          const GValue *value,
-                          GParamSpec   *pspec)
-{
-  switch (prop_id)
-    {
-    case PROP_ROOT:
-      json_reader_set_root (JSON_READER (gobject), g_value_get_boxed (value));
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-    }
-}
-
-static void
-json_reader_get_property (GObject    *gobject,
-                          guint       prop_id,
-                          GValue     *value,
-                          GParamSpec *pspec)
-{
-  switch (prop_id)
-    {
-    case PROP_ROOT:
-      g_value_set_boxed (value, JSON_READER (gobject)->priv->root);
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-    }
-}
-
-static void
 json_reader_class_init (JsonReaderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
@@ -177,19 +141,14 @@ json_reader_class_init (JsonReaderClass *klass)
    *
    * Since: 0.12
    */
-  reader_properties[PROP_ROOT] =
-    g_param_spec_boxed ("root",
-                        "Root Node",
-                        "The root of the tree to read",
-                        JSON_TYPE_NODE,
-                        G_PARAM_READWRITE |
-                        G_PARAM_CONSTRUCT |
-                        G_PARAM_STATIC_STRINGS);
+  reader_properties[ROOT] =
+    g_boxed_property_new ("root", G_PROPERTY_READWRITE,
+                          G_STRUCT_OFFSET (JsonReaderPrivate, root),
+                          NULL, NULL);
+  g_property_set_prerequisite (G_PROPERTY (reader_properties[ROOT]), JSON_TYPE_NODE);
 
   gobject_class->finalize = json_reader_finalize;
-  gobject_class->set_property = json_reader_set_property;
-  gobject_class->get_property = json_reader_get_property;
-  g_object_class_install_properties (gobject_class, PROP_LAST, reader_properties);
+  g_object_class_install_properties (gobject_class, LAST_PROP, reader_properties);
 }
 
 static void
@@ -238,49 +197,47 @@ json_reader_unset_error (JsonReader *reader)
 
 /**
  * json_reader_set_root:
- * @reader: a #JsonReader
- * @root: (allow-none): a #JsonNode
+ * @self: a #JsonReader
+ * @value: (allow-none): a #JsonNode
  *
- * Sets the root #JsonNode to be read by @reader. The @reader will take
- * a copy of @root
+ * Sets the root #JsonNode to be read by a #JsonReader instance. The
+ * #JsonReader will take a copy of the #JsonNode.
  *
  * If another #JsonNode is currently set as root, it will be replaced.
  *
  * Since: 0.12
  */
 void
-json_reader_set_root (JsonReader *reader,
-                      JsonNode   *root)
+json_reader_set_root (JsonReader *self,
+                      JsonNode   *value)
 {
   JsonReaderPrivate *priv;
 
-  g_return_if_fail (JSON_IS_READER (reader));
+  g_return_if_fail (JSON_IS_READER (self));
 
-  priv = reader->priv;
+  priv = self->priv;
 
-  if (priv->root == root)
-    return;
-
-  if (priv->root != NULL)
+  if (g_property_set (G_PROPERTY (reader_properties[ROOT]), self, value))
     {
-      json_node_free (priv->root);
-      priv->root = NULL;
-      priv->current_node = NULL;
-      priv->previous_node = NULL;
-    }
-
-  if (root != NULL)
-    {
-      priv->root = json_node_copy (root);
       priv->current_node = priv->root;
       priv->previous_node = NULL;
     }
-
-  g_object_notify_by_pspec (G_OBJECT (reader), reader_properties[PROP_ROOT]);
 }
 
+/**
+ * json_reader_get_root:
+ * @self: a #JsonReader
+ *
+ * Retrieves the root #JsonNode used by the #JsonReader.
+ *
+ * Return value: (transfer none): a pointer to the root #JsonNode or %NULL
+ *
+ * Since: 0.14
+ */
+G_DEFINE_PROPERTY_GET (JsonReader, json_reader, JsonNode*, root)
+
 /*
- * json_reader_ser_error:
+ * json_reader_set_error:
  * @reader: a #JsonReader
  * @error_code: the #JsonReaderError code for the error
  * @error_fmt: format string

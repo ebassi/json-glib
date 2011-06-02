@@ -18,6 +18,12 @@ static const gchar *empty_object = "{}";
 static const gchar *simple_array = "[true,false,null,42,\"foo\"]";
 static const gchar *nested_array = "[true,[false,null],42]";
 
+static const char *pretty_object =
+"{\n"
+"  \"hello\" : \"world\",\n"
+"  \"answer\" : 42\n"
+"}";
+
 static const gchar *simple_object = "{\"Bool1\":true,\"Bool2\":false,\"Null\":null,\"Int\":42,\"String\":\"foo\"}";
 /* taken from the RFC 4627, Examples section */
 static const gchar *nested_object =
@@ -268,6 +274,39 @@ test_nested_object (void)
 }
 
 static void
+test_pretty_object (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_OBJECT);
+  JsonObject *object = json_object_new ();
+  JsonGenerator *generator = json_generator_new ();
+  gchar *data;
+  gsize len;
+
+  json_object_set_string_member (object, "hello", "world");
+  json_object_set_int_member (object, "answer", 42);
+
+  json_node_take_object (node, object);
+
+  generator = json_generator_new ();
+  json_generator_set_pretty (generator, TRUE);
+  json_generator_set_root (generator, node);
+
+  data = json_generator_to_data (generator, &len);
+
+  if (g_test_verbose ())
+    g_print ("checking pretty printed object `%s' (expected: %s)\n",
+             data,
+             pretty_object);
+
+  g_assert_cmpint (len, ==, strlen (pretty_object));
+  g_assert_cmpstr (data, ==, pretty_object);
+
+  g_free (data);
+  g_object_unref (generator);
+  json_node_free (node);
+}
+
+static void
 test_decimal_separator (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_VALUE);
@@ -324,6 +363,7 @@ main (int   argc,
   g_test_add_func ("/generator/nested-array", test_nested_array);
   g_test_add_func ("/generator/simple-object", test_simple_object);
   g_test_add_func ("/generator/nested-object", test_nested_object);
+  g_test_add_func ("/generator/pretty-object", test_pretty_object);
   g_test_add_func ("/generator/decimal-separator", test_decimal_separator);
 
   return g_test_run ();
