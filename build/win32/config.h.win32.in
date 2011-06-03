@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* The prefix for our gettext translation domains. */
+#define GETTEXT_PACKAGE "json-glib-1.0"
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /*#undef HAVE_DLFCN_H*/
 
