@@ -89,7 +89,7 @@ json_object_ref (JsonObject *object)
   g_return_val_if_fail (object != NULL, NULL);
   g_return_val_if_fail (object->ref_count > 0, NULL);
 
-  g_atomic_int_exchange_and_add (&object->ref_count, 1);
+  g_atomic_int_add (&object->ref_count, 1);
 
   return object;
 }
@@ -105,15 +105,10 @@ json_object_ref (JsonObject *object)
 void
 json_object_unref (JsonObject *object)
 {
-  gint old_ref;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (object->ref_count > 0);
 
-  old_ref = g_atomic_int_get (&object->ref_count);
-  if (old_ref > 1)
-    g_atomic_int_compare_and_exchange (&object->ref_count, old_ref, old_ref - 1);
-  else
+  if (g_atomic_int_dec_and_test (&object->ref_count))
     {
       g_list_free (object->members_ordered);
       g_hash_table_destroy (object->members);
