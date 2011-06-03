@@ -52,6 +52,7 @@ copy ..\..\..\json-glib\json-builder.h $(OutDir)\include\json-glib-$(JsonGlibVer
 copy ..\..\..\json-glib\json-generator.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-gobject.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-gvariant.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-path.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-parser.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-reader.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-types.h $(OutDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;

@@ -48,6 +48,8 @@ copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(JsonGlibV
 
 copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
+copy ..\..\..\json-glib\json-path.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
+
 copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
 
 copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
