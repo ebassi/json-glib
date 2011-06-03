@@ -24,6 +24,8 @@ EXTRA_DIST =	\
 	object-test.vcxproj.filters	\
 	parser-test.vcxproj		\
 	parser-test.vcxproj.filters	\
+	path-test.vcxproj		\
+	path-test.vcxproj.filters	\
 	reader-test.vcxproj		\
 	reader-test.vcxproj.filters	\
 	serialize-complex.vcxproj	\

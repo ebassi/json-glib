@@ -14,6 +14,7 @@ EXTRA_DIST =	\
 	node-test.vcproj		\
 	object-test.vcproj		\
 	parser-test.vcproj		\
+	path-test.vcproj		\
 	reader-test.vcproj		\
 	serialize-complex.vcproj	\
 	serialize-full.vcproj	\
