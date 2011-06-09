@@ -462,7 +462,7 @@ json_node_free (JsonNode *node)
  * Return value: a string containing the name of the type. The returned string
  *   is owned by the node and should never be modified or freed
  */
-G_CONST_RETURN gchar *
+const gchar *
 json_node_type_name (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, "(null)");
@@ -481,7 +481,7 @@ json_node_type_name (JsonNode *node)
   return "unknown";
 }
 
-G_CONST_RETURN gchar *
+const gchar *
 json_node_type_get_name (JsonNodeType node_type)
 {
   switch (node_type)
@@ -579,7 +579,7 @@ json_node_set_string (JsonNode    *node,
  *
  * Return value: a string value.
  */
-G_CONST_RETURN gchar *
+const gchar *
 json_node_get_string (JsonNode *node)
 {
   g_return_val_if_fail (node != NULL, NULL);

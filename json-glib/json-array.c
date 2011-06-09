@@ -332,7 +332,7 @@ json_array_get_boolean_element (JsonArray *array,
  *
  * Since: 0.8
  */
-G_CONST_RETURN gchar *
+const gchar *
 json_array_get_string_element (JsonArray *array,
                                guint      index_)
 {

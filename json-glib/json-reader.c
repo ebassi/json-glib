@@ -333,7 +333,7 @@ json_reader_set_error (JsonReader      *reader,
  *
  * Since: 0.12
  */
-G_CONST_RETURN GError *
+const GError *
 json_reader_get_error (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
@@ -764,7 +764,7 @@ json_reader_get_double_value (JsonReader *reader)
  *
  * Since: 0.12
  */
-G_CONST_RETURN gchar *
+const gchar *
 json_reader_get_string_value (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), NULL);

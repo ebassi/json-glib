@@ -682,7 +682,7 @@ json_object_get_null_member (JsonObject  *object,
  *
  * Since: 0.8
  */
-G_CONST_RETURN gchar *
+const gchar *
 json_object_get_string_member (JsonObject  *object,
                                const gchar *member_name)
 {
