@@ -113,7 +113,7 @@ JsonReader *           json_reader_new               (JsonNode     *node);
 void                   json_reader_set_root          (JsonReader   *reader,
                                                       JsonNode     *root);
 
-G_CONST_RETURN GError *json_reader_get_error         (JsonReader   *reader);
+const GError *         json_reader_get_error         (JsonReader   *reader);
 
 gboolean               json_reader_is_array          (JsonReader   *reader);
 gboolean               json_reader_read_element      (JsonReader   *reader,
@@ -127,13 +127,13 @@ gboolean               json_reader_read_member       (JsonReader   *reader,
 void                   json_reader_end_member        (JsonReader   *reader);
 gint                   json_reader_count_members     (JsonReader   *reader);
 gchar **               json_reader_list_members      (JsonReader   *reader);
-G_CONST_RETURN gchar * json_reader_get_member_name   (JsonReader   *reader);
+const gchar *          json_reader_get_member_name   (JsonReader   *reader);
 
 gboolean               json_reader_is_value          (JsonReader   *reader);
 JsonNode *             json_reader_get_value         (JsonReader   *reader);
 gint64                 json_reader_get_int_value     (JsonReader   *reader);
 gdouble                json_reader_get_double_value  (JsonReader   *reader);
-G_CONST_RETURN gchar * json_reader_get_string_value  (JsonReader   *reader);
+const gchar *          json_reader_get_string_value  (JsonReader   *reader);
 gboolean               json_reader_get_boolean_value (JsonReader   *reader);
 gboolean               json_reader_get_null_value    (JsonReader   *reader);
 

@@ -184,7 +184,7 @@ GType                 json_node_get_value_type  (JsonNode     *node);
 void                  json_node_set_parent      (JsonNode     *node,
                                                  JsonNode     *parent);
 JsonNode *            json_node_get_parent      (JsonNode     *node);
-G_CONST_RETURN gchar *json_node_type_name       (JsonNode     *node);
+const gchar *         json_node_type_name       (JsonNode     *node);
 
 void                  json_node_set_object      (JsonNode     *node,
                                                  JsonObject   *object);
@@ -204,7 +204,7 @@ void                  json_node_get_value       (JsonNode     *node,
                                                  GValue       *value);
 void                  json_node_set_string      (JsonNode     *node,
                                                  const gchar  *value);
-G_CONST_RETURN gchar *json_node_get_string      (JsonNode     *node);
+const gchar *         json_node_get_string      (JsonNode     *node);
 gchar *               json_node_dup_string      (JsonNode     *node);
 void                  json_node_set_int         (JsonNode     *node,
                                                  gint64        value);
@@ -265,7 +265,7 @@ gdouble               json_object_get_double_member  (JsonObject  *object,
                                                       const gchar *member_name);
 gboolean              json_object_get_boolean_member (JsonObject  *object,
                                                       const gchar *member_name);
-G_CONST_RETURN gchar *json_object_get_string_member  (JsonObject  *object,
+const gchar *         json_object_get_string_member  (JsonObject  *object,
                                                       const gchar *member_name);
 gboolean              json_object_get_null_member    (JsonObject  *object,
                                                       const gchar *member_name);
@@ -312,7 +312,7 @@ gdouble               json_array_get_double_element  (JsonArray   *array,
                                                       guint        index_);
 gboolean              json_array_get_boolean_element (JsonArray   *array,
                                                       guint        index_);
-G_CONST_RETURN gchar *json_array_get_string_element  (JsonArray   *array,
+const gchar *         json_array_get_string_element  (JsonArray   *array,
                                                       guint        index_);
 gboolean              json_array_get_null_element    (JsonArray   *array,
                                                       guint        index_);
