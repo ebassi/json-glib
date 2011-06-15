@@ -2,7 +2,7 @@
 # bump micro_version to the next odd number after each release
 m4_define([json_major_version], [0])
 m4_define([json_minor_version], [12])
-m4_define([json_micro_version], [6])
+m4_define([json_micro_version], [7])
 
 m4_define([json_version], [json_major_version.json_minor_version.json_micro_version])
 
@@ -13,7 +13,7 @@ m4_define([json_release_status],
 
 # bump up by 1 for every micro release with no API changes, otherwise
 # set to 0. after release, bump up by 1
-m4_define([json_interface_age], [6])
+m4_define([json_interface_age], [7])
 m4_define([json_binary_age], [m4_eval(100 * json_minor_version + json_micro_version)])
 
 m4_define([lt_current], [m4_eval(100 * json_minor_version + json_micro_version - json_interface_age)])
