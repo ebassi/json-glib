@@ -1,3 +1,9 @@
+Overview of changes for 0.12.6
+==============================
+• Initialize JsonReader state fields [bug #651271]
+• Handle deserialization of NULL nodes [Tristan Van Berkom] [bug #648539]
+• Remove G_CONST_RETURN usage.
+
 Overview of changes for 0.12.4
 ==============================
 • Fix a bug in JsonObject that led to memory corruption when replacing
