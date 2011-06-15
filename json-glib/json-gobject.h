@@ -43,6 +43,12 @@ typedef struct _JsonSerializableIface   JsonSerializableIface;
  *   into a #JsonNode
  * @deserialize_property: virtual function for deserializing a #JsonNode
  *   into a #GObject property
+ * @find_property: virtual function for finding a property definition using
+ *   its name
+ * @list_properties: virtual function for listing the installed property
+ *   definitions
+ * @set_property: virtual function for setting a property
+ * @get_property: virtual function for getting a property
  *
  * Interface that allows serializing and deserializing #GObject<!-- -->s
  * with properties storing complex data types. The json_serialize_gobject()

@@ -211,6 +211,10 @@ json_generator_get_type
 JsonSerializableIface
 json_serializable_serialize_property
 json_serializable_deserialize_property
+json_serializable_find_property
+json_serializable_get_property
+json_serializable_list_properties
+json_serializable_set_property
 
 <SUBSECTION>
 json_serializable_default_serialize_property
