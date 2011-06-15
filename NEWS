@@ -9,6 +9,12 @@ Overview of changes for 0.14.0
 • Add missing introspection annotations [Luca Bruno]
 • Add JsonReader.list_members()
 • Allow using JsonReader.read_element() on JSON objects
+• Remove all G_CONST_RETURN usage after the deprecation
+• Allow JsonSerializable to override the introspection and
+  modification of properties
+• Add i18n support for GError messages
+• Do not serialize GObject properties that match their default
+  values.
 
 Overview of changes for 0.12.0
 ==============================
