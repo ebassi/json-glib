@@ -1,22 +1,22 @@
 NULL =
 
 EXTRA_DIST =	\
-	array-test.vcproj		\
-	boxed.vcproj	\
-	builder-test.vcproj		\
-	generator-test.vcproj		\
-	gvariant-test.vcproj	\
+	array.vcproj			\
+	boxed.vcproj			\
+	builder.vcproj			\
+	generator.vcproj		\
+	gvariant.vcproj			\
 	install.vcproj			\
 	json-glib.sln			\
 	json-glib.vcproj		\
 	json-glib.vcprojin		\
 	json-glib.vsprops		\
-	node-test.vcproj		\
-	object-test.vcproj		\
-	parser-test.vcproj		\
-	path-test.vcproj		\
-	reader-test.vcproj		\
+	node.vcproj			\
+	object.vcproj			\
+	parser.vcproj			\
+	path.vcproj			\
+	reader.vcproj			\
 	serialize-complex.vcproj	\
-	serialize-full.vcproj	\
-	serialize-simple.vcproj	\
+	serialize-full.vcproj		\
+	serialize-simple.vcproj		\
 	$(NULL)

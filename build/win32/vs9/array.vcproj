@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="generator-test"
-	ProjectGUID="{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
-	RootNamespace="generatortest"
+	Name="array"
+	ProjectGUID="{9B2921C9-577F-418D-8341-6D79771DDCEC}"
+	RootNamespace="arraytest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -95,7 +95,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions=""
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -149,7 +149,7 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\generator-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\array.c" />
 		</Filter>
 	</Files>
 	<Globals>

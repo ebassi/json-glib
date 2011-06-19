@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="object-test"
-	ProjectGUID="{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
-	RootNamespace="objecttest"
+	Name="generator"
+	ProjectGUID="{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
+	RootNamespace="generatortest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -146,8 +146,10 @@
 	<Files>
 		<Filter
 			Name="Sources"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\object-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\generator.c" />
 		</Filter>
 	</Files>
 	<Globals>

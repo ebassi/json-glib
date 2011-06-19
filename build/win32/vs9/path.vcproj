@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="path-test"
+	Name="path"
 	ProjectGUID="{FF640D73-9BCD-4B75-B63F-75175A3C9F67}"
 	RootNamespace="pathtest"
 	Keyword="Win32Proj"
@@ -139,7 +139,7 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\path-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\path.c" />
 		</Filter>
 	</Files>
 	<Globals>

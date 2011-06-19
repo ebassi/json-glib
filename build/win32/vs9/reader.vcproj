@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="reader-test"
+	Name="reader"
 	ProjectGUID="{99FC597F-539A-49BB-9B9A-6C1EF802A17B}"
 	RootNamespace="readertest"
 	Keyword="Win32Proj"
@@ -150,7 +150,7 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\reader-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\reader.c" />
 		</Filter>
 	</Files>
 	<Globals>

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="array-test"
-	ProjectGUID="{9B2921C9-577F-418D-8341-6D79771DDCEC}"
-	RootNamespace="arraytest"
+	Name="object"
+	ProjectGUID="{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
+	RootNamespace="objecttest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -95,7 +95,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions=""
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -146,10 +146,8 @@
 	<Files>
 		<Filter
 			Name="Sources"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\array-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\object.c" />
 		</Filter>
 	</Files>
 	<Globals>

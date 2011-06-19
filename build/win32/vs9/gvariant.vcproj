@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gvariant-test"
+	Name="gvariant"
 	ProjectGUID="{AA52A332-735D-4177-8CA6-842018E60DED}"
 	RootNamespace="gvarianttest"
 	Keyword="Win32Proj"
@@ -139,7 +139,7 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File RelativePath="..\..\..\json-glib\tests\gvariant-test.c" />
+			<File RelativePath="..\..\..\json-glib\tests\gvariant.c" />
 		</Filter>
 	</Files>
 	<Globals>

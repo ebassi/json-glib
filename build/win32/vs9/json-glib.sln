@@ -1,37 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "array-test", "array-test.vcproj", "{9B2921C9-577F-418D-8341-6D79771DDCEC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "array", "array.vcproj", "{9B2921C9-577F-418D-8341-6D79771DDCEC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "builder-test", "builder-test.vcproj", "{B7D32B02-3481-4A6E-8E0F-B43887F348A8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "builder", "builder.vcproj", "{B7D32B02-3481-4A6E-8E0F-B43887F348A8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generator-test", "generator-test.vcproj", "{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "generator", "generator.vcproj", "{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "node-test", "node-test.vcproj", "{04658465-64F9-4F06-B7A7-D40F6EDF26E3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "node", "node.vcproj", "{04658465-64F9-4F06-B7A7-D40F6EDF26E3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "object-test", "object-test.vcproj", "{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "object", "object.vcproj", "{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser-test", "parser-test.vcproj", "{BDF81D39-F7E1-4B34-80E5-4B979E10629F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parser", "parser.vcproj", "{BDF81D39-F7E1-4B34-80E5-4B979E10629F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reader-test", "reader-test.vcproj", "{99FC597F-539A-49BB-9B9A-6C1EF802A17B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reader", "reader.vcproj", "{99FC597F-539A-49BB-9B9A-6C1EF802A17B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
@@ -56,12 +56,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boxed", "boxed.vcproj", "{5
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gvariant-test", "gvariant-test.vcproj", "{AA52A332-735D-4177-8CA6-842018E60DED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gvariant", "gvariant.vcproj", "{AA52A332-735D-4177-8CA6-842018E60DED}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "path-test", "path-test.vcproj", "{FF640D73-9BCD-4B75-B63F-75175A3C9F67}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "path", "path.vcproj", "{FF640D73-9BCD-4B75-B63F-75175A3C9F67}"
 	ProjectSection(ProjectDependencies) = postProject
 		{469DB0A8-E33E-4112-A38C-52A168ECDC03} = {469DB0A8-E33E-4112-A38C-52A168ECDC03}
 	EndProjectSection
