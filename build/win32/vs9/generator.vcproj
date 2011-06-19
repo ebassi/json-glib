@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="generator"
 	ProjectGUID="{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}"
-	RootNamespace="generatortest"
+	RootNamespace="generator"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

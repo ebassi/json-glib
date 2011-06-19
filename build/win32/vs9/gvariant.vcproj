@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="gvariant"
 	ProjectGUID="{AA52A332-735D-4177-8CA6-842018E60DED}"
-	RootNamespace="gvarianttest"
+	RootNamespace="gvariant"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

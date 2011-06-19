@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="object"
 	ProjectGUID="{83A444A0-D80E-40E0-90CF-5876E1AA97DB}"
-	RootNamespace="objecttest"
+	RootNamespace="object"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

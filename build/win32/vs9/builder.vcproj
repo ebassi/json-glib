@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="builder"
 	ProjectGUID="{B7D32B02-3481-4A6E-8E0F-B43887F348A8}"
-	RootNamespace="buildertest"
+	RootNamespace="builder"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

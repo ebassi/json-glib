@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="path"
 	ProjectGUID="{FF640D73-9BCD-4B75-B63F-75175A3C9F67}"
-	RootNamespace="pathtest"
+	RootNamespace="path"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

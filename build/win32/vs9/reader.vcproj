@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="reader"
 	ProjectGUID="{99FC597F-539A-49BB-9B9A-6C1EF802A17B}"
-	RootNamespace="readertest"
+	RootNamespace="reader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="parser"
 	ProjectGUID="{BDF81D39-F7E1-4B34-80E5-4B979E10629F}"
-	RootNamespace="parsertest"
+	RootNamespace="parser"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

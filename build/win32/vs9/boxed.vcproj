@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="boxed"
 	ProjectGUID="{5016D295-CC2F-4149-80C2-71D7A33791B2}"
-	RootNamespace="boxedtest"
+	RootNamespace="boxed"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

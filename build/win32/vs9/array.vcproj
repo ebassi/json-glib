@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="array"
 	ProjectGUID="{9B2921C9-577F-418D-8341-6D79771DDCEC}"
-	RootNamespace="arraytest"
+	RootNamespace="array"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
