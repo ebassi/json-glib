@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\json-glib\tests\array-test.c">
+    <ClCompile Include="..\..\..\json-glib\tests\builder.c">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

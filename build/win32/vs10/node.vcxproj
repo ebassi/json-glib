@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E84F9D53-C9F7-4D7D-B8D0-AFE8BE3E7B7D}</ProjectGuid>
-    <RootNamespace>generatortest</RootNamespace>
+    <ProjectGuid>{04658465-64F9-4F06-B7A7-D40F6EDF26E3}</ProjectGuid>
+    <RootNamespace>node</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -63,7 +63,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\bin\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\obj\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
@@ -158,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\json-glib\tests\generator-test.c" />
+    <ClCompile Include="..\..\..\json-glib\tests\node.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="json-glib.vcxproj">

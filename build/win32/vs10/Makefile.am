@@ -1,16 +1,16 @@
 NULL =
 
 EXTRA_DIST =	\
-	array-test.vcxproj		\
-	array-test.vcxproj.filters	\
+	array.vcxproj		\
+	array.vcxproj.filters	\
 	boxed.vcxproj	\
 	boxed.vcxproj.filters	\
-	builder-test.vcxproj		\
-	builder-test.vcxproj.filters	\
-	generator-test.vcxproj		\
-	generator-test.vcxproj.filters	\
-	gvariant-test.vcxproj		\
-	gvariant-test.vcxproj.filters	\
+	builder.vcxproj		\
+	builder.vcxproj.filters	\
+	generator.vcxproj		\
+	generator.vcxproj.filters	\
+	gvariant.vcxproj		\
+	gvariant.vcxproj.filters	\
 	install.vcxproj			\
 	json-glib.sln			\
 	json-glib.vcxproj		\
@@ -18,16 +18,16 @@ EXTRA_DIST =	\
 	json-glib.vcxproj.filters	\
 	json-glib.vcxproj.filtersin	\
 	json-glib.props			\
-	node-test.vcxproj		\
-	node-test.vcxproj.filters	\
-	object-test.vcxproj		\
-	object-test.vcxproj.filters	\
-	parser-test.vcxproj		\
-	parser-test.vcxproj.filters	\
-	path-test.vcxproj		\
-	path-test.vcxproj.filters	\
-	reader-test.vcxproj		\
-	reader-test.vcxproj.filters	\
+	node.vcxproj		\
+	node.vcxproj.filters	\
+	object.vcxproj		\
+	object.vcxproj.filters	\
+	parser.vcxproj		\
+	parser.vcxproj.filters	\
+	path.vcxproj		\
+	path.vcxproj.filters	\
+	reader.vcxproj		\
+	reader.vcxproj.filters	\
 	serialize-complex.vcxproj	\
 	serialize-complex.vcxproj.filters	\
 	serialize-full.vcxproj	\
