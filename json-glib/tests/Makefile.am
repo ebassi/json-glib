@@ -18,16 +18,16 @@ EXTRA_DIST += stream-load.json
 
 noinst_PROGRAMS = $(TEST_PROGS)
 TEST_PROGS += \
-	array-test		\
-	object-test		\
-	node-test		\
-	parser-test		\
-	generator-test		\
-	builder-test		\
-	reader-test		\
-	gvariant-test		\
-	path-test		\
+	array			\
 	boxed			\
+	builder			\
+	generator		\
+	gvariant		\
+	node			\
+	object			\
+	parser			\
+	path			\
+	reader			\
 	serialize-simple	\
 	serialize-complex	\
 	serialize-full		\
