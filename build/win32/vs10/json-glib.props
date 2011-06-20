@@ -69,7 +69,7 @@ copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(JsonGlibVers
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibprops</_PropertySheetDisplayName>
     <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
