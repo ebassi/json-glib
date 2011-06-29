@@ -34,4 +34,5 @@ EXTRA_DIST =	\
 	serialize-full.vcxproj.filters	\
 	serialize-simple.vcxproj	\
 	serialize-simple.vcxproj.filters	\
+	README.txt	\
 	$(NULL)
