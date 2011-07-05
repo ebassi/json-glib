@@ -27,14 +27,17 @@ AC_PREREQ([2.63])
 AC_INIT([json-glib],
         [json_version],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib],
-        [json-glib])
+        [json-glib],
+        [http://live.gnome.org/JsonGlib])
 
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
+AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.11 no-define foreign -Wno-portability dist-bzip2 no-dist-gzip tar-ustar silent-rules])
+AM_INIT_AUTOMAKE([1.11 no-define foreign -Wno-portability dist-xz no-dist-gzip tar-ustar])
 
+AM_SILENT_RULES([yes])
 AM_PATH_GLIB_2_0
 AM_PROG_CC_C_O
 
