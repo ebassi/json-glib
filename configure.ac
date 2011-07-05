@@ -94,7 +94,7 @@ dnl = Enable debug level ======================================================
 m4_define([debug_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [minimum])])
 
 AC_ARG_ENABLE([debug],
-              [AC_HELP_STRING([--enable-debug=@<:@no/minimum/yes@:>@],
+              [AS_HELP_STRING([--enable-debug=@<:@no/minimum/yes@:>@],
                               [turn on debugging @<:@default=]debug_default[@:>@])],
               [],
               [enable_debug=debug_default])
@@ -127,7 +127,7 @@ dnl = Enable strict compiler flags ============================================
 # use strict compiler flags only on development releases
 m4_define([maintainer_flags_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [no])])
 AC_ARG_ENABLE([maintainer-flags],
-              [AC_HELP_STRING([--enable-maintainer-flags=@<:@no/yes@:>@],
+              [AS_HELP_STRING([--enable-maintainer-flags=@<:@no/yes@:>@],
                               [Use strict compiler flags @<:@default=]maintainer_flags_default[@:>@])],
               [],
               [enable_maintainer_flags=maintainer_flags_default])
