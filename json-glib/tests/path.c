@@ -35,30 +35,50 @@ static const char *test_json =
 "  }"
 "}";
 
-static const char *test_expressions[] = {
-  "$.store.book[0].title",
-  "$['store']['book'][0]['title']",
-  "$.store.book[*].author",
-  "$..author",
-  "$.store.*",
-  "$.store..price",
-  "$..book[2]",
-  "$..book[-1:]",
-  "$..book[0,1]",
-  "$..book[:2]",
-};
-
-static const char *test_results[] = {
-  "[\"Sayings of the Century\"]",
-  "[\"Sayings of the Century\"]",
-  "[\"Nigel Rees\",\"Evelyn Waugh\",\"Herman Melville\",\"J. R. R. Tolkien\"]",
-  "[\"Nigel Rees\",\"Evelyn Waugh\",\"Herman Melville\",\"J. R. R. Tolkien\"]",
-  NULL,
-  "[\"8.95\",\"12.99\",\"8.99\",\"22.99\",\"19.95\"]",
-  "[{\"category\":\"fiction\",\"author\":\"Herman Melville\",\"title\":\"Moby Dick\",\"isbn\":\"0-553-21311-3\",\"price\":\"8.99\"}]",
-  "[{\"category\":\"fiction\",\"author\":\"J. R. R. Tolkien\",\"title\":\"The Lord of the Rings\",\"isbn\":\"0-395-19395-8\",\"price\":\"22.99\"}]",
-  "[{\"category\":\"reference\",\"author\":\"Nigel Rees\",\"title\":\"Sayings of the Century\",\"price\":\"8.95\"},{\"category\":\"fiction\",\"author\":\"Evelyn Waugh\",\"title\":\"Sword of Honour\",\"price\":\"12.99\"}]",
-  "[{\"category\":\"reference\",\"author\":\"Nigel Rees\",\"title\":\"Sayings of the Century\",\"price\":\"8.95\"},{\"category\":\"fiction\",\"author\":\"Evelyn Waugh\",\"title\":\"Sword of Honour\",\"price\":\"12.99\"}]",
+static const struct {
+  const char *exp;
+  const char *res;
+} test_expressions[] = {
+  {
+    "$.store.book[0].title",
+    "[\"Sayings of the Century\"]"
+  },
+  {
+    "$['store']['book'][0]['title']",
+    "[\"Sayings of the Century\"]"
+  },
+  {
+    "$.store.book[*].author",
+    "[\"Nigel Rees\",\"Evelyn Waugh\",\"Herman Melville\",\"J. R. R. Tolkien\"]"
+  },
+  {
+    "$..author",
+    "[\"Nigel Rees\",\"Evelyn Waugh\",\"Herman Melville\",\"J. R. R. Tolkien\"]"
+  },
+  {
+    "$.store.*",
+    NULL
+  },
+  {
+    "$.store..price",
+    "[\"8.95\",\"12.99\",\"8.99\",\"22.99\",\"19.95\"]"
+  },
+  {
+    "$..book[2]",
+    "[{\"category\":\"fiction\",\"author\":\"Herman Melville\",\"title\":\"Moby Dick\",\"isbn\":\"0-553-21311-3\",\"price\":\"8.99\"}]"
+  },
+  {
+    "$..book[-1:]",
+    "[{\"category\":\"fiction\",\"author\":\"J. R. R. Tolkien\",\"title\":\"The Lord of the Rings\",\"isbn\":\"0-395-19395-8\",\"price\":\"22.99\"}]"
+  },
+  {
+    "$..book[0,1]",
+    "[{\"category\":\"reference\",\"author\":\"Nigel Rees\",\"title\":\"Sayings of the Century\",\"price\":\"8.95\"},{\"category\":\"fiction\",\"author\":\"Evelyn Waugh\",\"title\":\"Sword of Honour\",\"price\":\"12.99\"}]"
+  },
+  {
+    "$..book[:2]",
+    "[{\"category\":\"reference\",\"author\":\"Nigel Rees\",\"title\":\"Sayings of the Century\",\"price\":\"8.95\"},{\"category\":\"fiction\",\"author\":\"Evelyn Waugh\",\"title\":\"Sword of Honour\",\"price\":\"12.99\"}]"
+  },
 };
 
 static void
@@ -69,7 +89,7 @@ test_expression (void)
 
   for (i = 0; i < G_N_ELEMENTS (test_expressions); i++)
     {
-      const char *expr = test_expressions[i];
+      const char *expr = test_expressions[i].exp;
       GError *error = NULL;
 
       g_assert (json_path_compile (path, expr, &error));
@@ -93,8 +113,8 @@ test_match (void)
 
   for (i = 0; i < G_N_ELEMENTS (test_expressions); i++)
     {
-      const char *expr = test_expressions[i];
-      const char *res = test_results[i];
+      const char *expr = test_expressions[i].exp;
+      const char *res  = test_expressions[i].res;
       JsonNode *matches;
       char *str;
 
