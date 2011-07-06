@@ -1126,10 +1126,8 @@ json_to_gvariant_recurse (JsonNode      *json_node,
 {
   GVariant *variant = NULL;
   GVariantClass class;
-  gchar class_type[2] = {0, 0};
 
   class = json_to_gvariant_get_next_class (json_node, signature);
-  class_type[0] = class;
 
   if (class == JSON_G_VARIANT_CLASS_DICTIONARY)
     {
@@ -1143,31 +1141,67 @@ json_to_gvariant_recurse (JsonNode      *json_node,
     {
     case G_VARIANT_CLASS_BOOLEAN:
       if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_BOOLEAN, error))
-        variant = g_variant_new (class_type, json_node_get_boolean (json_node));
+        variant = g_variant_new_boolean (json_node_get_boolean (json_node));
       break;
 
     case G_VARIANT_CLASS_BYTE:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_byte (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_INT16:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_int16 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_UINT16:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_uint16 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_INT32:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_int32 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_UINT32:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_uint32 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_INT64:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_int64 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_UINT64:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
+        variant = g_variant_new_uint64 (json_node_get_int (json_node));
+      break;
+
     case G_VARIANT_CLASS_HANDLE:
       if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_INT64, error))
-        variant = g_variant_new (class_type, json_node_get_int (json_node));
+        variant = g_variant_new_handle (json_node_get_int (json_node));
       break;
 
     case G_VARIANT_CLASS_DOUBLE:
       if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_DOUBLE, error))
-        variant = g_variant_new (class_type, json_node_get_double (json_node));
+        variant = g_variant_new_double (json_node_get_double (json_node));
       break;
 
     case G_VARIANT_CLASS_STRING:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_STRING, error))
+        variant = g_variant_new_string (json_node_get_string (json_node));
+      break;
+
     case G_VARIANT_CLASS_OBJECT_PATH:
+      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_STRING, error))
+        variant = g_variant_new_object_path (json_node_get_string (json_node));
+      break;
+
     case G_VARIANT_CLASS_SIGNATURE:
       if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_STRING, error))
-        variant = g_variant_new (class_type, json_node_get_string (json_node));
+        variant = g_variant_new_signature (json_node_get_string (json_node));
       break;
 
     case G_VARIANT_CLASS_VARIANT:
