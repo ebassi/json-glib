@@ -519,33 +519,51 @@ json_deserialize_pspec (GValue     *value,
         case G_TYPE_INT64:
         case G_TYPE_DOUBLE:
         case G_TYPE_STRING:
-          g_value_copy (&node_value, value);
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_VALUE_TYPE (value)))
+	    {
+	      g_value_copy (&node_value, value);
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_INT:
-          g_value_set_int (value, (gint) g_value_get_int64 (&node_value));
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_int (value, (gint) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_CHAR:
-          g_value_set_char (value, (gchar) g_value_get_int64 (&node_value));
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_char (value, (gchar) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_UINT:
-          g_value_set_uint (value, (guint) g_value_get_int64 (&node_value));
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_uint (value, (guint) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_UCHAR:
-          g_value_set_uchar (value, (guchar) g_value_get_int64 (&node_value));
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_uchar (value, (guchar) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_FLOAT:
-          g_value_set_float (value, (gfloat) g_value_get_double (&node_value));
-          retval = TRUE;
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_DOUBLE))
+	    {
+	      g_value_set_float (value, (gfloat) g_value_get_double (&node_value));
+	      retval = TRUE;
+	    }
           break;
 
         case G_TYPE_ENUM:
