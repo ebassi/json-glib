@@ -123,6 +123,10 @@ json_serializable_real_serialize (JsonSerializable *serializable,
                                   GParamSpec       *pspec)
 {
   JSON_NOTE (GOBJECT, "Default serialization for property '%s'", pspec->name);
+
+  if (g_param_value_defaults (pspec, (GValue *)value))
+    return NULL;
+
   return json_serialize_pspec (value, pspec);
 }
 

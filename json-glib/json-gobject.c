@@ -400,13 +400,6 @@ json_gobject_dump (GObject *gobject)
       else
         g_object_get_property (gobject, pspec->name, &value);
 
-      /* skip if the value is the default for the property */
-      if (g_param_value_defaults (pspec, &value))
-        {
-          g_value_unset (&value);
-          continue;
-        }
-
       /* if there is a serialization vfunc, then it is completely responsible
        * for serializing the property, possibly by calling the implementation
        * of the default JsonSerializable interface through chaining up
@@ -417,7 +410,8 @@ json_gobject_dump (GObject *gobject)
                                             &value,
                                             pspec);
         }
-      else
+      /* skip if the value is the default for the property */
+      else if (!g_param_value_defaults (pspec, &value))
         node = json_serialize_pspec (&value, pspec);
 
       if (node)
