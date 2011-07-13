@@ -232,7 +232,12 @@ json_gobject_new (GType       gtype,
       val = json_object_get_member (object, member_name);
       res = json_deserialize_pspec (&param.value, pspec, val);
       if (!res)
-        g_value_unset (&param.value);
+	{
+	  g_warning ("Failed to deserialize \"%s\" property of type \"%s\" for an object of type \"%s\"",
+		     pspec->name, G_VALUE_TYPE_NAME (&param.value), g_type_name (gtype));
+
+	  g_value_unset (&param.value);
+	}
       else
         {
           param.name = g_strdup (pspec->name);
