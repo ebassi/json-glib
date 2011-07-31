@@ -516,7 +516,6 @@ json_deserialize_pspec (GValue     *value,
         {
         case G_TYPE_BOOLEAN:
         case G_TYPE_INT64:
-        case G_TYPE_DOUBLE:
         case G_TYPE_STRING:
 	  if (G_VALUE_HOLDS (&node_value, G_VALUE_TYPE (value)))
 	    {
@@ -557,12 +556,33 @@ json_deserialize_pspec (GValue     *value,
 	    }
           break;
 
+        case G_TYPE_DOUBLE:
+
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_DOUBLE))
+	    {
+	      g_value_set_double (value, g_value_get_double (&node_value));
+	      retval = TRUE;
+	    }
+	  else if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_double (value, (gdouble) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
+
+          break;
+
         case G_TYPE_FLOAT:
 	  if (G_VALUE_HOLDS (&node_value, G_TYPE_DOUBLE))
 	    {
 	      g_value_set_float (value, (gfloat) g_value_get_double (&node_value));
 	      retval = TRUE;
 	    }
+	  else if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_float (value, (gfloat) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
+
           break;
 
         case G_TYPE_ENUM:
