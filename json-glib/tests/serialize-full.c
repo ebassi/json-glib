@@ -300,7 +300,8 @@ test_object_class_init (TestObjectClass *klass)
                                    g_param_spec_enum ("meh", "Meh", "Meh",
                                                       TEST_TYPE_ENUM,
                                                       TEST_ENUM_BAR,
-                                                      G_PARAM_READWRITE));
+                                                      G_PARAM_READWRITE |
+                                                      G_PARAM_CONSTRUCT));
   g_object_class_install_property (gobject_class,
                                    PROP_MAH,
                                    g_param_spec_boxed ("mah", "Mah", "Mah",

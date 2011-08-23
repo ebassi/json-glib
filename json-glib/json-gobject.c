@@ -198,13 +198,11 @@ json_gobject_new (GType       gtype,
   members = json_object_get_members (object);
   members_left = NULL;
 
-  /* first pass: construct and construct-only properties; here
-   * we cannot use Serializable because we don't have an
-   * instance yet; we use the default implementation of
-   * json_deserialize_pspec() to deserialize known types
+  /* first pass: construct-only properties; here we cannot use Serializable
+   * because we don't have an instance yet; we use the default implementation
+   * of json_deserialize_pspec() to deserialize known types
    *
-   * FIXME - find a way to allow deserialization for these
-   * properties
+   * FIXME - find a way to allow deserialization for these properties
    */
   construct_params = g_array_sized_new (FALSE, FALSE, sizeof (GParameter), n_members);
 
@@ -307,8 +305,7 @@ json_gobject_new (GType       gtype,
         continue;
 
       /* we should have dealt with these above */
-      if ((pspec->flags & G_PARAM_CONSTRUCT_ONLY) ||
-          (pspec->flags & G_PARAM_CONSTRUCT))
+      if (pspec->flags & G_PARAM_CONSTRUCT_ONLY)
         continue;
 
       if (!(pspec->flags & G_PARAM_WRITABLE))

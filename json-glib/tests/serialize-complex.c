@@ -33,6 +33,7 @@ struct _TestObject
   gboolean bar;
   gchar *baz;
   TestBoxed blah;
+  gdouble meh;
 };
 
 struct _TestObjectClass
@@ -83,7 +84,8 @@ enum
   PROP_FOO,
   PROP_BAR,
   PROP_BAZ,
-  PROP_BLAH
+  PROP_BLAH,
+  PROP_MEH
 };
 
 static JsonSerializableIface *serializable_iface = NULL;
@@ -167,6 +169,9 @@ test_object_set_property (GObject      *gobject,
       g_free (TEST_OBJECT (gobject)->baz);
       TEST_OBJECT (gobject)->baz = g_value_dup_string (value);
       break;
+    case PROP_MEH:
+      TEST_OBJECT (gobject)->meh = g_value_get_double (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
     }
@@ -191,6 +196,9 @@ test_object_get_property (GObject    *gobject,
       break;
     case PROP_BLAH:
       g_value_set_boxed (value, &(TEST_OBJECT (gobject)->blah));
+      break;
+    case PROP_MEH:
+      g_value_set_double (value, TEST_OBJECT (gobject)->meh);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -226,6 +234,12 @@ test_object_class_init (TestObjectClass *klass)
                                    g_param_spec_boxed ("blah", "Blah", "Blah",
                                                        TEST_TYPE_BOXED,
                                                        G_PARAM_READABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_MEH,
+                                   g_param_spec_double ("meh", "Meh", "Meh",
+                                                        0.0, 1.0, 0.0,
+                                                        G_PARAM_READWRITE |
+                                                        G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -234,6 +248,7 @@ test_object_init (TestObject *object)
   object->foo = 42;
   object->bar = TRUE;
   object->baz = g_strdup ("Test");
+  object->meh = 0.0;
 
   object->blah.foo = object->foo;
   object->blah.bar = object->bar;
@@ -246,6 +261,7 @@ test_serialize (void)
                                   "foo", 47,
                                   "bar", FALSE,
                                   "baz", "Hello, World!",
+                                  "meh", 0.5,
                                   NULL);
   JsonParser *parser = json_parser_new ();
   GError *error = NULL;
@@ -271,6 +287,7 @@ test_serialize (void)
   g_assert_cmpint (json_object_get_int_member (object, "foo"), ==, 47);
   g_assert (!json_object_get_boolean_member (object, "bar"));
   g_assert_cmpstr (json_object_get_string_member (object, "baz"), ==, "Hello, World!");
+  g_assert_cmpfloat (json_object_get_double_member (object, "meh"), ==, 0.5);
 
   /* blah is read-only */
   g_assert (json_object_has_member (object, "blah"));
