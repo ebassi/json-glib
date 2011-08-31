@@ -1,3 +1,8 @@
+Please refer to the following GNOME Live! page for more detailed
+instructions on building JSON-GLib and its dependencies with Visual C++:
+
+https://live.gnome.org/GTK%2B/Win32/MSVCCompilationOfGTKStack
+
 This VS9 solution and the projects it includes are intended to be used
 in a JSON-GLib source tree unpacked from a tarball. In a git checkout you
 first need to use some Unix-like environment or manual work to expand
