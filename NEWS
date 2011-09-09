@@ -15,6 +15,8 @@ Overview of changes for 0.14.0
 • Add i18n support for GError messages
 • Do not serialize GObject properties that match their default
   values.
+• Make JsonReader perform a stricter validation especially when using
+  the strongly typed accessors.
 
 Overview of changes for 0.12.0
 ==============================

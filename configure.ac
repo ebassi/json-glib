@@ -2,7 +2,7 @@
 # bump micro_version to the next odd number after each release
 m4_define([json_major_version], [0])
 m4_define([json_minor_version], [13])
-m4_define([json_micro_version], [5])
+m4_define([json_micro_version], [90])
 
 m4_define([json_version], [json_major_version.json_minor_version.json_micro_version])
 
