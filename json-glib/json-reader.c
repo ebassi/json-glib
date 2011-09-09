@@ -571,10 +571,19 @@ json_reader_count_elements (JsonReader *reader)
   priv = reader->priv;
 
   if (priv->current_node == NULL)
-    return -1;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return -1;
+    }
 
   if (!JSON_NODE_HOLDS_ARRAY (priv->current_node))
-    return -1;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_ARRAY,
+                             _("The current position holds a '%s' and not an array"),
+                             json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
+      return -1;
+    }
 
   return json_array_get_length (json_node_get_array (priv->current_node));
 }
@@ -715,10 +724,19 @@ json_reader_list_members (JsonReader *reader)
   priv = reader->priv;
 
   if (priv->current_node == NULL)
-    return NULL;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return NULL;
+    }
 
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
-    return NULL;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
+                             _("The current position holds a '%s' and not an object"),
+                             json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
+      return NULL;
+    }
 
   members = json_object_get_members (json_node_get_object (priv->current_node));
   if (members == NULL)
@@ -757,10 +775,19 @@ json_reader_count_members (JsonReader *reader)
   priv = reader->priv;
 
   if (priv->current_node == NULL)
-    return -1;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return -1;
+    }
 
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
-    return -1;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
+                             _("The current position holds a '%s' and not an object"),
+                             json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
+      return -1;
+    }
 
   return json_object_get_size (json_node_get_object (priv->current_node));
 }
@@ -780,14 +807,27 @@ json_reader_count_members (JsonReader *reader)
 JsonNode *
 json_reader_get_value (JsonReader *reader)
 {
+  JsonNode *node;
+
   g_return_val_if_fail (JSON_IS_READER (reader), NULL);
   json_reader_return_val_if_error_set (reader, NULL);
 
   if (reader->priv->current_node == NULL)
-    return NULL;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return NULL;
+    }
 
-  if (!JSON_NODE_HOLDS_VALUE (reader->priv->current_node))
-    return NULL;
+  node = reader->priv->current_node;
+
+  if (!JSON_NODE_HOLDS_VALUE (node))
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
+                             _("The current position holds a '%s' and not a value"),
+                             json_node_type_get_name (JSON_NODE_TYPE (node)));
+      return NULL;
+    }
 
   return reader->priv->current_node;
 }
@@ -805,14 +845,34 @@ json_reader_get_value (JsonReader *reader)
 gint64
 json_reader_get_int_value (JsonReader *reader)
 {
+  JsonNode *node;
+
   g_return_val_if_fail (JSON_IS_READER (reader), 0);
   json_reader_return_val_if_error_set (reader, 0);
 
   if (reader->priv->current_node == NULL)
-    return 0;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return 0;
+    }
 
-  if (!JSON_NODE_HOLDS_VALUE (reader->priv->current_node))
-    return 0;
+  node = reader->priv->current_node;
+
+  if (!JSON_NODE_HOLDS_VALUE (node))
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
+                             _("The current position holds a '%s' and not a value"),
+                             json_node_type_get_name (JSON_NODE_TYPE (node)));
+      return 0;
+    }
+
+  if (json_node_get_value_type (node) != G_TYPE_INT64)
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
+                             _("The current position does not hold an integer type"));
+      return 0;
+    }
 
   return json_node_get_int (reader->priv->current_node);
 }
@@ -830,14 +890,34 @@ json_reader_get_int_value (JsonReader *reader)
 gdouble
 json_reader_get_double_value (JsonReader *reader)
 {
+  JsonNode *node;
+
   g_return_val_if_fail (JSON_IS_READER (reader), 0.0);
   json_reader_return_val_if_error_set (reader, 0.0);
 
   if (reader->priv->current_node == NULL)
-    return 0.0;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return 0.0;
+    }
 
-  if (!JSON_NODE_HOLDS_VALUE (reader->priv->current_node))
-    return 0.0;
+  node = reader->priv->current_node;
+
+  if (!JSON_NODE_HOLDS_VALUE (node))
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
+                             _("The current position holds a '%s' and not a value"),
+                             json_node_type_get_name (JSON_NODE_TYPE (node)));
+      return 0.0;
+    }
+
+  if (json_node_get_value_type (node) != G_TYPE_DOUBLE)
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
+                             _("The current position does not hold a floating point type"));
+      return 0.0;
+    }
 
   return json_node_get_double (reader->priv->current_node);
 }
@@ -855,14 +935,34 @@ json_reader_get_double_value (JsonReader *reader)
 const gchar *
 json_reader_get_string_value (JsonReader *reader)
 {
+  JsonNode *node;
+
   g_return_val_if_fail (JSON_IS_READER (reader), NULL);
   json_reader_return_val_if_error_set (reader, NULL);
 
   if (reader->priv->current_node == NULL)
-    return NULL;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return NULL;
+    }
 
-  if (!JSON_NODE_HOLDS_VALUE (reader->priv->current_node))
-    return NULL;
+  node = reader->priv->current_node;
+
+  if (!JSON_NODE_HOLDS_VALUE (node))
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
+                             _("The current position holds a '%s' and not a value"),
+                             json_node_type_get_name (JSON_NODE_TYPE (node)));
+      return NULL;
+    }
+
+  if (json_node_get_value_type (node) != G_TYPE_STRING)
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
+                             _("The current position does not hold a string type"));
+      return NULL;
+    }
 
   return json_node_get_string (reader->priv->current_node);
 }
@@ -880,16 +980,36 @@ json_reader_get_string_value (JsonReader *reader)
 gboolean
 json_reader_get_boolean_value (JsonReader *reader)
 {
+  JsonNode *node;
+
   g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
   json_reader_return_val_if_error_set (reader, FALSE);
 
   if (reader->priv->current_node == NULL)
-    return FALSE;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return FALSE;
+    }
 
-  if (!JSON_NODE_HOLDS_VALUE (reader->priv->current_node))
-    return FALSE;
+  node = reader->priv->current_node;
 
-  return json_node_get_boolean (reader->priv->current_node);
+  if (!JSON_NODE_HOLDS_VALUE (node))
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
+                             _("The current position holds a '%s' and not a value"),
+                             json_node_type_get_name (JSON_NODE_TYPE (node)));
+      return FALSE;
+    }
+
+  if (json_node_get_value_type (node) != G_TYPE_BOOLEAN)
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
+                             _("The current position does not hold a boolean type"));
+      return FALSE;
+    }
+
+  return json_node_get_boolean (node);
 }
 
 /**
@@ -909,7 +1029,11 @@ json_reader_get_null_value (JsonReader *reader)
   json_reader_return_val_if_error_set (reader, FALSE);
 
   if (reader->priv->current_node == NULL)
-    return FALSE;
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return FALSE;
+    }
 
   return JSON_NODE_HOLDS_NULL (reader->priv->current_node);
 }
@@ -929,6 +1053,13 @@ json_reader_get_member_name (JsonReader *reader)
 {
   g_return_val_if_fail (JSON_IS_READER (reader), NULL);
   json_reader_return_val_if_error_set (reader, NULL);
+
+  if (reader->priv->current_node == NULL)
+    {
+      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
+                             _("No node available at the current position"));
+      return FALSE;
+    }
 
   return reader->priv->current_member;
 }

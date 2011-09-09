@@ -57,6 +57,11 @@ typedef struct _JsonReaderClass         JsonReaderClass;
  * @JSON_READER_ERROR_INVALID_INDEX: Index out of bounds
  * @JSON_READER_ERROR_NO_OBJECT: No object found at the current position
  * @JSON_READER_ERROR_INVALID_MEMBER: Member not found
+ * @JSON_READER_ERROR_INVALID_NODE: No valid node found at the current position
+ * @JSON_READER_ERROR_NO_VALUE: The node at the current position does not
+ *   hold a value
+ * @JSON_READER_ERROR_INVALID_TYPE: The node at the current position does not
+ *   hold a value of the desired type
  *
  * Error codes enumeration for #JsonReader errors
  *
@@ -66,7 +71,10 @@ typedef enum {
   JSON_READER_ERROR_NO_ARRAY,
   JSON_READER_ERROR_INVALID_INDEX,
   JSON_READER_ERROR_NO_OBJECT,
-  JSON_READER_ERROR_INVALID_MEMBER
+  JSON_READER_ERROR_INVALID_MEMBER,
+  JSON_READER_ERROR_INVALID_NODE,
+  JSON_READER_ERROR_NO_VALUE,
+  JSON_READER_ERROR_INVALID_TYPE
 } JsonReaderError;
 
 /**
