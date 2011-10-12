@@ -1,4 +1,4 @@
-#include <glib/gtestutils.h>
+#include <glib.h>
 #include <json-glib/json-glib.h>
 #include <string.h>
 
