@@ -34,9 +34,7 @@
 #ifndef __JSON_SCANNER_H__
 #define __JSON_SCANNER_H__
 
-#include <glib/gdataset.h>
-#include <glib/ghash.h>
-#include <glib/gscanner.h>
+#include <glib.h>
 
 G_BEGIN_DECLS
 
