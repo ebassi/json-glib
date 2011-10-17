@@ -32,12 +32,6 @@
 
 G_BEGIN_DECLS
 
-/* guards to avoid bumping up the GLib dependency */
-#ifndef G_DEPRECATED
-#define G_DEPRECATED            G_GNUC_DEPRECATED
-#define G_DEPRECATED_FOR(x)     G_GNUC_DEPRECATED_FOR(x)
-#endif
-
 #ifdef JSON_DISABLE_DEPRECATION_WARNINGS
 #define JSON_DEPRECATED
 #define JSON_DEPRECATED_FOR(x)
