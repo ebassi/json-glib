@@ -35,7 +35,7 @@
  * SECTION:json-object
  * @short_description: a JSON object representation
  *
- * #JsonArray is the representation of the object type inside JSON. It contains
+ * #JsonObject is the representation of the object type inside JSON. It contains
  * #JsonNode<!-- -->s, which may contain fundamental types, arrays or other
  * objects. Each member of an object is accessed using its name.
  *
