@@ -32,6 +32,20 @@
 
 G_BEGIN_DECLS
 
+/* guards to avoid bumping up the GLib dependency */
+#ifndef G_DEPRECATED
+#define G_DEPRECATED            G_GNUC_DEPRECATED
+#define G_DEPRECATED_FOR(x)     G_GNUC_DEPRECATED_FOR(x)
+#endif
+
+#ifdef JSON_DISABLE_DEPRECATION_WARNINGS
+#define JSON_DEPRECATED
+#define JSON_DEPRECATED_FOR(x)
+#else
+#define JSON_DEPRECATED         G_DEPRECATED
+#define JSON_DEPRECATED_FOR(x)  G_DEPRECATED_FOR(x)
+#endif
+
 /**
  * JSON_NODE_TYPE:
  * @node: a #JsonNode
@@ -226,10 +240,11 @@ JsonObject *          json_object_ref                (JsonObject  *object);
 void                  json_object_unref              (JsonObject  *object);
 
 #ifndef JSON_DISABLE_DEPRECATED
+JSON_DEPRECATED_FOR(json_object_set_member)
 void                  json_object_add_member         (JsonObject  *object,
                                                       const gchar *member_name,
-                                                      JsonNode    *node) G_GNUC_DEPRECATED;
-#endif /* JSON_DISABLE_DEPRECATED */
+                                                      JsonNode    *node);
+#endif
 
 void                  json_object_set_member         (JsonObject  *object,
                                                       const gchar *member_name,

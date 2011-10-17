@@ -16,7 +16,6 @@ AM_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" 	\
 	-DLIBDIR=\""$(libdir)"\" 	\
 	-DJSON_COMPILATION=1		\
-	-DJSON_DISABLE_DEPRECATED	\
 	-DG_LOG_DOMAIN=\"Json\" 	\
 	$(JSON_DEBUG_CFLAGS) 		\
 	$(NULL)
