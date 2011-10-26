@@ -1,3 +1,8 @@
+Overview of changes for 0.14.2
+==============================
+• Build fixes for compiling against the latest GLib [Matthias Clasen]
+• Documentation fixes
+
 Overview of changes for 0.14.0
 ==============================
 • Documentation fixes
