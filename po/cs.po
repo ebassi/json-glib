@@ -1,0 +1,167 @@
+# Czech translation for json-glib.
+# Copyright (C) 2011 json-glib's COPYRIGHT HOLDER
+# This file is distributed under the same license as the json-glib package.
+# Marek Černocký <marek@manet.cz>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-11-16 10:21+0000\n"
+"PO-Revision-Date: 2011-11-22 10:29+0100\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Language: cs\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "Očekává se objekt JSON, ale kořenový uzel je typu „%s“"
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "Neočekávaný typ „%s“ v uzlu JSON"
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "Schází prvky v poli JSON, aby to byla n-tice"
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "Schází uzavírací symbol „)“ v typu n-tice GVariant"
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "Neočekávané dodatečné prvky v poli JSON"
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "Neplatná hodnota typu řetězec převáděná na GVariant"
+
+#: ../json-glib/json-gvariant.c:980
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr "Záznam slovníku GVariant očekává objekt JSON s právě jedním členem"
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "Třída GVariant „%c“ není podporována"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "Neplatná signatura GVariant"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "Data JSON jsou prázdná"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: Chyba zpracování: %s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "Ve výrazu JSONPath je dovolen pouze jeden kořenový uzel"
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "Kořenový uzel následován neplatným znakem „%c“"
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "Chybný výraz řezu „%*s“"
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "Neplatná definice množiny „%*s“"
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "Neplatná definice řezu „%*s“"
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "Neplatná definice indexu pole „%*s“"
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr "Aktuální uzel je typu „%s“, ale bylo očekáváno pole nebo objekt."
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr "Index „%d“ je větší než velikost pole na aktuální pozici."
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr "Index „%d“ je větší než velikost objektu na aktuální pozici."
+
+#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
+#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
+#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+msgid "No node available at the current position"
+msgstr "Na aktuální pozici není k dispozici žádný uzel"
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "Aktuální pozice obsahuje „%s“ a ne pole"
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "Aktuální uzel je typu „%s“, ale byl očekáván objekt."
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "Člen „%s“ není na aktuálním pozici v objektu definován."
+
+#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "Aktuální pozice obsahuje „%s“ a ne objekt"
+
+#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
+#: ../json-glib/json-reader.c:1000
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "Aktuální pozice obsahuje „%s“ a ne hodnotu"
+
+#: ../json-glib/json-reader.c:873
+msgid "The current position does not hold an integer type"
+msgstr "Aktuální pozice neobsahuje typ integer (celé číslo)"
+
+#: ../json-glib/json-reader.c:918
+msgid "The current position does not hold a floating point type"
+msgstr "Aktuální pozice neobsahuje typ float point (desetinné číslo)"
+
+#: ../json-glib/json-reader.c:963
+msgid "The current position does not hold a string type"
+msgstr "Aktuální pozice neobsahuje typ string (řetězec)"
+
+#: ../json-glib/json-reader.c:1008
+msgid "The current position does not hold a boolean type"
+msgstr "Aktuální pozice neobsahuje typ boolean (pravdivostní hodnota)"
