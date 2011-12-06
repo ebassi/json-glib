@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-13 15:54+0000\n"
-"PO-Revision-Date: 2011-11-14 14:54+0100\n"
+"POT-Creation-Date: 2011-11-14 13:57+0000\n"
+"PO-Revision-Date: 2011-12-06 20:20+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -42,12 +42,14 @@ msgstr "Elementos adicionales no esperados en el vector JSON"
 
 #: ../json-glib/json-gvariant.c:924
 msgid "Invalid string value converting to GVariant"
-msgstr ""
+msgstr "Valor de cadena no válido al convertir a GVariant"
 
 #: ../json-glib/json-gvariant.c:980
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
+"Una entrada del diccionario de GVariant espera un objeto JSON con sólo un "
+"miembro"
 
 #: ../json-glib/json-gvariant.c:1236
 #, c-format
@@ -56,11 +58,11 @@ msgstr "Clase «%c» de GVariant no soportada"
 
 #: ../json-glib/json-gvariant.c:1281
 msgid "Invalid GVariant signature"
-msgstr ""
+msgstr "Firma de GVariant no válida"
 
 #: ../json-glib/json-gvariant.c:1326
 msgid "JSON data is empty"
-msgstr ""
+msgstr "Datos de JSON vacíos"
 
 #: ../json-glib/json-parser.c:818
 #, c-format
@@ -79,41 +81,44 @@ msgstr "Nodo raíz seguido de un carácter «%c» no válido"
 #: ../json-glib/json-path.c:490
 #, c-format
 msgid "Malformed slice expression '%*s'"
-msgstr ""
+msgstr "Expresión de particionado «%*s» mal formada"
 
 #: ../json-glib/json-path.c:534
 #, c-format
 msgid "Invalid set definition '%*s'"
-msgstr ""
+msgstr "Definición de conjunto no válida «%*s»"
 
 #: ../json-glib/json-path.c:587
 #, c-format
 msgid "Invalid slice definition '%*s'"
-msgstr ""
+msgstr "Definición de particionado no válida «%*s»"
 
 #: ../json-glib/json-path.c:615
 #, c-format
 msgid "Invalid array index definition '%*s'"
-msgstr ""
+msgstr "Definición de índice de vector no válida «%*s»"
 
 #: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
-msgstr "El nodo actual es de tipo «%s», pero se esperaba un objeto o un vector."
+msgstr ""
+"El nodo actual es de tipo «%s», pero se esperaba un objeto o un vector."
 
 #: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr "El índice «%d» es mayor que el tamaño del vector en la posición actual."
+msgstr ""
+"El índice «%d» es mayor que el tamaño del vector en la posición actual."
 
 #: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
-msgstr "El índice «%d» es mayor que el tamaño del objeto en la posición actual."
+msgstr ""
+"El índice «%d» es mayor que el tamaño del objeto en la posición actual."
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
