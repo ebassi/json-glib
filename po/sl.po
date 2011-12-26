@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=nemiver&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-10-24 18:11+0000\n"
-"PO-Revision-Date: 2011-11-25 18:03+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-12-19 08:46+0000\n"
+"PO-Revision-Date: 2011-12-26 18:50+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -25,37 +25,37 @@ msgstr ""
 #: ../json-glib/json-gobject.c:934
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
-msgstr ""
+msgstr "Pričakovan je predmet JSON, vendar pa je korensko vozlišče vrste `%s'"
 
 #: ../json-glib/json-gvariant.c:539
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
-msgstr ""
+msgstr "Nepričakovana vrsta '%s' v vozlišču JSON"
 
 #: ../json-glib/json-gvariant.c:609
 msgid "Missing elements in JSON array to conform to a tuple"
-msgstr ""
+msgstr "Manjkajo predmeti v polju JSON za skladnost z n-terico."
 
 #: ../json-glib/json-gvariant.c:637
 msgid "Missing closing symbol ')' in the GVariant tuple type"
-msgstr ""
+msgstr "Manjka zaključni znak ')' v vrsti n-terice GVariant"
 
 #: ../json-glib/json-gvariant.c:645
 msgid "Unexpected extra elements in JSON array"
-msgstr ""
+msgstr "Nepričakovan dodatni predmet polja JSON"
 
 #: ../json-glib/json-gvariant.c:924
 msgid "Invalid string value converting to GVariant"
-msgstr ""
+msgstr "Neveljavna vrednost niza med pretvarjanjem v GVariant"
 
 #: ../json-glib/json-gvariant.c:980
 msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
-msgstr ""
+msgstr "Slovar GVariant pričakuje predmet JSON z natanko enim določilom"
 
 #: ../json-glib/json-gvariant.c:1236
-#, fuzzy, c-format
+#, c-format
 msgid "GVariant class '%c' not supported"
-msgstr "Vrsta diska ni podprta."
+msgstr "Razred GVariant '%c' ni podprt."
 
 #: ../json-glib/json-gvariant.c:1281
 msgid "Invalid GVariant signature"
@@ -72,47 +72,47 @@ msgstr "%s:%d: Napaka razčlenjevanja: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
-msgstr ""
+msgstr "Le eno korensko vozlišče je dovoljeno v izrazu JSONPath"
 
 #: ../json-glib/json-path.c:384
 #, c-format
 msgid "Root node followed by invalid character '%c'"
-msgstr ""
+msgstr "Korensko vozlišče se konča z neveljavnim znakom '%c'"
 
 #: ../json-glib/json-path.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "Malformed slice expression '%*s'"
-msgstr "Neveljaven logični izraz: '%s': %s"
+msgstr "Napačno oblikovan izraz rezine '%*s'"
 
 #: ../json-glib/json-path.c:534
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid set definition '%*s'"
-msgstr "Vstopnica ima nastavljeno neveljavno zastavico"
+msgstr "Neveljavno določilo '%*s'"
 
 #: ../json-glib/json-path.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid slice definition '%*s'"
-msgstr "Besede ni mogoče najti."
+msgstr "Neveljavno določilo rezine '%*s'"
 
 #: ../json-glib/json-path.c:615
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid array index definition '%*s'"
-msgstr "Neveljavno kazalo korita vhoda"
+msgstr "Neveljavno določilo kazala polja '%*s'"
 
 #: ../json-glib/json-reader.c:463
 #, c-format
 msgid "The current node is of type '%s', but an array or an object was expected."
-msgstr ""
+msgstr "Trenutno vozlišče je vrste '%s', pričakovano pa je polje ali predmet."
 
 #: ../json-glib/json-reader.c:475
 #, c-format
 msgid "The index '%d' is greater than the size of the array at the current position."
-msgstr ""
+msgstr "Kazalo '%d' je večje od velikosti polja na trenutnem položaju."
 
 #: ../json-glib/json-reader.c:492
 #, c-format
 msgid "The index '%d' is greater than the size of the object at the current position."
-msgstr ""
+msgstr "Kazalo '%d' je večje od velikosti predmeta na trenutnem položaju."
 
 #: ../json-glib/json-reader.c:576
 #: ../json-glib/json-reader.c:729
@@ -125,28 +125,28 @@ msgstr ""
 #: ../json-glib/json-reader.c:1034
 #: ../json-glib/json-reader.c:1060
 msgid "No node available at the current position"
-msgstr ""
+msgstr "Na trenutnem položaju ni razpoložljivega vozlišča."
 
 #: ../json-glib/json-reader.c:583
 #, c-format
 msgid "The current position holds a '%s' and not an array"
-msgstr ""
+msgstr "Trenutni položaj vsebuje '%s' in ne polja"
 
 #: ../json-glib/json-reader.c:646
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
-msgstr ""
+msgstr "Trenutno vozlišče je vrste '%s', pričakovan pa je predmet."
 
 #: ../json-glib/json-reader.c:653
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
-msgstr ""
+msgstr "Določilo '%s' ni določan v predmetu na trenutnem položaju."
 
 #: ../json-glib/json-reader.c:736
 #: ../json-glib/json-reader.c:787
 #, c-format
 msgid "The current position holds a '%s' and not an object"
-msgstr ""
+msgstr "Trenutni položaj vsebuje '%s' in ne predmeta"
 
 #: ../json-glib/json-reader.c:827
 #: ../json-glib/json-reader.c:865
@@ -155,21 +155,21 @@ msgstr ""
 #: ../json-glib/json-reader.c:1000
 #, c-format
 msgid "The current position holds a '%s' and not a value"
-msgstr ""
+msgstr "Trenutni položaj vsebuje '%s' in ne vrednosti"
 
 #: ../json-glib/json-reader.c:873
 msgid "The current position does not hold an integer type"
-msgstr ""
+msgstr "Trenutni položaj ne vsebuje celega števila"
 
 #: ../json-glib/json-reader.c:918
 msgid "The current position does not hold a floating point type"
-msgstr ""
+msgstr "Trenutni položaj ne vsebuje plavajoče vejice"
 
 #: ../json-glib/json-reader.c:963
 msgid "The current position does not hold a string type"
-msgstr ""
+msgstr "Trenutni položaj ne vsebuje niza"
 
 #: ../json-glib/json-reader.c:1008
 msgid "The current position does not hold a boolean type"
-msgstr ""
+msgstr "Trenutni položaj ne vsebuje logične izraza"
 
