@@ -233,12 +233,10 @@ JsonObject *          json_object_new                (void);
 JsonObject *          json_object_ref                (JsonObject  *object);
 void                  json_object_unref              (JsonObject  *object);
 
-#ifndef JSON_DISABLE_DEPRECATED
 JSON_DEPRECATED_FOR(json_object_set_member)
 void                  json_object_add_member         (JsonObject  *object,
                                                       const gchar *member_name,
                                                       JsonNode    *node);
-#endif
 
 void                  json_object_set_member         (JsonObject  *object,
                                                       const gchar *member_name,

@@ -167,7 +167,6 @@ GObject * json_gobject_from_data               (GType                    gtype,
 gchar *   json_gobject_to_data                 (GObject                 *gobject,
                                                 gsize                   *length);
 
-#ifndef JSON_DISABLE_DEPRECATED
 JSON_DEPRECATED_FOR(json_gobject_from_data)
 GObject * json_construct_gobject               (GType                    gtype,
                                                 const gchar             *data,
@@ -176,8 +175,6 @@ GObject * json_construct_gobject               (GType                    gtype,
 JSON_DEPRECATED_FOR(json_gobject_to_data)
 gchar *   json_serialize_gobject               (GObject                 *gobject,
                                                 gsize                   *length) G_GNUC_MALLOC;
-#endif /* JSON_DISABLE_DEPRECATED */
-
 
 G_END_DECLS
 

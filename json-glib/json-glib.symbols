@@ -46,9 +46,7 @@ json_builder_get_type
 json_builder_new
 json_builder_reset
 json_builder_set_member_name
-#ifndef JSON_DISABLE_DEPRECATED
 json_construct_gobject
-#endif
 json_generator_get_type
 json_generator_new
 json_generator_set_root
@@ -93,9 +91,7 @@ json_node_take_array
 json_node_take_object
 json_node_type_get_type
 json_node_type_name
-#ifndef JSON_DISABLE_DEPRECATED
 json_object_add_member
-#endif
 json_object_dup_member
 json_object_foreach_member
 json_object_get_array_member
@@ -169,7 +165,5 @@ json_serializable_default_deserialize_property
 json_serializable_default_serialize_property
 json_serializable_deserialize_property
 json_serializable_get_type
-#ifndef JSON_DISABLE_DEPRECATED
 json_serialize_gobject
-#endif
 json_serializable_serialize_property
