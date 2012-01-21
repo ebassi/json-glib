@@ -1,0 +1,170 @@
+# Swedish translation for json-glib.
+# Copyright (C) 2012 Free Software Foundation, Inc.
+# This file is distributed under the same license as the json-glib package.
+# Daniel Nylander <po@danielnylander.se>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib\n"
+"POT-Creation-Date: 2012-01-22 00:32+0100\n"
+"PO-Revision-Date: 2012-01-22 00:38+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr ""
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "Oväntad typ \"%s\" i JSON-nod"
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr ""
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr ""
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "Oväntade extra-element i JSON-array"
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "Ogiltig strängvärdeskonvertering till GVariant"
+
+#: ../json-glib/json-gvariant.c:980
+msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr ""
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "GVariant-klassen \"%c\" stöds inte"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "Ogiltig GVariant-signatur"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "JSON-data är tom"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: Tolkningsfel: %s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr ""
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "Rotnod efterföljd av otillåtet tecken \"%c\""
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr ""
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr ""
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr ""
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr ""
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid "The current node is of type '%s', but an array or an object was expected."
+msgstr ""
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid "The index '%d' is greater than the size of the array at the current position."
+msgstr ""
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid "The index '%d' is greater than the size of the object at the current position."
+msgstr ""
+
+#: ../json-glib/json-reader.c:576
+#: ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780
+#: ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856
+#: ../json-glib/json-reader.c:901
+#: ../json-glib/json-reader.c:946
+#: ../json-glib/json-reader.c:991
+#: ../json-glib/json-reader.c:1034
+#: ../json-glib/json-reader.c:1060
+msgid "No node available at the current position"
+msgstr "Ingen nod tillgänglig på aktuell position"
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "Aktuell position innehåller en \"%s\" och inte en array"
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr ""
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "Medlemmen \"%s\" är inte definierad i objektet på aktuell position."
+
+#: ../json-glib/json-reader.c:736
+#: ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "Aktuell position innehåller en \"%s\" och inte ett objekt"
+
+#: ../json-glib/json-reader.c:827
+#: ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:910
+#: ../json-glib/json-reader.c:955
+#: ../json-glib/json-reader.c:1000
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "Aktuell position innehåller en \"%s\" och inte ett värde"
+
+#: ../json-glib/json-reader.c:873
+msgid "The current position does not hold an integer type"
+msgstr "Aktuell position innehåller inte en heltalstyp"
+
+#: ../json-glib/json-reader.c:918
+msgid "The current position does not hold a floating point type"
+msgstr "Aktuell position innehåller inte en flyttalstyp"
+
+#: ../json-glib/json-reader.c:963
+msgid "The current position does not hold a string type"
+msgstr "Aktuell position innehåller inte en strängtyp"
+
+#: ../json-glib/json-reader.c:1008
+msgid "The current position does not hold a boolean type"
+msgstr "Aktuell position innehåller inte en boolesk typ"
+
