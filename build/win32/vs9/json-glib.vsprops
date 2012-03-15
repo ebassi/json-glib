@@ -94,6 +94,6 @@ copy ..\..\..\json-glib\json-types.h $(OutDir)\include\json-glib-$(JsonGlibVersi
 	/>
 	<UserMacro
 		Name="GlibEtcInstallRoot"
-		Value="..\..\..\..\..\vs9\$(PlatformName)"
+		Value="..\..\..\..\vs9\$(PlatformName)"
 	/>
 </VisualStudioPropertySheet>
