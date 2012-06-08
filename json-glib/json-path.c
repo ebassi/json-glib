@@ -488,7 +488,7 @@ json_path_compile (JsonPath    *path,
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
                                          _("Malformed slice expression '%*s'"),
-                                         end_p - p,
+                                         (int)(end_p - p),
                                          p + 1);
                             goto fail;
                           }
@@ -532,7 +532,7 @@ json_path_compile (JsonPath    *path,
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
                                          _("Invalid set definition '%*s'"),
-                                         end_p - p,
+                                         (int)(end_p - p),
                                          p + 1);
                             goto fail;
                           }
@@ -585,7 +585,7 @@ json_path_compile (JsonPath    *path,
                         g_set_error (error, JSON_PATH_ERROR,
                                      JSON_PATH_ERROR_INVALID_QUERY,
                                      _("Invalid slice definition '%*s'"),
-                                     end_p - p,
+                                     (int)(end_p - p),
                                      p + 1);
                         goto fail;
                       }
@@ -613,7 +613,7 @@ json_path_compile (JsonPath    *path,
                     g_set_error (error, JSON_PATH_ERROR,
                                  JSON_PATH_ERROR_INVALID_QUERY,
                                  _("Invalid array index definition '%*s'"),
-                                 end_p - p,
+                                 (int)(end_p - p),
                                  p + 1);
                     goto fail;
                   }
