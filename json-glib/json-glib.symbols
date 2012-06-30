@@ -1,4 +1,3 @@
-
 json_array_add_array_element
 json_array_add_boolean_element
 json_array_add_double_element
@@ -47,8 +46,16 @@ json_builder_new
 json_builder_reset
 json_builder_set_member_name
 json_construct_gobject
+json_deserialize_pspec
+json_generator_get_indent
+json_generator_get_indent_char
+json_generator_get_pretty
+json_generator_get_root
 json_generator_get_type
 json_generator_new
+json_generator_set_indent
+json_generator_set_indent_char
+json_generator_set_pretty
 json_generator_set_root
 json_generator_to_data
 json_generator_to_file
@@ -133,6 +140,7 @@ json_parser_load_from_stream_async
 json_parser_load_from_stream_finish
 json_parser_new
 json_path_compile
+json_path_error_get_type
 json_path_error_quark
 json_path_get_type
 json_path_match
@@ -161,9 +169,14 @@ json_reader_new
 json_reader_read_element
 json_reader_read_member
 json_reader_set_root
+json_serializable_find_property
+json_serializable_get_property
 json_serializable_default_deserialize_property
 json_serializable_default_serialize_property
 json_serializable_deserialize_property
+json_serializable_list_properties
 json_serializable_get_type
+json_serializable_set_property
 json_serialize_gobject
 json_serializable_serialize_property
+json_serialize_pspec
