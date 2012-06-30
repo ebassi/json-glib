@@ -1,3 +1,14 @@
+Overview of changes for 0.16.0
+==============================
+• Fixes for building with VisualStudio. [Chun-wei Fan]
+• Allow out-of-tree builds. [Colin Walters]
+• Bump the dependency on GLib to 2.31.
+• Use the new deprecation system provided by GLib.
+• Simplify the value handling inside JsonNode.
+• Use lcov to generate coverage reports for the test suite.
+• Check expected ABI when building.
+• Drop dependency on gnome-autogen.sh when building from Git.
+
 Overview of changes for 0.14.0
 ==============================
 • Documentation fixes
