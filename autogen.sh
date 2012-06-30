@@ -1,18 +1,49 @@
-#! /bin/sh
+#!/bin/sh
+# Run this to generate all the initial makefiles, etc.
 
-srcdir=`dirname $0`
-test -z "$srcdir" && srcdir=.
+test -n "$srcdir" || srcdir=`dirname "$0"`
+test -n "$srcdir" || srcdir=.
 
-PKG_NAME=JSON-GLib
+olddir=`pwd`
 
-which gnome-autogen.sh || {
-        echo "*** You need to install gnome-common from GNOME Git:"
-        echo "***   git clone git://git.gnome.org/gnome-common"
-        exit 1
+cd $srcdir
+PROJECT=JSON-GLib
+TEST_TYPE=-f
+FILE=json-glib/json-glib.h
+
+test $TEST_TYPE $FILE || {
+	echo "You must run this script in the top-level $PROJECT directory"
+	exit 1
 }
 
 # GNU gettext automake support doesn't get along with git.
 # https://bugzilla.gnome.org/show_bug.cgi?id=661128
 touch -t 200001010000 "$srcdir/po/json-glib-1.0.pot"
 
-REQUIRED_AUTOMAKE_VERSION=1.11 USE_GNOME2_MACROS=1 USE_COMMON_DOC_BUILD=yes . gnome-autogen.sh
+GTKDOCIZE=`which gtkdocize`
+if test -z $GTKDOCIZE; then
+        echo "*** No GTK-Doc found, please install it ***"
+        exit 1
+fi
+
+AUTORECONF=`which autoreconf`
+if test -z $AUTORECONF; then
+        echo "*** No autoreconf found, please install it ***"
+        exit 1
+fi
+
+# NOCONFIGURE is used by gnome-common
+if test -z "$NOCONFIGURE"; then
+        if test -z "$*"; then
+                echo "I am going to run ./configure with no arguments - if you wish "
+                echo "to pass any to it, please specify them on the $0 command line."
+        fi
+fi
+
+rm -rf autom4te.cache
+
+gtkdocize || exit $?
+autoreconf --force --install --verbose || exit $?
+
+cd "$olddir"
+test -n "$NOCONFIGURE" || "$srcdir/configure" "$@"
