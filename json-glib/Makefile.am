@@ -92,6 +92,12 @@ EXTRA_DIST += json-version.h.in json-glib.h json-version.h
 
 TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
 
+if OS_LINUX
+TESTS = abicheck.sh
+endif
+
+EXTRA_DIST += abicheck.sh
+
 # intospection
 -include $(INTROSPECTION_MAKEFILE)
 

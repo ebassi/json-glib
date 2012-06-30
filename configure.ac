@@ -68,6 +68,9 @@ JSON_LT_LDFLAGS="-version-info $JSON_LT_VERSION"
 
 dnl === Platform checks =======================================================
 
+platform_linux=no
+platform_win32=no
+
 AC_CANONICAL_HOST
 AC_MSG_CHECKING([if building for some Win32 platform])
 AS_CASE([$host],
@@ -78,9 +81,17 @@ AS_CASE([$host],
           platform_win32=yes
         ],
 
-        [platform_win32=no]
+        [*-*-linux*],
+        [
+          platform_linux=yes
+        ],
+
+        []
 )
 AC_MSG_RESULT([$platform_win32])
+
+AM_CONDITIONAL(OS_LINUX, [test "$platform_linux" = "yes"])
+AM_CONDITIONAL(OS_WIN32, [test "$platform_win32" = "yes"])
 
 AC_SUBST(JSON_LT_LDFLAGS)
 
