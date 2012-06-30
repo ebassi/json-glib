@@ -20,7 +20,7 @@ AM_CPPFLAGS = \
 	$(JSON_DEBUG_CFLAGS) 		\
 	$(NULL)
 
-AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS) $(GCOV_CFLAGS)
+AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS) $(JSON_GCOV_CFLAGS)
 
 BUILT_SOURCES =
 
@@ -78,7 +78,7 @@ lib_LTLIBRARIES = libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
-libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(GCOV_LDFLAGS) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
@@ -155,6 +155,3 @@ dist-hook: ../build/win32/vs9/json-glib.vcproj ../build/win32/vs10/json-glib.vcx
 DISTCLEANFILES += ../build/win32/vs9/json-glib.vcproj	\
 		  ../build/win32/vs10/json-glib.vcxproj	\
 		  ../build/win32/vs10/json-glib.vcxproj.filters
-
-gcov_sources = $(source_c)
-include $(top_srcdir)/build/autotools/Makefile.am.gcov

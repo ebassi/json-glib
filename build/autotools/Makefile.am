@@ -6,7 +6,6 @@ EXTRA_DIST = \
 	Makefile.am.enums	\
 	Makefile.am.marshal	\
 	Makefile.am.gtest	\
-	Makefile.am.gcov	\
 	Makefile.am.gitignore
 
 # needed to avoid including Makefile.am.gtest

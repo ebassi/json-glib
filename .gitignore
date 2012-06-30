@@ -24,6 +24,8 @@ gtk-doc.make
 install-sh
 json-glib-1.0.pc
 json-glib.pc
+/json-lcov.info
+/json-lcov
 .deps
 .libs
 *.o

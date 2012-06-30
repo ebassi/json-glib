@@ -47,6 +47,8 @@ LT_INIT([disable-static])
 # Honor aclocal flags
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
 
+dnl === Versioning ============================================================
+
 JSON_MAJOR_VERSION=json_major_version
 JSON_MINOR_VERSION=json_minor_version
 JSON_MICRO_VERSION=json_micro_version
@@ -64,6 +66,8 @@ JSON_LT_AGE=lt_age
 JSON_LT_VERSION="$JSON_LT_CURRENT:$JSON_LT_REVISION:$JSON_LT_AGE"
 JSON_LT_LDFLAGS="-version-info $JSON_LT_VERSION"
 
+dnl === Platform checks =======================================================
+
 AC_CANONICAL_HOST
 AC_MSG_CHECKING([if building for some Win32 platform])
 AS_CASE([$host],
@@ -80,16 +84,16 @@ AC_MSG_RESULT([$platform_win32])
 
 AC_SUBST(JSON_LT_LDFLAGS)
 
+dnl === Dependencies ==========================================================
+
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
 
 PKG_CHECK_MODULES(JSON, [gobject-2.0 >= glib_req_version gio-2.0])
-AC_SUBST(JSON_CFLAGS)
-AC_SUBST(JSON_LIBS)
 
 AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
 
-dnl = Enable debug level ======================================================
+dnl === Enable debug level ====================================================
 
 m4_define([debug_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [minimum])])
 
@@ -122,7 +126,7 @@ AS_CASE([$enable_debug],
 
 AC_SUBST(JSON_DEBUG_CFLAGS)
 
-dnl = Enable strict compiler flags ============================================
+dnl === Enable strict compiler flags ==========================================
 
 # use strict compiler flags only on development releases
 m4_define([maintainer_flags_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [no])])
@@ -145,29 +149,90 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
 MAINTAINER_CFLAGS="${MAINTAINER_CFLAGS#*  }"
 AC_SUBST([MAINTAINER_CFLAGS])
 
-dnl = GCOV coverage checks ====================================================
-AC_MSG_CHECKING([whether to build with gcov testing])
+dnl === Test coverage =========================================================
+
 AC_ARG_ENABLE([gcov],
-              [AS_HELP_STRING([--enable-gcov],
-                              [Whether to enable coverage testing (requires gcc and gcov)])],
-              [],
-              [enable_gcov=no])
+              [AS_HELP_STRING([--enable-gcov], [Enable gcov])],
+              [use_gcov=$enableval],
+              [use_gcov=no])
 
-AS_IF([test "x$enable_gcov" = "xyes" && test "x$GCC" = "xyes"],
+AS_IF([test "x$use_gcov" = "xyes"],
       [
-        GCOV_CFLAGS="$CFLAGS -O0 -g -fprofile-arcs -ftest-coverage"
-        GCOV_LDFLAGS="$LDFLAGS -lgcov"
-      ]
-)
+        dnl we need gcc:
+        AS_IF([test "$GCC" != "yes"], [AC_MSG_ERROR([GCC is required for --enable-gcov])])
 
-AM_CONDITIONAL([GCOV_ENABLED], [test "x$enable_gcov" = "xyes"])
-AC_SUBST([GCOV_CFLAGS])
-AC_SUBST([GCOV_LDFLAGS])
-AC_MSG_RESULT([$enable_gcov])
+        dnl Check if ccache is being used
+        AC_CHECK_PROG(SHTOOL, shtool, shtool)
+        AS_CASE([`$SHTOOL path $CC`],
+                [*ccache*], [gcc_ccache=yes],
+                [gcc_ccache=no])
+
+        if test "$gcc_ccache" = "yes" && (test -z "$CCACHE_DISABLE" || test "$CCACHE_DISABLE" != "1"); then
+          AC_MSG_ERROR([ccache must be disabled when --enable-gcov option is used. You can disable ccache by setting environment variable CCACHE_DISABLE=1.])
+        fi
+
+        ltp_version_list="1.6 1.7 1.8 1.9"
+        AC_CHECK_PROG(LTP, lcov, lcov)
+        AC_CHECK_PROG(LTP_GENHTML, genhtml, genhtml)
+
+        if test "$LTP"; then
+          AC_CACHE_CHECK([for ltp version], json_cv_ltp_version,
+                         [
+                           json_cv_ltp_version=invalid
+                           ltp_version=`$LTP -v 2>/dev/null | $SED -e 's/^.* //'`
+                           for ltp_check_version in $ltp_version_list; do
+                             if test "$ltp_version" = "$ltp_check_version"; then
+                               json_cv_ltp_version="$ltp_check_version (ok)"
+                             fi
+                           done
+                         ])
+        else
+          ltp_msg="To enable code coverage reporting you must have one of the following LTP versions installed: $ltp_version_list"
+          AC_MSG_ERROR([$ltp_msg])
+        fi
+
+        case $json_cv_ltp_version in
+          ""|invalid[)]
+          ltp_msg="You must have one of the following versions of LTP: $ltp_version_list (found: $ltp_version)."
+          AC_MSG_ERROR([$ltp_msg])
+          LTP="exit 0;"
+          ;;
+        esac
+
+        if test -z "$LTP_GENHTML"; then
+          AC_MSG_ERROR([Could not find genhtml from the LTP package])
+        fi
+
+        AC_DEFINE(HAVE_GCOV, 1, [Whether you have gcov])
+
+        dnl Remove all optimization flags from CFLAGS
+        changequote({,})
+        CFLAGS=`echo "$CFLAGS" | $SED -e 's/-O[0-9]*//g'`
+        JSON_CFLAGS=`echo "$JSON_CFLAGS" | $SED -e 's/-O[0-9]*//g'`
+        changequote([,])
+
+        dnl Define the special gcc flags
+        JSON_GCOV_CFLAGS="-O0 -fprofile-arcs -ftest-coverage"
+        JSON_GCOV_LDADD="-lgcov"
+
+        AC_SUBST(JSON_GCOV_CFLAGS)
+        AC_SUBST(JSON_GCOV_LDADD)
+
+        JSON_CFLAGS="$JSON_CFLAGS $CLUTTER_GCOV_CFLAGS"
+        JSON_LIBS="$JSON_LIBS $CLUTTER_GCOV_LDADD"
+      ])
+
+AM_CONDITIONAL(ENABLE_GCOV, test "x$use_gcov" = "xyes")
+
+dnl === Documentation =========================================================
 
 GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
 
+dnl === Introspection =========================================================
+
 GOBJECT_INTROSPECTION_CHECK([0.9.5])
+
+dnl === Localization ==========================================================
 
 AM_GNU_GETTEXT_VERSION([0.18])
 AM_GNU_GETTEXT([external])
@@ -178,6 +243,11 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],
                    ["$GETTEXT_PACKAGE"],
                    [The prefix for our gettext translation domains.])
 AS_ALL_LINGUAS
+
+dnl === Output ================================================================
+
+AC_SUBST(JSON_CFLAGS)
+AC_SUBST(JSON_LIBS)
 
 AC_CONFIG_FILES([
         Makefile
@@ -218,5 +288,5 @@ echo " • API reference: ${enable_gtk_doc}"
 echo ""
 echo " • Enable test suite: ${enable_glibtest}"
 echo " • Build introspection data: ${enable_introspection}"
-echo " • Enable coverage test: ${enable_gcov}"
+echo " • Enable test coverage: ${use_gcov}"
 echo ""

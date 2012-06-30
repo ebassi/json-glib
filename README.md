@@ -34,6 +34,7 @@ In order to build JSON-GLib you will need:
 Optionally, JSON-GLib depends on:
 
  * GObject-Introspection ≥ 0.9.5
+ * LCov ≥ 1.6
 
 INSTALLATION
 -------------
