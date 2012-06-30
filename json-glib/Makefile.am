@@ -31,11 +31,11 @@ source_h = \
 	$(top_srcdir)/json-glib/json-builder.h		\
 	$(top_srcdir)/json-glib/json-generator.h 	\
 	$(top_srcdir)/json-glib/json-gobject.h 		\
+	$(top_srcdir)/json-glib/json-gvariant.h		\
 	$(top_srcdir)/json-glib/json-parser.h 		\
 	$(top_srcdir)/json-glib/json-path.h		\
 	$(top_srcdir)/json-glib/json-reader.h		\
 	$(top_srcdir)/json-glib/json-types.h 		\
-	$(top_srcdir)/json-glib/json-gvariant.h		\
 	$(NULL)
 
 source_h_private = \
@@ -52,6 +52,7 @@ source_c = \
 	$(srcdir)/json-gboxed.c		\
 	$(srcdir)/json-generator.c 	\
 	$(srcdir)/json-gobject.c 	\
+	$(srcdir)/json-gvariant.c	\
 	$(srcdir)/json-node.c 		\
 	$(srcdir)/json-object.c 	\
 	$(srcdir)/json-parser.c 	\
@@ -59,7 +60,7 @@ source_c = \
 	$(srcdir)/json-reader.c		\
 	$(srcdir)/json-scanner.c 	\
 	$(srcdir)/json-serializable.c	\
-	$(srcdir)/json-gvariant.c	\
+	$(srcdir)/json-value.c		\
 	$(NULL)
 
 # glib-mkenums rules
