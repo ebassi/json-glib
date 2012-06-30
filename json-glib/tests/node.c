@@ -3,6 +3,50 @@
 #include <string.h>
 
 static void
+test_init_int (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_int (node, 42);
+  g_assert_cmpint (json_node_get_int (node), ==, 42);
+
+  json_node_free (node);
+}
+
+static void
+test_init_double (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_double (node, 3.14159);
+  g_assert_cmpfloat (json_node_get_double (node), ==, 3.14159);
+
+  json_node_free (node);
+}
+
+static void
+test_init_boolean (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_boolean (node, TRUE);
+  g_assert (json_node_get_boolean (node));
+
+  json_node_free (node);
+}
+
+static void
+test_init_string (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_string (node, "Hello, World");
+  g_assert_cmpstr (json_node_get_string (node), ==, "Hello, World");
+
+  json_node_free (node);
+}
+
+static void
 test_copy_null (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_NULL);
@@ -68,7 +112,7 @@ test_null (void)
 }
 
 static void
-test_value (void)
+test_gvalue (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_VALUE);
   GValue value = { 0, };
@@ -95,6 +139,58 @@ test_value (void)
   json_node_free (node);
 }
 
+static void
+test_gvalue_autopromotion (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+  GValue value = { 0, };
+  GValue check = { 0, };
+
+  g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_VALUE);
+
+  if (g_test_verbose ())
+    g_print ("Autopromotion of int to int64\n");
+
+  g_value_init (&value, G_TYPE_INT);
+  g_value_set_int (&value, 42);
+
+  json_node_set_value (node, &value);
+  json_node_get_value (node, &check);
+
+  if (g_test_verbose ())
+    g_print ("Expecting an gint64, got a %s\n", g_type_name (G_VALUE_TYPE (&check)));
+
+  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_INT64);
+  g_assert_cmpint (g_value_get_int64 (&check), ==, 42);
+  g_assert_cmpint (G_VALUE_TYPE (&value), !=, G_VALUE_TYPE (&check));
+  g_assert_cmpint ((gint64) g_value_get_int (&value), ==, g_value_get_int64 (&check));
+
+  g_value_unset (&value);
+  g_value_unset (&check);
+
+  if (g_test_verbose ())
+    g_print ("Autopromotion of float to double\n");
+
+  g_value_init (&value, G_TYPE_FLOAT);
+  g_value_set_float (&value, 3.14159f);
+
+  json_node_set_value (node, &value);
+  json_node_get_value (node, &check);
+
+  if (g_test_verbose ())
+    g_print ("Expecting a gdouble, got a %s\n", g_type_name (G_VALUE_TYPE (&check))); 
+
+  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_DOUBLE);
+  g_assert_cmpfloat ((float) g_value_get_double (&check), ==, 3.14159f);
+  g_assert_cmpint (G_VALUE_TYPE (&value), !=, G_VALUE_TYPE (&check));
+  g_assert_cmpfloat ((gdouble) g_value_get_float (&value), ==, g_value_get_double (&check));
+
+  g_value_unset (&value);
+  g_value_unset (&check);
+
+  json_node_free (node);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -102,11 +198,16 @@ main (int   argc,
   g_type_init ();
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add_func ("/nodes/null-node", test_null);
-  g_test_add_func ("/nodes/copy-null", test_copy_null);
-  g_test_add_func ("/nodes/copy-value", test_copy_value);
-  g_test_add_func ("/nodes/copy-object", test_copy_object);
-  g_test_add_func ("/nodes/value", test_value);
+  g_test_add_func ("/nodes/init/int", test_init_int);
+  g_test_add_func ("/nodes/init/double", test_init_double);
+  g_test_add_func ("/nodes/init/boolean", test_init_boolean);
+  g_test_add_func ("/nodes/init/string", test_init_string);
+  g_test_add_func ("/nodes/init/null", test_null);
+  g_test_add_func ("/nodes/copy/null", test_copy_null);
+  g_test_add_func ("/nodes/copy/value", test_copy_value);
+  g_test_add_func ("/nodes/copy/object", test_copy_object);
+  g_test_add_func ("/nodes/gvalue", test_gvalue);
+  g_test_add_func ("/nodes/gvalue/autopromotion", test_gvalue_autopromotion);
 
   return g_test_run ();
 }
