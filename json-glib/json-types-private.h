@@ -47,7 +47,7 @@ struct _JsonNode
   union {
     JsonObject *object;
     JsonArray *array;
-    GValue value;
+    JsonValue *value;
   } data;
 
   JsonNode *parent;
