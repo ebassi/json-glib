@@ -88,6 +88,7 @@ static const struct {
   { "integer", JSON_NODE_VALUE, G_TYPE_INT64 },
   { "boolean", JSON_NODE_VALUE, G_TYPE_BOOLEAN },
   { "string", JSON_NODE_VALUE, G_TYPE_STRING },
+  { "double", JSON_NODE_VALUE, G_TYPE_DOUBLE },
   { "null", JSON_NODE_NULL, G_TYPE_INVALID }
 };
 
@@ -122,6 +123,7 @@ test_foreach_member (void)
   json_object_set_int_member (object, "integer", 42);
   json_object_set_boolean_member (object, "boolean", TRUE);
   json_object_set_string_member (object, "string", "hello");
+  json_object_set_double_member (object, "double", 3.14159);
   json_object_set_null_member (object, "null");
 
   json_object_foreach_member (object, verify_foreach, &fixture);

@@ -132,13 +132,11 @@ json_node_copy (JsonNode *node)
   switch (copy->type)
     {
     case JSON_NODE_OBJECT:
-      if (node->data.object)
-        copy->data.object = json_object_ref (node->data.object);
+      copy->data.object = json_node_dup_object (node);
       break;
 
     case JSON_NODE_ARRAY:
-      if (node->data.array)
-        copy->data.array = json_array_ref (node->data.array);
+      copy->data.array = json_node_dup_array (node);
       break;
 
     case JSON_NODE_VALUE:
@@ -485,7 +483,8 @@ json_node_type_name (JsonNode *node)
       return json_node_type_get_name (node->type);
 
     case JSON_NODE_VALUE:
-      return g_type_name (G_VALUE_TYPE (&(node->data.value)));
+      if (node->data.value)
+        return json_value_type_get_name (node->data.value->type);
     }
 
   return "unknown";

@@ -105,6 +105,7 @@ test_null (void)
   JsonNode *node = json_node_new (JSON_NODE_NULL);
 
   g_assert (JSON_NODE_HOLDS_NULL (node));
+  g_assert (json_node_is_null (node));
   g_assert_cmpint (json_node_get_value_type (node), ==, G_TYPE_INVALID);
   g_assert_cmpstr (json_node_type_name (node), ==, "NULL");
 
@@ -133,6 +134,23 @@ test_gvalue (void)
   g_assert_cmpint (g_value_get_int64 (&value), ==, g_value_get_int64 (&check));
   g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_INT64);
   g_assert_cmpint (g_value_get_int64 (&check), ==, 42);
+
+  g_value_unset (&value);
+  g_value_unset (&check);
+
+  g_value_init (&value, G_TYPE_STRING);
+  g_value_set_string (&value, "Hello, World!");
+
+  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_TYPE_STRING);
+  g_assert_cmpstr (g_value_get_string (&value), ==, "Hello, World!");
+
+  json_node_set_value (node, &value);
+  json_node_get_value (node, &check);
+
+  g_assert_cmpint (G_VALUE_TYPE (&value), ==, G_VALUE_TYPE (&check));
+  g_assert_cmpstr (g_value_get_string (&value), ==, g_value_get_string (&check));
+  g_assert_cmpint (G_VALUE_TYPE (&check), ==, G_TYPE_STRING);
+  g_assert_cmpstr (g_value_get_string (&check), ==, "Hello, World!");
 
   g_value_unset (&value);
   g_value_unset (&check);
