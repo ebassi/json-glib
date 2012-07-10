@@ -6,9 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib 0.12.x\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib\n"
-"POT-Creation-Date: 2011-12-19 09:41+0100\n"
-"PO-Revision-Date: 2011-12-19 09:45+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib\n"
+"POT-Creation-Date: 2012-07-10 08:27+0200\n"
+"PO-Revision-Date: 2012-07-10 08:29+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Kjartan Maraas <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -36,11 +37,11 @@ msgstr ""
 
 #: ../json-glib/json-gvariant.c:645
 msgid "Unexpected extra elements in JSON array"
-msgstr ""
+msgstr "Uventede ekstra elementer i JSON-tabell"
 
 #: ../json-glib/json-gvariant.c:924
 msgid "Invalid string value converting to GVariant"
-msgstr ""
+msgstr "Ugyldig strengverdi ved konvertering til GVariant"
 
 #: ../json-glib/json-gvariant.c:980
 msgid ""
@@ -50,11 +51,11 @@ msgstr ""
 #: ../json-glib/json-gvariant.c:1236
 #, c-format
 msgid "GVariant class '%c' not supported"
-msgstr ""
+msgstr "GVariant-klasse «%c» er ikke støttet"
 
 #: ../json-glib/json-gvariant.c:1281
 msgid "Invalid GVariant signature"
-msgstr ""
+msgstr "Ugyldig signatur for GVariant"
 
 #: ../json-glib/json-gvariant.c:1326
 msgid "JSON data is empty"
@@ -63,7 +64,7 @@ msgstr "JSON-datastruktur er tom"
 #: ../json-glib/json-parser.c:818
 #, c-format
 msgid "%s:%d: Parse error: %s"
-msgstr ""
+msgstr "%s:%d: Tolkefeil: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -119,7 +120,7 @@ msgstr ""
 #: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
 #: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
 msgid "No node available at the current position"
-msgstr ""
+msgstr "Ingen node tilgjengelig i denne posisjonen"
 
 #: ../json-glib/json-reader.c:583
 #, c-format
