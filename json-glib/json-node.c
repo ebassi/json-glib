@@ -654,6 +654,12 @@ json_node_get_int (JsonNode *node)
   if (JSON_VALUE_HOLDS_INT (node->data.value))
     return json_value_get_int (node->data.value);
 
+  if (JSON_VALUE_HOLDS_DOUBLE (node->data.value))
+    return json_value_get_double (node->data.value);
+
+  if (JSON_VALUE_HOLDS_BOOLEAN (node->data.value))
+    return json_value_get_boolean (node->data.value);
+
   return 0;
 }
 
@@ -699,6 +705,12 @@ json_node_get_double (JsonNode *node)
   if (JSON_VALUE_HOLDS_DOUBLE (node->data.value))
     return json_value_get_double (node->data.value);
 
+  if (JSON_VALUE_HOLDS_INT (node->data.value))
+    return (gdouble) json_value_get_int (node->data.value);
+
+  if (JSON_VALUE_HOLDS_BOOLEAN (node->data.value))
+    return (gdouble) json_value_get_boolean (node->data.value);
+
   return 0.0;
 }
 
@@ -743,6 +755,12 @@ json_node_get_boolean (JsonNode *node)
 
   if (JSON_VALUE_HOLDS_BOOLEAN (node->data.value))
     return json_value_get_boolean (node->data.value);
+
+  if (JSON_VALUE_HOLDS_INT (node->data.value))
+    return json_value_get_int (node->data.value) != 0;
+
+  if (JSON_VALUE_HOLDS_DOUBLE (node->data.value))
+    return json_value_get_double (node->data.value) != 0.0;
 
   return FALSE;
 }

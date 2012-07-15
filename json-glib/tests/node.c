@@ -113,6 +113,39 @@ test_null (void)
 }
 
 static void
+test_get_int (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_int (node, 0);
+  g_assert_cmpint (json_node_get_int (node), ==, 0);
+  g_assert_cmpfloat (json_node_get_double (node), ==, 0.0);
+  g_assert (!json_node_get_boolean (node));
+  g_assert (!json_node_is_null (node));
+
+  json_node_set_int (node, 42);
+  g_assert_cmpint (json_node_get_int (node), ==, 42);
+  g_assert_cmpfloat (json_node_get_double (node), ==, 42.0);
+  g_assert (json_node_get_boolean (node));
+  g_assert (!json_node_is_null (node));
+
+  json_node_free (node);
+}
+
+static void
+test_get_double (void)
+{
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+
+  json_node_set_double (node, 3.14);
+  g_assert_cmpfloat (json_node_get_double (node), ==, 3.14);
+  g_assert_cmpint (json_node_get_int (node), ==, 3);
+  g_assert (json_node_get_boolean (node));
+
+  json_node_free (node);
+}
+
+static void
 test_gvalue (void)
 {
   JsonNode *node = json_node_new (JSON_NODE_VALUE);
@@ -224,6 +257,8 @@ main (int   argc,
   g_test_add_func ("/nodes/copy/null", test_copy_null);
   g_test_add_func ("/nodes/copy/value", test_copy_value);
   g_test_add_func ("/nodes/copy/object", test_copy_object);
+  g_test_add_func ("/nodes/get/int", test_get_int);
+  g_test_add_func ("/nodes/get/double", test_get_double);
   g_test_add_func ("/nodes/gvalue", test_gvalue);
   g_test_add_func ("/nodes/gvalue/autopromotion", test_gvalue_autopromotion);
 
