@@ -279,7 +279,7 @@ dump_value (JsonGenerator *generator,
   JsonGeneratorPrivate *priv = generator->priv;
   gboolean pretty = priv->pretty;
   guint indent = priv->indent;
-  GValue value = { 0, };
+  const JsonValue *value;
   GString *buffer;
 
   buffer = g_string_new ("");
@@ -300,45 +300,48 @@ dump_value (JsonGenerator *generator,
         g_string_append_printf (buffer, "\"%s\":", name);
     }
 
-  json_node_get_value (node, &value);
+  value = node->data.value;
 
-  switch (G_VALUE_TYPE (&value))
+  switch (value->type)
     {
-    case G_TYPE_INT64:
-      g_string_append_printf (buffer, "%" G_GINT64_FORMAT, g_value_get_int64 (&value));
+    case JSON_VALUE_INT:
+      g_string_append_printf (buffer, "%" G_GINT64_FORMAT, json_value_get_int (value));
       break;
 
-    case G_TYPE_STRING:
+    case JSON_VALUE_STRING:
       {
         gchar *tmp;
 
-        tmp = json_strescape (g_value_get_string (&value));
-        g_string_append_printf (buffer, "\"%s\"", tmp);
+        tmp = json_strescape (json_value_get_string (value));
+        g_string_append_c (buffer, '"');
+        g_string_append (buffer, tmp);
+        g_string_append_c (buffer, '"');
 
         g_free (tmp);
       }
       break;
 
-    case G_TYPE_DOUBLE:
+    case JSON_VALUE_DOUBLE:
       {
         gchar buf[G_ASCII_DTOSTR_BUF_SIZE];
 
         g_string_append (buffer,
                          g_ascii_dtostr (buf, sizeof (buf),
-                                         g_value_get_double (&value)));
+                                         json_value_get_double (value)));
       }
       break;
 
-    case G_TYPE_BOOLEAN:
-      g_string_append_printf (buffer, "%s",
-                              g_value_get_boolean (&value) ? "true" : "false");
+    case JSON_VALUE_BOOLEAN:
+      g_string_append (buffer, json_value_get_boolean (value) ? "true" : "false");
+      break;
+
+    case JSON_VALUE_NULL:
+      g_string_append (buffer, "null");
       break;
 
     default:
       break;
     }
-
-  g_value_unset (&value);
 
   if (length)
     *length = buffer->len;
