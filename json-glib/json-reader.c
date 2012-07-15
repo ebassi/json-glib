@@ -867,13 +867,6 @@ json_reader_get_int_value (JsonReader *reader)
       return 0;
     }
 
-  if (json_node_get_value_type (node) != G_TYPE_INT64)
-    {
-      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
-                             _("The current position does not hold an integer type"));
-      return 0;
-    }
-
   return json_node_get_int (reader->priv->current_node);
 }
 
@@ -909,13 +902,6 @@ json_reader_get_double_value (JsonReader *reader)
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
                              _("The current position holds a '%s' and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
-      return 0.0;
-    }
-
-  if (json_node_get_value_type (node) != G_TYPE_DOUBLE)
-    {
-      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
-                             _("The current position does not hold a floating point type"));
       return 0.0;
     }
 
@@ -999,13 +985,6 @@ json_reader_get_boolean_value (JsonReader *reader)
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
                              _("The current position holds a '%s' and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
-      return FALSE;
-    }
-
-  if (json_node_get_value_type (node) != G_TYPE_BOOLEAN)
-    {
-      json_reader_set_error (reader, JSON_READER_ERROR_INVALID_TYPE,
-                             _("The current position does not hold a boolean type"));
       return FALSE;
     }
 
