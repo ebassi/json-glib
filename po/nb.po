@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: json-glib 0.12.x\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib\n"
-"POT-Creation-Date: 2012-07-10 08:27+0200\n"
-"PO-Revision-Date: 2012-07-10 08:29+0200\n"
+"POT-Creation-Date: 2012-07-25 16:43+0200\n"
+"PO-Revision-Date: 2012-07-25 16:44+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Kjartan Maraas <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ../json-glib/json-gobject.c:934
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
-msgstr ""
+msgstr "Forventet et JSON-objekt, men rotnoden er av type «%s»"
 
 #: ../json-glib/json-gvariant.c:539
 #, c-format
@@ -68,12 +68,12 @@ msgstr "%s:%d: Tolkefeil: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
-msgstr ""
+msgstr "Kun en rotnode tillates i et JSONPath-uttrykk"
 
 #: ../json-glib/json-path.c:384
 #, c-format
 msgid "Root node followed by invalid character '%c'"
-msgstr ""
+msgstr "Rotnode etterfulgt av ugyldig tegn «%c»"
 
 #: ../json-glib/json-path.c:490
 #, c-format
@@ -116,9 +116,9 @@ msgstr ""
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "Ingen node tilgjengelig i denne posisjonen"
 
@@ -143,24 +143,12 @@ msgid "The current position holds a '%s' and not an object"
 msgstr "Nåværende posisjon innholder en «%s» og ikke et objekt"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Nåværende posisjon inneholder en «%s» og ikke en verdi"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "Nåværende posisjon inneholder ikke en heltallstype"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "Nåværende posisjon inneholder ikke en flyttallstype"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Nåværende posisjon inneholder ikke en streng-type"
-
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "Nåværende posisjon inneholder ikke en boolsk type"
