@@ -1,0 +1,158 @@
+# json-glib ja.po
+# Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
+# This file is distributed under the same license as the json-glib package.
+# Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>, 2012.
+# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-07-25 14:39+0000\n"
+"PO-Revision-Date: 2012-08-06 19:56+0900\n"
+"Last-Translator: Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>\n"
+"Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "JSON オブジェクトであるべきところ、ルートノードが `%s' 型です"
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "JSON ノードが `%s' 型になってしまってます"
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "JSON の配列にタプルを構成する要素が足りません"
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "GVariant タプル型に閉じ記号 ')' がありません"
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "JSON 配列に余計な要素があります"
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "GVariant に変換するのに無効な文字列です"
+
+#: ../json-glib/json-gvariant.c:980
+msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr "GVariant の辞書エントリはメンバーを一つだけ含んだ JSON オブジェクトでなくてはなりません"
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "GVariant のクラス '%c' はサポートされていません"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "無効な GVariant シグネチャです"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "JSON データが空です"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: パースエラー: %s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "JSONPath 式ではルートノード一つだけが許可されています"
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "ルートノードの後に無効な文字 '%c' があります"
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "不正なスライス式 '%*s'"
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "無効な集合定義 '%*s'"
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "無効なスライス定義: '%*s'"
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "無効な配列インデックス定義 '%*s'"
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid "The current node is of type '%s', but an array or an object was expected."
+msgstr "現在のノードは '%s' 型ですが、配列あるいはオブジェクトである必要があります。"
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid "The index '%d' is greater than the size of the array at the current position."
+msgstr "インデックス '%d' は現在位置にある配列の長さよりも大きいです。"
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid "The index '%d' is greater than the size of the object at the current position."
+msgstr "インデックス '%d' は現在位置のオブジェクトの大きさよりも大きいです。"
+
+#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+msgid "No node available at the current position"
+msgstr "現在位置にノードがありません"
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "現在位置は '%s' で、配列ではありません"
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "現在のノードは '%s' 型ですが、オブジェクトである必要があります。"
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "現在位置のオブジェクトで '%s' メンバーは定義されていません"
+
+#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "現在位置は '%s' で、オブジェクトではありません"
+
+#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "現在位置は '%s' で値ではありません"
+
+#: ../json-glib/json-reader.c:949
+msgid "The current position does not hold a string type"
+msgstr "現在位置が文字列型ではありません"
+
+#~ msgid "The current position does not hold an integer type"
+#~ msgstr "現在位置が整数型ではありません"
+
+#~ msgid "The current position does not hold a floating point type"
+#~ msgstr "現在位置が浮動小数点型ではありません"
+
+#~ msgid "The current position does not hold a boolean type"
+#~ msgstr "現在位置が論理値型ではありません"
