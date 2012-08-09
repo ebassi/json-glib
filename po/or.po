@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-08-06 14:04+0000\n"
-"PO-Revision-Date: 2012-08-07 17:37+0530\n"
+"PO-Revision-Date: 2012-08-09 18:26+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <or@li.org>\n"
 "Language: or\n"
@@ -48,7 +48,7 @@ msgstr "GVariant କୁ ପରିବର୍ତ୍ତନ କରୁଥିବା ଅ
 #: ../json-glib/json-gvariant.c:980
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
-msgstr ""
+msgstr "ଏକ GVariant ଅଭିଧାନ ନିବେଶ ଗୋଟିଏ JSON ବସ୍ତୁକୁ ଗୋଟିଏ ସଦସ୍ୟ ସହିତ ଆଶାକରିଥାଏ"
 
 #: ../json-glib/json-gvariant.c:1236
 #, c-format
@@ -70,51 +70,52 @@ msgstr "%s:%d: ବିଶ୍ଳେଷଣ ତ୍ରୁଟି: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
-msgstr ""
+msgstr "କେବଳ ଗୋଟିଏ ମୂଖ୍ୟ ଚାଳକ ନୋଡ JSONPath ଅଭିବ୍ୟକ୍ତିରେ ଅନୁମତି ପ୍ରାପ୍ତ"
 
 #: ../json-glib/json-path.c:384
 #, c-format
 msgid "Root node followed by invalid character '%c'"
-msgstr ""
+msgstr "ଅବୈଧ ଅକ୍ଷର '%c' ଦ୍ୱାରା ମୂଖ୍ୟ ଚାଳକ ନୋଡ"
 
 #: ../json-glib/json-path.c:490
 #, c-format
 msgid "Malformed slice expression '%*s'"
-msgstr ""
+msgstr "ତ୍ରୁଟିଯୁକ୍ତ ଖଣ୍ଡ ଅଭିବ୍ୟକ୍ତି '%*s'"
 
 #: ../json-glib/json-path.c:534
 #, c-format
 msgid "Invalid set definition '%*s'"
-msgstr ""
+msgstr "ଅବୈଧ ସେଟ ସଂଜ୍ଞା '%*s'"
 
 #: ../json-glib/json-path.c:587
 #, c-format
 msgid "Invalid slice definition '%*s'"
-msgstr ""
+msgstr "ଅବୈଧ ଖଣ୍ଡ ସଂଜ୍ଞା '%*s'"
 
 #: ../json-glib/json-path.c:615
 #, c-format
 msgid "Invalid array index definition '%*s'"
-msgstr ""
+msgstr "ଅବୈଧ ଆରେ ଅନୁକ୍ରମଣିକା ସଂଜ୍ଞା '%*s'"
 
 #: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr ""
+"ପ୍ରଚଳିତ ନୋଡଟି '%s' ପ୍ରକାରର ଅଟେ, କିନ୍ତୁ ଏକ ଆରେ ଅଥବା ବସ୍ତୁ ଆଶାକରାଯାଇଥିଲା।"
 
 #: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr ""
+msgstr "ଅନୁକ୍ରମଣିକା '%d' ଟି ପ୍ରଚଳିତ ଅବସ୍ଥାନରେ ଆରେ ଆକାର ଠାରୁ ବଡ଼ ଅଟେ।"
 
 #: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
-msgstr ""
+msgstr "ଅନୁକ୍ରମଣିକା '%d' ଟି ପ୍ରଚଳିତ ଅବସ୍ଥାନରେ ବସ୍ତୁ ଆକାର ଠାରୁ ବଡ଼ ଅଟେ।"
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
@@ -122,36 +123,38 @@ msgstr ""
 #: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
 #: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
-msgstr ""
+msgstr "ପ୍ରଚଳିତ ଅବସ୍ଥାନରେ କୌଣସି ନୋଡ ଉପଲବ୍ଧ ନାହିଁ।"
 
 #: ../json-glib/json-reader.c:583
 #, c-format
 msgid "The current position holds a '%s' and not an array"
-msgstr ""
+msgstr "ପ୍ରଚଳିତ ଅବସ୍ଥାନ ଏକ '%s' କୁ ଧାରଣ କରିଥାଏ ଏବଂ କୌଣସି ଆରେକୁ ଧାରଣ କରିନଥାଏ"
 
 #: ../json-glib/json-reader.c:646
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
-msgstr ""
+msgstr "ପ୍ରଚଳିତ ନୋଡଟି '%s' ପ୍ରକାରର ଅଟେ, କିନ୍ତୁ ଏକ ବସ୍ତୁକୁ ଆଶାକରୁଥିଲା।"
 
 #: ../json-glib/json-reader.c:653
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
-msgstr ""
+msgstr "'%s' ସଦସ୍ୟଟି ପ୍ରଚଳିତ ଅବସ୍ଥାନରେ ବସ୍ତୁ ପାଖରେ ବ୍ୟାଖ୍ୟା କରିନାହିଁ।"
 
 #: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr ""
+"ପ୍ରଚଳିତ ଅବସ୍ଥାନ ଏକ '%s' କୁ ଧାରଣ କରିଥାଏ କିନ୍ତୁ କୌଣସି ବସ୍ତୁକୁ ଧାରଣ କରିନଥାଏ"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
 #: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
 #: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
-msgstr ""
+msgstr "ପ୍ରଚଳିତ ଅବସ୍ଥାନ ଏକ '%s' ଧାରଣ କରିଥାଏ କିନ୍ତୁ କୌଣସି ମୂଲ୍ୟ ଧାରଣ କରିନଥାଏ"
 
 #: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
-msgstr ""
+msgstr "ପ୍ରଚଳିତ ଅବସ୍ଥାନ କୌଣସି ବାକ୍ୟଖଣ୍ଡ ପ୍ରକାର ଧାରଣ କରିନଥାଏ"
+
 
