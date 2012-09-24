@@ -1,0 +1,156 @@
+# Bengali (India) translation for json-glib.
+# Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
+# This file is distributed under the same license as the json-glib package.
+#
+# Sayak Sarkar <sayak.bugsmith@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-09-22 19:40+0000\n"
+"PO-Revision-Date: 2012-09-23 11:44+0530\n"
+"Last-Translator: Sayak Sarkar <sayak.bugsmith@gmail.com>\n"
+"Language-Team: Bengali (India) <anubad@lists.ankur.org.in>\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.4\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "একটি JSON বস্তুর প্রত্যাশা করা হচ্ছে, কিন্তু রুট নোড টাইপ হল `%s'"
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "JSON নোডের মধ্যে অপ্রত্যাশিত টাইপ '%s'"
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "JSON অ্যারের মধ্যে অনুপস্থিত উপাদানের একটি tuple বর্নিত"
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "GVariant tuple টাইপে শেষ চিহ্ন ')' অনুপস্থিত"
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "JSON অ্যারের মধ্যে অপ্রত্যাশিত অতিরিক্ত উপাদানসমূহ"
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "GVariant এর রূপান্তরিকরণে স্ট্রিং-এর মান অবৈধ"
+
+#: ../json-glib/json-gvariant.c:980
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr "একটি GVariant অভিধান এন্ট্রি এক সদস্যের সঙ্গে ঠিক একটি JSON বস্তুর আশা করে"
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "GVariant ক্লাস '%c' সমর্থিত নয়"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "অবৈধ GVariant স্বাক্ষর"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "JSON তথ্য খালি"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: পার্স ত্রুটি: %s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "কেবলমাত্র একটি রুট নোড একটি JSONPath অভিব্যক্তিতে অনুমোদিত করা হয়"
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "রুট নোড অবৈধ অক্ষর '%c' দ্বারা অনুসরিত"
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "ত্রুটিপূর্ণ স্লাইস্ অভিব্যক্তি '%*s'"
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "অবৈধ সেট সংজ্ঞা '%*s'"
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "অবৈধ স্লাইস্ সংজ্ঞা '%*s'"
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "অবৈধ অ্যারের সূচক সংজ্ঞা '%*s'"
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr "বর্তমান নোড '%s' ধরনের, কিন্তু একটি অ্যারে অথবা কোনো বস্তু প্রত্যাশিত ছিল।"
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr "সূচক '%d' বর্তমান অবস্থান এ অ্যারের মাপের চেয়ে বেশী।"
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr "সূচক '% d' বর্তমান অবস্থানে বস্তুর আকারের চেয়ে বৃহত্তর।"
+
+#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+msgid "No node available at the current position"
+msgstr "বর্তমান অবস্থানে কোন নোড উপলব্ধ নয়"
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "বর্তমান অবস্থানে একটি অ্যারের জায়গায় '%s'  উপস্থিত"
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "বর্তমান নোড '%s' ধরনের, কিন্তু একটি বস্তু প্রত্যাশিত ছিল।"
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "'%s' সদস্য বর্তমান অবস্থানে অবজেক্টে সংজ্ঞায়িত করা নেই।"
+
+#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "বর্তমান অবস্থানে একটি বস্তুর জায়গায় '%s'  উপস্থিত"
+
+#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "বর্তমান অবস্থানে একটি মানের জায়গায় '%s'  উপস্থিত"
+
+#: ../json-glib/json-reader.c:949
+msgid "The current position does not hold a string type"
+msgstr "বর্তমান অবস্থানে কোন স্ট্রিং নেই"
