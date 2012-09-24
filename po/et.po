@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-09-22 19:40+0000\n"
 "PO-Revision-Date: 2012-09-23 15:20+0300\n"
 "Last-Translator: Mattias Põldaru <mahfiaz@gmail.com>\n"
@@ -17,142 +18,106 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../json-glib/json-gobject.c:934
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Oodati JSON objekti, kuid juursõlme liik on '%s'"
 
-#: ../json-glib/json-gvariant.c:539
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "JSON sõlmes esines ootamatu liik '%s'"
 
-#: ../json-glib/json-gvariant.c:609
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "JSON massiivis puuduvad tuple'i moodustamiseks vajalikud elemendid"
 
-#: ../json-glib/json-gvariant.c:637
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Puuduv sulgev ')' sümbol GVariant tuple'is"
 
-#: ../json-glib/json-gvariant.c:645
 msgid "Unexpected extra elements in JSON array"
 msgstr "Ootamatud lisaelemendid JSON massiivis"
 
-#: ../json-glib/json-gvariant.c:924
 msgid "Invalid string value converting to GVariant"
 msgstr "Sobimatu sõne väärtus GVariandiks teisendamisel"
 
-#: ../json-glib/json-gvariant.c:980
-msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
-msgstr "GVariant dictionary kirje eeldab JSON objekti, milles on täpselt üks liige"
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr ""
+"GVariant dictionary kirje eeldab JSON objekti, milles on täpselt üks liige"
 
-#: ../json-glib/json-gvariant.c:1236
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "GVariant klass '%c' pole toetatud"
 
-#: ../json-glib/json-gvariant.c:1281
 msgid "Invalid GVariant signature"
 msgstr "Sobimatu GVariant-i allkiri"
 
-#: ../json-glib/json-gvariant.c:1326
 msgid "JSON data is empty"
 msgstr "JSON ei sisalda andmeid"
 
-#: ../json-glib/json-parser.c:818
 #, c-format
 msgid "%s:%d: Parse error: %s"
 msgstr "%s:%d: parsimise viga: %s"
 
-#: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "Ainult juursõlm on lubatud JSONPath expression lauses"
 
-#: ../json-glib/json-path.c:384
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "Juursõlmele järgneb sobimatu märk '%c'"
 
-#: ../json-glib/json-path.c:490
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Sobimatu tüki väljendus (slice expression) '%*s'"
 
-#: ../json-glib/json-path.c:534
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Sobimatu kogu (set) definitsioon '%*s'"
 
-#: ../json-glib/json-path.c:587
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Sobimatu tüki (slice) definitsioon '%*s'"
 
-#: ../json-glib/json-path.c:615
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Sobimatu massiivi indeksi definitsioon '%*s'"
 
-#: ../json-glib/json-reader.c:463
 #, c-format
-msgid "The current node is of type '%s', but an array or an object was expected."
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
 msgstr "Praeguse sõlme liik on '%s', aga oodati massiivi või objekti."
 
-#: ../json-glib/json-reader.c:475
 #, c-format
-msgid "The index '%d' is greater than the size of the array at the current position."
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
 msgstr "Indeks '%d' on suurem kui massivi suurus praeguses asukohas."
 
-#: ../json-glib/json-reader.c:492
 #, c-format
-msgid "The index '%d' is greater than the size of the object at the current position."
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
 msgstr "Indeks '%d' on suurem kui objekti suurus praeguses asukohas."
 
-#: ../json-glib/json-reader.c:576
-#: ../json-glib/json-reader.c:729
-#: ../json-glib/json-reader.c:780
-#: ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856
-#: ../json-glib/json-reader.c:894
-#: ../json-glib/json-reader.c:932
-#: ../json-glib/json-reader.c:977
-#: ../json-glib/json-reader.c:1013
-#: ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "Praeguses asukohas pole saadaval ühtegi sõlme"
 
-#: ../json-glib/json-reader.c:583
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Praegune asukoht sisaldab '%s' ning see pole massiiv"
 
-#: ../json-glib/json-reader.c:646
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "Praeguse sõlme liik on '%s', aga oodati objekti."
 
-#: ../json-glib/json-reader.c:653
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Liige '%s' ei ole defineeritud praeguses asukohas asuvas objektis."
 
-#: ../json-glib/json-reader.c:736
-#: ../json-glib/json-reader.c:787
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Praegune asukoht sisaldab '%s', mitte objekti"
 
-#: ../json-glib/json-reader.c:827
-#: ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:903
-#: ../json-glib/json-reader.c:941
-#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Praegune asukoht sisaldab '%s' ning mitte väärtust"
 
-#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Praegune asukoht ei sisalda sõne liiki"
-
