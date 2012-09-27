@@ -1,0 +1,160 @@
+# Kirghiz translation for json-glib.
+# Kyrgyz translation of json-glib
+# Copyright (C) 2012 json-glib authors
+# This file is distributed under the same license as the json-glib package.
+#
+# Timur Zhamakeev <ztimur@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-09-24 08:27+0000\n"
+"PO-Revision-Date: 2012-09-27 11:52+0600\n"
+"Last-Translator: Timur Zhamakeev <ztimur@gmail.com>\n"
+"Language-Team: Kirghiz <gnome-i18n@gnome.org>\n"
+"Language: ky\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.4\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "JSON объекти күтүлүүдө, бирок башкы түйүн `%s' тибинде"
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "JSON  түйүнүндө күтүлбөгөн тип: '%s' "
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "JSON массивинде кортежге ылайык келүүчү элементтер жок"
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "GVariant кортеж тибинде жабылуучу ')' тамгасы жок"
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "JSON массивинде күтүлбөгөн кошумча элементтер"
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "GVariant тибине которуу үчүн берилген саптын мааниси туура эмес"
+
+#: ../json-glib/json-gvariant.c:980
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr "GVariant сөздүк элементи, бир гана мүчөлүү JSON объекти болушу керек"
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "'%c' GVariant классы колдоого ээ эмес"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "GVariant сигнатурасы туура эмес"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "JSON маалыматы жок"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: Ажыратып окуу катасы: %s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "JSONPath туюнтмасында бир гана башкы түйүн болушу мүмкүн"
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "Башкы түйүн туура эмес тамга менен аяктаган: '%c'"
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "Туура эмес кесүү (slice) туюнтмасы '%*s'"
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "Туура эмес ыйгаруу (set) аныктамасы '%*s'"
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "Туура эмес кесүү (slice) аныктамасы '%*s'"
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "Массив индексинин туура эмес аныктамасы '%*s'"
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr "Учурдагы түйүн '%s' тибинде; массив же объект күтүлгөн."
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr "Учурдагы позициянын индекси:'%d'; массивдин узундугунан чоң."
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr ""
+"Учурдагы позициянын индекси:'%d'; объектин узундугунан "
+"чоң."
+
+#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+msgid "No node available at the current position"
+msgstr "Учурдагы позицияда түйүн жок"
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "Учурдагы позицияда:'%s'; ал массив эмес"
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "Учурдагы түйүн '%s' тибинде; объект күтүлгөн."
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "Учурку позициядагы объекте '%s' аттуу мүчө аныкталган эмес."
+
+#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "Учурдагы позицияда:'%s'; ал объект эмес"
+
+#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "Учурдагы позицияда:'%s'; ал маани эмес"
+
+#: ../json-glib/json-reader.c:949
+msgid "The current position does not hold a string type"
+msgstr "Учурдагы позициянын тиби, саптык тип эмес"
+
