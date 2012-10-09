@@ -1,0 +1,158 @@
+# Telugu translation for json-glib.
+# Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
+# Copyright (C) 2012, Swecha Localisation Team <localization@swecha.net>
+# This file is distributed under the same license as the json-glib package.
+# 
+# sasi <sasi@swecha.net>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-09-27 05:54+0000\n"
+"PO-Revision-Date: 2012-10-09 16:48+0530\n"
+"Last-Translator: sasi <sasi@swecha.net>\n"
+"Language-Team: telugu <localization@swecha.net>\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
+
+#: ../json-glib/json-gobject.c:934
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "ఒక JSON అంశంకు అవకాశం ఉంది, కానీ రూట్ నోడ్`% s' రకంగా ఉంటుంది "
+
+#: ../json-glib/json-gvariant.c:539
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "ఊహించని రకం '% s' JSON నోడ్ లో"
+
+#: ../json-glib/json-gvariant.c:609
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "ఒక క్రమానుగుణ శ్రేణి కోసం JSON శ్రేణిలో తప్పిన అంశాలు "
+
+#: ../json-glib/json-gvariant.c:637
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "GVariant tuple రకంలో  ముగింపు చిహ్నం ')' లేదు"
+
+#: ../json-glib/json-gvariant.c:645
+msgid "Unexpected extra elements in JSON array"
+msgstr "JSON శ్రేణి లో ఊహించని అదనపు అంశాలు "
+
+#: ../json-glib/json-gvariant.c:924
+msgid "Invalid string value converting to GVariant"
+msgstr "GVariant మారిన చెల్లని స్ట్రింగ్ విలువ "
+
+#: ../json-glib/json-gvariant.c:980
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr "ఒక GVariant నిఘంటువు ఎంట్రీ సరిగ్గా ఒక సభ్యుడుగా ఉంటుందని ఒక JSON అంశం అంచనా "
+
+#: ../json-glib/json-gvariant.c:1236
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "GVariant తరగతి '%c'మద్దతు లేదు"
+
+#: ../json-glib/json-gvariant.c:1281
+msgid "Invalid GVariant signature"
+msgstr "చెల్లని GVariant సంతకం"
+
+#: ../json-glib/json-gvariant.c:1326
+msgid "JSON data is empty"
+msgstr "JSON డేటా ఖాళీగా ఉంది"
+
+#: ../json-glib/json-parser.c:818
+#, c-format
+msgid "%s:%d: Parse error: %s"
+msgstr "% s:% d: అన్వయ దోషం:% s"
+
+#: ../json-glib/json-path.c:375
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "కేవలం ఒక రూట్ నోడ్కు ఒక JSONPath వ్యక్తీకరణ లో అనుమతి ఉంది"
+
+#: ../json-glib/json-path.c:384
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "చెల్లని అక్షరం '%c' తర్వాత రూట్ నోడ్"
+
+#: ../json-glib/json-path.c:490
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "తప్పుడు ముక్క వ్యక్తీకరణ '%*s'"
+
+#: ../json-glib/json-path.c:534
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "చెల్లని వరు నిర్వచనం '%*s'"
+
+#: ../json-glib/json-path.c:587
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "చెల్లని ముక్క నిర్వచనం '%*s'"
+
+#: ../json-glib/json-path.c:615
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "చెల్లని వరు సూచిక నిర్వచనం '%*s'"
+
+#: ../json-glib/json-reader.c:463
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr "ప్రస్తుత నోడ్ రకం '%s' యొక్క, కానీ ఒక విన్యాసం లేదా ఒక వస్తువు భావించారు."
+
+#: ../json-glib/json-reader.c:475
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr "ఇండెక్స్ '%d' ప్రస్తుత స్థితి వద్ద శ్రేణి యొక్క పరిమాణం కంటే ఎక్కువగా ఉంటుంది."
+
+#: ../json-glib/json-reader.c:492
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr "ఇండెక్స్ '%d' ప్రస్తుత స్థితి వద్ద వస్తువు యొక్క పరిమాణం కంటే ఎక్కువగా ఉంటుంది."
+
+#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
+#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+msgid "No node available at the current position"
+msgstr "ప్రస్తుత స్థానంలో అందుబాటులో లేదు నోడ్ "
+
+#: ../json-glib/json-reader.c:583
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "ప్రస్తుత స్థితి ఒక '%s'కలిగి ఉంది మరియు వరుస కాదు "
+
+#: ../json-glib/json-reader.c:646
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "ప్రస్తుత నోడ్ '%s' యొక్క  రకం, కానీ ఒక వస్తువుని భావించారు."
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "సభ్యుడు '%s', ప్రస్తుత స్థితి వద్ద అంశం వివరించబడలేదు."
+
+#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "ప్రస్తుత స్థితి ఒక '%s' కలిగి ఉంది మరియు ఒక వస్తువు కాదు "
+
+#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "ప్రస్తుత స్థితి ఒక '%s'కలిగి ఉంది మరియు ఒక విలువ కాదు "
+
+#: ../json-glib/json-reader.c:949
+msgid "The current position does not hold a string type"
+msgstr "ప్రస్తుత స్థితి పదాల రకం కలిగి లేదు"
