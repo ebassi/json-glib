@@ -760,7 +760,10 @@ json_parse_statement (JsonParser  *parser,
         /* ... and finally swallow the '=' */
         next_token = json_scanner_get_next_token (scanner);
         if (next_token != '=')
-          return '=';
+          {
+            g_free (name);
+            return '=';
+          }
 
         priv->has_assignment = TRUE;
         priv->variable_name = name;
