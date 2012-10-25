@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-12-19 08:46+0000\n"
-"PO-Revision-Date: 2011-12-26 18:50+0100\n"
+"POT-Creation-Date: 2012-10-25 17:15+0000\n"
+"PO-Revision-Date: 2012-10-25 19:20+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -65,10 +65,10 @@ msgstr "Neveljaven podpis GVariant"
 msgid "JSON data is empty"
 msgstr "Podatki JSON so prazni"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:810
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: Napaka razčlenjevanja: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: napaka razčlenjevanje: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -119,11 +119,11 @@ msgstr "Kazalo '%d' je večje od velikosti predmeta na trenutnem položaju."
 #: ../json-glib/json-reader.c:780
 #: ../json-glib/json-reader.c:818
 #: ../json-glib/json-reader.c:856
-#: ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946
-#: ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034
-#: ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932
+#: ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013
+#: ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "Na trenutnem položaju ni razpoložljivega vozlišča."
 
@@ -150,26 +150,22 @@ msgstr "Trenutni položaj vsebuje '%s' in ne predmeta"
 
 #: ../json-glib/json-reader.c:827
 #: ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910
-#: ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903
+#: ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Trenutni položaj vsebuje '%s' in ne vrednosti"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "Trenutni položaj ne vsebuje celega števila"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "Trenutni položaj ne vsebuje plavajoče vejice"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Trenutni položaj ne vsebuje niza"
 
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "Trenutni položaj ne vsebuje logične izraza"
+#~ msgid "The current position does not hold an integer type"
+#~ msgstr "Trenutni položaj ne vsebuje celega števila"
 
+#~ msgid "The current position does not hold a floating point type"
+#~ msgstr "Trenutni položaj ne vsebuje plavajoče vejice"
+
+#~ msgid "The current position does not hold a boolean type"
+#~ msgstr "Trenutni položaj ne vsebuje logične izraza"
