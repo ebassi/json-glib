@@ -128,21 +128,6 @@ static const struct
   { "{ \"test\" : \"foo \\u00e8\" }", "test", "foo è" }
 };
 
-static const struct
-{
-  const gchar *str;
-  JsonParserError code;
-} test_invalid[] = {
-  { "test", JSON_PARSER_ERROR_INVALID_BAREWORD },
-  { "[ foo, ]", JSON_PARSER_ERROR_INVALID_BAREWORD },
-  { "[ true, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" : true \"bar\" : false }", JSON_PARSER_ERROR_MISSING_COMMA },
-  { "[ true, [ false, ] ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" : { \"bar\" : false, } }", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "[ { }, { }, { }, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" false }", JSON_PARSER_ERROR_MISSING_COLON }
-};
-
 static guint n_test_base_values    = G_N_ELEMENTS (test_base_values);
 static guint n_test_simple_arrays  = G_N_ELEMENTS (test_simple_arrays);
 static guint n_test_nested_arrays  = G_N_ELEMENTS (test_nested_arrays);
@@ -150,7 +135,6 @@ static guint n_test_simple_objects = G_N_ELEMENTS (test_simple_objects);
 static guint n_test_nested_objects = G_N_ELEMENTS (test_nested_objects);
 static guint n_test_assignments    = G_N_ELEMENTS (test_assignments);
 static guint n_test_unicode        = G_N_ELEMENTS (test_unicode);
-static guint n_test_invalid        = G_N_ELEMENTS (test_invalid);
 
 static void
 test_empty (void)
@@ -650,41 +634,6 @@ test_unicode_escape (void)
 }
 
 static void
-test_invalid_json (void)
-{
-  JsonParser *parser;
-  GError *error = NULL;
-  gint i;
-
-  parser = json_parser_new ();
-  g_assert (JSON_IS_PARSER (parser));
-
-  if (g_test_verbose ())
-    g_print ("checking json_parser_load_from_data with invalid data...\n");
-
-  for (i = 0; i < n_test_invalid; i++)
-    {
-      gboolean res;
-
-      if (g_test_verbose ())
-        g_print ("Parsing: '%s'\n", test_invalid[i].str);
-
-      res = json_parser_load_from_data (parser, test_invalid[i].str, -1,
-                                        &error);
-
-      g_assert (!res);
-      g_assert_error (error, JSON_PARSER_ERROR, test_invalid[i].code);
-
-      if (g_test_verbose ())
-        g_print ("Error: %s\n", error->message);
-
-      g_clear_error (&error);
-    }
-
-  g_object_unref (parser);
-}
-
-static void
 test_stream_sync (void)
 {
   JsonParser *parser;
@@ -777,7 +726,6 @@ main (int   argc,
   g_test_add_func ("/parser/nested-object", test_nested_object);
   g_test_add_func ("/parser/assignment", test_assignment);
   g_test_add_func ("/parser/unicode-escape", test_unicode_escape);
-  g_test_add_func ("/parser/invalid-json", test_invalid_json);
   g_test_add_func ("/parser/stream-sync", test_stream_sync);
   g_test_add_func ("/parser/stream-async", test_stream_async);
 

@@ -26,6 +26,7 @@ TEST_PROGS += \
 	builder			\
 	generator		\
 	gvariant		\
+	invalid			\
 	node			\
 	object			\
 	parser			\
