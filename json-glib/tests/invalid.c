@@ -36,6 +36,33 @@ test_invalid_bareword (gconstpointer user_data)
   g_object_unref (parser);
 }
 
+static void
+test_invalid_assignment (gconstpointer user_data)
+{
+  const char *json = user_data;
+  GError *error = NULL;
+  JsonParser *parser;
+  gboolean res;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("invalid data: '%s'...", json);
+
+  res = json_parser_load_from_data (parser, json, -1, &error);
+
+  g_assert (!res);
+  g_assert (error != NULL);
+
+  if (g_test_verbose ())
+    g_print ("expected error: %s\n", error->message);
+
+  g_clear_error (&error);
+
+  g_object_unref (parser);
+}
+
 static const struct
 {
   const char *path;
@@ -43,10 +70,19 @@ static const struct
   gpointer func;
 } test_invalid[] = {
   /* bareword */
-  { "invalid-bareword-1", "rainbows", test_invalid_bareword },
-  { "invalid-bareword-2", "[ unicorns ]", test_invalid_bareword },
-  { "invalid-bareword-3", "{ \"foo\" : ponies }", test_invalid_bareword },
-  { "invalid-bareword-4", "[ 3, 2, 1, lift_off ]", test_invalid_bareword },
+  { "bareword-1", "rainbows", test_invalid_bareword },
+  { "bareword-2", "[ unicorns ]", test_invalid_bareword },
+  { "bareword-3", "{ \"foo\" : ponies }", test_invalid_bareword },
+  { "bareword-4", "[ 3, 2, 1, lift_off ]", test_invalid_bareword },
+  { "bareword-5", "{ foo : 42 }", test_invalid_bareword },
+
+  /* assignment */
+  { "assignment-1", "var foo", test_invalid_assignment },
+  { "assignment-2", "var foo = no", test_invalid_assignment },
+  { "assignment-3", "var = true", test_invalid_assignment },
+  { "assignment-4", "var blah = 42:", test_invalid_assignment },
+  { "assignment-5", "let foo = true;", test_invalid_assignment },
+
 };
 
 static guint n_test_invalid = G_N_ELEMENTS (test_invalid);
