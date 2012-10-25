@@ -63,6 +63,87 @@ test_invalid_assignment (gconstpointer user_data)
   g_object_unref (parser);
 }
 
+static void
+test_invalid_array (gconstpointer user_data)
+{
+  const char *json = user_data;
+  GError *error = NULL;
+  JsonParser *parser;
+  gboolean res;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("invalid data: '%s'...", json);
+
+  res = json_parser_load_from_data (parser, json, -1, &error);
+
+  g_assert (!res);
+  g_assert (error != NULL);
+
+  if (g_test_verbose ())
+    g_print ("expected error: %s\n", error->message);
+
+  g_clear_error (&error);
+
+  g_object_unref (parser);
+}
+
+static void
+test_invalid_object (gconstpointer user_data)
+{
+  const char *json = user_data;
+  GError *error = NULL;
+  JsonParser *parser;
+  gboolean res;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("invalid data: '%s'...", json);
+
+  res = json_parser_load_from_data (parser, json, -1, &error);
+
+  g_assert (!res);
+  g_assert (error != NULL);
+
+  if (g_test_verbose ())
+    g_print ("expected error: %s\n", error->message);
+
+  g_clear_error (&error);
+
+  g_object_unref (parser);
+}
+
+static void
+test_trailing_comma (gconstpointer user_data)
+{
+  const char *json = user_data;
+  GError *error = NULL;
+  JsonParser *parser;
+  gboolean res;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("invalid data: '%s'...", json);
+
+  res = json_parser_load_from_data (parser, json, -1, &error);
+
+  g_assert (!res);
+  g_assert_error (error, JSON_PARSER_ERROR, JSON_PARSER_ERROR_TRAILING_COMMA);
+
+  if (g_test_verbose ())
+    g_print ("expected error: %s\n", error->message);
+
+  g_clear_error (&error);
+
+  g_object_unref (parser);
+}
+
 static const struct
 {
   const char *path;
@@ -83,26 +164,24 @@ static const struct
   { "assignment-4", "var blah = 42:", test_invalid_assignment },
   { "assignment-5", "let foo = true;", test_invalid_assignment },
 
+  /* arrays */
+  { "array-1", "[ true, false", test_invalid_array },
+  { "array-2", "[ true }", test_invalid_array },
+  { "array-3", "[ \"foo\" : 42 ]", test_invalid_array },
+
+  /* objects */
+  { "object-1", "{ foo : 42 }", test_invalid_object },
+  { "object-2", "{ 42 : \"foo\" }", test_invalid_object },
+  { "object-3", "{ \"foo\", 42 }", test_invalid_object },
+  { "object-4", "{ \"foo\" : 42 ]", test_invalid_object },
+  { "object-5", "{ \"blah\" }", test_invalid_object },
+
+  /* trailing commas */
+  { "trailing-comma-1", "[ true, ]", test_trailing_comma },
+  { "trailing-comma-2", "{ \"foo\" : 42, }", test_trailing_comma },
 };
 
 static guint n_test_invalid = G_N_ELEMENTS (test_invalid);
-
-#if 0
-static const struct
-{
-  const gchar *str;
-  JsonParserError code;
-} test_invalid[] = {
-  { "test", JSON_PARSER_ERROR_INVALID_BAREWORD },
-  { "[ foo, ]", JSON_PARSER_ERROR_INVALID_BAREWORD },
-  { "[ true, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" : true \"bar\" : false }", JSON_PARSER_ERROR_MISSING_COMMA },
-  { "[ true, [ false, ] ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" : { \"bar\" : false, } }", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "[ { }, { }, { }, ]", JSON_PARSER_ERROR_TRAILING_COMMA },
-  { "{ \"foo\" false }", JSON_PARSER_ERROR_MISSING_COLON }
-};
-#endif
 
 int
 main (int   argc,
