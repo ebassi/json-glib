@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-14 06:14+0000\n"
-"PO-Revision-Date: 2012-07-14 18:43+0300\n"
+"POT-Creation-Date: 2012-10-25 17:15+0000\n"
+"PO-Revision-Date: 2012-10-25 23:04+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -60,10 +60,11 @@ msgstr "Netinkamas GVariant aprašas"
 msgid "JSON data is empty"
 msgstr "JSON duomenys yra tušti"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:810
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: skaitymo klaida: %s"
+#| msgid "%s:%d: Parse error: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: skaitymo klaida: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -114,11 +115,11 @@ msgstr "Indeksas „%d“ yra didesnis nei objekto dydis dabartinėje pozicijoje
 #: ../json-glib/json-reader.c:780
 #: ../json-glib/json-reader.c:818
 #: ../json-glib/json-reader.c:856
-#: ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946
-#: ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034
-#: ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932
+#: ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013
+#: ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "Nėra viršūnės dabartinėje pozicijoje"
 
@@ -145,26 +146,14 @@ msgstr "Dabartinė pozicija turi „%s“, o ne objektą"
 
 #: ../json-glib/json-reader.c:827
 #: ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910
-#: ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903
+#: ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Dabartinė pozicija turi „%s“, o ne reikšmę"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "Dabartinė pozicija turi „%s“, o ne sveiko skaičiaus tipą"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "Dabartinė pozicija turi „%s“, o ne slankaus kablelio tipą"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Dabartinė pozicija turi „%s“, o ne eilutės tipą"
-
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "Dabartinė pozicija turi „%s“, o ne loginį tipą"
 
