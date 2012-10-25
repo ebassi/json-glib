@@ -402,11 +402,19 @@ json_parse_value (JsonParser   *parser,
       JSON_NOTE (PARSER, "node: <null>");
       break;
 
+    case G_TOKEN_IDENTIFIER:
+      *node = NULL;
+      JSON_NOTE (PARSER, "node: identifier '%s'", scanner->value.v_identifier);
+      priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
+      return G_TOKEN_SYMBOL;
+
     default:
       {
         JsonNodeType cur_type;
 
         *node = NULL;
+
+        JSON_NOTE (PARSER, "node: invalid token");
 
         cur_type = json_node_get_node_type (current_node);
         if (cur_type == JSON_NODE_ARRAY)
@@ -464,23 +472,12 @@ json_parse_array (JsonParser   *parser,
           token = json_parse_object (parser, scanner, &element);
           break;
 
-        case G_TOKEN_INT:
-        case G_TOKEN_FLOAT:
-        case G_TOKEN_STRING:
-        case '-':
-        case JSON_TOKEN_TRUE:
-        case JSON_TOKEN_FALSE:
-        case JSON_TOKEN_NULL:
-          token = json_scanner_get_next_token (scanner);
-          token = json_parse_value (parser, scanner, token, &element);
-          break;
-
         case G_TOKEN_RIGHT_BRACE:
           goto array_done;
 
         default:
-          if (next_token != G_TOKEN_RIGHT_BRACE)
-            token = G_TOKEN_RIGHT_BRACE;
+          token = json_scanner_get_next_token (scanner);
+          token = json_parse_value (parser, scanner, token, &element);
           break;
         }
 
@@ -627,20 +624,10 @@ json_parse_object (JsonParser   *parser,
           token = json_parse_object (parser, scanner, &member);
           break;
 
-        case G_TOKEN_INT:
-        case G_TOKEN_FLOAT:
-        case G_TOKEN_STRING:
-        case '-':
-        case JSON_TOKEN_TRUE:
-        case JSON_TOKEN_FALSE:
-        case JSON_TOKEN_NULL:
-          token = json_scanner_get_next_token (scanner);
-          token = json_parse_value (parser, scanner, token, &member);
-          break;
-
         default:
           /* once a member name is defined we need a value */
-          token = G_TOKEN_SYMBOL;
+          token = json_scanner_get_next_token (scanner);
+          token = json_parse_value (parser, scanner, token, &member);
           break;
         }
 
