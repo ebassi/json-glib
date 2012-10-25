@@ -576,7 +576,7 @@ json_parse_object (JsonParser   *parser,
         {
           JSON_NOTE (PARSER, "Missing object member name");
 
-          priv->error_code = JSON_PARSER_ERROR_PARSE;
+          priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
 
           json_object_unref (object);
           json_node_free (priv->current_node);
@@ -748,6 +748,7 @@ json_parse_statement (JsonParser  *parser,
         next_token = json_scanner_get_next_token (scanner);
         if (next_token != '=')
           {
+            priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
             g_free (name);
             return '=';
           }
@@ -776,6 +777,7 @@ json_parse_statement (JsonParser  *parser,
     case G_TOKEN_INT:
     case G_TOKEN_FLOAT:
     case G_TOKEN_STRING:
+    case G_TOKEN_IDENTIFIER:
       JSON_NOTE (PARSER, "Statement is a value");
       token = json_scanner_get_next_token (scanner);
       return json_parse_value (parser, scanner, token, &priv->root);
