@@ -20,6 +20,12 @@ verify_int_value (JsonNode *node)
 }
 
 static void
+verify_negative_int_value (JsonNode *node)
+{
+  g_assert_cmpint (-1, ==, json_node_get_int (node));
+}
+
+static void
 verify_boolean_value (JsonNode *node)
 {
   g_assert_cmpint (TRUE, ==, json_node_get_boolean (node));
@@ -37,6 +43,12 @@ verify_double_value (JsonNode *node)
   g_assert_cmpfloat (10.2e3, ==, json_node_get_double (node));
 }
 
+static void
+verify_negative_double_value (JsonNode *node)
+{
+  g_assert_cmpfloat (-3.14, ==, json_node_get_double (node));
+}
+
 static const struct {
   const gchar *str;
   JsonNodeType type;
@@ -47,7 +59,9 @@ static const struct {
   { "42",         JSON_NODE_VALUE, G_TYPE_INT64,   verify_int_value },
   { "true",       JSON_NODE_VALUE, G_TYPE_BOOLEAN, verify_boolean_value },
   { "\"string\"", JSON_NODE_VALUE, G_TYPE_STRING,  verify_string_value },
-  { "10.2e3",     JSON_NODE_VALUE, G_TYPE_DOUBLE,  verify_double_value }
+  { "10.2e3",     JSON_NODE_VALUE, G_TYPE_DOUBLE,  verify_double_value },
+  { "-1",         JSON_NODE_VALUE, G_TYPE_INT64,   verify_negative_int_value },
+  { "-3.14",      JSON_NODE_VALUE, G_TYPE_DOUBLE,  verify_negative_double_value },
 };
 
 static const struct {
