@@ -35,6 +35,27 @@ static const gchar *nested_object =
   "}"
 "}";
 
+static const char *pretty_examples[] = {
+ "[\n]",
+
+ "{\n}",
+
+ "[\n"
+ "\ttrue,\n"
+ "\tfalse,\n"
+ "\tnull,\n"
+ "\t\"hello\"\n"
+ "]",
+
+ "{\n"
+ "\t\"foo\" : 42,\n"
+ "\t\"bar\" : true,\n"
+ "\t\"baz\" : null\n"
+ "}",
+};
+
+static const int n_pretty_examples = G_N_ELEMENTS (pretty_examples);
+
 static const struct {
   const gchar *lang;
   const gchar *sep;
@@ -58,12 +79,16 @@ test_empty_array (void)
   json_node_take_array (root, json_array_new ());
 
   json_generator_set_root (gen, root);
-  g_object_set (gen, "pretty", FALSE, NULL);
+  g_object_set (gen, "pretty", FALSE, "indent", 0, "indent-char", ' ', NULL);
 
   data = json_generator_to_data (gen, &len);
 
   g_assert_cmpint (len, ==, strlen (empty_array));
   g_assert_cmpstr (data, ==, empty_array);
+
+  g_assert (json_generator_get_pretty (gen) == FALSE);
+  g_assert_cmpint (json_generator_get_indent (gen), ==, 0);
+  g_assert_cmpint (json_generator_get_indent_char (gen), ==, ' ');
 
   g_free (data);
   json_node_free (root);
@@ -311,6 +336,47 @@ test_decimal_separator (void)
   json_node_free (node);
 }
 
+static void
+test_pretty (void)
+{
+  JsonParser *parser = json_parser_new ();
+  JsonGenerator *generator = json_generator_new ();
+  int i;
+
+  json_generator_set_pretty (generator, TRUE);
+  json_generator_set_indent (generator, 1);
+  json_generator_set_indent_char (generator, '\t');
+
+  for (i = 0; i < n_pretty_examples; i++)
+    {
+      JsonNode *root;
+      char *data;
+      gsize len;
+
+      g_assert (json_parser_load_from_data (parser, pretty_examples[i], -1, NULL));
+
+      root = json_parser_get_root (parser);
+      g_assert (root != NULL);
+
+      json_generator_set_root (generator, root);
+
+      data = json_generator_to_data (generator, &len);
+
+      if (g_test_verbose ())
+        g_print ("** checking pretty printing:\n%s\n** expected:\n%s\n",
+                 data,
+                 pretty_examples[i]);
+
+      g_assert_cmpint (len, ==, strlen (pretty_examples[i]));
+      g_assert_cmpstr (data, ==, pretty_examples[i]);
+
+      g_free (data);
+    }
+
+  g_object_unref (generator);
+  g_object_unref (parser);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -325,6 +391,7 @@ main (int   argc,
   g_test_add_func ("/generator/simple-object", test_simple_object);
   g_test_add_func ("/generator/nested-object", test_nested_object);
   g_test_add_func ("/generator/decimal-separator", test_decimal_separator);
+  g_test_add_func ("/generator/pretty", test_pretty);
 
   return g_test_run ();
 }

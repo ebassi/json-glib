@@ -60,6 +60,10 @@ test_add_element (void)
   json_array_add_object_element (array, json_object_new ());
   g_assert (json_array_get_object_element (array, 7) != NULL);
 
+  json_array_add_object_element (array, NULL);
+  g_assert (json_array_get_object_element (array, 8) == NULL);
+  g_assert (json_array_get_null_element (array, 8));
+
   json_array_unref (array);
 }
 
