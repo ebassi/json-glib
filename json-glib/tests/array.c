@@ -29,6 +29,36 @@ test_add_element (void)
 
   node = json_array_get_element (array, 0);
   g_assert_cmpint (JSON_NODE_TYPE (node), ==, JSON_NODE_NULL);
+  g_assert (json_array_get_null_element (array, 0));
+
+  json_array_add_int_element (array, 42);
+  g_assert_cmpint (json_array_get_length (array), ==, 2);
+  g_assert_cmpint (json_array_get_int_element (array, 1), ==, 42);
+
+  json_array_add_double_element (array, 3.14);
+  g_assert_cmpint (json_array_get_length (array), ==, 3);
+  g_assert_cmpfloat (json_array_get_double_element (array, 2), ==, 3.14);
+
+  json_array_add_boolean_element (array, TRUE);
+  g_assert_cmpint (json_array_get_length (array), ==, 4);
+  g_assert (json_array_get_boolean_element (array, 3));
+
+  json_array_add_string_element (array, "Hello");
+  g_assert_cmpint (json_array_get_length (array), ==, 5);
+  g_assert_cmpstr (json_array_get_string_element (array, 4), ==, "Hello");
+
+  json_array_add_string_element (array, NULL);
+  g_assert_cmpint (json_array_get_length (array), ==, 6);
+  g_assert (json_array_get_string_element (array, 5) == NULL);
+  g_assert (json_array_get_element (array, 5) != NULL);
+  g_assert (json_array_get_null_element (array, 5));
+
+  json_array_add_array_element (array, NULL);
+  g_assert (json_array_get_array_element (array, 6) == NULL);
+  g_assert (json_array_get_null_element (array, 6));
+
+  json_array_add_object_element (array, json_object_new ());
+  g_assert (json_array_get_object_element (array, 7) != NULL);
 
   json_array_unref (array);
 }
