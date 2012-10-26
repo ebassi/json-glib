@@ -805,35 +805,26 @@ json_parse_statement (JsonParser  *parser,
 
 static void
 json_scanner_msg_handler (JsonScanner *scanner,
-                          gchar       *message,
-                          gboolean     is_error)
+                          gchar       *message)
 {
   JsonParser *parser = scanner->user_data;
   JsonParserPrivate *priv = parser->priv;
+  GError *error = NULL;
 
-  if (is_error)
-    {
-      GError *error = NULL;
-
-      /* translators: %s: is the file name, %d is the line number
-       * and %s is the error message
-       */
-      g_set_error (&error, JSON_PARSER_ERROR,
-                   priv->error_code,
-                   _("%s:%d:%d: Parse error: %s"),
-                   priv->is_filename ? priv->filename : "<data>",
-                   scanner->line,
-                   scanner->position,
-                   message);
-      
-      parser->priv->last_error = error;
-      g_signal_emit (parser, parser_signals[ERROR], 0, error);
-    }
-  else
-    g_warning ("%s:%d: Parse error: %s",
-               priv->is_filename ? priv->filename : "<none>",
+  /* translators: %s: is the file name, the first %d is the line
+   * number, the second %d is the position on the line, and %s is
+   * the error message
+   */
+  g_set_error (&error, JSON_PARSER_ERROR,
+               priv->error_code,
+               _("%s:%d:%d: Parse error: %s"),
+               priv->is_filename ? priv->filename : "<data>",
                scanner->line,
+               scanner->position,
                message);
+      
+  parser->priv->last_error = error;
+  g_signal_emit (parser, parser_signals[ERROR], 0, error);
 }
 
 static JsonScanner *
@@ -846,6 +837,10 @@ json_scanner_create (JsonParser *parser)
   scanner->msg_handler = json_scanner_msg_handler;
   scanner->user_data = parser;
 
+  /* XXX: this is eminently stupid, but we use the symbols later on, so
+   * we cannot move them into JsonScanner without moving a bunch of code
+   * as well
+   */
   for (i = 0; i < n_symbols; i++)
     {
       json_scanner_scope_add_symbol (scanner, 0,
@@ -943,8 +938,7 @@ json_parser_load (JsonParser   *parser,
                */
               json_scanner_unexp_token (scanner, expected_token,
                                         NULL, "value",
-                                        symbol_name, msg,
-                                        TRUE);
+                                        symbol_name, msg);
 
               /* and this will propagate the error we create in the
                * same message handler
@@ -1105,8 +1099,8 @@ json_parser_get_current_line (JsonParser *parser)
 {
   g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
 
-  if (parser->priv->scanner)
-    return json_scanner_cur_line (parser->priv->scanner);
+  if (parser->priv->scanner != NULL)
+    return parser->priv->scanner->line;
 
   return 0;
 }
@@ -1129,8 +1123,8 @@ json_parser_get_current_pos (JsonParser *parser)
 {
   g_return_val_if_fail (JSON_IS_PARSER (parser), 0);
 
-  if (parser->priv->scanner)
-    return json_scanner_cur_line (parser->priv->scanner);
+  if (parser->priv->scanner != NULL)
+    return parser->priv->scanner->position;
 
   return 0;
 }
