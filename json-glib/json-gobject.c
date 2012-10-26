@@ -318,10 +318,11 @@ json_gobject_new (GType       gtype,
       if (deserialize_property)
         {
           JSON_NOTE (GOBJECT, "Using JsonSerializable for property '%s'", pspec->name);
-          res = iface->deserialize_property (serializable, pspec->name,
-                                             &value,
-                                             pspec,
-                                             val);
+          res = json_serializable_deserialize_property (serializable,
+                                                        pspec->name,
+                                                        &value,
+                                                        pspec,
+                                                        val);
         }
 
       if (!res)
@@ -408,9 +409,10 @@ json_gobject_dump (GObject *gobject)
        */
       if (serialize_property)
         {
-          node = iface->serialize_property (serializable, pspec->name,
-                                            &value,
-                                            pspec);
+          node = json_serializable_serialize_property (serializable,
+                                                       pspec->name,
+                                                       &value,
+                                                       pspec);
         }
       /* skip if the value is the default for the property */
       else if (!g_param_value_defaults (pspec, &value))
