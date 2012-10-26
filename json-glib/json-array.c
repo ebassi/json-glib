@@ -609,7 +609,6 @@ json_array_add_array_element (JsonArray *array,
   JsonNode *node;
 
   g_return_if_fail (array != NULL);
-  g_return_if_fail (value != NULL);
 
   if (value != NULL)
     {
@@ -641,7 +640,6 @@ json_array_add_object_element (JsonArray  *array,
   JsonNode *node;
 
   g_return_if_fail (array != NULL);
-  g_return_if_fail (value != NULL);
 
   if (value != NULL)
     {
