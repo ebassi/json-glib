@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
-"cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-07-10 06:25+0000\n"
-"PO-Revision-Date: 2012-07-13 20:29+0530\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-10-25 17:15+0000\n"
+"PO-Revision-Date: 2012-10-26 15:38+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: as_IN <kde-i18n-doc@kde.org>\n"
 "Language: as\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../json-glib/json-gobject.c:934
@@ -64,10 +64,11 @@ msgstr "অবৈধ GVariant স্বাক্ষৰ"
 msgid "JSON data is empty"
 msgstr "JSON তথ্য ৰিক্ত"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:810
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: বিশ্লেষণ ত্ৰুটি: %s"
+#| msgid "%s:%d: Parse error: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: বিশ্লেষণ ত্ৰুটি: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -119,9 +120,9 @@ msgstr "সূচী '%d' বৰ্তমান অৱস্থানত অব�
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "বৰ্তমান অৱস্থানত কোনো ন'ড উপলব্ধ নাই"
 
@@ -146,25 +147,21 @@ msgid "The current position holds a '%s' and not an object"
 msgstr "বৰ্তমান অৱস্থানত এটা '%s' আছে কিন্তু এটা অবজেক্ট নাই"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "বৰ্তমান অৱস্থানত এটা '%s' আছে কিন্তু এটা মান নাই"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "বৰ্তমান অৱস্থানত এটা পূৰ্ণসংখ্যা ধৰণ নাই"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "বৰ্তমান অৱস্থানত এটা দশমিকযুক্ত ধৰণ নাই"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "বৰ্তমান অৱস্থানত এটা স্ট্ৰিং ধৰণ নাই"
 
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "বৰ্তমান অৱস্থানত এটা বুলিয়ান ধৰণ নাই"
+#~ msgid "The current position does not hold an integer type"
+#~ msgstr "বৰ্তমান অৱস্থানত এটা পূৰ্ণসংখ্যা ধৰণ নাই"
 
+#~ msgid "The current position does not hold a floating point type"
+#~ msgstr "বৰ্তমান অৱস্থানত এটা দশমিকযুক্ত ধৰণ নাই"
+
+#~ msgid "The current position does not hold a boolean type"
+#~ msgstr "বৰ্তমান অৱস্থানত এটা বুলিয়ান ধৰণ নাই"
