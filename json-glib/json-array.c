@@ -556,9 +556,8 @@ json_array_add_string_element (JsonArray   *array,
   JsonNode *node;
 
   g_return_if_fail (array != NULL);
-  g_return_if_fail (value != NULL);
 
-  if (value != NULL)
+  if (value != NULL && *value != '\0')
     {
       node = json_node_new (JSON_NODE_VALUE);
       json_node_set_string (node, value);
