@@ -588,6 +588,19 @@ json_parse_object (JsonParser   *parser,
       /* member name */
       token = json_scanner_get_next_token (scanner);
       name = g_strdup (scanner->value.v_string);
+      if (name == NULL || *name == '\0')
+        {
+          JSON_NOTE (PARSER, "Empty object member name");
+
+          priv->error_code = JSON_PARSER_ERROR_EMPTY_MEMBER_NAME;
+
+          json_object_unref (object);
+          json_node_free (priv->current_node);
+          priv->current_node = old_current;
+
+          return G_TOKEN_STRING;
+        }
+
       JSON_NOTE (PARSER, "Object member '%s'", name);
 
       /* a colon separates names from values */
