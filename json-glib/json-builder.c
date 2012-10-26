@@ -90,10 +90,12 @@ json_builder_state_free (JsonBuilderState *state)
           state->data.object = NULL;
           state->member_name = NULL;
           break;
+
         case JSON_BUILDER_MODE_ARRAY:
           json_array_unref (state->data.array);
           state->data.array = NULL;
           break;
+
         default:
           g_assert_not_reached ();
         }
@@ -407,7 +409,8 @@ json_builder_end_array (JsonBuilder *builder)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_set_member_name (JsonBuilder *builder, const gchar *member_name)
+json_builder_set_member_name (JsonBuilder *builder,
+                              const gchar *member_name)
 {
   JsonBuilderState *state;
 
@@ -435,7 +438,8 @@ json_builder_set_member_name (JsonBuilder *builder, const gchar *member_name)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_add_value (JsonBuilder *builder, JsonNode *node)
+json_builder_add_value (JsonBuilder *builder,
+                        JsonNode    *node)
 {
   JsonBuilderState *state;
 
@@ -479,7 +483,8 @@ json_builder_add_value (JsonBuilder *builder, JsonNode *node)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_add_int_value (JsonBuilder *builder, gint64 value)
+json_builder_add_int_value (JsonBuilder *builder,
+                            gint64       value)
 {
   JsonBuilderState *state;
 
@@ -522,7 +527,8 @@ json_builder_add_int_value (JsonBuilder *builder, gint64 value)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_add_double_value (JsonBuilder *builder, gdouble value)
+json_builder_add_double_value (JsonBuilder *builder,
+                               gdouble      value)
 {
   JsonBuilderState *state;
 
@@ -566,7 +572,8 @@ json_builder_add_double_value (JsonBuilder *builder, gdouble value)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_add_boolean_value (JsonBuilder *builder, gboolean value)
+json_builder_add_boolean_value (JsonBuilder *builder,
+                                gboolean     value)
 {
   JsonBuilderState *state;
 
@@ -610,7 +617,8 @@ json_builder_add_boolean_value (JsonBuilder *builder, gboolean value)
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
 JsonBuilder *
-json_builder_add_string_value (JsonBuilder *builder, const gchar *value)
+json_builder_add_string_value (JsonBuilder *builder,
+                               const gchar *value)
 {
   JsonBuilderState *state;
 
