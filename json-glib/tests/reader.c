@@ -9,12 +9,13 @@ static const gchar *test_base_array_data =
 "[ 0, true, null, \"foo\", 3.14, [ false ], { \"bar\" : 42 } ]";
 
 static const gchar *test_base_object_data =
-"{ \"text\" : \"hello, world!\", \"foo\" : \"bar\", \"blah\" : 47 }";
+"{ \"text\" : \"hello, world!\", \"foo\" : null, \"blah\" : 47, \"double\" : 42.47 }";
 
 static const gchar *expected_member_name[] = {
   "text",
   "foo",
-  "blah"
+  "blah",
+  "double",
 };
 
 static void
@@ -32,7 +33,7 @@ test_base_object (void)
   json_reader_set_root (reader, json_parser_get_root (parser));
 
   g_assert (json_reader_is_object (reader));
-  g_assert_cmpint (json_reader_count_members (reader), ==, 3);
+  g_assert_cmpint (json_reader_count_members (reader), ==, 4);
 
   members = json_reader_list_members (reader);
   g_assert (members != NULL);
@@ -45,9 +46,13 @@ test_base_object (void)
 
   g_strfreev (members);
 
-  g_assert (json_reader_read_member (reader, "foo"));
+  g_assert (json_reader_read_member (reader, "text"));
   g_assert (json_reader_is_value (reader));
-  g_assert_cmpstr (json_reader_get_string_value (reader), ==, "bar");
+  g_assert_cmpstr (json_reader_get_string_value (reader), ==, "hello, world!");
+  json_reader_end_member (reader);
+
+  g_assert (json_reader_read_member (reader, "foo"));
+  g_assert (json_reader_get_null_value (reader));
   json_reader_end_member (reader);
 
   g_assert (!json_reader_read_member (reader, "bar"));
@@ -64,6 +69,10 @@ test_base_object (void)
   g_assert_cmpint (json_reader_get_int_value (reader), ==, 47);
   json_reader_end_element (reader);
   g_assert (json_reader_get_error (reader) == NULL);
+
+  json_reader_read_member (reader, "double");
+  g_assert_cmpfloat (json_reader_get_double_value (reader), ==, 42.47);
+  json_reader_end_element (reader);
 
   g_object_unref (reader);
   g_object_unref (parser);
@@ -87,6 +96,11 @@ test_base_array (void)
   json_reader_read_element (reader, 0);
   g_assert (json_reader_is_value (reader));
   g_assert_cmpint (json_reader_get_int_value (reader), ==, 0);
+  json_reader_end_element (reader);
+
+  json_reader_read_element (reader, 1);
+  g_assert (json_reader_is_value (reader));
+  g_assert (json_reader_get_boolean_value (reader));
   json_reader_end_element (reader);
 
   json_reader_read_element (reader, 3);
