@@ -204,7 +204,9 @@ main (gint argc, gchar *argv[])
   TestCase test_case;
   gchar *test_name;
 
+#if !GLIB_CHECK_VERSION (2, 35, 1)
   g_type_init ();
+#endif
   g_test_init (&argc, &argv, NULL);
 
   /* GVariant to JSON */
