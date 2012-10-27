@@ -365,47 +365,45 @@ json_parse_value (JsonParser   *parser,
   switch (token)
     {
     case G_TOKEN_INT:
-      *node = json_node_new (JSON_NODE_VALUE);
       JSON_NOTE (PARSER, "abs(node): %" G_GINT64_FORMAT " (sign: %s)",
                  scanner->value.v_int64,
                  is_negative ? "negative" : "positive");
-      json_node_set_int (*node, is_negative ? scanner->value.v_int64 * -1
-                                            : scanner->value.v_int64);
+      *node = json_node_init_int (json_node_alloc (),
+                                  is_negative ? scanner->value.v_int64 * -1
+                                              : scanner->value.v_int64);
       break;
 
     case G_TOKEN_FLOAT:
-      *node = json_node_new (JSON_NODE_VALUE);
       JSON_NOTE (PARSER, "abs(node): %.6f (sign: %s)",
                  scanner->value.v_float,
                  is_negative ? "negative" : "positive");
-      json_node_set_double (*node, is_negative ? scanner->value.v_float * -1.0
-                                               : scanner->value.v_float);
+      *node = json_node_init_double (json_node_alloc (),
+                                     is_negative ? scanner->value.v_float * -1.0
+                                                 : scanner->value.v_float);
       break;
 
     case G_TOKEN_STRING:
-      *node = json_node_new (JSON_NODE_VALUE);
       JSON_NOTE (PARSER, "node: '%s'",
                  scanner->value.v_string);
-      json_node_set_string (*node, scanner->value.v_string);
+      *node = json_node_init_string (json_node_alloc (), scanner->value.v_string);
       break;
 
     case JSON_TOKEN_TRUE:
     case JSON_TOKEN_FALSE:
-      *node = json_node_new (JSON_NODE_VALUE);
       JSON_NOTE (PARSER, "node: '%s'",
                  JSON_TOKEN_TRUE ? "<true>" : "<false>");
-      json_node_set_boolean (*node, token == JSON_TOKEN_TRUE ? TRUE : FALSE);
+      *node = json_node_init_boolean (json_node_alloc (), token == JSON_TOKEN_TRUE ? TRUE : FALSE);
       break;
 
     case JSON_TOKEN_NULL:
-      *node = json_node_new (JSON_NODE_NULL);
       JSON_NOTE (PARSER, "node: <null>");
+      *node = json_node_init_null (json_node_alloc ());
       break;
 
     case G_TOKEN_IDENTIFIER:
-      *node = NULL;
       JSON_NOTE (PARSER, "node: identifier '%s'", scanner->value.v_identifier);
       priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
+      *node = NULL;
       return G_TOKEN_SYMBOL;
 
     default:
@@ -418,15 +416,22 @@ json_parse_value (JsonParser   *parser,
 
         cur_type = json_node_get_node_type (current_node);
         if (cur_type == JSON_NODE_ARRAY)
-          return G_TOKEN_RIGHT_BRACE;
+          {
+            priv->error_code = JSON_PARSER_ERROR_PARSE;
+            return G_TOKEN_RIGHT_BRACE;
+          }
         else if (cur_type == JSON_NODE_OBJECT)
-          return G_TOKEN_RIGHT_CURLY;
+          {
+            priv->error_code = JSON_PARSER_ERROR_PARSE;
+            return G_TOKEN_RIGHT_CURLY;
+          }
         else
           {
             priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
             return G_TOKEN_SYMBOL;
           }
       }
+      break;
     }
 
   return G_TOKEN_NONE;
@@ -444,7 +449,7 @@ json_parse_array (JsonParser   *parser,
   gint idx;
 
   old_current = priv->current_node;
-  priv->current_node = json_node_new (JSON_NODE_ARRAY);
+  priv->current_node = json_node_init_array (json_node_alloc (), NULL);
 
   array = json_array_new ();
 
@@ -550,7 +555,7 @@ json_parse_object (JsonParser   *parser,
   guint token;
 
   old_current = priv->current_node;
-  priv->current_node = json_node_new (JSON_NODE_OBJECT);
+  priv->current_node = json_node_init_object (json_node_alloc (), NULL);
 
   object = json_object_new ();
 

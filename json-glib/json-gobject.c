@@ -663,44 +663,70 @@ json_serialize_pspec (const GValue *real_value,
                       GParamSpec   *pspec)
 {
   JsonNode *retval = NULL;
-  GValue value = { 0, };
   JsonNodeType node_type;
 
   switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (real_value)))
     {
+    /* JSON native types */
     case G_TYPE_INT64:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_int64 (real_value));
+      break;
+
     case G_TYPE_BOOLEAN:
+      retval = json_node_init_boolean (json_node_alloc (), g_value_get_boolean (real_value));
+      break;
+
     case G_TYPE_DOUBLE:
-      /* JSON native types */
-      retval = json_node_new (JSON_NODE_VALUE);
-      g_value_init (&value, G_VALUE_TYPE (real_value));
-      g_value_copy (real_value, &value);
-      json_node_set_value (retval, &value);
-      g_value_unset (&value);
+      retval = json_node_init_double (json_node_alloc (), g_value_get_double (real_value));
       break;
 
     case G_TYPE_STRING:
-      /* strings might be NULL, so we handle it differently */
-      if (!g_value_get_string (real_value))
-        retval = json_node_new (JSON_NODE_NULL);
-      else
-        {
-          retval = json_node_new (JSON_NODE_VALUE);
-          json_node_set_string (retval, g_value_get_string (real_value));
-          break;
-        }
+      retval = json_node_init_string (json_node_alloc (), g_value_get_string (real_value));
       break;
 
+    /* auto-promoted types */
     case G_TYPE_INT:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_int (real_value));
+      retval = json_node_init_int (json_node_alloc (), g_value_get_int (real_value));
+      break;
+
+    case G_TYPE_UINT:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_uint (real_value));
+      break;
+
+    case G_TYPE_LONG:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_long (real_value));
+      break;
+
+    case G_TYPE_ULONG:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_ulong (real_value));
       break;
 
     case G_TYPE_FLOAT:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_double (retval, g_value_get_float (real_value));
+      retval = json_node_init_double (json_node_alloc (), g_value_get_float (real_value));
       break;
 
+    case G_TYPE_CHAR:
+      retval = json_node_alloc ();
+#if GLIB_CHECK_VERSION (2, 31, 0)
+      json_node_init_int (retval, g_value_get_schar (real_value));
+#else
+      json_node_init_int (retval, g_value_get_char (real_value));
+#endif
+      break;
+
+    case G_TYPE_UCHAR:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_uchar (real_value));
+      break;
+
+    case G_TYPE_ENUM:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_enum (real_value));
+      break;
+
+    case G_TYPE_FLAGS:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_flags (real_value));
+      break;
+
+    /* complex types */
     case G_TYPE_BOXED:
       if (G_VALUE_HOLDS (real_value, G_TYPE_STRV))
         {
@@ -719,8 +745,8 @@ json_serialize_pspec (const GValue *real_value,
               json_array_add_element (array, str);
             }
 
-          retval = json_node_new (JSON_NODE_ARRAY);
-          json_node_take_array (retval, array);
+          retval = json_node_init_array (json_node_alloc (), array);
+          json_array_unref (array);
         }
       else if (json_boxed_can_serialize (G_VALUE_TYPE (real_value), &node_type))
         {
@@ -733,56 +759,19 @@ json_serialize_pspec (const GValue *real_value,
                    g_type_name (G_VALUE_TYPE (real_value)));
       break;
 
-    case G_TYPE_UINT:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_uint (real_value));
-      break;
-
-    case G_TYPE_LONG:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_long (real_value));
-      break;
-
-    case G_TYPE_ULONG:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_long (real_value));
-      break;
-
-    case G_TYPE_CHAR:
-      retval = json_node_new (JSON_NODE_VALUE);
-#if GLIB_CHECK_VERSION (2, 31, 0)
-      json_node_set_int (retval, g_value_get_schar (real_value));
-#else
-      json_node_set_int (retval, g_value_get_char (real_value));
-#endif
-      break;
-
-    case G_TYPE_UCHAR:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_uchar (real_value));
-      break;
-
-    case G_TYPE_ENUM:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_enum (real_value));
-      break;
-
-    case G_TYPE_FLAGS:
-      retval = json_node_new (JSON_NODE_VALUE);
-      json_node_set_int (retval, g_value_get_flags (real_value));
-      break;
-
     case G_TYPE_OBJECT:
       {
         GObject *object = g_value_get_object (real_value);
 
+        retval = json_node_alloc ();
+
         if (object != NULL)
           {
-            retval = json_node_new (JSON_NODE_OBJECT);
+            json_node_init (retval, JSON_NODE_OBJECT);
             json_node_take_object (retval, json_gobject_dump (object));
           }
         else
-          retval = json_node_new (JSON_NODE_NULL);
+          json_node_init_null (retval);
       }
       break;
 
