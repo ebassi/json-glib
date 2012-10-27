@@ -91,6 +91,15 @@ JSON_NODE_HOLDS_VALUE
 JSON_NODE_HOLDS_OBJECT
 JSON_NODE_HOLDS_ARRAY
 JSON_NODE_HOLDS_NULL
+json_node_alloc
+json_node_init
+json_node_init_int
+json_node_init_double
+json_node_init_boolean
+json_node_init_string
+json_node_init_null
+json_node_init_object
+json_node_init_array
 json_node_new
 json_node_copy
 json_node_free

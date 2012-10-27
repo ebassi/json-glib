@@ -68,6 +68,7 @@ json_gvariant_deserialize
 json_gvariant_deserialize_data
 json_gvariant_serialize
 json_gvariant_serialize_data
+json_node_alloc
 json_node_copy
 json_node_dup_array
 json_node_dup_object
@@ -84,6 +85,14 @@ json_node_get_string
 json_node_get_type
 json_node_get_value
 json_node_get_value_type
+json_node_init_array
+json_node_init_boolean
+json_node_init_double
+json_node_init_int
+json_node_init_null
+json_node_init_object
+json_node_init_string
+json_node_init
 json_node_is_null
 json_node_new
 json_node_set_array

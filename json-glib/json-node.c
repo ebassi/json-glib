@@ -89,25 +89,280 @@ json_node_get_value_type (JsonNode *node)
 }
 
 /**
+ * json_node_alloc:
+ *
+ * Allocates a new #JsonNode. Use json_node_init() and its variants
+ * to initialize the returned value.
+ *
+ * Return value: (transfer full): the newly allocated #JsonNode. Use
+ *   json_node_free() to free the resources allocated by this function
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_alloc (void)
+{
+  return g_slice_new0 (JsonNode);
+}
+
+static void
+json_node_unset (JsonNode *node)
+{
+  g_assert (node != NULL);
+
+  switch (node->type)
+    {
+    case JSON_NODE_OBJECT:
+      if (node->data.object)
+        json_object_unref (node->data.object);
+      break;
+
+    case JSON_NODE_ARRAY:
+      if (node->data.array)
+        json_array_unref (node->data.array);
+      break;
+
+    case JSON_NODE_VALUE:
+      if (node->data.value)
+        json_value_unref (node->data.value);
+      break;
+
+    case JSON_NODE_NULL:
+      break;
+    }
+}
+
+/**
+ * json_node_init:
+ * @node: the #JsonNode to initialize
+ * @type: the type of JSON node to initialize @node to
+ *
+ * Initializes a @node to a specific @type.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: (transfer none): the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init (JsonNode *node,
+                JsonNodeType type)
+{
+  g_return_val_if_fail (type >= JSON_NODE_OBJECT &&
+                        type <= JSON_NODE_NULL, NULL);
+
+  json_node_unset (node);
+
+  node->type = type;
+
+  return node;
+}
+
+/**
+ * json_node_init_object:
+ * @node: the #JsonNode to initialize
+ * @object: (allow-none): the #JsonObject to initialize @node with, or %NULL
+ *
+ * Initializes @node to %JSON_NODE_OBJECT and sets @object into it.
+ *
+ * This function will take a reference on @object.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_object (JsonNode   *node,
+                       JsonObject *object)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+  
+  json_node_init (node, JSON_NODE_OBJECT);
+  json_node_set_object (node, object);
+
+  return node;
+}
+
+/**
+ * json_node_init_array:
+ * @node: the #JsonNode to initialize
+ * @array: (allow-none): the #JsonArray to initialize @node with, or %NULL
+ *
+ * Initializes @node to %JSON_NODE_ARRAY and sets @array into it.
+ *
+ * This function will take a reference on @array.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_array (JsonNode  *node,
+                      JsonArray *array)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  json_node_init (node, JSON_NODE_ARRAY);
+  json_node_set_array (node, array);
+
+  return node;
+}
+
+/**
+ * json_node_init_int:
+ * @node: the #JsonNode to initialize
+ * @value: an integer
+ *
+ * Initializes @node to %JSON_NODE_VALUE and sets @value into it.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_int (JsonNode *node,
+                    gint64    value)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  json_node_init (node, JSON_NODE_VALUE);
+  json_node_set_int (node, value);
+
+  return node;
+}
+
+/**
+ * json_node_init_double:
+ * @node: the #JsonNode to initialize
+ * @value: a floating point value
+ *
+ * Initializes @node to %JSON_NODE_VALUE and sets @value into it.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_double (JsonNode *node,
+                       gdouble   value)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  json_node_init (node, JSON_NODE_VALUE);
+  json_node_set_double (node, value);
+
+  return node;
+}
+
+/**
+ * json_node_init_boolean:
+ * @node: the #JsonNode to initialize
+ * @value: a boolean value
+ *
+ * Initializes @node to %JSON_NODE_VALUE and sets @value into it.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_boolean (JsonNode *node,
+                        gboolean  value)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  json_node_init (node, JSON_NODE_VALUE);
+  json_node_set_boolean (node, value);
+
+  return node;
+}
+
+/**
+ * json_node_init_string:
+ * @node: the #JsonNode to initialize
+ * @value: (allow-none): a string value
+ *
+ * Initializes @node to %JSON_NODE_VALUE and sets @value into it.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_string (JsonNode   *node,
+                       const char *value)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  json_node_init (node, JSON_NODE_VALUE);
+  json_node_set_string (node, value);
+
+  return node;
+}
+
+/**
+ * json_node_init_null:
+ * @node: the #JsonNode to initialize
+ *
+ * Initializes @node to %JSON_NODE_NULL.
+ *
+ * If the node has already been initialized once, it will be reset to
+ * the given type, and any data contained will be cleared.
+ *
+ * Return value: the initialized #JsonNode
+ *
+ * Since: 0.16
+ */
+JsonNode *
+json_node_init_null (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, NULL);
+
+  return json_node_init (node, JSON_NODE_NULL);
+}
+
+/**
  * json_node_new:
  * @type: a #JsonNodeType
  *
  * Creates a new #JsonNode of @type.
+ *
+ * This is a convenience function for json_node_alloc() and json_node_init(),
+ * and it's the equivalent of:
+ *
+ * |[
+ *   return json_node_init (json_node_alloc (), type);
+ * ]|
  *
  * Return value: the newly created #JsonNode
  */
 JsonNode *
 json_node_new (JsonNodeType type)
 {
-  JsonNode *data;
-
   g_return_val_if_fail (type >= JSON_NODE_OBJECT &&
                         type <= JSON_NODE_NULL, NULL);
 
-  data = g_slice_new0 (JsonNode);
-  data->type = type;
-
-  return data;
+  return json_node_init (json_node_alloc (), type);
 }
 
 /**
@@ -156,7 +411,7 @@ json_node_copy (JsonNode *node)
 
 /**
  * json_node_set_object:
- * @node: a #JsonNode
+ * @node: a #JsonNode initialized to %JSON_NODE_OBJECT
  * @object: a #JsonObject
  *
  * Sets @objects inside @node. The reference count of @object is increased.
@@ -168,7 +423,7 @@ json_node_set_object (JsonNode   *node,
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT);
 
-  if (node->data.object)
+  if (node->data.object != NULL)
     json_object_unref (node->data.object);
 
   if (object)
@@ -179,7 +434,7 @@ json_node_set_object (JsonNode   *node,
 
 /**
  * json_node_take_object:
- * @node: a #JsonNode
+ * @node: a #JsonNode initialized to %JSON_NODE_OBJECT
  * @object: (transfer full): a #JsonObject
  *
  * Sets @object inside @node. The reference count of @object is not increased.
@@ -241,7 +496,7 @@ json_node_dup_object (JsonNode *node)
 
 /**
  * json_node_set_array:
- * @node: a #JsonNode
+ * @node: a #JsonNode initialized to %JSON_NODE_ARRAY
  * @array: a #JsonArray
  *
  * Sets @array inside @node and increases the #JsonArray reference count
@@ -264,7 +519,7 @@ json_node_set_array (JsonNode  *node,
 
 /**
  * json_node_take_array:
- * @node: a #JsonNode
+ * @node: a #JsonNode initialized to %JSON_NODE_ARRAY
  * @array: (transfer full): a #JsonArray
  *
  * Sets @array into @node without increasing the #JsonArray reference count.
@@ -369,7 +624,7 @@ json_node_get_value (JsonNode *node,
 
 /**
  * json_node_set_value:
- * @node: a #JsonNode
+ * @node: a #JsonNode initialized to %JSON_NODE_VALUE
  * @value: the #GValue to set
  *
  * Sets @value inside @node. The passed #GValue is copied into the #JsonNode
@@ -436,27 +691,7 @@ json_node_free (JsonNode *node)
 {
   if (G_LIKELY (node))
     {
-      switch (node->type)
-        {
-        case JSON_NODE_OBJECT:
-          if (node->data.object)
-            json_object_unref (node->data.object);
-          break;
-
-        case JSON_NODE_ARRAY:
-          if (node->data.array)
-            json_array_unref (node->data.array);
-          break;
-
-        case JSON_NODE_VALUE:
-          if (node->data.value)
-            json_value_unref (node->data.value);
-          break;
-
-        case JSON_NODE_NULL:
-          break;
-        }
-
+      json_node_unset (node);
       g_slice_free (JsonNode, node);
     }
 }
@@ -552,7 +787,7 @@ json_node_get_parent (JsonNode *node)
 
 /**
  * json_node_set_string:
- * @node: a #JsonNode of type %JSON_NODE_VALUE
+ * @node: a #JsonNode initialized to %JSON_NODE_VALUE
  * @value: a string value
  *
  * Sets @value as the string content of the @node, replacing any existing

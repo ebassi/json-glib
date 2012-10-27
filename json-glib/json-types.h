@@ -185,8 +185,27 @@ typedef void (* JsonArrayForeach) (JsonArray  *array,
  */
 GType                 json_node_get_type        (void) G_GNUC_CONST;
 JsonNode *            json_node_new             (JsonNodeType  type);
+
+JsonNode *            json_node_alloc           (void);
+JsonNode *            json_node_init            (JsonNode     *node,
+                                                 JsonNodeType  type);
+JsonNode *            json_node_init_object     (JsonNode     *node,
+                                                 JsonObject   *object);
+JsonNode *            json_node_init_array      (JsonNode     *node,
+                                                 JsonArray    *array);
+JsonNode *            json_node_init_int        (JsonNode     *node,
+                                                 gint64        value);
+JsonNode *            json_node_init_double     (JsonNode     *node,
+                                                 gdouble       value);
+JsonNode *            json_node_init_boolean    (JsonNode     *node,
+                                                 gboolean      value);
+JsonNode *            json_node_init_string     (JsonNode     *node,
+                                                 const char   *value);
+JsonNode *            json_node_init_null       (JsonNode     *node);
+
 JsonNode *            json_node_copy            (JsonNode     *node);
 void                  json_node_free            (JsonNode     *node);
+
 JsonNodeType          json_node_get_node_type   (JsonNode     *node);
 GType                 json_node_get_value_type  (JsonNode     *node);
 void                  json_node_set_parent      (JsonNode     *node,
