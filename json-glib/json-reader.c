@@ -403,7 +403,8 @@ json_reader_is_value (JsonReader *reader)
   if (reader->priv->current_node == NULL)
     return FALSE;
 
-  return JSON_NODE_HOLDS_VALUE (reader->priv->current_node);
+  return JSON_NODE_HOLDS_VALUE (reader->priv->current_node) ||
+         JSON_NODE_HOLDS_NULL (reader->priv->current_node);
 }
 
 /**
