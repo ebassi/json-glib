@@ -487,14 +487,9 @@ void
 json_array_add_int_element (JsonArray *array,
                             gint64     value)
 {
-  JsonNode *node;
-
   g_return_if_fail (array != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_int (node, value);
-
-  g_ptr_array_add (array->elements, node);
+  g_ptr_array_add (array->elements, json_node_init_int (json_node_alloc (), value));
 }
 
 /**
@@ -512,14 +507,9 @@ void
 json_array_add_double_element (JsonArray *array,
                                gdouble    value)
 {
-  JsonNode *node;
-
   g_return_if_fail (array != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_double (node, value);
-
-  g_ptr_array_add (array->elements, node);
+  g_ptr_array_add (array->elements, json_node_init_double (json_node_alloc (), value));
 }
 
 /**
@@ -537,14 +527,9 @@ void
 json_array_add_boolean_element (JsonArray *array,
                                 gboolean   value)
 {
-  JsonNode *node;
-
   g_return_if_fail (array != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_boolean (node, value);
-
-  g_ptr_array_add (array->elements, node);
+  g_ptr_array_add (array->elements, json_node_init_boolean (json_node_alloc (), value));
 }
 
 /**
@@ -566,13 +551,12 @@ json_array_add_string_element (JsonArray   *array,
 
   g_return_if_fail (array != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL && *value != '\0')
-    {
-      node = json_node_new (JSON_NODE_VALUE);
-      json_node_set_string (node, value);
-    }
+    json_node_init_string (node, value);
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   g_ptr_array_add (array->elements, node);
 }
@@ -590,19 +574,15 @@ json_array_add_string_element (JsonArray   *array,
 void
 json_array_add_null_element (JsonArray *array)
 {
-  JsonNode *node;
-
   g_return_if_fail (array != NULL);
 
-  node = json_node_new (JSON_NODE_NULL);
-
-  g_ptr_array_add (array->elements, node);
+  g_ptr_array_add (array->elements, json_node_init_null (json_node_alloc ()));
 }
 
 /**
  * json_array_add_array_element:
  * @array: a #JsonArray
- * @value: (transfer full): a #JsonArray
+ * @value: (allow-none) (transfer full): a #JsonArray
  *
  * Conveniently adds an array into @array. The @array takes ownership
  * of the newly added #JsonArray
@@ -619,13 +599,15 @@ json_array_add_array_element (JsonArray *array,
 
   g_return_if_fail (array != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL)
     {
-      node = json_node_new (JSON_NODE_ARRAY);
-      json_node_take_array (node, value);
+      json_node_init_array (node, value);
+      json_array_unref (value);
     }
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   g_ptr_array_add (array->elements, node);
 }
@@ -650,13 +632,15 @@ json_array_add_object_element (JsonArray  *array,
 
   g_return_if_fail (array != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL)
     {
-      node = json_node_new (JSON_NODE_OBJECT);
-      json_node_take_object (node, value);
+      json_node_init_object (node, value);
+      json_object_unref (value);
     }
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   g_ptr_array_add (array->elements, node);
 }

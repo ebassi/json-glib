@@ -232,14 +232,10 @@ json_object_set_int_member (JsonObject  *object,
                             const gchar *member_name,
                             gint64       value)
 {
-  JsonNode *node;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_int (node, value);
-  object_set_member_internal (object, member_name, node);
+  object_set_member_internal (object, member_name, json_node_init_int (json_node_alloc (), value));
 }
 
 /**
@@ -260,14 +256,10 @@ json_object_set_double_member (JsonObject  *object,
                                const gchar *member_name,
                                gdouble      value)
 {
-  JsonNode *node;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_double (node, value);
-  object_set_member_internal (object, member_name, node);
+  object_set_member_internal (object, member_name, json_node_init_double (json_node_alloc (), value));
 }
 
 /**
@@ -288,14 +280,10 @@ json_object_set_boolean_member (JsonObject  *object,
                                 const gchar *member_name,
                                 gboolean     value)
 {
-  JsonNode *node;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_VALUE);
-  json_node_set_boolean (node, value);
-  object_set_member_internal (object, member_name, node);
+  object_set_member_internal (object, member_name, json_node_init_boolean (json_node_alloc (), value));
 }
 
 /**
@@ -321,13 +309,12 @@ json_object_set_string_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL)
-    {
-      node = json_node_new (JSON_NODE_VALUE);
-      json_node_set_string (node, value);
-    }
+    json_node_init_string (node, value);
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   object_set_member_internal (object, member_name, node);
 }
@@ -348,13 +335,10 @@ void
 json_object_set_null_member (JsonObject  *object,
                              const gchar *member_name)
 {
-  JsonNode *node;
-
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
-  node = json_node_new (JSON_NODE_NULL);
-  object_set_member_internal (object, member_name, node);
+  object_set_member_internal (object, member_name, json_node_init_null (json_node_alloc ()));
 }
 
 /**
@@ -382,13 +366,15 @@ json_object_set_array_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL)
     {
-      node = json_node_new (JSON_NODE_ARRAY);
-      json_node_take_array (node, value);
+      json_node_init_array (node, value);
+      json_array_unref (value);
     }
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   object_set_member_internal (object, member_name, node);
 }
@@ -418,13 +404,15 @@ json_object_set_object_member (JsonObject  *object,
   g_return_if_fail (object != NULL);
   g_return_if_fail (member_name != NULL);
 
+  node = json_node_alloc ();
+
   if (value != NULL)
     {
-      node = json_node_new (JSON_NODE_OBJECT);
-      json_node_take_object (node, value);
+      json_node_init_object (node, value);
+      json_object_unref (value);
     }
   else
-    node = json_node_new (JSON_NODE_NULL);
+    json_node_init_null (node);
 
   object_set_member_internal (object, member_name, node);
 }
