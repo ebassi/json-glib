@@ -360,7 +360,16 @@ json_array_get_null_element (JsonArray *array,
   node = g_ptr_array_index (array->elements, index_);
   g_return_val_if_fail (node != NULL, FALSE);
 
-  return JSON_NODE_TYPE (node) == JSON_NODE_NULL;
+  if (JSON_NODE_HOLDS_NULL (node))
+    return TRUE;
+
+  if (JSON_NODE_HOLDS_ARRAY (node))
+    return json_node_get_array (node) == NULL;
+
+  if (JSON_NODE_HOLDS_OBJECT (node))
+    return json_node_get_object (node) == NULL;
+
+  return FALSE;
 }
 
 /**

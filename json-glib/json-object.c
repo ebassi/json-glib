@@ -652,7 +652,16 @@ json_object_get_null_member (JsonObject  *object,
   node = object_get_member_internal (object, member_name);
   g_return_val_if_fail (node != NULL, FALSE);
 
-  return JSON_NODE_TYPE (node) == JSON_NODE_NULL;
+  if (JSON_NODE_HOLDS_NULL (node))
+    return TRUE;
+
+  if (JSON_NODE_HOLDS_OBJECT (node))
+    return json_node_get_object (node) == NULL;
+
+  if (JSON_NODE_HOLDS_ARRAY (node))
+    return json_node_get_array (node) == NULL;
+
+  return FALSE;
 }
 
 /**
