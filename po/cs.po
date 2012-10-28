@@ -1,19 +1,20 @@
 # Czech translation for json-glib.
 # Copyright (C) 2011 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
-# Marek Černocký <marek@manet.cz>, 2011.
+#
+# Marek Černocký <marek@manet.cz>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-16 10:21+0000\n"
-"PO-Revision-Date: 2011-11-22 10:29+0100\n"
+"POT-Creation-Date: 2012-10-25 17:15+0000\n"
+"PO-Revision-Date: 2012-10-28 11:13+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
-"MIME-Version: 1.0\n"
 "Language: cs\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
@@ -62,10 +63,10 @@ msgstr "Neplatná signatura GVariant"
 msgid "JSON data is empty"
 msgstr "Data JSON jsou prázdná"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:810
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: Chyba zpracování: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: Chyba zpracování: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -117,9 +118,9 @@ msgstr "Index „%d“ je větší než velikost objektu na aktuální pozici."
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "Na aktuální pozici není k dispozici žádný uzel"
 
@@ -144,24 +145,12 @@ msgid "The current position holds a '%s' and not an object"
 msgstr "Aktuální pozice obsahuje „%s“ a ne objekt"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Aktuální pozice obsahuje „%s“ a ne hodnotu"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "Aktuální pozice neobsahuje typ integer (celé číslo)"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "Aktuální pozice neobsahuje typ float point (desetinné číslo)"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Aktuální pozice neobsahuje typ string (řetězec)"
-
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "Aktuální pozice neobsahuje typ boolean (pravdivostní hodnota)"
