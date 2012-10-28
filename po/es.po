@@ -2,21 +2,23 @@
 # Copyright (C) 2011 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-11-14 13:57+0000\n"
-"PO-Revision-Date: 2011-12-06 20:20+0100\n"
+"POT-Creation-Date: 2012-10-25 17:15+0000\n"
+"PO-Revision-Date: 2012-10-28 13:31+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: ../json-glib/json-gobject.c:934
 #, c-format
@@ -64,10 +66,11 @@ msgstr "Firma de GVariant no válida"
 msgid "JSON data is empty"
 msgstr "Datos de JSON vacíos"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:810
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: error al analizar: %s"
+#| msgid "%s:%d: Parse error: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: Error al analizr: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -122,9 +125,9 @@ msgstr ""
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
+#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
+#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
 msgid "No node available at the current position"
 msgstr "No hay ningún nodo disponible en la posición actual"
 
@@ -149,24 +152,21 @@ msgid "The current position holds a '%s' and not an object"
 msgstr "La posición actual tiene un «%s» y no un objeto"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
+#: ../json-glib/json-reader.c:986
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "La posición actual tiene un «%s» y no un valor"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "La posición actual no tiene un tipo entero"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "La posición actual no tiene un tipo de coma flotante"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "La posición actual no tiene un tipo de cadena"
 
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "La posición actual no tiene un tipo booleano"
+#~ msgid "The current position does not hold an integer type"
+#~ msgstr "La posición actual no tiene un tipo entero"
+
+#~ msgid "The current position does not hold a floating point type"
+#~ msgstr "La posición actual no tiene un tipo de coma flotante"
+
+#~ msgid "The current position does not hold a boolean type"
+#~ msgstr "La posición actual no tiene un tipo booleano"
