@@ -4,11 +4,11 @@
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: json-glib master\n"
+"Project-Id-Version: json-glib json-glib-0-14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-25 17:15+0000\n"
-"PO-Revision-Date: 2012-10-27 05:18+0200\n"
+"POT-Creation-Date: 2012-11-02 20:22+0000\n"
+"PO-Revision-Date: 2012-11-03 09:15+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -63,37 +63,36 @@ msgstr "Neispravan potpis Gvarijanta"
 msgid "JSON data is empty"
 msgstr "JSON podaci su prazni"
 
-#: ../json-glib/json-parser.c:810
+#: ../json-glib/json-parser.c:821
 #, c-format
-#| msgid "%s:%d: Parse error: %s"
-msgid "%s:%d:%d: Parse error: %s"
-msgstr "%s:%d:%d: Greška obrade: %s"
+msgid "%s:%d: Parse error: %s"
+msgstr "%s:%d: Greška obrade: %s"
 
-#: ../json-glib/json-path.c:375
+#: ../json-glib/json-path.c:380
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "Samo jedan koreni čvor je dopušten u izrazu JSONPutanje"
 
-#: ../json-glib/json-path.c:384
+#: ../json-glib/json-path.c:389
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "Za korenim čvorom sledi neispravan znak „%c“"
 
-#: ../json-glib/json-path.c:490
+#: ../json-glib/json-path.c:495
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Neispravan izraz isečka „%*s“"
 
-#: ../json-glib/json-path.c:534
+#: ../json-glib/json-path.c:539
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Neispravna odrednica skupa „%*s“"
 
-#: ../json-glib/json-path.c:587
+#: ../json-glib/json-path.c:592
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Neispravna odrednica isečka „%*s“"
 
-#: ../json-glib/json-path.c:615
+#: ../json-glib/json-path.c:620
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Neispravna odrednica registra niza „%*s“"
@@ -119,9 +118,9 @@ msgstr "Registar „%d“ je veći od veličine objekta na trenutnom položaju."
 
 #: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
 #: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
-#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
-#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
+#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
+#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
 msgid "No node available at the current position"
 msgstr "Nijedan čvor nije dostupan na trenutnom položaju"
 
@@ -146,12 +145,24 @@ msgid "The current position holds a '%s' and not an object"
 msgstr "Trenutni položaj sadrži „%s“ a ne objekat"
 
 #: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
-#: ../json-glib/json-reader.c:986
+#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
+#: ../json-glib/json-reader.c:1000
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Trenutni položaj sadrži „%s“ a ne vrednost"
 
-#: ../json-glib/json-reader.c:949
+#: ../json-glib/json-reader.c:873
+msgid "The current position does not hold an integer type"
+msgstr "Trenutni položaj ne sadrži vrstu celog broja"
+
+#: ../json-glib/json-reader.c:918
+msgid "The current position does not hold a floating point type"
+msgstr "Trenutni položaj ne sadrži vrstu pokretnog zareza"
+
+#: ../json-glib/json-reader.c:963
 msgid "The current position does not hold a string type"
 msgstr "Trenutni položaj ne sadrži vrstu niske"
+
+#: ../json-glib/json-reader.c:1008
+msgid "The current position does not hold a boolean type"
+msgstr "Trenutni položaj ne sadrži vrstu logičke vrednosti"
