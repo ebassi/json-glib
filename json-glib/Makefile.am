@@ -78,7 +78,9 @@ lib_LTLIBRARIES = libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
-libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-dynamic -export-symbols-regex "^json.*" -rpath $(libdir)
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -no-undefined -export-symbols $(top_srcdir)/json-glib/json-glib.symbols -rpath $(libdir)
+
+EXTRA_DIST += json-glib.symbols
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
@@ -122,8 +124,6 @@ typelibs_DATA = Json-1.0.typelib
 
 CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
-
-EXTRA_DIST += json-glib.symbols
 
 dist-hook: ../build/win32/vs9/json-glib.vcproj ../build/win32/vs10/json-glib.vcxproj ../build/win32/vs10/json-glib.vcxproj.filters
 
