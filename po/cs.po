@@ -80,7 +80,7 @@ msgstr "Kořenový uzel následován neplatným znakem „%c“"
 #: ../json-glib/json-path.c:490
 #, c-format
 msgid "Malformed slice expression '%*s'"
-msgstr "Chybný výraz řezu „%*s“"
+msgstr "Chybný výraz dílu „%*s“"
 
 #: ../json-glib/json-path.c:534
 #, c-format
@@ -90,7 +90,7 @@ msgstr "Neplatná definice množiny „%*s“"
 #: ../json-glib/json-path.c:587
 #, c-format
 msgid "Invalid slice definition '%*s'"
-msgstr "Neplatná definice řezu „%*s“"
+msgstr "Neplatná definice dílu „%*s“"
 
 #: ../json-glib/json-path.c:615
 #, c-format
@@ -126,9 +126,7 @@ msgstr "Na aktuální pozici není k dispozici žádný uzel"
 
 #: ../json-glib/json-reader.c:583
 #, c-format
-msgid "The current position holds a '%s' and not an array"
-msgstr "Aktuální pozice obsahuje „%s“ a ne pole"
-
+c
 #: ../json-glib/json-reader.c:646
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
