@@ -126,7 +126,9 @@ msgstr "Na aktuální pozici není k dispozici žádný uzel"
 
 #: ../json-glib/json-reader.c:583
 #, c-format
-c
+msgid "The current position holds a '%s' and not an array"
+msgstr "Aktuální pozice obsahuje „%s“ a ne pole"
+
 #: ../json-glib/json-reader.c:646
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
