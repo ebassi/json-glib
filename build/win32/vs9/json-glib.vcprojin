@@ -21,8 +21,6 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets=".\json-glib.vsprops"
 			CharacterSet="2"
@@ -52,7 +50,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile="..\..\..\json-glib\json-glib.def"
+				ModuleDefinitionFile="$(IntDir)\json-glib.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="$(TargetDir)$(ProjectName)-$(JsonGlibVersion).lib"
@@ -89,7 +87,7 @@
 				AdditionalDependencies=""
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile="..\..\..\json-glib\json-glib.def"
+				ModuleDefinitionFile="$(IntDir)\json-glib.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="$(TargetDir)$(ProjectName)-$(JsonGlibVersion).lib"
@@ -98,8 +96,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets=".\json-glib.vsprops"
 			CharacterSet="2"
@@ -130,7 +126,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile="..\..\..\json-glib\json-glib.def"
+				ModuleDefinitionFile="$(IntDir)\json-glib.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -166,7 +162,7 @@
 				AdditionalDependencies=""
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile="..\..\..\json-glib\json-glib.def"
+				ModuleDefinitionFile="$(IntDir)\json-glib.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

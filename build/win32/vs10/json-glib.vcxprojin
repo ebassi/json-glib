@@ -89,7 +89,7 @@
     </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\json-glib\json-glib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(JsonGlibVersion).lib</ImportLibrary>
@@ -117,7 +117,7 @@
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\json-glib\json-glib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(JsonGlibVersion).lib</ImportLibrary>
@@ -146,7 +146,7 @@
     </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\json-glib\json-glib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -173,7 +173,7 @@
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
-      <ModuleDefinitionFile>..\..\..\json-glib\json-glib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

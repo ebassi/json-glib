@@ -21,11 +21,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets=".\json-glib.vsprops"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -80,11 +78,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets=".\json-glib.vsprops"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
