@@ -60,7 +60,7 @@ copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(JsonGli
 copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 
-copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
 copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
