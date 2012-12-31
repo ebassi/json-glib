@@ -3,22 +3,24 @@
 # This file is distributed under the same license as the json-glib package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2012.
+# Balázs Úr <urbalazs at gmail dot com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib\n"
-"POT-Creation-Date: 2012-09-18 01:37+0200\n"
-"PO-Revision-Date: 2012-09-18 01:38+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-12-26 02:59+0000\n"
+"PO-Revision-Date: 2012-12-31 16:47+0100\n"
+"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.2\n"
 
-#: ../json-glib/json-gobject.c:934
+#: ../json-glib/json-gobject.c:925
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "A várt JSON objektum helyett a gyökérobjektum „%s” típusú"
@@ -45,7 +47,8 @@ msgid "Invalid string value converting to GVariant"
 msgstr "Érvénytelen karakterláncérték a GVariant-tá alakítás közben"
 
 #: ../json-glib/json-gvariant.c:980
-msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr "Egy GVariant szótárbejegyzés pontosan egy tagú JSON objektumot vár"
 
 #: ../json-glib/json-gvariant.c:1236
@@ -61,10 +64,11 @@ msgstr "Érvénytelen GVariant aláírás"
 msgid "JSON data is empty"
 msgstr "A JSON adatok üresek"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:825
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s:%d: feldolgozási hiba: %s"
+#| msgid "%s:%d: Parse error: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: feldolgozási hiba: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -95,59 +99,63 @@ msgstr "Érvénytelen szeletdefiníció: „%*s”"
 msgid "Invalid array index definition '%*s'"
 msgstr "Érvénytelen tömbindex-definíció: „%*s”"
 
-#: ../json-glib/json-reader.c:463
+#: ../json-glib/json-reader.c:464
 #, c-format
-msgid "The current node is of type '%s', but an array or an object was expected."
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
 msgstr "A jelenlegi csomópont „%s” típusú a várt tömb vagy objektum helyett."
 
-#: ../json-glib/json-reader.c:475
+#: ../json-glib/json-reader.c:476
 #, c-format
-msgid "The index '%d' is greater than the size of the array at the current position."
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
 msgstr "A(z) „%d” index nagyobb az aktuális pozícióban lévő tömb méreténél."
 
-#: ../json-glib/json-reader.c:492
+#: ../json-glib/json-reader.c:493
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
-msgstr "A(z) „%d” index nagyobb az aktuális pozícióban lévő objektum méreténél."
+msgstr ""
+"A(z) „%d” index nagyobb az aktuális pozícióban lévő objektum méreténél."
 
-#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
-#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
-#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
-#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:730
+#: ../json-glib/json-reader.c:781 ../json-glib/json-reader.c:819
+#: ../json-glib/json-reader.c:857 ../json-glib/json-reader.c:895
+#: ../json-glib/json-reader.c:933 ../json-glib/json-reader.c:978
+#: ../json-glib/json-reader.c:1014 ../json-glib/json-reader.c:1040
 msgid "No node available at the current position"
 msgstr "Nem érhető el csomópont az aktuális pozícióban"
 
-#: ../json-glib/json-reader.c:583
+#: ../json-glib/json-reader.c:584
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Az aktuális pozícióban „%s” található tömb helyett"
 
-#: ../json-glib/json-reader.c:646
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "A jelenlegi csomópont „%s” típusú a várt objektum helyett."
 
-#: ../json-glib/json-reader.c:653
+#: ../json-glib/json-reader.c:654
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
-msgstr "A(z) „%s” tag nincs definiálva az aktuális pozícióban lévő objektumban."
+msgstr ""
+"A(z) „%s” tag nincs definiálva az aktuális pozícióban lévő objektumban."
 
-#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#: ../json-glib/json-reader.c:737 ../json-glib/json-reader.c:788
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Az aktuális pozícióban „%s” található objektum helyett"
 
-#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
-#: ../json-glib/json-reader.c:986
+#: ../json-glib/json-reader.c:828 ../json-glib/json-reader.c:866
+#: ../json-glib/json-reader.c:904 ../json-glib/json-reader.c:942
+#: ../json-glib/json-reader.c:987
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Az aktuális pozícióban „%s” található érték helyett"
 
-#: ../json-glib/json-reader.c:949
+#: ../json-glib/json-reader.c:950
 msgid "The current position does not hold a string type"
 msgstr "Az aktuális pozícióban nem karakterlánc típus található"
 
