@@ -3,14 +3,14 @@
 # Copyright (C) 2012 json-glib authors
 # This file is distributed under the same license as the json-glib package.
 #
-# Timur Zhamakeev <ztimur@gmail.com>, 2012.
+# Timur Zhamakeev <ztimur@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-09-24 08:27+0000\n"
-"PO-Revision-Date: 2012-09-27 11:52+0600\n"
+"PO-Revision-Date: 2013-01-05 18:22+0600\n"
 "Last-Translator: Timur Zhamakeev <ztimur@gmail.com>\n"
 "Language-Team: Kirghiz <gnome-i18n@gnome.org>\n"
 "Language: ky\n"
@@ -108,7 +108,7 @@ msgstr "Учурдагы түйүн '%s' тибинде; массив же об�
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr "Учурдагы позициянын индекси:'%d'; массивдин узундугунан чоң."
+msgstr "Учурдагы позициянын индекси:'%d' массивдин узундугунан чоң."
 
 #: ../json-glib/json-reader.c:492
 #, c-format
@@ -157,4 +157,5 @@ msgstr "Учурдагы позицияда:'%s'; ал маани эмес"
 #: ../json-glib/json-reader.c:949
 msgid "The current position does not hold a string type"
 msgstr "Учурдагы позициянын тиби, саптык тип эмес"
+
 
