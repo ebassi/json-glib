@@ -853,7 +853,7 @@ walk_path_node (GList      *path,
               else
                 {
                   JSON_NOTE (PATH, "glob match member '%s'", (char *) l->data);
-                  json_array_add_element (results, json_node_copy (root));
+                  json_array_add_element (results, json_node_copy (member));
                 }
             }
           g_list_free (members);
