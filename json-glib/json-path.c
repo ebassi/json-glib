@@ -879,7 +879,7 @@ walk_path_node (GList      *path,
               else
                 {
                   JSON_NOTE (PATH, "glob match element '%d'", i);
-                  json_array_add_element (results, json_node_copy (root));
+                  json_array_add_element (results, json_node_copy (element));
                 }
             }
           g_list_free (elements);
