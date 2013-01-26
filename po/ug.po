@@ -104,14 +104,14 @@ msgstr "نۆۋەتتىكى تۈگۈننىڭ تىپى ‹%s›، بىراق بۇ 
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr "ئىندېكس ‹%s› ، نۆۋەتتىكى ئورۇندىكى تىزىقنىڭ چوڭلۇقىدىن چوڭ."
+msgstr "ئىندېكس ‹%d› ، نۆۋەتتىكى ئورۇندىكى تىزىقنىڭ چوڭلۇقىدىن چوڭ."
 
 #: ../json-glib/json-reader.c:493
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
-msgstr "ئىندېكس ‹%s› ، نۆۋەتتىكى ئورۇندىكى نەڭنىڭ چوڭلۇقىدىن چوڭ."
+msgstr "ئىندېكس ‹%d› ، نۆۋەتتىكى ئورۇندىكى نەڭنىڭ چوڭلۇقىدىن چوڭ."
 
 #: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:730
 #: ../json-glib/json-reader.c:781 ../json-glib/json-reader.c:819
