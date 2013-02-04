@@ -7,17 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
-"glib\n"
-"POT-Creation-Date: 2012-07-14 14:12+0800\n"
-"PO-Revision-Date: 2012-07-14 11:34+0800\n"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-01-19 10:46+0000\n"
+"PO-Revision-Date: 2013-02-04 19:02+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ../json-glib/json-gobject.c:934
+#: ../json-glib/json-gobject.c:925
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "預期是 JSON 物件，但根節點卻是類型「%s」"
@@ -61,10 +62,11 @@ msgstr "無效的 GVariant 簽章"
 msgid "JSON data is empty"
 msgstr "JSON 資料是空的"
 
-#: ../json-glib/json-parser.c:818
+#: ../json-glib/json-parser.c:825
 #, c-format
-msgid "%s:%d: Parse error: %s"
-msgstr "%s：%d：解析錯誤：%s"
+#| msgid "%s:%d: Parse error: %s"
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s：%d：%d：解析錯誤：%s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -95,72 +97,69 @@ msgstr "無效的片段定義「%*s」"
 msgid "Invalid array index definition '%*s'"
 msgstr "無效的陣列索引定義「%*s」"
 
-#: ../json-glib/json-reader.c:463
+#: ../json-glib/json-reader.c:464
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr "目前的節點類型是「%s」，但預期應為陣列或物件。"
 
-#: ../json-glib/json-reader.c:475
+#: ../json-glib/json-reader.c:476
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr "索引「%d」大於目前位置的陣列大小。"
 
-#: ../json-glib/json-reader.c:492
+#: ../json-glib/json-reader.c:493
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "索引「%d」大於目前位置的物件大小。"
 
-#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
-#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:901
-#: ../json-glib/json-reader.c:946 ../json-glib/json-reader.c:991
-#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:730
+#: ../json-glib/json-reader.c:781 ../json-glib/json-reader.c:819
+#: ../json-glib/json-reader.c:857 ../json-glib/json-reader.c:895
+#: ../json-glib/json-reader.c:933 ../json-glib/json-reader.c:978
+#: ../json-glib/json-reader.c:1014 ../json-glib/json-reader.c:1040
 msgid "No node available at the current position"
 msgstr "目前的位置沒有可用的節點"
 
-#: ../json-glib/json-reader.c:583
+#: ../json-glib/json-reader.c:584
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "目前的位置持有一個「%s」，並非陣列"
 
-#: ../json-glib/json-reader.c:646
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "目前的節點類型是「%s」，但預期應為物件。"
 
-#: ../json-glib/json-reader.c:653
+#: ../json-glib/json-reader.c:654
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "成員「%s」並未在目前的位置的物件中定義。"
 
-#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#: ../json-glib/json-reader.c:737 ../json-glib/json-reader.c:788
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "目前的位置持有一個「%s」，並非物件"
 
-#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:955
-#: ../json-glib/json-reader.c:1000
+#: ../json-glib/json-reader.c:828 ../json-glib/json-reader.c:866
+#: ../json-glib/json-reader.c:904 ../json-glib/json-reader.c:942
+#: ../json-glib/json-reader.c:987
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "目前的位置持有一個「%s」，並非數值"
 
-#: ../json-glib/json-reader.c:873
-msgid "The current position does not hold an integer type"
-msgstr "目前的位置並未持有整數類型"
-
-#: ../json-glib/json-reader.c:918
-msgid "The current position does not hold a floating point type"
-msgstr "目前的位置並未持有浮點數類型"
-
-#: ../json-glib/json-reader.c:963
+#: ../json-glib/json-reader.c:950
 msgid "The current position does not hold a string type"
 msgstr "目前的位置並未持有字串類型"
 
-#: ../json-glib/json-reader.c:1008
-msgid "The current position does not hold a boolean type"
-msgstr "目前的位置並未持有布林類型"
+#~ msgid "The current position does not hold an integer type"
+#~ msgstr "目前的位置並未持有整數類型"
+
+#~ msgid "The current position does not hold a floating point type"
+#~ msgstr "目前的位置並未持有浮點數類型"
+
+#~ msgid "The current position does not hold a boolean type"
+#~ msgstr "目前的位置並未持有布林類型"
