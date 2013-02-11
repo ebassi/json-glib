@@ -172,7 +172,7 @@ json_node_init (JsonNode *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -200,7 +200,7 @@ json_node_init_object (JsonNode   *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -226,7 +226,7 @@ json_node_init_array (JsonNode  *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -252,7 +252,7 @@ json_node_init_int (JsonNode *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -278,7 +278,7 @@ json_node_init_double (JsonNode *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -304,7 +304,7 @@ json_node_init_boolean (JsonNode *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
@@ -329,7 +329,7 @@ json_node_init_string (JsonNode   *node,
  * If the node has already been initialized once, it will be reset to
  * the given type, and any data contained will be cleared.
  *
- * Return value: the initialized #JsonNode
+ * Return value: (transfer none): the initialized #JsonNode
  *
  * Since: 0.16
  */
