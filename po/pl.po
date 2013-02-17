@@ -4,15 +4,15 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2012.
-# Aviary.pl <gnomepl@aviary.pl>, 2011-2012.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2011-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib\n"
-"POT-Creation-Date: 2012-11-27 17:14+0100\n"
-"PO-Revision-Date: 2012-11-27 17:15+0100\n"
+"POT-Creation-Date: 2013-02-17 20:12+0100\n"
+"PO-Revision-Date: 2013-02-17 20:13+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -159,4 +159,4 @@ msgstr "Bieżące położenie przechowuje \"%s\", a nie wartość"
 
 #: ../json-glib/json-reader.c:950
 msgid "The current position does not hold a string type"
-msgstr "Bieżące położenie nie przechowuje typu typu ciągu"
+msgstr "Bieżące położenie nie przechowuje typu ciągu"
