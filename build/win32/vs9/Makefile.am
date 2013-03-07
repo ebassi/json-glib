@@ -20,4 +20,5 @@ EXTRA_DIST =	\
 	serialize-full.vcproj		\
 	serialize-simple.vcproj		\
 	README.txt			\
+	gengir.vcproj		\
 	$(NULL)
