@@ -18,8 +18,16 @@
 		AdditionalLibraryDirectories="$(GlibEtcInstallRoot)\lib"
 	/>
 	<UserMacro
+		Name="VSVer"
+		Value="9"
+	/>
+	<UserMacro
 		Name="GlibEtcInstallRoot"
-		Value="..\..\..\..\vs9\$(PlatformName)"
+		Value="..\..\..\..\vs$(VSVer)\$(PlatformName)"
+	/>
+	<UserMacro
+		Name="GlibEtcInstallRootFromBuildWin32"
+		Value="..\..\..\vs$(VSVer)\$(PlatformName)"
 	/>
 	<UserMacro
 		Name="CopyDir"
@@ -38,7 +46,7 @@ copy ..\config.h.win32 ..\..\..\config.h&#x0D;&#x0A;
 "
 	/>
 	<UserMacro
-		Name="JsonGlibVersion"
+		Name="ApiVersion"
 		Value="1.0"
 	/>
 	<UserMacro
@@ -54,21 +62,34 @@ copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\*.dll $(CopyDir)\bin
 copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\*.exe $(CopyDir)\bin&#x0D;&#x0A;
 copy ..\..\..\json-glib\tests\stream-load.json $(CopyDir)\bin&#x0D;&#x0A;
 
-mkdir $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
+mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
 
-copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
 
-copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-path.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
-copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(JsonGlibVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-path.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
 "
+	/>
+	<UserMacro
+		Name="DoGenGir"
+		Value="
+set VSVER=$(VSVer)&#x0D;&#x0A;
+set CONF=$(ConfigurationName)&#x0D;&#x0A;
+set PLAT=$(PlatformName)&#x0D;&#x0A;
+set BASEDIR=$(GlibEtcInstallRootFromBuildWin32)&#x0D;&#x0A;
+
+cd ..&#x0D;&#x0A;
+call gengir_jsonglib.bat&#x0D;&#x0A;
+cd vs$(VSVer)&#x0D;&#x0A;
+			  "
 	/>
 	<UserMacro
 		Name="JsonGlibGenerateDef"
@@ -90,21 +111,21 @@ cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;$(DefDir)\json-glib.def&#x0D
 		Value="-1.0-0"
 	/>
 	<UserMacro
-		Name="JsonGlibSeparateVS9DllPrefix"
+		Name="JsonGlibSeparateVSDllPrefix"
 		Value=""
 	/>
 	<UserMacro
-		Name="JsonGlibSeparateVS9DllSuffix"
-		Value="-1-vs9"
+		Name="JsonGlibSeparateVSDllSuffix"
+		Value="-1-vs$(VSVer)"
 	/>
 	<!-- Change these two to JsonGlibLibtoolCompatibleDllPrefix and
 	JsonGlibLibtoolCompatibleDllSuffix if that is what you want -->
 	<UserMacro
 		Name="JsonGlibDllPrefix"
-		Value="$(JsonGlibSeparateVS9DllPrefix)"
+		Value="$(JsonGlibSeparateVSDllPrefix)"
 	/>
 	<UserMacro
 		Name="JsonGlibDllSuffix"
-		Value="$(JsonGlibSeparateVS9DllSuffix)"
+		Value="$(JsonGlibSeparateVSDllSuffix)"
 	/>
 </VisualStudioPropertySheet>
