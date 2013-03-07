@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-glib", "json-glib.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "install", "install.vcxproj", "{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gengir", "gengir.vcxproj", "{2093D218-190E-4194-9421-3BA7CBF33B15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -159,6 +161,10 @@ Global
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|Win32.Build.0 = Release|Win32
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|x64.ActiveCfg = Release|x64
 		{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}.Release|x64.Build.0 = Release|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|x64.ActiveCfg = Debug|x64
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|Win32.ActiveCfg = Release|Win32
+		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
