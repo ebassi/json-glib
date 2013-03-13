@@ -41,6 +41,7 @@
  * Use json_gvariant_deserialize() and json_gvariant_deserialize_data() to
  * obtain the #GVariant value from a #JsonNode tree or directly from a JSON
  * string.
+ *
  * Since many #GVariant data types cannot be directly represented as
  * JSON, a #GVariant type string (signature) should be provided to these
  * methods in order to obtain a correct, type-contrained result.
@@ -1261,8 +1262,11 @@ out:
  * If @signature is %NULL, the conversion is done based strictly on the types
  * in the JSON nodes.
  *
- * Return value: (transfer full): A newly created #GVariant compliant with
- *   @signature, or %NULL on error
+ * The returned variant has a floating reference that will need to be sunk
+ * by the caller code.
+ *
+ * Return value: (transfer none): A newly created, floating #GVariant
+ *   compliant with @signature, or %NULL on error
  *
  * Since: 0.14
  */
@@ -1297,8 +1301,11 @@ json_gvariant_deserialize (JsonNode     *json_node,
  * The string is first converted to a #JsonNode using #JsonParser, and then
  * json_gvariant_deserialize() is called.
  *
- * Returns: (transfer full): A newly created #GVariant compliant with
- *   @signature, or %NULL on error
+ * The returned variant has a floating reference that will need to be sunk
+ * by the caller code.
+ *
+ * Returns: (transfer none): A newly created, floating #GVariant compliant
+ *   with @signature, or %NULL on error
  *
  * Since: 0.14
  */
