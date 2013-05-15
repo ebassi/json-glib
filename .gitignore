@@ -8,6 +8,7 @@ autom4te.cache
 !/build/autotools/as-compiler-flag.m4
 !/build/autotools/introspection.m4
 !/build/autotools/Makefile.am.*
+/build/test-driver
 compile
 configure
 config.guess
