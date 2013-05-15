@@ -439,7 +439,7 @@ json_path_compile (JsonPath    *path,
                 return FALSE;
               }
 
-            if (!(*(p + 1) == '.' || *(p + 1) == '['))
+            if (!(*(p + 1) == '.' || *(p + 1) == '[' || *(p + 1) == '\0'))
               {
                 /* translators: the %c is the invalid character */
                 g_set_error (error, JSON_PATH_ERROR,
@@ -741,7 +741,10 @@ walk_path_node (GList      *path,
   switch (node->node_type)
     {
     case JSON_PATH_NODE_ROOT:
-      walk_path_node (path->next, root, results);
+      if (path->next != NULL)
+          walk_path_node (path->next, root, results);
+      else
+          json_array_add_element (results, json_node_copy (root));
       break;
 
     case JSON_PATH_NODE_CHILD_MEMBER:
