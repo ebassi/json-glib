@@ -45,6 +45,20 @@ static const struct {
   JsonPathError error_code;
 } test_expressions[] = {
   {
+    "INVALID: invalid character following root",
+    "$ponies",
+    NULL,
+    FALSE,
+    JSON_PATH_ERROR_INVALID_QUERY,
+  },
+  {
+    "INVALID: malformed splice",
+    "$.store.book[0:1:]",
+    NULL,
+    FALSE,
+    JSON_PATH_ERROR_INVALID_QUERY,
+  },
+  {
     "Title of the first book in the store, using objct notation.",
     "$.store.book[0].title",
     "[\"Sayings of the Century\"]",
