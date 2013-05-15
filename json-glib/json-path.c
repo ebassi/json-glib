@@ -480,6 +480,14 @@ json_path_compile (JsonPath    *path,
                 while (!(*end_p == '.' || *end_p == '[' || *end_p == '\0'))
                   end_p += 1;
 
+                if (end_p == p + 1)
+                  {
+                    g_set_error_literal (error, JSON_PATH_ERROR,
+                                         JSON_PATH_ERROR_INVALID_QUERY,
+                                         _("Missing member name or wildcard after . character"));
+                    goto fail;
+                  }
+
                 node = g_new0 (PathNode, 1);
                 node->node_type = JSON_PATH_NODE_CHILD_MEMBER;
                 node->data.member_name = g_strndup (p + 1, end_p - p - 1);
