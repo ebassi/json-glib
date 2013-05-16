@@ -329,6 +329,66 @@ json_path_new (void)
   return g_object_new (JSON_TYPE_PATH, NULL);
 }
 
+static void
+json_path_foreach_print (gpointer data,
+                         gpointer user_data)
+{
+  PathNode *cur_node = data;
+  GString *buf = user_data;
+
+  switch (cur_node->node_type)
+    {
+    case JSON_PATH_NODE_ROOT:
+      g_string_append (buf, "<root");
+      break;
+
+    case JSON_PATH_NODE_CHILD_MEMBER:
+      g_string_append_printf (buf, "<member '%s'", cur_node->data.member_name);
+      break;
+
+    case JSON_PATH_NODE_CHILD_ELEMENT:
+      g_string_append_printf (buf, "<element '%d'", cur_node->data.element_index);
+      break;
+
+    case JSON_PATH_NODE_RECURSIVE_DESCENT:
+      g_string_append (buf, "<recursive descent");
+      break;
+
+    case JSON_PATH_NODE_WILDCARD_MEMBER:
+      g_string_append (buf, "<wildcard member");
+      break;
+
+    case JSON_PATH_NODE_WILDCARD_ELEMENT:
+      g_string_append (buf, "<wildcard element");
+      break;
+
+    case JSON_PATH_NODE_ELEMENT_SET:
+      {
+        int i;
+
+        g_string_append (buf, "<element set ");
+        for (i = 0; i < cur_node->data.set.n_indices - 1; i++)
+          g_string_append_printf (buf, "'%d', ", cur_node->data.set.indices[i]);
+
+        g_string_append_printf (buf, "'%d'", cur_node->data.set.indices[i]);
+      }
+      break;
+
+    case JSON_PATH_NODE_ELEMENT_SLICE:
+      g_string_append_printf (buf, "<slice start '%d', end '%d', step '%d'",
+                              cur_node->data.slice.start,
+                              cur_node->data.slice.end,
+                              cur_node->data.slice.step);
+      break;
+
+    default:
+      g_string_append (buf, "<unknown node");
+      break;
+    }
+
+  g_string_append (buf, ">");
+}
+
 /**
  * json_path_compile:
  * @path: a #JsonPath
@@ -636,73 +696,14 @@ json_path_compile (JsonPath    *path,
     {
       GString *buf = g_string_new (NULL);
 
-      for (l = nodes; l != NULL; l = l->next)
-        {
-          PathNode *cur_node = l->data;
-
-          switch (cur_node->node_type)
-            {
-            case JSON_PATH_NODE_ROOT:
-              g_string_append (buf, "<root");
-              break;
-
-            case JSON_PATH_NODE_CHILD_MEMBER:
-              g_string_append_printf (buf, "<member '%s'", cur_node->data.member_name);
-              break;
-
-            case JSON_PATH_NODE_CHILD_ELEMENT:
-              g_string_append_printf (buf, "<element '%d'", cur_node->data.element_index);
-              break;
-
-            case JSON_PATH_NODE_RECURSIVE_DESCENT:
-              g_string_append (buf, "<recursive descent");
-              break;
-
-            case JSON_PATH_NODE_WILDCARD_MEMBER:
-              g_string_append (buf, "<wildcard member");
-              break;
-
-            case JSON_PATH_NODE_WILDCARD_ELEMENT:
-              g_string_append (buf, "<wildcard element");
-              break;
-
-            case JSON_PATH_NODE_ELEMENT_SET:
-              {
-                int i;
-
-                g_string_append (buf, "<element set ");
-                for (i = 0; i < cur_node->data.set.n_indices - 1; i++)
-                  g_string_append_printf (buf, "'%d', ", cur_node->data.set.indices[i]);
-
-                g_string_append_printf (buf, "'%d'", cur_node->data.set.indices[i]);
-              }
-              break;
-
-            case JSON_PATH_NODE_ELEMENT_SLICE:
-              g_string_append_printf (buf, "<slice start '%d', end '%d', step '%d'",
-                                      cur_node->data.slice.start,
-                                      cur_node->data.slice.end,
-                                      cur_node->data.slice.step);
-              break;
-
-            default:
-              g_string_append (buf, "<unknown node");
-              break;
-            }
-
-          if (l->next != NULL)
-            g_string_append (buf, ">, ");
-          else
-            g_string_append (buf, ">");
-        }
+      g_list_foreach (nodes, json_path_foreach_print, buf);
 
       g_message ("[PATH] " G_STRLOC ": expression '%s' => '%s'", expression, buf->str);
       g_string_free (buf, TRUE);
     }
 #endif /* JSON_ENABLE_DEBUG */
 
-  if (path->nodes != NULL)
-    g_list_free_full (path->nodes, path_node_free);
+  g_list_free_full (path->nodes, path_node_free);
 
   path->nodes = nodes;
   path->is_compiled = (path->nodes != NULL);
