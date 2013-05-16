@@ -45,15 +45,36 @@ static const struct {
   JsonPathError error_code;
 } test_expressions[] = {
   {
-    "INVALID: invalid character following root",
+    "INVALID: Invalid character following root",
     "$ponies",
     NULL,
     FALSE,
     JSON_PATH_ERROR_INVALID_QUERY,
   },
   {
-    "INVALID: malformed splice",
+    "INVALID: Malformed slice (missing step)",
     "$.store.book[0:1:]",
+    NULL,
+    FALSE,
+    JSON_PATH_ERROR_INVALID_QUERY,
+  },
+  {
+    "INVALID: Malformed set",
+    "$.store.book[0,1~2]",
+    NULL,
+    FALSE,
+    JSON_PATH_ERROR_INVALID_QUERY,
+  },
+  {
+    "INVALID: Malformed array notation",
+    "${'store'}",
+    NULL,
+    FALSE,
+    JSON_PATH_ERROR_INVALID_QUERY,
+  },
+  {
+    "INVALID: Malformed slice (invalid separator)",
+    "$.store.book[0~2]",
     NULL,
     FALSE,
     JSON_PATH_ERROR_INVALID_QUERY,
@@ -133,87 +154,85 @@ static const struct {
 };
 
 static void
-test_expression (void)
+path_expressions_valid (gconstpointer data)
 {
+  const int index_ = GPOINTER_TO_INT (data);
+  const char *expr = test_expressions[index_].expr;
+  const char *desc = test_expressions[index_].desc;
+
   JsonPath *path = json_path_new ();
-  int i;
+  GError *error = NULL;
 
-  for (i = 0; i < G_N_ELEMENTS (test_expressions); i++)
-    {
-      const char *expr = test_expressions[i].expr;
-      const char *desc = test_expressions[i].desc;
-      GError *error = NULL;
+  if (g_test_verbose ())
+    g_print ("* %s ('%s')\n", desc, expr);
 
-      if (g_test_verbose ())
-        {
-          g_print ("* expr[%02d]: %s ('%s')\n",
-                   i, desc, expr);
-        }
-
-      if (test_expressions[i].is_valid)
-        {
-          g_assert (json_path_compile (path, expr, &error));
-          g_assert_no_error (error);
-        }
-      else
-        {
-          JsonPathError code = test_expressions[i].error_code;
-
-          g_assert (!json_path_compile (path, expr, &error));
-          g_assert_error (error, JSON_PATH_ERROR, code);
-        }
-    }
+  g_assert (json_path_compile (path, expr, &error));
+  g_assert_no_error (error);
 
   g_object_unref (path);
 }
 
 static void
-test_match (void)
+path_expressions_invalid (gconstpointer data)
 {
+  const int index_ = GPOINTER_TO_INT (data);
+  const char *expr = test_expressions[index_].expr;
+  const char *desc = test_expressions[index_].desc;
+  const JsonPathError code = test_expressions[index_].error_code;
+
+  JsonPath *path = json_path_new ();
+  GError *error = NULL;
+
+  if (g_test_verbose ())
+    g_print ("* %s ('%s')\n", desc, expr);
+
+
+  g_assert (!json_path_compile (path, expr, &error));
+  g_assert_error (error, JSON_PATH_ERROR, code);
+
+  g_object_unref (path);
+}
+
+static void
+path_match (gconstpointer data)
+{
+  const int index_ = GPOINTER_TO_INT (data);
+  const char *desc = test_expressions[index_].desc;
+  const char *expr = test_expressions[index_].expr;
+  const char *res  = test_expressions[index_].res;
+
   JsonParser *parser = json_parser_new ();
   JsonGenerator *gen = json_generator_new ();
   JsonPath *path = json_path_new ();
   JsonNode *root;
-  int i;
+  JsonNode *matches;
+  char *str;
 
   json_parser_load_from_data (parser, test_json, -1, NULL);
   root = json_parser_get_root (parser);
 
-  for (i = 0; i < G_N_ELEMENTS (test_expressions); i++)
+  g_assert (json_path_compile (path, expr, NULL));
+
+  matches = json_path_match (path, root);
+  g_assert (JSON_NODE_HOLDS_ARRAY (matches));
+
+  json_generator_set_root (gen, matches);
+  str = json_generator_to_data (gen, NULL);
+
+  if (g_test_verbose ())
     {
-      const char *desc = test_expressions[i].desc;
-      const char *expr = test_expressions[i].expr;
-      const char *res  = test_expressions[i].res;
-      JsonNode *matches;
-      char *str;
-
-      if (res == NULL || *res == '\0')
-        continue;
-
-      if (!test_expressions[i].is_valid)
-        continue;
-
-      g_assert (json_path_compile (path, expr, NULL));
-
-      matches = json_path_match (path, root);
-      g_assert (JSON_NODE_HOLDS_ARRAY (matches));
-
-      json_generator_set_root (gen, matches);
-      str = json_generator_to_data (gen, NULL);
-
-      if (g_test_verbose ())
-        {
-          g_print ("* expr[%02d]: %s ('%s') =>\n"
-                   "- result:   %s\n"
-                   "- expected: %s\n",
-                   i, desc, expr, str, res);
-        }
-
-      g_assert_cmpstr (str, ==, res);
-
-      g_free (str);
-      json_node_free (matches);
+      g_print ("* %s ('%s') =>\n"
+               "- result:   %s\n"
+               "- expected: %s\n",
+               desc, expr,
+               str,
+               res);
     }
+
+  g_assert_cmpstr (str, ==, res);
+
+  g_free (str);
+  json_node_free (matches);
 
   g_object_unref (parser);
   g_object_unref (path);
@@ -224,14 +243,55 @@ int
 main (int   argc,
       char *argv[])
 {
+  int i, j;
+
 #if !GLIB_CHECK_VERSION (2, 35, 1)
   g_type_init ();
 #endif
   g_test_init (&argc, &argv, NULL);
   g_test_bug_base ("http://bugzilla.gnome.org/show_bug.cgi?id=");
 
-  g_test_add_func ("/path/expressions", test_expression);
-  g_test_add_func ("/path/match", test_match);
+  for (i = 0, j = 1; i < G_N_ELEMENTS (test_expressions); i++)
+    {
+      char *path;
+
+      if (!test_expressions[i].is_valid)
+        continue;
+
+      path = g_strdup_printf ("/path/expressions/valid/%d", j++);
+
+      g_test_add_data_func (path, GINT_TO_POINTER (i), path_expressions_valid);
+
+      g_free (path);
+    }
+
+  for (i = 0, j = 1; i < G_N_ELEMENTS (test_expressions); i++)
+    {
+      char *path;
+
+      if (test_expressions[i].is_valid)
+        continue;
+
+      path = g_strdup_printf ("/path/expressions/invalid/%d", j++);
+
+      g_test_add_data_func (path, GINT_TO_POINTER (i), path_expressions_invalid);
+
+      g_free (path);
+    }
+
+  for (i = 0, j = 1; i < G_N_ELEMENTS (test_expressions); i++)
+    {
+      char *path;
+
+      if (!test_expressions[i].is_valid || test_expressions[i].res == NULL)
+        continue;
+
+      path = g_strdup_printf ("/path/match/%d", j++);
+
+      g_test_add_data_func (path, GINT_TO_POINTER (i), path_match);
+
+      g_free (path);
+    }
 
   return g_test_run ();
 }
