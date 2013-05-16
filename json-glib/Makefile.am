@@ -10,13 +10,13 @@ DIST_SUBDIRS = tests
 
 NULL =
 
-INCLUDES = -I$(top_srcdir) -I$(top_builddir)
-
 AM_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" 	\
 	-DLIBDIR=\""$(libdir)"\" 	\
 	-DJSON_COMPILATION=1		\
 	-DG_LOG_DOMAIN=\"Json\" 	\
+	-I$(top_srcdir) 		\
+	-I$(top_builddir) 		\
 	$(JSON_DEBUG_CFLAGS) 		\
 	$(NULL)
 
@@ -112,7 +112,7 @@ Json_1_0_gir_NAMESPACE = Json
 Json_1_0_gir_VERSION = 1.0
 Json_1_0_gir_LIBS = libjson-glib-1.0.la
 Json_1_0_gir_FILES = $(source_h) $(source_c)
-Json_1_0_gir_CFLAGS = $(INCLUDES) $(AM_CPPFLAGS) $(JSON_CFLAGS)
+Json_1_0_gir_CFLAGS = $(AM_CPPFLAGS) $(JSON_CFLAGS)
 Json_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
 Json_1_0_gir_SCANNERFLAGS = --warn-all --pkg-export json-glib-1.0 --c-include "json-glib/json-glib.h"
 
