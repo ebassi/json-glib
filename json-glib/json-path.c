@@ -329,6 +329,10 @@ json_path_new (void)
   return g_object_new (JSON_TYPE_PATH, NULL);
 }
 
+#ifdef JSON_ENABLE_DEBUG
+/* used as the function for a g_list_foreach() on a list of PathNode; needs
+ * a GString as the payload to build the output string
+ */
 static void
 json_path_foreach_print (gpointer data,
                          gpointer user_data)
@@ -388,6 +392,7 @@ json_path_foreach_print (gpointer data,
 
   g_string_append (buf, ">");
 }
+#endif /* JSON_ENABLE_DEBUG */
 
 /**
  * json_path_compile:
@@ -692,7 +697,7 @@ json_path_compile (JsonPath    *path,
   nodes = g_list_reverse (nodes);
 
 #ifdef JSON_ENABLE_DEBUG
-  if (_json_get_debug_flags () & JSON_DEBUG_PATH)
+  if (JSON_HAS_DEBUG (PATH))
     {
       GString *buf = g_string_new (NULL);
 

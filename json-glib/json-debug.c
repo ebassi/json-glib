@@ -4,8 +4,7 @@
 
 #include "json-debug.h"
 
-static unsigned int json_debug_flags     = 0;
-static gboolean     json_debug_flags_set = FALSE;
+static unsigned int json_debug_flags = 0;
 
 #ifdef JSON_ENABLE_DEBUG
 static const GDebugKey json_debug_keys[] = {
@@ -16,12 +15,13 @@ static const GDebugKey json_debug_keys[] = {
 #endif /* JSON_ENABLE_DEBUG */
 
 JsonDebugFlags
-_json_get_debug_flags (void)
+json_get_debug_flags (void)
 {
 #ifdef JSON_ENABLE_DEBUG
+  static gboolean json_debug_flags_set;
   const gchar *env_str;
 
-  if (json_debug_flags_set)
+  if (G_LIKELY (json_debug_flags_set))
     return json_debug_flags;
 
   env_str = g_getenv ("JSON_DEBUG");
