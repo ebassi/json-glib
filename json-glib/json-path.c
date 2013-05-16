@@ -260,6 +260,8 @@ struct _PathNode
   } data;
 };
 
+G_DEFINE_QUARK (json-path-error-quark, json_path_error)
+
 G_DEFINE_TYPE (JsonPath, json_path, G_TYPE_OBJECT)
 
 static void
@@ -306,12 +308,6 @@ json_path_class_init (JsonPathClass *klass)
 static void
 json_path_init (JsonPath *self)
 {
-}
-
-GQuark
-json_path_error_quark (void)
-{
-  return g_quark_from_static_string ("json-path-error");
 }
 
 /**

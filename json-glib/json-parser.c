@@ -45,12 +45,6 @@
 #include "json-parser.h"
 #include "json-scanner.h"
 
-GQuark
-json_parser_error_quark (void)
-{
-  return g_quark_from_static_string ("json-parser-error");
-}
-
 #define JSON_PARSER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_PARSER, JsonParserPrivate))
 
 struct _JsonParserPrivate
@@ -106,7 +100,9 @@ enum
 
 static guint parser_signals[LAST_SIGNAL] = { 0, };
 
-G_DEFINE_TYPE (JsonParser, json_parser, G_TYPE_OBJECT);
+G_DEFINE_QUARK (json-parser-error-quark, json_parser_error)
+
+G_DEFINE_TYPE (JsonParser, json_parser, G_TYPE_OBJECT)
 
 static guint json_parse_array  (JsonParser   *parser,
                                 JsonScanner  *scanner,

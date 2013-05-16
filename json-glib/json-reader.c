@@ -109,7 +109,9 @@ enum
 
 static GParamSpec *reader_properties[PROP_LAST] = { NULL, };
 
-G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT);
+G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT)
+
+G_DEFINE_QUARK (json-reader-error-quark, json_reader_error)
 
 static void
 json_reader_finalize (GObject *gobject)
@@ -197,12 +199,6 @@ json_reader_init (JsonReader *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, JSON_TYPE_READER,
                                             JsonReaderPrivate);
-}
-
-GQuark
-json_reader_error_quark (void)
-{
-  return g_quark_from_static_string ("json-reader-error");
 }
 
 /**
