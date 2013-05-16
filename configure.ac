@@ -160,6 +160,19 @@ AS_IF([test "x$enable_maintainer_flags" = "xyes" && test "x$GCC" = "xyes"],
 MAINTAINER_CFLAGS="${MAINTAINER_CFLAGS#*  }"
 AC_SUBST([MAINTAINER_CFLAGS])
 
+dnl === Test suite ============================================================
+
+AC_ARG_ENABLE(modular_tests,
+              AS_HELP_STRING([--disable-modular-tests],
+                             [Disable build of test programs (default: no)]),,
+              [enable_modular_tests=yes])
+AC_ARG_ENABLE(installed_tests,
+              AS_HELP_STRING([--enable-installed-tests],
+                             [Install test programs (default: no)]),,
+              [enable_installed_tests=no])
+AM_CONDITIONAL(BUILD_MODULAR_TESTS, test x$enable_modular_tests = xyes || test x$enable_installed_tests=xyes)
+AM_CONDITIONAL(BUILDOPT_INSTALL_TESTS, test x$enable_installed_tests = xyes)
+
 dnl === Test coverage =========================================================
 
 AC_ARG_ENABLE([gcov],
@@ -297,7 +310,8 @@ echo " • Compiler flags: ${CFLAGS} ${MAINTAINER_CFLAGS}"
 echo ""
 echo " • API reference: ${enable_gtk_doc}"
 echo ""
-echo " • Enable test suite: ${enable_glibtest}"
+echo " • Enable test suite: ${enable_modular_tests}"
+echo " • Install tests: ${enable_installed_tests}"
 echo " • Build introspection data: ${enable_introspection}"
 echo " • Enable test coverage: ${use_gcov}"
 echo ""
