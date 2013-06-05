@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-03-13 17:45+0000\n"
-"PO-Revision-Date: 2013-01-21 18:08+0500\n"
+"PO-Revision-Date: 2013-06-05 14:30+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: \n"
 "Language: tg\n"
@@ -22,6 +22,7 @@ msgstr ""
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr ""
+"Дар ҳоли мунтазири объекти JSON, вале гиреҳи root дорои намуди `%s' мебошад"
 
 #: ../json-glib/json-gvariant.c:540
 #, c-format
@@ -42,30 +43,31 @@ msgstr ""
 
 #: ../json-glib/json-gvariant.c:925
 msgid "Invalid string value converting to GVariant"
-msgstr ""
+msgstr "Қимати табдилдиҳии сатр ба GVariant нодуруст аст"
 
 #: ../json-glib/json-gvariant.c:981
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
+"Вуруди луғати GVariant дар ҳоли мунтазири объекти JSON бо як рақам мебошад"
 
 #: ../json-glib/json-gvariant.c:1237
 #, c-format
 msgid "GVariant class '%c' not supported"
-msgstr ""
+msgstr "Синфи GVariant-и '%c' дастгирӣ намешавад"
 
 #: ../json-glib/json-gvariant.c:1285
 msgid "Invalid GVariant signature"
-msgstr ""
+msgstr "Имзои нодурусти GVariant"
 
 #: ../json-glib/json-gvariant.c:1333
 msgid "JSON data is empty"
-msgstr ""
+msgstr "Иттилооти JSON холӣ аст"
 
 #: ../json-glib/json-parser.c:825
 #, c-format
 msgid "%s:%d:%d: Parse error: %s"
-msgstr ""
+msgstr "%s:%d:%d: Хатои таҷзия: %s"
 
 #: ../json-glib/json-path.c:375
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -79,7 +81,7 @@ msgstr ""
 #: ../json-glib/json-path.c:490
 #, c-format
 msgid "Malformed slice expression '%*s'"
-msgstr ""
+msgstr "Ифодаи бадшакл: '%*s'"
 
 #: ../json-glib/json-path.c:534
 #, c-format
@@ -89,7 +91,7 @@ msgstr "Таърифи маҷмӯи \"%*s\" беэътибор аст"
 #: ../json-glib/json-path.c:587
 #, c-format
 msgid "Invalid slice definition '%*s'"
-msgstr ""
+msgstr "Таърифи нодуруст: '%*s'"
 
 #: ../json-glib/json-path.c:615
 #, c-format
