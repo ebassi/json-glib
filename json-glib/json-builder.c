@@ -48,8 +48,11 @@
 
 #include "json-builder.h"
 
-#define JSON_BUILDER_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_BUILDER, JsonBuilderPrivate))
+#if GLIB_CHECK_VERSION (2, 37, 3)
+# define JSON_BUILDER_GET_PRIVATE(obj)   ((JsonBuilderPrivate *) json_builder_get_instance_private ((JsonBuilder *) (obj)))
+#else
+# define JSON_BUILDER_GET_PRIVATE(obj)   (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_BUILDER, JsonBuilderPrivate))
+#endif
 
 struct _JsonBuilderPrivate
 {
@@ -104,7 +107,11 @@ json_builder_state_free (JsonBuilderState *state)
     }
 }
 
-G_DEFINE_TYPE (JsonBuilder, json_builder, G_TYPE_OBJECT);
+#if GLIB_CHECK_VERSION (2, 37, 3)
+G_DEFINE_TYPE_WITH_PRIVATE (JsonBuilder, json_builder, G_TYPE_OBJECT)
+#else
+G_DEFINE_TYPE (JsonBuilder, json_builder, G_TYPE_OBJECT)
+#endif
 
 static void
 json_builder_free_all_state (JsonBuilder *builder)
@@ -142,7 +149,9 @@ json_builder_class_init (JsonBuilderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
+#if !GLIB_CHECK_VERSION (2, 37, 3)
   g_type_class_add_private (klass, sizeof (JsonBuilderPrivate));
+#endif
 
   gobject_class->finalize = json_builder_finalize;
 }

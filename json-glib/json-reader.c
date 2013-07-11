@@ -109,7 +109,11 @@ enum
 
 static GParamSpec *reader_properties[PROP_LAST] = { NULL, };
 
+#if GLIB_CHECK_VERSION (2, 37, 3)
+G_DEFINE_TYPE_WITH_PRIVATE (JsonReader, json_reader, G_TYPE_OBJECT)
+#else
 G_DEFINE_TYPE (JsonReader, json_reader, G_TYPE_OBJECT)
+#endif
 
 G_DEFINE_QUARK (json-reader-error-quark, json_reader_error)
 
@@ -170,7 +174,9 @@ json_reader_class_init (JsonReaderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
+#if !GLIB_CHECK_VERSION (2, 37, 3)
   g_type_class_add_private (klass, sizeof (JsonReaderPrivate));
+#endif
 
   /**
    * JsonReader:root:
@@ -197,8 +203,12 @@ json_reader_class_init (JsonReaderClass *klass)
 static void
 json_reader_init (JsonReader *self)
 {
+#if GLIB_CHECK_VERSION (2, 37, 3)
+  self->priv = json_reader_get_instance_private (self);
+#else
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, JSON_TYPE_READER,
                                             JsonReaderPrivate);
+#endif
 }
 
 /**
