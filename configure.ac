@@ -93,6 +93,30 @@ AC_MSG_RESULT([$platform_win32])
 AM_CONDITIONAL(OS_LINUX, [test "$platform_linux" = "yes"])
 AM_CONDITIONAL(OS_WIN32, [test "$platform_win32" = "yes"])
 
+# Check for -Bsymbolic-functions to avoid intra-library PLT jumps
+AC_ARG_ENABLE([Bsymbolic],
+              [AS_HELP_STRING([--disable-Bsymbolic],
+                              [Avoid linking with -Bsymbolic])],
+              [],
+              [
+                saved_LDFLAGS="${LDFLAGS}"
+                AC_MSG_CHECKING([for -Bsymbolic-functions linker flag])
+                LDFLAGS=-Wl,-Bsymbolic-functions
+                AC_TRY_LINK([], [int main (void) { return 0; }],
+                            [
+                              AC_MSG_RESULT([yes])
+                              enable_Bsymbolic=yes
+                            ],
+                            [
+                              AC_MSG_RESULT([no])
+                              enable_Bsymbolic=no
+                            ])
+                LDFLAGS="${saved_LDFLAGS}"
+              ])
+
+AS_IF([test "x$enable_Bsymbolic" = "xyes"], [JSON_LINK_FLAGS=-Wl[,]-Bsymbolic-functions])
+JSON_LT_LDFLAGS="$JSON_LT_LDFLAGS $JSON_LINK_FLAGS"
+
 AC_SUBST(JSON_LT_LDFLAGS)
 
 dnl === Dependencies ==========================================================
