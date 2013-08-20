@@ -1,0 +1,157 @@
+# Friulian translation for json-glib.
+# Copyright (C) 2013 json-glib's COPYRIGHT HOLDER
+# This file is distributed under the same license as the json-glib package.
+# Fabio Tomat <f.t.public@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-07-20 10:25+0000\n"
+"PO-Revision-Date: 2013-08-20 15:12+0100\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+"Language-Team: Friulian <fur@li.org>\n"
+"Language: fur\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../json-glib/json-gobject.c:925
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "Si spiete un ogjet JSON, ma il grop lidrîs al è dal tipo \"%s\""
+
+#: ../json-glib/json-gvariant.c:540
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "Tipo \"%s\" no spietât tal grop JSON"
+
+#: ../json-glib/json-gvariant.c:610
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "A mancjin ogjets tal array JSON par conformitât a une tuple"
+
+#: ../json-glib/json-gvariant.c:638
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "Al mancje il simbul ')' di siaradure tal tipo tuple GVariant"
+
+#: ../json-glib/json-gvariant.c:646
+msgid "Unexpected extra elements in JSON array"
+msgstr "Elements di plui no spietâts tal array JSON"
+
+#: ../json-glib/json-gvariant.c:925
+msgid "Invalid string value converting to GVariant"
+msgstr "Valôrs di stringhe no valits te conversion a JSON"
+
+#: ../json-glib/json-gvariant.c:981
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr ""
+"Une vôs di dizionari GVariant a domandave un ogjet JSON cun precîs un membri"
+
+#: ../json-glib/json-gvariant.c:1237
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "Classe GVariant '%c' no supuartade"
+
+#: ../json-glib/json-gvariant.c:1285
+msgid "Invalid GVariant signature"
+msgstr "Firme GVariant no valide"
+
+#: ../json-glib/json-gvariant.c:1333
+msgid "JSON data is empty"
+msgstr "I dâts JSON a son vueits"
+
+#: ../json-glib/json-parser.c:831
+#, c-format
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: erôr di analisi: %s"
+
+#: ../json-glib/json-path.c:436
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "A si amet dome un grop lidrîs intune espression JSON"
+
+#: ../json-glib/json-path.c:445
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "Grop lidrîs seguît da caratar no valit '%c'"
+
+#: ../json-glib/json-path.c:551
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "Espression slice '%*s' scrite mâl"
+
+#: ../json-glib/json-path.c:595
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "Definizion di set '%*s' no valide"
+
+#: ../json-glib/json-path.c:648
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "Definizion di slice '%*s' no valide"
+
+#: ../json-glib/json-path.c:676
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "Definizion di indiç array '%*s'  no valide"
+
+#: ../json-glib/json-reader.c:470
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr ""
+"Il tipo di grop curint al è \"%s\", ma si spietave un array o un ogjet."
+
+#: ../json-glib/json-reader.c:482
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr "L'indiç '%d' al è plui grant de dimension dal array ae posizion atuâl."
+
+#: ../json-glib/json-reader.c:499
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr "L'indiç '%d' al è plui grant de dimension dal ogjet ae posizion atuâl."
+
+#: ../json-glib/json-reader.c:583 ../json-glib/json-reader.c:736
+#: ../json-glib/json-reader.c:787 ../json-glib/json-reader.c:825
+#: ../json-glib/json-reader.c:863 ../json-glib/json-reader.c:901
+#: ../json-glib/json-reader.c:939 ../json-glib/json-reader.c:984
+#: ../json-glib/json-reader.c:1020 ../json-glib/json-reader.c:1046
+msgid "No node available at the current position"
+msgstr "Nissun grop disponibil ae posizion atuâl."
+
+#: ../json-glib/json-reader.c:590
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "La posizion atuâl a ten un \"%s\" e no un array"
+
+#: ../json-glib/json-reader.c:653
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "Il tipo di grop atuâl al è \"%s\", ma si spietave un ogjet."
+
+#: ../json-glib/json-reader.c:660
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "Nol è definît il membri \"%s\" tal ogjet ae posizion atuâl."
+
+#: ../json-glib/json-reader.c:743 ../json-glib/json-reader.c:794
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "La posizion atuâl a ten un \"%s\" e no un ogjet"
+
+#: ../json-glib/json-reader.c:834 ../json-glib/json-reader.c:872
+#: ../json-glib/json-reader.c:910 ../json-glib/json-reader.c:948
+#: ../json-glib/json-reader.c:993
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "La posizion atuâl a ten un \"%s\" e no un valôr"
+
+#: ../json-glib/json-reader.c:956
+msgid "The current position does not hold a string type"
+msgstr "La posizion atuâl no ten un tipo stringhe"
