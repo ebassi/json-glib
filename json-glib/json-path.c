@@ -417,7 +417,7 @@ json_path_compile (JsonPath    *path,
 {
   const char *p, *end_p;
   PathNode *root = NULL;
-  GList *nodes, *l;
+  GList *nodes;
 
   p = expression;
 
