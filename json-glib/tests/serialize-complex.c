@@ -301,9 +301,6 @@ int
 main (int   argc,
       char *argv[])
 {
-#if !GLIB_CHECK_VERSION (2, 35, 1)
-  g_type_init ();
-#endif
   g_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/serialize/gobject-boxed", test_serialize);

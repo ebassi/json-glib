@@ -534,11 +534,7 @@ json_deserialize_pspec (GValue     *value,
         case G_TYPE_CHAR:
 	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
 	    {
-#if GLIB_CHECK_VERSION (2, 31, 0)
 	      g_value_set_schar (value, (gchar) g_value_get_int64 (&node_value));
-#else
-              g_value_set_char (value, (gchar) g_value_get_int64 (&node_value));
-#endif
 	      retval = TRUE;
 	    }
           break;
@@ -707,11 +703,7 @@ json_serialize_pspec (const GValue *real_value,
 
     case G_TYPE_CHAR:
       retval = json_node_alloc ();
-#if GLIB_CHECK_VERSION (2, 31, 0)
       json_node_init_int (retval, g_value_get_schar (real_value));
-#else
-      json_node_init_int (retval, g_value_get_char (real_value));
-#endif
       break;
 
     case G_TYPE_UCHAR:

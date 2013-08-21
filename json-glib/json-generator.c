@@ -41,11 +41,7 @@
 #include "json-marshal.h"
 #include "json-generator.h"
 
-#if GLIB_CHECK_VERSION (2, 37, 3)
-# define JSON_GENERATOR_GET_PRIVATE(obj) ((JsonGeneratorPrivate *) json_generator_get_instance_private ((JsonGenerator *) (obj)))
-#else
-# define JSON_GENERATOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_GENERATOR, JsonGeneratorPrivate))
-#endif
+#define JSON_GENERATOR_GET_PRIVATE(obj) ((JsonGeneratorPrivate *) json_generator_get_instance_private ((JsonGenerator *) (obj)))
 
 struct _JsonGeneratorPrivate
 {
@@ -112,11 +108,7 @@ static const char json_exceptions[] = {
 
 static GParamSpec *generator_props[PROP_LAST] = { NULL, };
 
-#if GLIB_CHECK_VERSION (2, 37, 3)
 G_DEFINE_TYPE_WITH_PRIVATE (JsonGenerator, json_generator, G_TYPE_OBJECT)
-#else
-G_DEFINE_TYPE (JsonGenerator, json_generator, G_TYPE_OBJECT)
-#endif
 
 static gchar *
 json_strescape (const gchar *str)
@@ -199,10 +191,6 @@ static void
 json_generator_class_init (JsonGeneratorClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-#if !GLIB_CHECK_VERSION (2, 37, 3)
-  g_type_class_add_private (klass, sizeof (JsonGeneratorPrivate));
-#endif
 
   /**
    * JsonGenerator:pretty:

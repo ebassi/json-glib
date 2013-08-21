@@ -45,11 +45,7 @@
 #include "json-parser.h"
 #include "json-scanner.h"
 
-#if GLIB_CHECK_VERSION (2, 37, 3)
-# define JSON_PARSER_GET_PRIVATE(obj) ((JsonParserPrivate *) json_parser_get_instance_private ((JsonParser *) (obj)))
-#else
-# define JSON_PARSER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), JSON_TYPE_PARSER, JsonParserPrivate))
-#endif
+#define JSON_PARSER_GET_PRIVATE(obj) ((JsonParserPrivate *) json_parser_get_instance_private ((JsonParser *) (obj)))
 
 struct _JsonParserPrivate
 {
@@ -106,11 +102,7 @@ static guint parser_signals[LAST_SIGNAL] = { 0, };
 
 G_DEFINE_QUARK (json-parser-error-quark, json_parser_error)
 
-#if GLIB_CHECK_VERSION (2, 37, 3)
 G_DEFINE_TYPE_WITH_PRIVATE (JsonParser, json_parser, G_TYPE_OBJECT)
-#else
-G_DEFINE_TYPE (JsonParser, json_parser, G_TYPE_OBJECT)
-#endif
 
 static guint json_parse_array  (JsonParser   *parser,
                                 JsonScanner  *scanner,
@@ -163,10 +155,6 @@ static void
 json_parser_class_init (JsonParserClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-#if !GLIB_CHECK_VERSION (2, 37, 3)
-  g_type_class_add_private (klass, sizeof (JsonParserPrivate));
-#endif
 
   gobject_class->dispose = json_parser_dispose;
   gobject_class->finalize = json_parser_finalize;
