@@ -1,7 +1,7 @@
 # bump micro_version to the next even number for each point release
 # bump micro_version to the next odd number after each release
 m4_define([json_major_version], [0])
-m4_define([json_minor_version], [16])
+m4_define([json_minor_version], [17])
 m4_define([json_micro_version], [1])
 
 m4_define([json_version], [json_major_version.json_minor_version.json_micro_version])
