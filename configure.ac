@@ -13,14 +13,14 @@ m4_define([json_release_status],
 
 # bump up by 1 for every micro release with no API changes, otherwise
 # set to 0. after release, bump up by 1
-m4_define([json_interface_age], [1])
+m4_define([json_interface_age], [0])
 m4_define([json_binary_age], [m4_eval(100 * json_minor_version + json_micro_version)])
 
 m4_define([lt_current], [m4_eval(100 * json_minor_version + json_micro_version - json_interface_age)])
 m4_define([lt_revision], [json_interface_age])
 m4_define([lt_age], [m4_eval(json_binary_age - json_interface_age)])
 
-m4_define([glib_req_version], [2.34.0])
+m4_define([glib_req_version], [2.37.6])
 
 AC_PREREQ([2.63])
 
