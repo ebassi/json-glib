@@ -41,6 +41,7 @@ json-glib.pc
 /json-glib/gcov-report.txt
 /json-glib/stamp-enum-types
 /json-glib/stamp-marshal
+/json-glib/test-suite.log
 libtool
 ltmain.sh
 missing

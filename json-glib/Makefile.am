@@ -1,14 +1,10 @@
 include $(top_srcdir)/build/autotools/Makefile.am.silent
-include $(top_srcdir)/build/autotools/Makefile.am.gtest
-
-if ENABLE_GLIB_TEST
-# build this directory *before* the tests/
-SUBDIRS = . tests
-endif
-
-DIST_SUBDIRS = tests
 
 NULL =
+
+EXTRA_DIST =
+
+SUBDIRS = . tests
 
 AM_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" 	\

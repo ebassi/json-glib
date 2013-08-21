@@ -186,16 +186,7 @@ AC_SUBST([MAINTAINER_CFLAGS])
 
 dnl === Test suite ============================================================
 
-AC_ARG_ENABLE(modular_tests,
-              AS_HELP_STRING([--disable-modular-tests],
-                             [Disable build of test programs (default: no)]),,
-              [enable_modular_tests=yes])
-AC_ARG_ENABLE(installed_tests,
-              AS_HELP_STRING([--enable-installed-tests],
-                             [Install test programs (default: no)]),,
-              [enable_installed_tests=no])
-AM_CONDITIONAL(BUILD_MODULAR_TESTS, test x$enable_modular_tests = xyes || test x$enable_installed_tests=xyes)
-AM_CONDITIONAL(BUILDOPT_INSTALL_TESTS, test x$enable_installed_tests = xyes)
+GLIB_TESTS
 
 dnl === Test coverage =========================================================
 

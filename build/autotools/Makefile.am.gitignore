@@ -4,13 +4,19 @@
 # the top-level Git ignore file generator.
 
 $(srcdir)/.gitignore: Makefile.am
-	$(QUIET_GEN)( \
+	$(AM_V_GEN)( \
 	  echo "*.o" ; \
 	  echo ".gitignore" ; \
+	  echo "*.trs" ; \
+	  echo "*.log" ; \
 	) > $(srcdir)/.gitignore ; \
 	for p in $(noinst_PROGRAMS); do \
 		echo "/$$p" >> $(srcdir)/.gitignore ; \
+	done ; \
+	for p in $(check_PROGRAMS); do \
+		echo "/$$p" >> $(srcdir)/.gitignore ; \
 	done
+
 
 gitignore: $(srcdir)/.gitignore
 
