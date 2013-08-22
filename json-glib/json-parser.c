@@ -45,8 +45,6 @@
 #include "json-parser.h"
 #include "json-scanner.h"
 
-#define JSON_PARSER_GET_PRIVATE(obj) ((JsonParserPrivate *) json_parser_get_instance_private ((JsonParser *) (obj)))
-
 struct _JsonParserPrivate
 {
   JsonNode *root;
@@ -315,9 +313,9 @@ json_parser_class_init (JsonParserClass *klass)
 static void
 json_parser_init (JsonParser *parser)
 {
-  JsonParserPrivate *priv;
+  JsonParserPrivate *priv = json_parser_get_instance_private (parser);
 
-  parser->priv = priv = JSON_PARSER_GET_PRIVATE (parser);
+  parser->priv = priv;
 
   priv->root = NULL;
   priv->current_node = NULL;
