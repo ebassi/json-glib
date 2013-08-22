@@ -41,8 +41,6 @@
 #include "json-marshal.h"
 #include "json-generator.h"
 
-#define JSON_GENERATOR_GET_PRIVATE(obj) ((JsonGeneratorPrivate *) json_generator_get_instance_private ((JsonGenerator *) (obj)))
-
 struct _JsonGeneratorPrivate
 {
   JsonNode *root;
@@ -119,9 +117,10 @@ json_strescape (const gchar *str)
 static void
 json_generator_finalize (GObject *gobject)
 {
-  JsonGeneratorPrivate *priv = JSON_GENERATOR_GET_PRIVATE (gobject);
+  JsonGeneratorPrivate *priv;
 
-  if (priv->root)
+  priv = json_generator_get_instance_private ((JsonGenerator *) gobject);
+  if (priv->root != NULL)
     json_node_free (priv->root);
 
   G_OBJECT_CLASS (json_generator_parent_class)->finalize (gobject);
@@ -257,9 +256,9 @@ json_generator_class_init (JsonGeneratorClass *klass)
 static void
 json_generator_init (JsonGenerator *generator)
 {
-  JsonGeneratorPrivate *priv;
+  JsonGeneratorPrivate *priv = json_generator_get_instance_private (generator);
 
-  generator->priv = priv = JSON_GENERATOR_GET_PRIVATE (generator);
+  generator->priv = priv;
 
   priv->pretty = FALSE;
   priv->indent = 2;
