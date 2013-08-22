@@ -655,16 +655,11 @@ test_stream_sync (void)
   GFileInputStream *stream;
   GError *error = NULL;
   JsonNode *root;
-  const char *tests_data_dir;
   char *path;
 
   parser = json_parser_new ();
 
-  tests_data_dir = g_getenv ("JSON_TEST_DATA");
-  if (tests_data_dir == NULL || *tests_data_dir == '\0')
-    tests_data_dir = TESTS_DATA_DIR;
-
-  path = g_build_filename (tests_data_dir, "stream-load.json", NULL);
+  path = g_test_build_filename (G_TEST_DIST, "stream-load.json", NULL);
   file = g_file_new_for_path (path);
   stream = g_file_read (file, NULL, &error);
   g_assert (error == NULL);
