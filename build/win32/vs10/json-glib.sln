@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "install", "install.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gengir", "gengir.vcxproj", "{2093D218-190E-4194-9421-3BA7CBF33B15}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "invalid", "invalid.vcxproj", "{04658465-64F9-4F06-B7A7-D40F6EDF26E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -165,6 +167,14 @@ Global
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Debug|x64.ActiveCfg = Debug|x64
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|Win32.ActiveCfg = Release|Win32
 		{2093D218-190E-4194-9421-3BA7CBF33B15}.Release|x64.ActiveCfg = Release|x64
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Debug|Win32.Build.0 = Debug|Win32
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Debug|x64.ActiveCfg = Debug|x64
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Debug|x64.Build.0 = Debug|x64
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Release|Win32.ActiveCfg = Release|Win32
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Release|Win32.Build.0 = Release|Win32
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Release|x64.ActiveCfg = Release|x64
+		{04658465-64F9-4F06-B7A7-D40F6EDF26E4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

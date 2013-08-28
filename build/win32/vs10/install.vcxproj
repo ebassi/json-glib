@@ -149,6 +149,10 @@
       <Project>{ff640d73-9bcd-4b75-b63f-75175a3c9f67}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="invalid.vcxproj">
+      <Project>{04658465-64f9-4f06-b7a7-d40f6edf26e4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
