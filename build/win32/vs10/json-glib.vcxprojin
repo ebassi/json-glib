@@ -84,9 +84,6 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(JsonGlibGenerateDef)</Command>
-    </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
       <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
@@ -111,9 +108,6 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(JsonGlibGenerateDef)</Command>
-    </PreLinkEvent>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
@@ -141,9 +135,6 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(JsonGlibGenerateDef)</Command>
-    </PreLinkEvent>
     <Link>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
       <ModuleDefinitionFile>$(IntDir)\json-glib.def</ModuleDefinitionFile>
@@ -167,9 +158,6 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <PreLinkEvent>
-      <Command>$(JsonGlibGenerateDef)</Command>
-    </PreLinkEvent>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll</OutputFile>
@@ -184,6 +172,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
 #include "jsonglib.vs10.sourcefiles"
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\json-glib\json-glib.symbols">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating json-glib.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(JsonGlibGenerateDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)json-glib.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating json-glib.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(JsonGlibGenerateDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)json-glib.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating json-glib.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(JsonGlibGenerateDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)json-glib.def;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating json-glib.def...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(JsonGlibGenerateDef)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)json-glib.def;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

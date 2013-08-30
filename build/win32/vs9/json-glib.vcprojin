@@ -43,10 +43,6 @@
 				ForcedIncludeFiles=""
 			/>
 			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine="$(JsonGlibGenerateDef)"
-			/>
-			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="2"
@@ -77,10 +73,6 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine="$(JsonGlibGenerateDef)"
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -119,10 +111,6 @@
 				ForcedIncludeFiles=""
 			/>
 			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine="$(JsonGlibGenerateDef)"
-			/>
-			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).dll"
 				LinkIncremental="1"
@@ -152,10 +140,6 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				CommandLine="$(JsonGlibGenerateDef)"
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -193,6 +177,40 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File RelativePath="..\..\..\json-glib\json-glib.symbols">
+				<FileConfiguration Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating json-glib.def..."
+						CommandLine="$(JsonGlibGenerateDef)"
+						Outputs="$(IntDir)\json-glib.def"
+					/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating json-glib.def..."
+						CommandLine="$(JsonGlibGenerateDef)"
+						Outputs="$(IntDir)\json-glib.def"
+					/>
+				</FileConfiguration>
+				<FileConfiguration Name="Debug|x64">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating json-glib.def..."
+						CommandLine="$(JsonGlibGenerateDef)"
+						Outputs="$(IntDir)\json-glib.def"
+					/>
+				</FileConfiguration>
+				<FileConfiguration Name="Release|x64">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating json-glib.def..."
+						CommandLine="$(JsonGlibGenerateDef)"
+						Outputs="$(IntDir)\json-glib.def"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

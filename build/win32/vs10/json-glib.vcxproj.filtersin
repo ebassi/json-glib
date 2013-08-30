@@ -17,4 +17,7 @@
   <ItemGroup>
 #include "jsonglib.vs10.sourcefiles.filters"
   </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\json-glib\json-glib.symbols"><Filter>Resource Files</Filter></CustomBuild>
+  </ItemGroup>
 </Project>
