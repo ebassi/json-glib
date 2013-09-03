@@ -1138,6 +1138,30 @@ json_to_gvariant_recurse (JsonNode      *json_node,
       goto out;
     }
 
+  if (JSON_NODE_TYPE (json_node) == JSON_NODE_VALUE &&
+      json_node_get_value_type (json_node) == G_TYPE_STRING)
+    {
+      const gchar* str = json_node_get_string (json_node);
+      switch (class)
+        {
+        case G_VARIANT_CLASS_BOOLEAN:
+        case G_VARIANT_CLASS_BYTE:
+        case G_VARIANT_CLASS_INT16:
+        case G_VARIANT_CLASS_UINT16:
+        case G_VARIANT_CLASS_INT32:
+        case G_VARIANT_CLASS_UINT32:
+        case G_VARIANT_CLASS_INT64:
+        case G_VARIANT_CLASS_UINT64:
+        case G_VARIANT_CLASS_HANDLE:
+        case G_VARIANT_CLASS_DOUBLE:
+        case G_VARIANT_CLASS_STRING:
+          variant = gvariant_simple_from_string (str, class, error);
+          goto out;
+        default:
+          break;
+        }
+    }
+
   switch (class)
     {
     case G_VARIANT_CLASS_BOOLEAN:
