@@ -1,27 +1,37 @@
 include $(top_srcdir)/build/autotools/Makefile.am.silent
 
+# preamble
+
 NULL =
-
+AM_CPPFLAGS =
+AM_CFLAGS =
+BUILT_SOURCES =
+CLEANFILES =
 EXTRA_DIST =
+DISTCLEANFILES =
+lib_LTLIBRARIES =
+bin_PROGRAMS =
 
+# build the tests last
 SUBDIRS = . tests
 
-AM_CPPFLAGS = \
-	-DPREFIX=\""$(prefix)"\" 	\
-	-DLIBDIR=\""$(libdir)"\" 	\
-	-DJSON_COMPILATION=1		\
-	-DG_LOG_DOMAIN=\"Json\" 	\
-	-I$(top_srcdir) 		\
-	-I$(top_builddir) 		\
-	$(JSON_DEBUG_CFLAGS) 		\
+# main library
+AM_CPPFLAGS += \
+	-DPREFIX=\""$(prefix)"\" 		\
+	-DLIBDIR=\""$(libdir)"\" 		\
+	-DJSON_LOCALEDIR=\""$(localedir)"\" 	\
+	-DJSON_COMPILATION=1			\
+	-DG_LOG_DOMAIN=\"Json\" 		\
+	-I$(top_srcdir) 			\
+	-I$(top_builddir) 			\
+	$(JSON_DEBUG_CFLAGS) 			\
 	$(NULL)
 
-AM_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS) $(JSON_GCOV_CFLAGS)
-
-BUILT_SOURCES =
-
-CLEANFILES =
-DISTCLEANFILES = json-version.h
+AM_CFLAGS += \
+	$(JSON_CFLAGS) \
+	$(MAINTAINER_CFLAGS) \
+	$(JSON_GCOV_CFLAGS) \
+	$(NULL)
 
 source_h = \
 	$(top_srcdir)/json-glib/json-builder.h		\
@@ -59,6 +69,8 @@ source_c = \
 	$(srcdir)/json-value.c		\
 	$(NULL)
 
+DISTCLEANFILES += json-version.h
+
 # glib-mkenums rules
 glib_enum_h = json-enum-types.h
 glib_enum_c = json-enum-types.c
@@ -70,7 +82,7 @@ glib_marshal_list = json-marshal.list
 glib_marshal_prefix = _json_marshal
 include $(top_srcdir)/build/autotools/Makefile.am.marshal
 
-lib_LTLIBRARIES = libjson-glib-1.0.la
+lib_LTLIBRARIES += libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
