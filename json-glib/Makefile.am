@@ -108,6 +108,12 @@ endif
 
 EXTRA_DIST += abicheck.sh
 
+# tools
+bin_PROGRAMS += json-glib-validate
+
+json_glib_validate_SOURCES = json-glib-validate.c
+json_glib_validate_LDADD = $(JSON_LIBS) libjson-glib-1.0.la
+
 # intospection
 -include $(INTROSPECTION_MAKEFILE)
 
@@ -133,6 +139,7 @@ typelibs_DATA = Json-1.0.typelib
 CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
 
+# visual studio
 dist-hook: ../build/win32/vs9/json-glib.vcproj ../build/win32/vs10/json-glib.vcxproj ../build/win32/vs10/json-glib.vcxproj.filters
 
 ../build/win32/vs9/json-glib.vcproj: $(top_srcdir)/build/win32/vs9/json-glib.vcprojin
