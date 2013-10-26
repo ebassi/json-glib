@@ -1199,6 +1199,7 @@ json_parser_load_from_stream (JsonParser    *parser,
   gsize pos;
   gssize res;
   gboolean retval = FALSE;
+  GError *internal_error;
 
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (G_IS_INPUT_STREAM (stream), FALSE);
@@ -1229,7 +1230,11 @@ json_parser_load_from_stream (JsonParser    *parser,
   /* zero-terminate the content; we allocated an extra byte for this */
   content->data[pos] = 0;
 
-  retval = json_parser_load (parser, (const gchar *) content->data, content->len, error);
+  internal_error = NULL;
+  retval = json_parser_load (parser, (const gchar *) content->data, content->len, &internal_error);
+
+  if (internal_error != NULL)
+    g_propagate_error (error, internal_error);
 
 out:
   g_byte_array_free (content, TRUE);
@@ -1349,7 +1354,9 @@ json_parser_load_from_stream_finish (JsonParser    *parser,
                                      GError       **error)
 {
   GSimpleAsyncResult *simple;
+  GError *internal_error;
   LoadStreamData *data;
+  gboolean res;
 
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
   g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
@@ -1373,7 +1380,13 @@ json_parser_load_from_stream_finish (JsonParser    *parser,
   g_byte_array_set_size (data->content, data->pos + 1);
   data->content->data[data->pos] = 0;
 
-  return json_parser_load (parser, (const gchar *) data->content->data, data->content->len, error);
+  internal_error = NULL;
+  res = json_parser_load (parser, (const gchar *) data->content->data, data->content->len, &internal_error);
+
+  if (internal_error != NULL)
+    g_propagate_error (error, internal_error);
+
+  return res;
 }
 
 /**
