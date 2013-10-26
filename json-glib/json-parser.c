@@ -878,6 +878,15 @@ json_parser_load (JsonParser   *parser,
 
   json_parser_clear (parser);
 
+  if (!g_utf8_validate (data, -1, NULL))
+    {
+      g_set_error_literal (error, JSON_PARSER_ERROR,
+                           JSON_PARSER_ERROR_INVALID_DATA,
+                           _("JSON data must be UTF-8 encoded"));
+      g_signal_emit (parser, parser_signals[ERROR], 0, *error);
+      return FALSE;
+    }
+
   scanner = json_scanner_create (parser);
   json_scanner_input_text (scanner, data, length);
 
