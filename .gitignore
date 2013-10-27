@@ -21,6 +21,8 @@ config.status
 config.sub
 depcomp
 /doc/reference/version.xml
+/doc/reference/json-glib-format.1
+/doc/reference/json-glib-validate.1
 gtk-doc.make
 install-sh
 json-glib-1.0.pc

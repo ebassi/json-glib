@@ -1,0 +1,81 @@
+<refentry id="json-format-tool" lang="en">
+
+<refentryinfo>
+  <title>json-glib-format</title>
+  <productname>JSON-GLib</productname>
+  <authorgroup>
+    <author>
+      <contrib>Developer</contrib>
+      <firstname>Emmanuele</firstname>
+      <surname>Bassi</surname>
+    </author>
+  </authorgroup>
+</refentryinfo>
+
+<refmeta>
+  <refentrytitle>json-glib-format</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+  <refname>json-glib-format</refname>
+  <refpurpose>JSON-GLib formatting tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <cmdsynopsis>
+    <command>json-glib-format</command>
+    <arg><option>-h</option>, <option>--help</option></arg>
+    <arg><option>--prettify</option></arg>
+    <arg><option>--indent-spaces</option> <replaceable>SPACES</replaceable></arg>
+    <arg choice="plain">URI</arg>
+    <arg>
+      <arg choice="plain" rep="repeat">URI</arg>
+    </arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+<para><command>json-glib-format</command> offers a simple command line
+interface to format JSON data. It reads a list or URIs, applies the
+spacified formatting rules on the JSON data, and outputs the formatted
+JSON to the standard output.</para>
+
+<para>
+The resources to operate on are specified by the <replaceable>URI</replaceable>
+argument.
+</para>
+
+</refsect1>
+
+<refsect1><title>Commands</title>
+<variablelist>
+
+<varlistentry>
+<term><option>-h</option>, <option>--help</option></term>
+<listitem><para>
+Prints help and exits.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-p</option>, <option>--prettify</option></term>
+<listitem><para>
+Prettifies the output, by adding spaces and indentation. This argument is
+useful to improve the readability of JSON data, at the expense of its size.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--indent-spaces</option> <replaceable>SPACES</replaceable></term>
+<listitem><para>
+Changes the number of spaces using to indent the JSON data from the default of 2.
+This argument is only considered if <option>--prettify</option> is used.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+</refentry>

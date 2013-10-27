@@ -63,7 +63,10 @@ HTML_IMAGES =
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml
-content_files = version.xml
+content_files = \
+	json-glib-format.xml \
+	json-glib-validate.xml \
+	version.xml
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
 # These files must be listed here *and* in content_files
@@ -93,6 +96,28 @@ check-local: test
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make
 
-# Other files to distribute
-# e.g. EXTRA_DIST += version.xml.in
 EXTRA_DIST += version.xml.in
+
+man_MANS =
+
+if ENABLE_MAN
+man_MANS += \
+	json-glib-format.1 \
+	json-glib-validate.1
+
+XSLTPROC_FLAGS = \
+	--nonet \
+	--stringparam man.output.quietly 1 \
+	--stringparam funcsynopsis.style ansi \
+	--stringparam man.th.extra1.suppress 1 \
+	--stringparam man.authors.section.enabled 0 \
+	--stringparam man.copyright.section.enabled 0
+
+.xml.1:
+	$(AM_V_GEN) $(XSLTPROC) $(XSLTPROC_FLAGS) http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
+
+endif
+
+CLEANFILES ?=
+CLEANFILES += $(man_MANS)
+EXTRA_DIST += $(man_MANS)

@@ -4,6 +4,7 @@ EXTRA_DIST = \
 	glib-tap.mk		\
 	glibtests.m4		\
 	introspection.m4	\
+	jh-catalog.m4		\
 	Makefile.am.silent	\
 	Makefile.am.enums	\
 	Makefile.am.marshal	\

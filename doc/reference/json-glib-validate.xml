@@ -1,0 +1,67 @@
+<refentry id="json-validate-tool" lang="en">
+
+<refentryinfo>
+  <title>json-glib-validate</title>
+  <productname>JSON-GLib</productname>
+  <authorgroup>
+    <author>
+      <contrib>Developer</contrib>
+      <firstname>Emmanuele</firstname>
+      <surname>Bassi</surname>
+    </author>
+  </authorgroup>
+</refentryinfo>
+
+<refmeta>
+  <refentrytitle>json-glib-validate</refentrytitle>
+  <manvolnum>1</manvolnum>
+  <refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+  <refname>json-glib-validate</refname>
+  <refpurpose>JSON-GLib validation tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <cmdsynopsis>
+    <command>json-glib-validate</command>
+    <arg><option>-h</option>, <option>--help</option></arg>
+    <arg choice="plain">URI</arg>
+    <arg>
+      <arg choice="plain" rep="repeat">URI</arg>
+    </arg>
+  </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+<para><command>json-glib-validate</command> offers a simple command line
+interface to validate JSON data. It lets you list URIs that point to JSON
+data and checks that the data conforms to the JSON syntax.</para>
+
+<para>
+The resources to operate on are specified by the <replaceable>URI</replaceable>
+argument.
+</para>
+
+<para>
+If the JSON data is valid, <command>json-glib-validate</command> will terminate
+with an exit code of 0; if the data is invalid, an error will be printed on
+<replaceable>stderr</replaceable> and <command>json-glib-validate</command> will
+terminate with a nonzero exit code.</para>
+</refsect1>
+
+<refsect1><title>Commands</title>
+<variablelist>
+
+<varlistentry>
+<term><option>-h</option>, <option>--help</option></term>
+<listitem><para>
+Prints help and exits.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+</refentry>
