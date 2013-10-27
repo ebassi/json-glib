@@ -33,6 +33,7 @@ json-glib.pc
 *.lo
 *.test
 /json-glib/json-enum-types.[ch]
+/json-glib/json-glib-format
 /json-glib/json-glib-validate
 /json-glib/json-marshal.[ch]
 /json-glib/json-version.h

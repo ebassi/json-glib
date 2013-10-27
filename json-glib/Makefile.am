@@ -110,9 +110,12 @@ EXTRA_DIST += abicheck.sh
 
 # tools
 bin_PROGRAMS += json-glib-validate
-
 json_glib_validate_SOURCES = json-glib-validate.c
 json_glib_validate_LDADD = $(JSON_LIBS) libjson-glib-1.0.la
+
+bin_PROGRAMS += json-glib-format
+json_glib_format_SOURCES = json-glib-format.c
+json_glib_format_LDADD = $(JSON_LIBS) libjson-glib-1.0.la
 
 # intospection
 -include $(INTROSPECTION_MAKEFILE)
