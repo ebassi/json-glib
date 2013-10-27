@@ -46,6 +46,7 @@ json-glib.pc
 /json-glib/stamp-enum-types
 /json-glib/stamp-marshal
 /json-glib/test-suite.log
+/json-glib/abicheck.sh.*
 libtool
 ltmain.sh
 missing
