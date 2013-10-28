@@ -121,12 +121,17 @@
     <xi:include href="xml/json-serializable.xml"/>
     <xi:include href="xml/json-gboxed.xml"/>
     <xi:include href="xml/json-gvariant.xml"/>
+    <xi:include href="xml/json-version.xml"/>
   </part>
 
   <part id="json-tools">
     <title>JSON-GLib Additional Reference</title>
 
-    <xi:include href="xml/json-version.xml"/>
+    <chapter id="tools">
+        <title>JSON-GLib Tools</title>
+        <xi:include href="json-glib-format.xml"/>
+        <xi:include href="json-glib-validate.xml"/>
+    </chapter>
 
     <chapter>
       <title>Object Hierarchy</title>
