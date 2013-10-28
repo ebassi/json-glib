@@ -82,7 +82,7 @@ validate (JsonParser *parser,
       /* Translators: the first %s is the program name, the second one
        * is the URI of the file, the third is the error message.
        */
-      g_printerr (_("%s: %s:error closing: %s\n"),
+      g_printerr (_("%s: %s: error closing: %s\n"),
                   g_get_prgname (), g_file_get_uri (file), error->message);
       g_clear_error (&error);
       res = FALSE;
