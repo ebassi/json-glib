@@ -1,22 +1,22 @@
-JSON-GLib - A JSON parser for GLib-based libraries and applications
-===================================================================
+JSON-GLib
+===============================================================================
 
-JSON-GLib implements a full JSON parser using GLib and GObject.
+JSON-GLib implements a full suite of JSON-related tools using GLib and GObject.
 
 Use JSON-GLib it is possible to parse and generate valid JSON data
-structures, using a DOM-like API. JSON-GLib also offers GObject
-integration, providing the ability to serialize and deserialize
-GObject instances to and from JSON data types.
+structures using a DOM-like API. JSON-GLib also integrates with GObject to
+provide the ability to serialize and deserialize GObject instances to and from
+JSON data types.
 
-JSON is the JavaScript Object Notation; it can be used to represent
-objects and object hierarchies while retaining human-readability.
+JSON is the JavaScript Object Notation; it can be used to represent objects and
+object hierarchies while retaining human-readability.
 
-GLib is a C library providing common and efficient data types for
-the C developers.
+GLib is a C library providing common and efficient data types for the C
+developers.
 
-GObject is a library providing a run-time Object Oriented type system
-for C developers. GLib and GObject are extensively used by the GTK+
-toolkit and by the GNOME project.
+GObject is a library providing a run-time Object Oriented type system for C
+developers. GLib and GObject are extensively used by the GTK+ toolkit and by the
+GNOME project.
 
 For more information, see:
 
@@ -57,8 +57,8 @@ Required information:
  * the version of JSON-GLib
   * if it is a development version, the branch of the git repository
  * the JSON data that produced the bug (if any)
- * a small, self-contained test case, if none of the test units exhibit
-   the buggy behaviour
+ * a small, self-contained test case, if none of the test units exhibit the
+   buggy behaviour
  * in case of a segmentation fault, a full stack trace with debugging
    symbols obtained through gdb is greatly appreaciated
 
@@ -82,22 +82,22 @@ You can clone the GIT repository with:
 
     git clone git://git.gnome.org/json-glib
 
-If you want to contribute functionality or bug fixes to JSON-GLib you
-can either notify me to pull from your Git repository, or you can attach
-patches for review to a bug on [the bug tracking system][bugzilla] using
+If you want to contribute functionality or bug fixes to JSON-GLib you can either
+notify me to pull from your Git repository, or you can attach patches for review
+to a bug on [the bug tracking system][bugzilla] using
 
     git format-patch master -k -s
 
 to generate the patches from each commit. Using [git-bz][git-bz] to automate
 this process is strongly encouraged.
 
-Please, try to conform to the coding style used by JSON-GLib, which is the
-same used by projects like GLib, GTK+, and Clutter. Coding style conformance
-is a requirement for upstream acceptance.
+Please, try to conform to the coding style used by JSON-GLib, which is the same
+used by projects like GLib, GTK+, and Clutter. Coding style conformance is a
+requirement for upstream acceptance.
 
-Make sure you always run the test suite when you are fixing bugs. New
-features should come with a test unit. Patches that regress the test suite
-will be rejected.
+Make sure you always run the test suite when you are fixing bugs. New features
+should come with a test unit. Patches that regress the test suite will be
+rejected.
 
 AUTHOR, COPYRIGHT AND LICENSING
 -------------------------------
