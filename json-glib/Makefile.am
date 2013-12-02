@@ -84,7 +84,7 @@ lib_LTLIBRARIES += libjson-glib-1.0.la
 
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
-libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -no-undefined -export-symbols $(top_srcdir)/json-glib/json-glib.symbols -rpath $(libdir)
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-symbols $(top_srcdir)/json-glib/json-glib.symbols
 
 EXTRA_DIST += json-glib.symbols
 
