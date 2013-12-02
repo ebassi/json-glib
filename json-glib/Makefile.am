@@ -98,6 +98,16 @@ jsoninclude_DATA = \
 
 EXTRA_DIST += json-version.h.in json-glib.h json-version.h
 
+pcfiles = json-glib-1.0.pc
+
+json-glib-1.0.pc: json-glib.pc
+	$(AM_V_GEN)cp -f $< $@
+
+pkgconfig_DATA = $(pcfiles)
+pkgconfigdir = $(libdir)/pkgconfig
+CLEANFILES += $(pcfiles)
+EXTRA_DIST += json-glib.pc.in
+
 TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
 
 if OS_LINUX

@@ -4,17 +4,6 @@ EXTRA_DIST =
 
 SUBDIRS = json-glib doc build po
 
-pcfiles = json-glib-1.0.pc
-
-json-glib-1.0.pc: json-glib.pc
-	$(AM_V_GEN)cp -f $< $@
-
-pkgconfig_DATA = $(pcfiles)
-pkgconfigdir = $(libdir)/pkgconfig
-EXTRA_DIST += json-glib.pc.in
-
-CLEANFILES = $(pcfiles)
-
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --enable-man --enable-maintainer-flags --enable-introspection
 
 dist-hook:
