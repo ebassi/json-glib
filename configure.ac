@@ -126,8 +126,6 @@ AC_SUBST(GLIB_PREFIX)
 
 PKG_CHECK_MODULES(JSON, [gobject-2.0 >= glib_req_version gio-2.0])
 
-AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
-
 dnl === Enable debug level ====================================================
 
 m4_define([debug_default], [m4_if(m4_eval(json_minor_version % 2), [1], [yes], [minimum])])

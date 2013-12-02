@@ -24,7 +24,7 @@ BUILT_SOURCES += $(glib_enum_h) $(glib_enum_c)
 EXTRA_DIST += $(srcdir)/$(enum_tmpl_h) $(srcdir)/$(enum_tmpl_c)
 
 stamp-enum-types: $(glib_enum_headers) $(srcdir)/$(enum_tmpl_h)
-	$(QUIET_GEN)$(GLIB_MKENUMS) \
+	$(AM_V_GEN)$(GLIB_MKENUMS) \
 		--template $(srcdir)/$(enum_tmpl_h) \
 	$(glib_enum_headers) > xgen-eh \
 	&& (cmp -s xgen-eh $(glib_enum_h) || cp -f xgen-eh $(glib_enum_h)) \
@@ -35,7 +35,7 @@ $(glib_enum_h): stamp-enum-types
 	@true
 
 $(glib_enum_c): $(glib_enum_h) $(srcdir)/$(enum_tmpl_c)
-	$(QUIET_GEN)$(GLIB_MKENUMS) \
+	$(AM_V_GEN)$(GLIB_MKENUMS) \
 		--template $(srcdir)/$(enum_tmpl_c) \
 	$(glib_enum_headers) > xgen-ec \
 	&& cp -f xgen-ec $(glib_enum_c) \
