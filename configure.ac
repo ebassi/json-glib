@@ -265,8 +265,8 @@ dnl === Documentation =========================================================
 
 GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
 
-AC_ARG_ENABLE([man,]
-              [AS_HELP_STRING([--enable-man], [generate man pages [default=auto]])],
+AC_ARG_ENABLE([man,],
+              [AS_HELP_STRING([--enable-man], [generate man pages @<:@default=auto@:>@])],
               [],
               [enable_man=maybe])
 
