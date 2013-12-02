@@ -29,15 +29,15 @@ In order to build JSON-GLib you will need:
 
  * pkg-config
  * gtk-doc ≥ 1.13
- * GLib, GIO ≥ 2.28
+ * GLib, GIO ≥ 2.38
 
 Optionally, JSON-GLib depends on:
 
- * GObject-Introspection ≥ 0.9.5
+ * GObject-Introspection ≥ 1.38
  * LCov ≥ 1.6
 
 INSTALLATION
--------------
+------------
 To build JSON-GLib just run:
 
     $ ./configure
@@ -48,17 +48,19 @@ BUGS
 ----
 JSON-GLib tracks bugs in the GNOME Bugzilla.
 
-If you find a bug in JSON-GLib, please file a bug using
-[the appropriate form][bugzilla-enter].
+If you find a bug in JSON-GLib, please file an issue using
+[the appropriate form][bugzilla-enter-bug]. You can also check
+[the list of open bugs][bugzilla-bug-page].
 
 Required information:
 
- * the version of JSON-GLib;
- * if it is a development version, the branch of the git repository;
- * the JSON data that produced the bug (if any);
- * a small test case, if none of the test units exhibit the behaviour;
+ * the version of JSON-GLib
+  * if it is a development version, the branch of the git repository
+ * the JSON data that produced the bug (if any)
+ * a small, self-contained test case, if none of the test units exhibit
+   the buggy behaviour
  * in case of a segmentation fault, a full stack trace with debugging
-   symbols obtained through gdb is greatly appreaciated.
+   symbols obtained through gdb is greatly appreaciated
 
 RELEASE NOTES
 -------------
@@ -74,26 +76,28 @@ HACKING
 -------
 JSON-GLib is developed mainly inside a GIT repository available at:
 
-    http://git.gnome.org/browse/json-glib
+    https://git.gnome.org/browse/json-glib
 
 You can clone the GIT repository with:
 
     git clone git://git.gnome.org/json-glib
 
 If you want to contribute functionality or bug fixes to JSON-GLib you
-can either notify me to pull from your GIT repository or send me a set
-of patches using:
+can either notify me to pull from your Git repository, or you can attach
+patches for review to a bug on [the bug tracking system][bugzilla] using
 
     git format-patch master -k -s
 
-or:
+to generate the patches from each commit. Using [git-bz][git-bz] to automate
+this process is strongly encouraged.
 
-    git send-email -k -s
-
-Using [git-bz][git-bz] is recommended.
+Please, try to conform to the coding style used by JSON-GLib, which is the
+same used by projects like GLib, GTK+, and Clutter. Coding style conformance
+is a requirement for upstream acceptance.
 
 Make sure you always run the test suite when you are fixing bugs. New
-features should come with a test unit.
+features should come with a test unit. Patches that regress the test suite
+will be rejected.
 
 AUTHOR, COPYRIGHT AND LICENSING
 -------------------------------
@@ -105,9 +109,12 @@ either version 2.1 or (at your option) any later version.
 See the file COPYING for details.
 
 Copyright (C) 2007, 2008  OpenedHand Ltd
-Copyright (C) 2009, 2010  Intel Corp.
+Copyright (C) 2009, 2010, 2011, 2012  Intel Corp.
+Copyright (C) 2013  Emmanuele Bassi
 
 [json]: http://www.json.org "JSON"
 [glib]: http://www.gtk.org "GTK+"
-[bug-enter]: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib "GNOME Bugzilla - Enter bug: json-glib"
+[bugzilla]: https://bugzilla.gnome.org "GNOME Bugzilla"
+[bugzilla-bug-page]: https://http://bugzilla.gnome.org/browse.cgi?product=json-glib "GNOME Bugzilla - Browse: json-glib"
+[bugzilla-enter-bug]: https://bugzilla.gnome.org/enter_bug.cgi?product=json-glib "GNOME Bugzilla - Enter bug: json-glib"
 [git-bz]: http://blog.fishsoup.net/2008/11/16/git-bz-bugzilla-subcommand-for-git/
