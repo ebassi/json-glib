@@ -20,12 +20,12 @@
  *   Emmanuele Bassi  <ebassi@linux.intel.com>
  */
 
+#ifndef __JSON_READER_H__
+#define __JSON_READER_H__
+
 #if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
 #error "Only <json-glib/json-glib.h> can be included directly."
 #endif
-
-#ifndef __JSON_READER_H__
-#define __JSON_READER_H__
 
 #include <json-glib/json-types.h>
 

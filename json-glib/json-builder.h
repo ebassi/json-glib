@@ -20,12 +20,12 @@
  *   Luca Bruno  <lethalman88@gmail.com>
  */
 
+#ifndef __JSON_BUILDER_H__
+#define __JSON_BUILDER_H__
+
 #if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
 #error "Only <json-glib/json-glib.h> can be included directly."
 #endif
-
-#ifndef __JSON_BUILDER_H__
-#define __JSON_BUILDER_H__
 
 #include <json-glib/json-types.h>
 

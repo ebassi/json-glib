@@ -21,12 +21,12 @@
  *   Emmanuele Bassi  <ebassi@linux.intel.com>
  */
 
+#ifndef __JSON_VERSION_H__
+#define __JSON_VERSION_H__
+
 #if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
 #error "Only <json-glib/json-glib.h> can be included directly."
 #endif
-
-#ifndef __JSON_VERSION_H__
-#define __JSON_VERSION_H__
 
 /**
  * SECTION:json-version
