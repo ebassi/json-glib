@@ -27,7 +27,12 @@
 
 #include <glib/gi18n-lib.h>
 
+#include <gio/gio.h>
+
 #include "json-gvariant.h"
+
+#include "json-generator.h"
+#include "json-parser.h"
 
 /**
  * SECTION:json-gvariant

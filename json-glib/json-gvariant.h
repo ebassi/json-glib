@@ -24,8 +24,11 @@
 #ifndef __JSON_GVARIANT_H__
 #define __JSON_GVARIANT_H__
 
-#include <glib.h>
-#include <json-glib/json-glib.h>
+#if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
+#error "Only <json-glib/json-glib.h> can be included directly."
+#endif
+
+#include <json-glib/json-types.h>
 
 G_BEGIN_DECLS
 
