@@ -338,17 +338,10 @@ AC_SUBST(JSON_LIBS)
 AC_CONFIG_FILES([
         Makefile
 
-        build/Makefile
-        build/autotools/Makefile
-        build/win32/Makefile
         build/win32/config.h.win32
-        build/win32/vs9/Makefile
-        build/win32/vs10/Makefile
 
-        json-glib/Makefile
         json-glib/json-glib.pc
         json-glib/json-version.h
-        json-glib/tests/Makefile
 
         doc/Makefile
         doc/reference/Makefile

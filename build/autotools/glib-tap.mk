@@ -1,25 +1,14 @@
 # GLIB - Library of useful C routines
 
-TESTS_ENVIRONMENT= \
-	G_TEST_SRCDIR="$(abs_srcdir)" 		\
-	G_TEST_BUILDDIR="$(abs_builddir)" 	\
+TESTS_ENVIRONMENT += \
 	G_DEBUG=gc-friendly 			\
 	MALLOC_CHECK_=2 			\
 	MALLOC_PERTURB_=$$(($${RANDOM:-256} % 256))
+
 LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) $(top_srcdir)/build/autotools/tap-driver.sh
 LOG_COMPILER = $(top_srcdir)/build/autotools/tap-test
 
-NULL =
-
 # initialize variables for unconditional += appending
-BUILT_SOURCES =
-BUILT_EXTRA_DIST =
-CLEANFILES = *.log *.trs
-DISTCLEANFILES =
-MAINTAINERCLEANFILES =
-EXTRA_DIST =
-TESTS =
-
 installed_test_LTLIBRARIES =
 installed_test_PROGRAMS =
 installed_test_SCRIPTS =
@@ -95,6 +84,8 @@ all_dist_test_data    = $(dist_test_data) $(dist_uninstalled_test_data) $(dist_i
 all_test_data        += $(all_dist_test_data)
 EXTRA_DIST           += $(all_dist_test_data)
 all_test_ltlibs       = $(test_ltlibraries) $(uninstalled_test_ltlibraries) $(installed_test_ltlibraries)
+
+CLEANFILES += *.log *.trs
 
 if ENABLE_ALWAYS_BUILD_TESTS
 noinst_LTLIBRARIES += $(all_test_ltlibs)
