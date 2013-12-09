@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-28 11:46+0000\n"
-"PO-Revision-Date: 2013-10-31 18:19+0100\n"
+"POT-Creation-Date: 2013-12-02 11:30+0000\n"
+"PO-Revision-Date: 2013-12-09 15:59+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -172,44 +172,56 @@ msgstr "Sólo se permite un nodo raíz en una expresión JSONPath"
 msgid "Root node followed by invalid character '%c'"
 msgstr "Nodo raíz seguido de un carácter «%c» no válido"
 
-#: ../json-glib/json-path.c:553
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Falta el nombre del miembro o el comodín después del «.»."
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Expresión de particionado «%*s» mal formada"
 
-#: ../json-glib/json-path.c:597
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Definición de conjunto no válida «%*s»"
 
-#: ../json-glib/json-path.c:650
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Definición de particionado no válida «%*s»"
 
-#: ../json-glib/json-path.c:678
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Definición de índice de vector no válida «%*s»"
+
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Primer carácter «%c» no válido"
 
 #: ../json-glib/json-reader.c:457
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
-msgstr "El nodo actual es de tipo «%s», pero se esperaba un objeto o un vector."
+msgstr ""
+"El nodo actual es de tipo «%s», pero se esperaba un objeto o un vector."
 
 #: ../json-glib/json-reader.c:469
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr "El índice «%d» es mayor que el tamaño del vector en la posición actual."
+msgstr ""
+"El índice «%d» es mayor que el tamaño del vector en la posición actual."
 
 #: ../json-glib/json-reader.c:486
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
-msgstr "El índice «%d» es mayor que el tamaño del objeto en la posición actual."
+msgstr ""
+"El índice «%d» es mayor que el tamaño del objeto en la posición actual."
 
 #: ../json-glib/json-reader.c:570 ../json-glib/json-reader.c:723
 #: ../json-glib/json-reader.c:774 ../json-glib/json-reader.c:812
