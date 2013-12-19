@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib\n"
-"POT-Creation-Date: 2013-11-01 15:25+0100\n"
-"PO-Revision-Date: 2013-11-01 15:29+0200\n"
+"POT-Creation-Date: 2013-12-19 01:12+0100\n"
+"PO-Revision-Date: 2013-12-19 01:13+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -112,43 +112,43 @@ msgstr "json-glib-validate valida os datos JSON dunha URI fornecida."
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Agardábase un obxecto JSON, pero o nodo raíz é de tipo «%s»"
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Tipo «%s» non agardado nun nodo JSON"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Faltan elementos no vector JSON para conformar unha tupla"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Falta o símbolo de peche «)» na tupla de GVariant"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "Elementos adicionais non agardados no vector JSON"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Valor de cadea non válido ao converter a GVariant"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
 "Unha entrada do dicionario e GVariant agarda un obxecto JSON con só un membro"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "Clase «%c» de GVariant non admitida"
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Firma de GVariant non válida"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "Datos de JSON baleiros"
 
@@ -170,25 +170,34 @@ msgstr "Só se permite un nodo raíz nunha expresión JSONPath"
 msgid "Root node followed by invalid character '%c'"
 msgstr "Nodo raíz seguido dun carácter «%c» non válido"
 
-#: ../json-glib/json-path.c:553
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Falta o nome do membro ou comodín logo do caracter «.»"
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Expresión de particionado «%*s» mal formada"
 
-#: ../json-glib/json-path.c:597
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Definición de conxunto non válida «%*s»"
 
-#: ../json-glib/json-path.c:650
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Definición de particionado non válida «%*s»"
 
-#: ../json-glib/json-path.c:678
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Definición de índice de vector non válida «%*s»"
+
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Primeiro caracter «%c» non válido"
 
 #: ../json-glib/json-reader.c:457
 #, c-format
