@@ -604,11 +604,11 @@ json_reader_count_elements (JsonReader *reader)
  * |[
  * json_reader_read_member (reader, "author");
  * author = json_reader_get_string_value (reader);
- * json_reader_end_element (reader);
+ * json_reader_end_member (reader);
  *
- * json_reader_read_element (reader, "title");
+ * json_reader_read_member (reader, "title");
  * title = json_reader_get_string_value (reader);
- * json_reader_end_element (reader);
+ * json_reader_end_member (reader);
  * ]|
  *
  * If @reader is not currently on an object, or if the @member_name is not
