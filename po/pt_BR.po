@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the json-glib package.
 # Gabriel Speckhahn <gabspeck@gmail.com>, 2012.
 # Enrico Nicoletto <liverig@gmail.com>, 2013.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-28 00:08+0000\n"
-"PO-Revision-Date: 2013-10-28 08:54-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2013-12-19 00:13+0000\n"
+"PO-Revision-Date: 2013-12-19 11:01-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +51,15 @@ msgstr "%s: %s: erro ao analisar arquivo: %s\n"
 #.
 #: ../json-glib/json-glib-format.c:99
 #, c-format
-msgid "%s: %s, error writing to stdout"
-msgstr "%s: %s, erro ao gravar na saída padrão"
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s: erro ao gravar na saída padrão"
 
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
 #: ../json-glib/json-glib-format.c:119 ../json-glib/json-glib-validate.c:85
 #, c-format
-msgid "%s: %s:error closing: %s\n"
+msgid "%s: %s: error closing: %s\n"
 msgstr "%s: %s: erro ao fechar: %s\n"
 
 #: ../json-glib/json-glib-format.c:148 ../json-glib/json-glib-validate.c:113
@@ -114,44 +115,44 @@ msgstr "json-glib-validate valida dados JSON no URI fornecido."
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Objeto JSON esperado, porém o nó raiz é do tipo \"%s\""
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Tipo inesperado \"%s\" no nó JSON"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Faltam elementos no vetor JSON para que se forme uma tupla"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Símbolo de fechamento \")\" ausente no tipo de tupla GVariant"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "Elementos adicionais inesperados no vetor JSON"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Valor string inválido ao converter para GVariant"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
 "Uma entrada de dicionário GVariant espera um objeto JSON com exatamente um "
 "membro"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "Não há suporte para a classe GVariant \"%c\""
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Assinatura GVariant inválida"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "Dados JSON vazios"
 
@@ -173,25 +174,34 @@ msgstr "Apenas um nó raiz é permitido em uma expressão JSONPath"
 msgid "Root node followed by invalid character '%c'"
 msgstr "Nó raiz seguido de caractere inválido \"%c\""
 
-#: ../json-glib/json-path.c:553
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Faltando nome de membro ou coringa após o caractere \".\""
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Expressão de corte \"%*s\" má formada"
 
-#: ../json-glib/json-path.c:597
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Definição de conjunto \"%*s\" inválida."
 
-#: ../json-glib/json-path.c:650
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Definição de corte \"%*s\" inválida"
 
-#: ../json-glib/json-path.c:678
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Definição de índice de vetor %*s\" inválida"
+
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Primeiro caractere \"%c\" inválido"
 
 #: ../json-glib/json-reader.c:457
 #, c-format
