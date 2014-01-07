@@ -2,22 +2,22 @@
 # Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
 # Dimitris Spingos <dmtrs32@gmail.com>, 2012.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-28 11:46+0000\n"
-"PO-Revision-Date: 2013-11-14 11:24+0300\n"
+"POT-Creation-Date: 2014-01-03 08:06+0000\n"
+"PO-Revision-Date: 2014-01-04 10:25+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: team@gnome.gr\n"
+"Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 0.7.0\n"
 "X-Project-Style: gnome\n"
 
 #: ../json-glib/json-glib-format.c:41
@@ -113,44 +113,44 @@ msgstr "το json-glib-validate επικυρώνει δεδομένα JSON στ�
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Αναμένεται αντικείμενο JSON, αλλά ο αρχικός κόμβος είναι τύπου `%s'"
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Αναπάντεχος τύπος '%s' σε κόμβο JSON"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Λείπουν στοιχεία σε πίνακα JSON για συμφωνία με πλειάδα"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Λείπει το σύμβολο κλεισίματος ')' στον τύπο πλειάδας GVariant"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "Αναπάντεχα πρόσθετα στοιχεία σε πίνακα JSON"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Άκυρη τιμή συμβολοσειράς μετατροπής σε GVariant"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
 "Μια καταχώριση λεξικού GVariant περιμένει ένα αντικείμενο JSON με ακριβώς "
 "ένα μέλος"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "Η κλάση GVariant '%c' δεν υποστηρίζεται"
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Άκυρη υπογραφή GVariant"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "Τα δεδομένα JSON είναι κενά"
 
@@ -172,25 +172,34 @@ msgstr "Μόνο ένας κόμβος υπερχρήστη επιτρέπετα
 msgid "Root node followed by invalid character '%c'"
 msgstr "Κόμβος υπερχρήστη ακολουθούμενος από άκυρο χαρακτήρα '%c'"
 
-#: ../json-glib/json-path.c:553
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Λείπει όνομα μέλους ή συμβόλου υποκατάστασης μετά τον χαρακτήρα ."
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Κακοσχηματισμένη έκφραση τεμαχισμού '%*s'"
 
-#: ../json-glib/json-path.c:597
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Άκυρος ορισμός συνόλου '%*s'"
 
-#: ../json-glib/json-path.c:650
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Άκυρος ορισμός τεμαχισμού '%*s'"
 
-#: ../json-glib/json-path.c:678
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Άκυρος ορισμός δείκτη πίνακα '%*s'"
+
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Άκυρος ο πρώτος χαρακτήρας '%c'"
 
 #: ../json-glib/json-reader.c:457
 #, c-format
