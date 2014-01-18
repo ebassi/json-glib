@@ -1,16 +1,15 @@
 # Czech translation for json-glib.
 # Copyright (C) 2011 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
-#
-# Marek Černocký <marek@manet.cz>, 2011, 2012.
+# Marek Černocký <marek@manet.cz>, 2011, 2012, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-25 17:15+0000\n"
-"PO-Revision-Date: 2012-10-28 11:13+0100\n"
+"POT-Creation-Date: 2013-12-19 14:30+0000\n"
+"PO-Revision-Date: 2014-01-18 22:45+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -18,139 +17,241 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#: ../json-glib/json-gobject.c:934
+#: ../json-glib/json-glib-format.c:41
+msgid "Prettify output"
+msgstr "Lépe upravit výstup"
+
+#: ../json-glib/json-glib-format.c:42
+msgid "Indentation spaces"
+msgstr "Mezery pro odsazení"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:68 ../json-glib/json-glib-validate.c:61
+#, c-format
+msgid "%s: %s: error opening file: %s\n"
+msgstr "%s: %s: chyba při otevírání souboru: %s\n"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:80 ../json-glib/json-glib-validate.c:73
+#, c-format
+msgid "%s: %s: error parsing file: %s\n"
+msgstr "%s: %s: chyba při analýze souboru: %s\n"
+
+#. Translators: the first %s is the program name, the
+#. * second one is the URI of the file.
+#.
+#: ../json-glib/json-glib-format.c:99
+#, c-format
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s: chyba při zápisu do standardního výstupu"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:119 ../json-glib/json-glib-validate.c:85
+#, c-format
+msgid "%s: %s: error closing: %s\n"
+msgstr "%s: %s: chyba při zavírání: %s\n"
+
+#: ../json-glib/json-glib-format.c:148 ../json-glib/json-glib-validate.c:113
+msgid "FILE"
+msgstr "SOUBOR"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-format.c:151
+msgid "Format JSON files."
+msgstr "Formátovat soubory JSON."
+
+#: ../json-glib/json-glib-format.c:152
+msgid "json-glib-format formats JSON resources."
+msgstr "json-glib-format formátuje prostředky JSON."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:169 ../json-glib/json-glib-validate.c:134
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "Chyba při zpracování přepínačů příkazového řádku: %s\n"
+
+#: ../json-glib/json-glib-format.c:171 ../json-glib/json-glib-format.c:185
+#: ../json-glib/json-glib-validate.c:136 ../json-glib/json-glib-validate.c:150
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "Pro více informací zkuste použít „%s --help“."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:183 ../json-glib/json-glib-validate.c:148
+#, c-format
+msgid "%s: missing files"
+msgstr "%s: schází soubory"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-validate.c:116
+msgid "Validate JSON files."
+msgstr "Ověřit platnost souborů JSON."
+
+#: ../json-glib/json-glib-validate.c:117
+msgid "json-glib-validate validates JSON data at the given URI."
+msgstr "json-glib-validate ověřuje platnost dat JSON na zadané adrese URI."
+
+#: ../json-glib/json-gobject.c:917
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Očekává se objekt JSON, ale kořenový uzel je typu „%s“"
 
-#: ../json-glib/json-gvariant.c:539
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Neočekávaný typ „%s“ v uzlu JSON"
 
-#: ../json-glib/json-gvariant.c:609
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Schází prvky v poli JSON, aby to byla n-tice"
 
-#: ../json-glib/json-gvariant.c:637
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Schází uzavírací symbol „)“ v typu n-tice GVariant"
 
-#: ../json-glib/json-gvariant.c:645
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "Neočekávané dodatečné prvky v poli JSON"
 
-#: ../json-glib/json-gvariant.c:924
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Neplatná hodnota typu řetězec převáděná na GVariant"
 
-#: ../json-glib/json-gvariant.c:980
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr "Záznam slovníku GVariant očekává objekt JSON s právě jedním členem"
 
-#: ../json-glib/json-gvariant.c:1236
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "Třída GVariant „%c“ není podporována"
 
-#: ../json-glib/json-gvariant.c:1281
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Neplatná signatura GVariant"
 
-#: ../json-glib/json-gvariant.c:1326
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "Data JSON jsou prázdná"
 
-#: ../json-glib/json-parser.c:810
+#: ../json-glib/json-parser.c:817
 #, c-format
 msgid "%s:%d:%d: Parse error: %s"
 msgstr "%s:%d:%d: Chyba zpracování: %s"
 
-#: ../json-glib/json-path.c:375
+#: ../json-glib/json-parser.c:885
+msgid "JSON data must be UTF-8 encoded"
+msgstr "Data JSON musí být kódována v UTF-8"
+
+#: ../json-glib/json-path.c:438
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "Ve výrazu JSONPath je dovolen pouze jeden kořenový uzel"
 
-#: ../json-glib/json-path.c:384
+#: ../json-glib/json-path.c:447
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "Kořenový uzel následován neplatným znakem „%c“"
 
-#: ../json-glib/json-path.c:490
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Schází název člena nebo divoký znak po znaku tečky."
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Chybný výraz dílu „%*s“"
 
-#: ../json-glib/json-path.c:534
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Neplatná definice množiny „%*s“"
 
-#: ../json-glib/json-path.c:587
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Neplatná definice dílu „%*s“"
 
-#: ../json-glib/json-path.c:615
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Neplatná definice indexu pole „%*s“"
 
-#: ../json-glib/json-reader.c:463
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Neplatný první znak „%c“"
+
+#: ../json-glib/json-reader.c:457
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr "Aktuální uzel je typu „%s“, ale bylo očekáváno pole nebo objekt."
 
-#: ../json-glib/json-reader.c:475
+#: ../json-glib/json-reader.c:469
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr "Index „%d“ je větší než velikost pole na aktuální pozici."
 
-#: ../json-glib/json-reader.c:492
+#: ../json-glib/json-reader.c:486
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "Index „%d“ je větší než velikost objektu na aktuální pozici."
 
-#: ../json-glib/json-reader.c:576 ../json-glib/json-reader.c:729
-#: ../json-glib/json-reader.c:780 ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856 ../json-glib/json-reader.c:894
-#: ../json-glib/json-reader.c:932 ../json-glib/json-reader.c:977
-#: ../json-glib/json-reader.c:1013 ../json-glib/json-reader.c:1039
+#: ../json-glib/json-reader.c:570 ../json-glib/json-reader.c:723
+#: ../json-glib/json-reader.c:774 ../json-glib/json-reader.c:812
+#: ../json-glib/json-reader.c:850 ../json-glib/json-reader.c:888
+#: ../json-glib/json-reader.c:926 ../json-glib/json-reader.c:971
+#: ../json-glib/json-reader.c:1007 ../json-glib/json-reader.c:1033
 msgid "No node available at the current position"
 msgstr "Na aktuální pozici není k dispozici žádný uzel"
 
-#: ../json-glib/json-reader.c:583
+#: ../json-glib/json-reader.c:577
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Aktuální pozice obsahuje „%s“ a ne pole"
 
-#: ../json-glib/json-reader.c:646
+#: ../json-glib/json-reader.c:640
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "Aktuální uzel je typu „%s“, ale byl očekáván objekt."
 
-#: ../json-glib/json-reader.c:653
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Člen „%s“ není na aktuálním pozici v objektu definován."
 
-#: ../json-glib/json-reader.c:736 ../json-glib/json-reader.c:787
+#: ../json-glib/json-reader.c:730 ../json-glib/json-reader.c:781
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Aktuální pozice obsahuje „%s“ a ne objekt"
 
-#: ../json-glib/json-reader.c:827 ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:903 ../json-glib/json-reader.c:941
-#: ../json-glib/json-reader.c:986
+#: ../json-glib/json-reader.c:821 ../json-glib/json-reader.c:859
+#: ../json-glib/json-reader.c:897 ../json-glib/json-reader.c:935
+#: ../json-glib/json-reader.c:980
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Aktuální pozice obsahuje „%s“ a ne hodnotu"
 
-#: ../json-glib/json-reader.c:949
+#: ../json-glib/json-reader.c:943
 msgid "The current position does not hold a string type"
 msgstr "Aktuální pozice neobsahuje typ string (řetězec)"
