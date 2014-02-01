@@ -221,12 +221,18 @@ json_reader_new (JsonNode *node)
  * @reader: a #JsonReader
  *
  * Unsets the error state of @reader, if set
+ *
+ * Return value: TRUE if an error was set.
  */
-static inline void
+static inline gboolean
 json_reader_unset_error (JsonReader *reader)
 {
   if (reader->priv->error != NULL)
-    g_clear_error (&(reader->priv->error));
+    {
+      g_clear_error (&(reader->priv->error));
+      return TRUE;
+    }
+  return FALSE;
 }
 
 /**
@@ -527,7 +533,8 @@ json_reader_end_element (JsonReader *reader)
 
   g_return_if_fail (JSON_IS_READER (reader));
 
-  json_reader_unset_error (reader);
+  if (json_reader_unset_error (reader))
+    return;
 
   priv = reader->priv;
 
@@ -676,7 +683,8 @@ json_reader_end_member (JsonReader *reader)
 
   g_return_if_fail (JSON_IS_READER (reader));
 
-  json_reader_unset_error (reader);
+  if (json_reader_unset_error (reader))
+    return;
 
   priv = reader->priv;
 
