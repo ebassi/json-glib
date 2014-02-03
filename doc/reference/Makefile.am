@@ -16,7 +16,7 @@ DOC_MAIN_SGML_FILE = $(DOC_MODULE)-docs.xml
 DOC_SOURCE_DIR = ../../json-glib
 
 # Extra options to pass to gtkdoc-scangobj. Not normally needed.
-SCANGOBJ_OPTIONS = --type-init-func="g_type_init()"
+SCANGOBJ_OPTIONS =
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED" 
