@@ -1,3 +1,12 @@
+Overview of changes for 1.0
+==============================
+• Bump the dependency on GLib to 2.38
+• Use the TAP driver for the test suite
+• Improve the syntax validation in JsonPath
+• Validate the JsonParser input to be UTF-8
+• Add command line tools for validating and formatting JSON
+• Improve documentation
+
 Overview of changes for 0.16.0
 ==============================
 • Fixes for building with VisualStudio. [Chun-wei Fan]
