@@ -8,4 +8,5 @@ EXTRA_DIST = \
 	Makefile.am.enums	\
 	Makefile.am.marshal	\
 	Makefile.am.gitignore	\
-	tap-driver.sh
+	tap-driver.sh		\
+	tap-test
