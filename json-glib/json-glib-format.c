@@ -23,7 +23,10 @@
 
 #include "config.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
@@ -32,6 +35,12 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <json-glib/json-glib.h>
+
+#if defined (G_OS_WIN32) && !defined (HAVE_UNISTD_H)
+#include <io.h>
+
+#define STDOUT_FILENO 1
+#endif
 
 static char **files = NULL;
 static gboolean prettify = FALSE;
@@ -89,7 +98,7 @@ format (JsonParser    *parser,
   p = data;
   while (len > 0)
     {
-      ssize_t written = write (STDOUT_FILENO, p, len);
+      gssize written = write (STDOUT_FILENO, p, len);
 
       if (written == -1 && errno != EINTR)
         {
