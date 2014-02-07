@@ -1,6 +1,19 @@
 NULL =
 
 EXTRA_DIST =	\
+	json-glib.sln			\
+	json-glib-version-paths.props	\
+	json-glib-build-defines.props	\
+	json-glib-gen-srcs.props	\
+	json-glib-install.props	\
+	json-glib.vcxproj		\
+	json-glib.vcxprojin		\
+	json-glib.vcxproj.filters	\
+	json-glib.vcxproj.filtersin	\
+	json-glib-format.vcxproj		\
+	json-glib-format.vcxproj.filters	\
+	json-glib-validate.vcxproj		\
+	json-glib-validate.vcxproj.filters	\
 	array.vcxproj		\
 	array.vcxproj.filters	\
 	boxed.vcxproj	\
@@ -12,12 +25,6 @@ EXTRA_DIST =	\
 	gvariant.vcxproj		\
 	gvariant.vcxproj.filters	\
 	install.vcxproj			\
-	json-glib.sln			\
-	json-glib.vcxproj		\
-	json-glib.vcxprojin		\
-	json-glib.vcxproj.filters	\
-	json-glib.vcxproj.filtersin	\
-	json-glib.props			\
 	node.vcxproj		\
 	node.vcxproj.filters	\
 	object.vcxproj		\
@@ -35,7 +42,6 @@ EXTRA_DIST =	\
 	serialize-simple.vcxproj	\
 	serialize-simple.vcxproj.filters	\
 	README.txt	\
-	gengir.vcxproj		\
 	invalid.vcxproj	\
 	invalid.vcxproj.filters	\
 	$(NULL)

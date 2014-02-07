@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="json-glib-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <CopyConfigH>copy ..\config.h.win32 ..\..\..\config.h</CopyConfigH>
+    <JsonGlibGenerateDef>
+echo EXPORTS &gt;$(DefDir)\json-glib.def
+cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;$(DefDir)\json-glib.def
+    </JsonGlibGenerateDef>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>jsonglibgensrcsprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="CopyConfigH">
+      <Value>$(CopyConfigH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JsonGlibGenerateDef">
+      <Value>$(JsonGlibGenerateDef)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

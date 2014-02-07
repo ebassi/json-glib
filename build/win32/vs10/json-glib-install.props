@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="json-glib-build-defines.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <JsonGlibDoInstall>
+mkdir $(CopyDir)
+
+mkdir $(CopyDir)\bin
+
+mkdir $(CopyDir)\lib
+
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-$(ApiVersion).lib $(CopyDir)\lib
+
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-format.exe $(CopyDir)\bin
+
+copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-validate.exe $(CopyDir)\bin
+
+
+mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+
+copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-path.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+</JsonGlibDoInstall>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>jsonglibinstallprops</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="JsonGlibDoInstall">
+      <Value>$(JsonGlibDoInstall)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
