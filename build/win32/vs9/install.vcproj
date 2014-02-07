@@ -21,10 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(GlibEtcInstallRoot)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="10"
-			InheritedPropertySheets=".\json-glib.vsprops"
+			InheritedPropertySheets=".\json-glib-install.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -34,9 +32,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(GlibEtcInstallRoot)"
-			InheritedPropertySheets=".\json-glib.vsprops"
 			ConfigurationType="10"
+			InheritedPropertySheets=".\json-glib-install.vsprops"
 			CharacterSet="2"
 			DeleteExtensionsOnClean=""
 			>
@@ -47,10 +44,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(GlibEtcInstallRoot)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj"
 			ConfigurationType="10"
-			InheritedPropertySheets=".\json-glib.vsprops"
+			InheritedPropertySheets=".\json-glib-install.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -61,9 +56,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(GlibEtcInstallRoot)"
-			InheritedPropertySheets=".\json-glib.vsprops"
 			ConfigurationType="10"
+			InheritedPropertySheets=".\json-glib-install.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			DeleteExtensionsOnClean=""

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="jsonglibinstallprops"
+	InheritedPropertySheets=".\json-glib-build-defines.vsprops"
+	>
+	<UserMacro
+		Name="JsonGlibDoInstall"
+		Value="
+mkdir $(CopyDir)&#x0D;&#x0A;
+mkdir $(CopyDir)\bin&#x0D;&#x0A;
+mkdir $(CopyDir)\lib&#x0D;&#x0A;
+
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\*.lib $(CopyDir)\lib&#x0D;&#x0A;
+
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-format.exe $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-validate.exe $(CopyDir)\bin&#x0D;&#x0A;
+
+mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+
+copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-version.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-glib.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+
+copy ..\..\..\json-glib\json-builder.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-generator.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-gobject.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-gvariant.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-path.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+"
+	/>
+</VisualStudioPropertySheet>

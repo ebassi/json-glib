@@ -1,16 +1,23 @@
 NULL =
 
 EXTRA_DIST =	\
+	json-glib.sln			\
+	json-glib-version-paths.vsprops	\
+	json-glib-build-defines.vsprops	\
+	json-glib-gen-srcs.vsprops	\
+	json-glib-install.vsprops	\
+	json-glib.vcproj		\
+	json-glib.vcprojin		\
+	json-glib-validate.vcproj	\
+	json-glib-format.vcproj	\
+	install.vcproj			\
+	README.txt			\
 	array.vcproj			\
 	boxed.vcproj			\
 	builder.vcproj			\
 	generator.vcproj		\
 	gvariant.vcproj			\
-	install.vcproj			\
-	json-glib.sln			\
-	json-glib.vcproj		\
-	json-glib.vcprojin		\
-	json-glib.vsprops		\
+	invalid.vcproj		\
 	node.vcproj			\
 	object.vcproj			\
 	parser.vcproj			\
@@ -19,7 +26,4 @@ EXTRA_DIST =	\
 	serialize-complex.vcproj	\
 	serialize-full.vcproj		\
 	serialize-simple.vcproj		\
-	invalid.vcproj		\
-	README.txt			\
-	gengir.vcproj		\
 	$(NULL)

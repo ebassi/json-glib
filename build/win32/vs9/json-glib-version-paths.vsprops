@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="jsonglibversionpathsprops"
+	>
+	<UserMacro
+		Name="VSVer"
+		Value="9"
+	/>
+	<UserMacro
+		Name="GlibEtcInstallRoot"
+		Value="$(SolutionDir)\..\..\..\..\vs$(VSVer)\$(PlatformName)"
+	/>
+	<UserMacro
+		Name="CopyDir"
+		Value="$(GlibEtcInstallRoot)"
+	/>
+	<UserMacro
+		Name="DefDir"
+		Value="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj\$(ProjectName)"
+	/>
+	<UserMacro
+		Name="ApiVersion"
+		Value="1.0"
+	/>
+	<UserMacro
+		Name="JsonGlibLibtoolCompatibleDllPrefix"
+		Value="lib"
+	/>
+	<UserMacro
+		Name="JsonGlibLibtoolCompatibleDllSuffix"
+		Value="-1.0-0"
+	/>
+	<UserMacro
+		Name="JsonGlibSeparateVSDllPrefix"
+		Value=""
+	/>
+	<UserMacro
+		Name="JsonGlibSeparateVSDllSuffix"
+		Value="-1-vs$(VSVer)"
+	/>
+	<!-- Change these two to JsonGlibLibtoolCompatibleDllPrefix and
+	JsonGlibLibtoolCompatibleDllSuffix if that is what you want -->
+	<UserMacro
+		Name="JsonGlibDllPrefix"
+		Value="$(JsonGlibSeparateVSDllPrefix)"
+	/>
+	<UserMacro
+		Name="JsonGlibDllSuffix"
+		Value="$(JsonGlibSeparateVSDllSuffix)"
+	/>
+</VisualStudioPropertySheet>
