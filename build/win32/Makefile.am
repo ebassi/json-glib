@@ -4,4 +4,6 @@ EXTRA_DIST =	\
 	config.h.win32.in	\
 	config.h.win32	\
 	gen-file-list-jsonglib.py	\
-	gengir_jsonglib.bat
+	detectenv_msvc.mak	\
+	introspection-msvc.mak	\
+	json-glib-introspection-msvc.mak
