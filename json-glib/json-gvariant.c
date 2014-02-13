@@ -1193,7 +1193,11 @@ json_to_gvariant_recurse (JsonNode      *json_node,
       break;
 
     case G_VARIANT_CLASS_DOUBLE:
-      if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_DOUBLE, error))
+      /* Doubles can look like ints to the json parser: when they don't have a dot */
+      if (JSON_NODE_TYPE (json_node) == JSON_NODE_VALUE &&
+          json_node_get_value_type (json_node) == G_TYPE_INT64)
+        variant = g_variant_new_double (json_node_get_int (json_node));
+      else if (json_node_assert_type (json_node, JSON_NODE_VALUE, G_TYPE_DOUBLE, error))
         variant = g_variant_new_double (json_node_get_double (json_node));
       break;
 

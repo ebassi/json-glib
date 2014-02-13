@@ -44,6 +44,9 @@ static const TestCase two_way_test_cases[] =
     /* double */
     { "/double", "(d)", "(1.23,)", "[1.23]" },
 
+    /* double */
+    { "/double-whole", "(d)", "(123.0,)", "[123]" },
+
     /* string */
     { "/string", "(s)", "('hello world!',)", "[\"hello world!\"]" },
 
@@ -155,6 +158,7 @@ static const TestCase json_to_gvariant_test_cases[] =
     { "/string-to-int64", "(x)", "(int64 -666999666999,)", "[\"-666999666999\"]" },
     { "/string-to-uint64", "(t)", "(uint64 1999999999999999,)", "[\"1999999999999999\"]" },
     { "/string-to-double", "(d)", "(1.23,)", "[\"1.23\"]" },
+    { "/string-to-double-whole", "(d)", "(123.0,)", "[\"123\"]" },
   };
 
 static void
