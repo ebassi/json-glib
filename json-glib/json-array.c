@@ -47,11 +47,11 @@
 G_DEFINE_BOXED_TYPE (JsonArray, json_array, json_array_ref, json_array_unref);
 
 /**
- * json_array_new:
+ * json_array_new: (constructor)
  *
  * Creates a new #JsonArray.
  *
- * Return value: the newly created #JsonArray
+ * Return value: (transfer full): the newly created #JsonArray
  */
 JsonArray *
 json_array_new (void)
@@ -67,12 +67,12 @@ json_array_new (void)
 }
 
 /**
- * json_array_sized_new:
+ * json_array_sized_new: (constructor)
  * @n_elements: number of slots to pre-allocate
  *
  * Creates a new #JsonArray with @n_elements slots already allocated.
  *
- * Return value: the newly created #JsonArray
+ * Return value: (transfer full): the newly created #JsonArray
  */
 JsonArray *
 json_array_sized_new (guint n_elements)
@@ -93,7 +93,7 @@ json_array_sized_new (guint n_elements)
  *
  * Increase by one the reference count of a #JsonArray.
  *
- * Return value: the passed #JsonArray, with the reference count
+ * Return value: (transfer none): the passed #JsonArray, with the reference count
  *   increased by one.
  */
 JsonArray *

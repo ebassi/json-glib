@@ -89,7 +89,7 @@ json_node_get_value_type (JsonNode *node)
 }
 
 /**
- * json_node_alloc:
+ * json_node_alloc: (constructor)
  *
  * Allocates a new #JsonNode. Use json_node_init() and its variants
  * to initialize the returned value.

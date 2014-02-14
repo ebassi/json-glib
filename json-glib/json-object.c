@@ -52,11 +52,11 @@
 G_DEFINE_BOXED_TYPE (JsonObject, json_object, json_object_ref, json_object_unref);
 
 /**
- * json_object_new:
+ * json_object_new: (constructor)
  * 
  * Creates a new #JsonObject, an JSON object type representation.
  *
- * Return value: the newly created #JsonObject
+ * Return value: (transfer full): the newly created #JsonObject
  */
 JsonObject *
 json_object_new (void)
@@ -80,7 +80,7 @@ json_object_new (void)
  *
  * Increase by one the reference count of a #JsonObject.
  *
- * Return value: the passed #JsonObject, with the reference count
+ * Return value: (transfer none): the passed #JsonObject, with the reference count
  *   increased by one.
  */
 JsonObject *
