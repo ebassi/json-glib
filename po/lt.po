@@ -1,15 +1,15 @@
 # Lithuanian translation for json-glib.
 # Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
-# Aurimas Černius <aurisc4@gmail.com>, 2012, 2013.
+# Aurimas Černius <aurisc4@gmail.com>, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-28 11:46+0000\n"
-"PO-Revision-Date: 2013-12-01 18:06+0200\n"
+"POT-Creation-Date: 2014-02-21 10:16+0000\n"
+"PO-Revision-Date: 2014-02-21 23:18+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -20,18 +20,18 @@ msgstr ""
 "%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../json-glib/json-glib-format.c:41
+#: ../json-glib/json-glib-format.c:50
 msgid "Prettify output"
 msgstr "Graži išvestis"
 
-#: ../json-glib/json-glib-format.c:42
+#: ../json-glib/json-glib-format.c:51
 msgid "Indentation spaces"
 msgstr "Įtrauka tarpais"
 
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:68 ../json-glib/json-glib-validate.c:61
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
 #, c-format
 msgid "%s: %s: error opening file: %s\n"
 msgstr "%s: %s: klaida atveriant failą: %s\n"
@@ -39,7 +39,7 @@ msgstr "%s: %s: klaida atveriant failą: %s\n"
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:80 ../json-glib/json-glib-validate.c:73
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
 #, c-format
 msgid "%s: %s: error parsing file: %s\n"
 msgstr "%s: %s: klaida skaitant failą: %s\n"
@@ -47,7 +47,7 @@ msgstr "%s: %s: klaida skaitant failą: %s\n"
 #. Translators: the first %s is the program name, the
 #. * second one is the URI of the file.
 #.
-#: ../json-glib/json-glib-format.c:99
+#: ../json-glib/json-glib-format.c:108
 #, c-format
 msgid "%s: %s: error writing to stdout"
 msgstr "%s: %s: klaida rašant į standartinę išvestį"
@@ -55,22 +55,22 @@ msgstr "%s: %s: klaida rašant į standartinę išvestį"
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:119 ../json-glib/json-glib-validate.c:85
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
 #, c-format
 msgid "%s: %s: error closing: %s\n"
 msgstr "%s: %s: klaida užveriant: %s\n"
 
-#: ../json-glib/json-glib-format.c:148 ../json-glib/json-glib-validate.c:113
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
 msgid "FILE"
 msgstr "FAILAS"
 
 #. Translators: this message will appear after the usage string
 #. and before the list of options.
-#: ../json-glib/json-glib-format.c:151
+#: ../json-glib/json-glib-format.c:160
 msgid "Format JSON files."
 msgstr "Formatuoti JSON failus."
 
-#: ../json-glib/json-glib-format.c:152
+#: ../json-glib/json-glib-format.c:161
 msgid "json-glib-format formats JSON resources."
 msgstr "json-glib-format formatuoja JSON resursus."
 
@@ -78,13 +78,13 @@ msgstr "json-glib-format formatuoja JSON resursus."
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:169 ../json-glib/json-glib-validate.c:134
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
 #, c-format
 msgid "Error parsing commandline options: %s\n"
 msgstr "Klaida skaitant komandų eilutės parametrus: %s\n"
 
-#: ../json-glib/json-glib-format.c:171 ../json-glib/json-glib-format.c:185
-#: ../json-glib/json-glib-validate.c:136 ../json-glib/json-glib-validate.c:150
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
 #, c-format
 msgid "Try \"%s --help\" for more information."
 msgstr "Daugiau informacijos gausite įvykdę „%s --help“."
@@ -93,18 +93,18 @@ msgstr "Daugiau informacijos gausite įvykdę „%s --help“."
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:183 ../json-glib/json-glib-validate.c:148
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
 #, c-format
 msgid "%s: missing files"
 msgstr "%s: trūksta failų"
 
 #. Translators: this message will appear after the usage string
 #. and before the list of options.
-#: ../json-glib/json-glib-validate.c:116
+#: ../json-glib/json-glib-validate.c:118
 msgid "Validate JSON files."
 msgstr "Tikrinti JSON failus."
 
-#: ../json-glib/json-glib-validate.c:117
+#: ../json-glib/json-glib-validate.c:119
 msgid "json-glib-validate validates JSON data at the given URI."
 msgstr "json-glib-validate patikrina JSON duomenis ties pateiktu URI."
 
@@ -113,42 +113,42 @@ msgstr "json-glib-validate patikrina JSON duomenis ties pateiktu URI."
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Tikimasi JSON objekto, bet šakninė viršūnė yra „%s“ tipo"
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Netikėtas tipas „%s“ JSON viršūnėje"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Trūksta elementų JSON masyve junginiui sudaryti"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Trūksta uždarančio simbolio „)“ GVariant junginio tipe"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "Netikėti papildomi elementai JSON masyve"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Netinkama eilutės reikšmė konvertavimui į GVariant"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr "GVariant žodyno įrašas tikisi JSON objekto su vieninteliu nariu"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "GVariant klasė „%c“ nepalaikoma"
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Netinkamas GVariant aprašas"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "JSON duomenys yra tušti"
 
@@ -170,80 +170,89 @@ msgstr "JSONPath išraiškoje leidžiamas vienintelė šakninė viršūnė"
 msgid "Root node followed by invalid character '%c'"
 msgstr "Po šakninės viršūnės yra netinkamas simbolis „%c“"
 
-#: ../json-glib/json-path.c:553
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Trūksta nario pavadinimo arba pakaitos simbolio po . simbolio"
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Blogai suformuota dalinimo išraiška „%*s“"
 
-#: ../json-glib/json-path.c:597
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Netinkamas aibės apibrėžimas „%*s“"
 
-#: ../json-glib/json-path.c:650
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Netinkamas dalinimo apibrėžimas „%*s“"
 
-#: ../json-glib/json-path.c:678
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Netinkamas masyvo apibrėžimas „%*s“"
 
-#: ../json-glib/json-reader.c:457
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Netinkamas pirmasis simbolis „%c“"
+
+#: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr "Dabartinė viršūnė yra „%s“ tipo, bet tikėtasi masyvo arba objekto."
 
-#: ../json-glib/json-reader.c:469
+#: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr "Indeksas „%d“ yra didesnis nei masyvo dydis dabartinėje pozicijoje."
 
-#: ../json-glib/json-reader.c:486
+#: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "Indeksas „%d“ yra didesnis nei objekto dydis dabartinėje pozicijoje."
 
-#: ../json-glib/json-reader.c:570 ../json-glib/json-reader.c:723
-#: ../json-glib/json-reader.c:774 ../json-glib/json-reader.c:812
-#: ../json-glib/json-reader.c:850 ../json-glib/json-reader.c:888
-#: ../json-glib/json-reader.c:926 ../json-glib/json-reader.c:971
-#: ../json-glib/json-reader.c:1007 ../json-glib/json-reader.c:1033
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:731
+#: ../json-glib/json-reader.c:782 ../json-glib/json-reader.c:820
+#: ../json-glib/json-reader.c:858 ../json-glib/json-reader.c:896
+#: ../json-glib/json-reader.c:934 ../json-glib/json-reader.c:979
+#: ../json-glib/json-reader.c:1015 ../json-glib/json-reader.c:1041
 msgid "No node available at the current position"
 msgstr "Nėra viršūnės dabartinėje pozicijoje"
 
-#: ../json-glib/json-reader.c:577
+#: ../json-glib/json-reader.c:584
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Dabartinėje pozicijoje yra „%s“, o ne masyvas"
 
-#: ../json-glib/json-reader.c:640
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "Dabartinė viršūnė yra „%s“ tipo, bet tikėtasi objekto."
 
-#: ../json-glib/json-reader.c:647
+#: ../json-glib/json-reader.c:654
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Narys „%s“ neapibrėžtas dabartinėje pozicijoje esančiame objekte."
 
-#: ../json-glib/json-reader.c:730 ../json-glib/json-reader.c:781
+#: ../json-glib/json-reader.c:738 ../json-glib/json-reader.c:789
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Dabartinė pozicija turi „%s“, o ne objektą"
 
-#: ../json-glib/json-reader.c:821 ../json-glib/json-reader.c:859
-#: ../json-glib/json-reader.c:897 ../json-glib/json-reader.c:935
-#: ../json-glib/json-reader.c:980
+#: ../json-glib/json-reader.c:829 ../json-glib/json-reader.c:867
+#: ../json-glib/json-reader.c:905 ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:988
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Dabartinė pozicija turi „%s“, o ne reikšmę"
 
-#: ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:951
 msgid "The current position does not hold a string type"
 msgstr "Dabartinė pozicija turi „%s“, o ne eilutės tipą"
