@@ -1,111 +1,114 @@
 # Chinese (China) translation for json-glib ui.
 # Copyright (C) 2012 json-glib's authors and contributors.
 # This file is distributed under the same license as the json-glib package.
+#
 # Cheng Lu <chenglu1990@gmail.com>, 2012.
 # Wylmer Wang <wantinghard@gmail.com>, 2012.
-#
+# Sphinx Jiang <yishanj13@gmail.com>, 2014.
+
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-18 21:46+0000\n"
-"PO-Revision-Date: 2014-01-24 21:36+0800\n"
-"Last-Translator: Wylmer Wang <wantinghard@gmail.com>\n"
-"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
-"Language: \n"
+"POT-Creation-Date: 2014-02-20 10:20+0000\n"
+"PO-Revision-Date: 2014-02-22 09:27+0800\n"
+"Last-Translator: Sphinx Jiang <yishanj13@gmail.com>\n"
+"Language-Team: Chinese Simplified <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: ../json-glib/json-glib-format.c:41
+#: ../json-glib/json-glib-format.c:50
 msgid "Prettify output"
-msgstr ""
+msgstr "美化输出"
 
-#: ../json-glib/json-glib-format.c:42
+#: ../json-glib/json-glib-format.c:51
 msgid "Indentation spaces"
-msgstr ""
+msgstr "缩进空格"
 
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:68 ../json-glib/json-glib-validate.c:61
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
 #, c-format
 msgid "%s: %s: error opening file: %s\n"
-msgstr ""
+msgstr "%s: %s：打开文件出错：%s\n"
 
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:80 ../json-glib/json-glib-validate.c:73
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
 #, c-format
 msgid "%s: %s: error parsing file: %s\n"
-msgstr ""
+msgstr "%s: %s：解析文件出错： %s\n"
 
 #. Translators: the first %s is the program name, the
 #. * second one is the URI of the file.
 #.
-#: ../json-glib/json-glib-format.c:99
+#: ../json-glib/json-glib-format.c:108
 #, c-format
 msgid "%s: %s: error writing to stdout"
-msgstr ""
+msgstr "%s: %s：写到标准输出出错"
 
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:119 ../json-glib/json-glib-validate.c:85
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
 #, c-format
 msgid "%s: %s: error closing: %s\n"
-msgstr ""
+msgstr "%s: %s：关闭出错： %s\n"
 
-#: ../json-glib/json-glib-format.c:148 ../json-glib/json-glib-validate.c:113
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
 msgid "FILE"
-msgstr ""
+msgstr "文件"
 
 #. Translators: this message will appear after the usage string
 #. and before the list of options.
-#: ../json-glib/json-glib-format.c:151
+#: ../json-glib/json-glib-format.c:160
 msgid "Format JSON files."
-msgstr ""
+msgstr "格式化 JSON 文件。"
 
-#: ../json-glib/json-glib-format.c:152
+#: ../json-glib/json-glib-format.c:161
 msgid "json-glib-format formats JSON resources."
-msgstr ""
+msgstr "json-glib-format 可以格式化 JSON 资源。"
 
 #. Translators: the %s is the program name. This error message
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:169 ../json-glib/json-glib-validate.c:134
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
 #, c-format
 msgid "Error parsing commandline options: %s\n"
-msgstr ""
+msgstr "解析命令行选项出错：%s\n"
 
-#: ../json-glib/json-glib-format.c:171 ../json-glib/json-glib-format.c:185
-#: ../json-glib/json-glib-validate.c:136 ../json-glib/json-glib-validate.c:150
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
 #, c-format
 msgid "Try \"%s --help\" for more information."
-msgstr ""
+msgstr "请运行“%s --help”了解更多信息。"
 
 #. Translators: the %s is the program name. This error message
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:183 ../json-glib/json-glib-validate.c:148
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
 #, c-format
 msgid "%s: missing files"
-msgstr ""
+msgstr "%s：缺少文件"
 
 #. Translators: this message will appear after the usage string
 #. and before the list of options.
-#: ../json-glib/json-glib-validate.c:116
+#: ../json-glib/json-glib-validate.c:118
 msgid "Validate JSON files."
-msgstr ""
+msgstr "验证 JSON 文件"
 
-#: ../json-glib/json-glib-validate.c:117
+#: ../json-glib/json-glib-validate.c:119
 msgid "json-glib-validate validates JSON data at the given URI."
-msgstr ""
+msgstr "json-glib-validate 验证给定 URI 的 JSON 数据。"
 
 #: ../json-glib/json-gobject.c:917
 #, c-format
@@ -158,7 +161,7 @@ msgstr "%s:%d:%d：解析错误：%s"
 
 #: ../json-glib/json-parser.c:885
 msgid "JSON data must be UTF-8 encoded"
-msgstr ""
+msgstr "JSON 数据必须是 UTF-8 编码"
 
 #: ../json-glib/json-path.c:438
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -171,7 +174,7 @@ msgstr "根节点之后跟随了无效的字符“%c”"
 
 #: ../json-glib/json-path.c:487
 msgid "Missing member name or wildcard after . character"
-msgstr ""
+msgstr "在字符 . 后面缺少成员名或通配符"
 
 #: ../json-glib/json-path.c:561
 #, c-format
@@ -181,7 +184,7 @@ msgstr "有错误的 slice 表达式“%*s”"
 #: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
-msgstr "无效的 set 定义 '%*s'"
+msgstr "无效的 set 定义“%*s”"
 
 #: ../json-glib/json-path.c:658
 #, c-format
@@ -196,63 +199,63 @@ msgstr "无效的数组索引定义“%*s”"
 #: ../json-glib/json-path.c:705
 #, c-format
 msgid "Invalid first character '%c'"
-msgstr ""
+msgstr "无效的首字符“%c”"
 
-#: ../json-glib/json-reader.c:457
+#: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr "当前节点的类型是“%s”，应为数组或对象。"
 
-#: ../json-glib/json-reader.c:469
+#: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr "索引“%d”大于当前位置数组的大小。"
 
-#: ../json-glib/json-reader.c:486
+#: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "索引“%d”大于当前位置对象的大小。"
 
-#: ../json-glib/json-reader.c:570 ../json-glib/json-reader.c:723
-#: ../json-glib/json-reader.c:774 ../json-glib/json-reader.c:812
-#: ../json-glib/json-reader.c:850 ../json-glib/json-reader.c:888
-#: ../json-glib/json-reader.c:926 ../json-glib/json-reader.c:971
-#: ../json-glib/json-reader.c:1007 ../json-glib/json-reader.c:1033
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:731
+#: ../json-glib/json-reader.c:782 ../json-glib/json-reader.c:820
+#: ../json-glib/json-reader.c:858 ../json-glib/json-reader.c:896
+#: ../json-glib/json-reader.c:934 ../json-glib/json-reader.c:979
+#: ../json-glib/json-reader.c:1015 ../json-glib/json-reader.c:1041
 msgid "No node available at the current position"
 msgstr "当前位置无节点可用"
 
-#: ../json-glib/json-reader.c:577
+#: ../json-glib/json-reader.c:584
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "当前位置是一个“%s”，而不是一个数组"
 
-#: ../json-glib/json-reader.c:640
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "当前节点的类型是“%s”，但应为对象。"
 
-#: ../json-glib/json-reader.c:647
+#: ../json-glib/json-reader.c:654
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "成员“%s”没有在当前位置的对象中定义。"
 
-#: ../json-glib/json-reader.c:730 ../json-glib/json-reader.c:781
+#: ../json-glib/json-reader.c:738 ../json-glib/json-reader.c:789
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "当前位置是一个“%s”，而不是一个对象"
 
-#: ../json-glib/json-reader.c:821 ../json-glib/json-reader.c:859
-#: ../json-glib/json-reader.c:897 ../json-glib/json-reader.c:935
-#: ../json-glib/json-reader.c:980
+#: ../json-glib/json-reader.c:829 ../json-glib/json-reader.c:867
+#: ../json-glib/json-reader.c:905 ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:988
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "当前位置是一个“%s”，不是一个值"
 
-#: ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:951
 msgid "The current position does not hold a string type"
 msgstr "当前位置不是一个字符串类型"
 
