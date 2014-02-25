@@ -1,9 +1,4 @@
-# NMake Makefile to build Introspection Files for ATK
-
-# Change or pass in as a variable/env var if needed
-JSONGLIB_DLLNAME = json-glib-1-vs$(VSVER)
-
-# Please do not change anything after this line
+# NMake Makefile to build Introspection Files for JSON-GLib
 
 !include detectenv_msvc.mak
 
@@ -37,7 +32,7 @@ Json-$(APIVERSION).gir: json_list vs$(VSVER)\$(CFG)\$(PLAT)\bin\Json-$(APIVERSIO
 	-I$(BASEDIR)\include\glib-2.0 -I$(BASEDIR)\lib\glib-2.0\include	\
 	--namespace=Json --nsversion=$(APIVERSION)	\
 	--include=GObject-2.0 --include=Gio-2.0	\
-	--no-libtool --library=$(JSONGLIB_DLLNAME)	\
+	--no-libtool --library=json-glib-1.0	\
 	--reparse-validate --add-include-path=$(BASEDIR)\share\gir-1.0 --add-include-path=.	\
 	--warn-all --pkg-export json-glib-$(APIVERSION) --c-include "json-glib/json-glib.h"	\
 	-DJSON_COMPILATION=1 -DG_LOG_DOMAIN=\"Json\"	\
