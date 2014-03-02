@@ -577,6 +577,30 @@ json_scanner_get_unichar (JsonScanner *scanner,
   return uchar;
 }
 
+/*
+ * decode_utf16_surrogate_pair:
+ * @units: (array length=2): a pair of UTF-16 code points
+ *
+ * Decodes a surrogate pair of UTF-16 code points into the equivalent
+ * Unicode code point.
+ *
+ * Returns: the Unicode code point equivalent to the surrogate pair
+ */
+static inline gunichar
+decode_utf16_surrogate_pair (const gunichar units[2])
+{
+  gunichar ucs;
+
+  g_assert (0xd800 <= units[0] && units[0] <= 0xdbff);
+  g_assert (0xdc00 <= units[1] && units[1] <= 0xdfff);
+
+  ucs = 0x10000;
+  ucs += (units[0] & 0x3ff) << 10;
+  ucs += (units[1] & 0x3ff);
+
+  return ucs;
+}
+
 void
 json_scanner_unexp_token (JsonScanner *scanner,
                           GTokenType   expected_token,
@@ -1113,19 +1137,25 @@ json_scanner_get_token_ll (JsonScanner *scanner,
 
                               ucs = json_scanner_get_unichar (scanner, line_p, position_p);
 
+                              /* resolve UTF-16 surrogates for Unicode characters not in the BMP,
+                                * as per ECMA 404, § 9, "String"
+                                */
                               if (g_unichar_type (ucs) == G_UNICODE_SURROGATE)
                                 {
                                   /* read next surrogate */
-                                  if ('\\' == json_scanner_get_char (scanner, line_p, position_p)
-                                      && 'u' == json_scanner_get_char (scanner, line_p, position_p))
+                                  if ('\\' == json_scanner_get_char (scanner, line_p, position_p) &&
+                                      'u' == json_scanner_get_char (scanner, line_p, position_p))
                                     {
-                                      gunichar ucs_lo = json_scanner_get_unichar (scanner, line_p, position_p);
-                                      g_assert (g_unichar_type (ucs_lo) == G_UNICODE_SURROGATE);
-                                      ucs = (((ucs & 0x3ff) << 10) | (ucs_lo & 0x3ff)) + 0x10000;
+                                      gunichar units[2];
+
+                                      units[0] = ucs;
+                                      units[1] = json_scanner_get_unichar (scanner, line_p, position_p);
+
+                                      ucs = decode_utf16_surrogate_pair (units);
+                                      g_assert (g_unichar_validate (ucs));
                                     }
                                 }
 
-                              g_assert (g_unichar_validate (ucs));
                               gstring = g_string_append_unichar (gstring, ucs);
                             }
                           break;
