@@ -263,7 +263,7 @@ AM_CONDITIONAL(ENABLE_GCOV, test "x$use_gcov" = "xyes")
 
 dnl === Documentation =========================================================
 
-GTK_DOC_CHECK([1.13], [--flavour no-tmpl])
+GTK_DOC_CHECK([1.20], [--flavour no-tmpl])
 
 AC_ARG_ENABLE([man,],
               [AS_HELP_STRING([--enable-man], [generate man pages @<:@default=auto@:>@])],
