@@ -45,8 +45,8 @@ typedef struct _JsonBuilderClass      JsonBuilderClass;
 /**
  * JsonBuilder:
  *
- * The <structname>JsonBuilder</structname> structure contains only
- * private data and shouls be accessed using the provided API
+ * The `JsonBuilder` structure contains only private data and should be
+ * accessed using the provided API
  *
  * Since: 0.12
  */
@@ -61,8 +61,7 @@ struct _JsonBuilder
 /**
  * JsonBuilderClass:
  *
- * The <structname>JsonBuilder</structname> structure contains only
- * private data
+ * The `JsonBuilderClass` structure contains only private data
  *
  * Since: 0.12
  */

@@ -171,7 +171,7 @@ json_builder_is_valid_add_mode (JsonBuilder *builder)
  * json_builder_new:
  *
  * Creates a new #JsonBuilder. You can use this object to generate a
- * JSON tree and obtain the root #JsonNode<!-- -->s.
+ * JSON tree and obtain the root #JsonNode.
  *
  * Return value: the newly created #JsonBuilder instance
  */

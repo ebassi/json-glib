@@ -32,7 +32,7 @@
  * @short_description: a JSON array representation
  *
  * #JsonArray is the representation of the array type inside JSON. It contains
- * #JsonNode<!-- -->s, which may contain fundamental types, other arrays or
+ * #JsonNode elements, which may contain fundamental types, other arrays or
  * objects.
  *
  * Since arrays can be expensive, they are reference counted. You can control
@@ -139,7 +139,7 @@ json_array_unref (JsonArray *array)
  * json_array_get_elements:
  * @array: a #JsonArray
  *
- * Gets the elements of a #JsonArray as a list of #JsonNode<!-- -->s.
+ * Gets the elements of a #JsonArray as a list of #JsonNode instances.
  *
  * Return value: (element-type JsonNode) (transfer container): a #GList
  *   containing the elements of the array. The contents of the list are

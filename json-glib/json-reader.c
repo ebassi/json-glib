@@ -33,27 +33,24 @@
  * called, e.g.:
  *
  * |[
- * /&ast; ask for the 7th element; if the element does not exist, the
- *  &ast; reader will be put in an error state
- *  &ast;/
+ * // ask for the 7th element; if the element does not exist, the
+ * // reader will be put in an error state
  * json_reader_read_element (reader, 6);
  *
- * /&ast; in case of error, this will return NULL, otherwise it will
- *  &ast; return the value of the element
- *  &ast;/
+ * // in case of error, this will return NULL, otherwise it will
+ * // return the value of the element
  * str = json_reader_get_string_value (value);
  *
- * /&ast; this function resets the error state if any was set &ast;/
+ * // this function resets the error state if any was set
  * json_reader_end_element (reader);
  * ]|
  *
  * If you want to detect the error state as soon as possible, you can use
  * json_reader_get_error():
  *
- * |[
- * /&ast; like the example above, but in this case we print out the
- *  &ast; error immediately
- *  &ast;/
+ * |[<!-- language="C" -->
+ * // like the example above, but in this case we print out the
+ * // error immediately
  * if (!json_reader_read_element (reader, 6))
  *   {
  *     const GError *error = json_reader_get_error (reader);

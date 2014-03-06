@@ -32,7 +32,7 @@
  * When registering a #GBoxed type you should also register the
  * corresponding transformation functions, e.g.:
  *
- * |[
+ * |[<!-- language="C" -->
  *   GType
  *   my_struct_get_type (void)
  *   {

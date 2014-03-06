@@ -184,12 +184,14 @@ G_DEFINE_INTERFACE (JsonSerializable, json_serializable, G_TYPE_OBJECT);
  * @pspec: a #GParamSpec
  *
  * Calls the default implementation of the #JsonSerializable
- * serialize_property() virtual function
+ * #JsonSerializableIface.serialize_property() virtual function.
  *
  * This function can be used inside a custom implementation
- * of the serialize_property() virtual function in lieu of:
+ * of the #JsonSerializableIface.serialize_property() virtual
+ * function in lieu of calling the default implementation
+ * through g_type_default_interface_peek():
  *
- * |[
+ * |[<!-- language="C" -->
  *   JsonSerializable *iface;
  *   JsonNode *node;
  *
@@ -234,7 +236,7 @@ json_serializable_default_serialize_property (JsonSerializable *serializable,
  * This function can be used inside a custom implementation
  * of the deserialize_property() virtual function in lieu of:
  *
- * |[
+ * |[<!-- language="C" -->
  *   JsonSerializable *iface;
  *   gboolean res;
  *

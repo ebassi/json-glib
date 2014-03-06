@@ -80,8 +80,8 @@ typedef enum {
 /**
  * JsonReader:
  *
- * The <structname>JsonReader</structname> structure contains only
- * private data and should only be accessed using the provided API
+ * The `JsonReader` structure contains only private data and should
+ * be accessed using the provided API
  *
  * Since: 0.12
  */
@@ -96,8 +96,7 @@ struct _JsonReader
 /**
  * JsonReaderClass:
  *
- * The <structname>JsonReaderClass</structname> structure contains only
- * private data
+ * The `JsonReaderClass` structure contains only private data
  *
  * Since: 0.12
  */

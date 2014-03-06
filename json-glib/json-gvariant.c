@@ -51,49 +51,29 @@
  * JSON, a #GVariant type string (signature) should be provided to these
  * methods in order to obtain a correct, type-contrained result.
  * If no signature is provided, conversion can still be done, but the
- * resulting #GVariant value will be "guessed" from the JSON data types,
- * according to the following table:
+ * resulting #GVariant value will be "guessed" from the JSON data types
+ * using the following rules:
  *
- * <table frame='all'><title>Default JSON to GVariant conversion (without signature constrains)</title>
- *  <tgroup cols='2' align='left' colsep='1' rowsep='1'>
- *   <thead>
- *     <row>
- *       <entry>JSON</entry>
- *       <entry>GVariant</entry>
- *     </row>
- *   </thead>
- *   <tfoot>
- *    <row>
- *     <entry>string</entry>
- *     <entry>string (s)</entry>
- *    </row>
- *    <row>
- *     <entry>int64</entry>
- *     <entry>int64 (x)</entry>
- *    </row>
- *    <row>
- *     <entry>boolean</entry>
- *     <entry>boolean (b)</entry>
- *    </row>
- *    <row>
- *     <entry>double</entry>
- *     <entry>double (d)</entry>
- *    </row>
- *    <row>
- *     <entry>array</entry>
- *     <entry>array of variants (av)</entry>
- *    </row>
- *    <row>
- *     <entry>object</entry>
- *     <entry>dictionary of string-variant (a{sv})</entry>
- *    </row>
- *    <row>
- *     <entry>null</entry>
- *     <entry>maybe variant (mv)</entry>
- *    </row>
- *   </tfoot>
- *  </tgroup>
- * </table>
+ * ## Strings
+ * JSON strings map to GVariant `(s)`.
+ *
+ * ## Integers
+ * JSON integers map to GVariant int64 `(x)`.
+ *
+ * ## Booleans
+ * JSON booleans map to GVariant boolean `(b)`.
+ *
+ * ## Numbers
+ * JSON numbers map to GVariant double `(d)`.
+ *
+ * ## Arrays
+ * JSON arrays map to GVariant arrays of variants `(av)`.
+ *
+ * ## Objects
+ * JSON objects map to GVariant dictionaries of string to variants `(a{sv})`.
+ *
+ * ## Null values
+ * JSON null values map to GVariant maybe variants `(mv)`.
  */
 
 /* custom extension to the GVariantClass enumeration to differentiate

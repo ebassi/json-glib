@@ -342,7 +342,7 @@ json_node_init_null (JsonNode *node)
 }
 
 /**
- * json_node_new:
+ * json_node_new: (constructor)
  * @type: a #JsonNodeType
  *
  * Creates a new #JsonNode of @type.
@@ -350,11 +350,11 @@ json_node_init_null (JsonNode *node)
  * This is a convenience function for json_node_alloc() and json_node_init(),
  * and it's the equivalent of:
  *
- * |[
- *   return json_node_init (json_node_alloc (), type);
+ * |[<!-- language="C" -->
+     json_node_init (json_node_alloc (), type);
  * ]|
  *
- * Return value: the newly created #JsonNode
+ * Return value: (transfer full): the newly created #JsonNode
  */
 JsonNode *
 json_node_new (JsonNodeType type)
@@ -1022,9 +1022,10 @@ json_node_get_node_type (JsonNode *node)
  * json_node_is_null:
  * @node: a #JsonNode
  *
- * Checks whether @node is a %JSON_NODE_NULL
+ * Checks whether @node is a %JSON_NODE_NULL.
  *
- * <note>A null node is not the same as a %NULL #JsonNode</note>
+ * A %JSON_NODE_NULL node is not the same as a %NULL #JsonNode; a
+ * %JSON_NODE_NULL represents a 'null' value in the JSON tree.
  *
  * Return value: %TRUE if the node is null
  *

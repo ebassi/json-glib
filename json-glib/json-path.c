@@ -40,162 +40,114 @@
  * The simple convenience function json_path_query() can be used for one-off
  * matching.
  *
- * <refsect2 id="json-path-syntax">
- *   <title>Syntax of the JSONPath expressions</title>
- *   <para>A JSONPath expression is composed by path indices and operators.
- *   Each path index can either be a member name or an element index inside
- *   a JSON tree. A JSONPath expression must start with the '$' operator; each
- *   path index is separated using either the dot notation or the bracket
- *   notation, e.g.:</para>
- *   |[
- *     /&ast; dot notation &ast;/
- *     $.store.book[0].title
- *     /&ast; bracket notation &ast;/
- *     $['store']['book'][0]['title']
- *   ]|
- *   <para>The available operators are:</para>
- *   <table frame='all' id="json-path-operators">
- *     <title>Operators</title>
- *     <tgroup cols='4'>
- *       <colspec name='operator'/>
- *       <colspec name='description'/>
- *       <colspec name='example'/>
- *       <colspec name='results'/>
- *       <thead>
- *         <row>
- *           <entry>Operator</entry>
- *           <entry>Description</entry>
- *           <entry>Example</entry>
- *           <entry>Results</entry>
- *         </row>
- *       </thead>
- *       <tbody>
- *         <row>
- *           <entry>$</entry>
- *           <entry>The root node</entry>
- *           <entry>$</entry>
- *           <entry>The whole document</entry>
- *         </row>
- *         <row>
- *           <entry>. or []</entry>
- *           <entry>The child member or element</entry>
- *           <entry>$.store.book</entry>
- *           <entry>The contents of the book member of the store object</entry>
- *         </row>
- *         <row>
- *           <entry>..</entry>
- *           <entry>Recursive descent</entry>
- *           <entry>$..author</entry>
- *           <entry>The content of the author member in every object</entry>
- *         </row>
- *         <row>
- *           <entry>*</entry>
- *           <entry>Wildcard</entry>
- *           <entry>$.store.book[*].author</entry>
- *           <entry>The content of the author member of any object of the
- *           array contained in the book member of the store object</entry>
- *         </row>
- *         <row>
- *           <entry>[]</entry>
- *           <entry>Subscript</entry>
- *           <entry>$.store.book[0]</entry>
- *           <entry>The first element of the array contained in the book
- *           member of the store object</entry>
- *         </row>
- *         <row>
- *           <entry>[,]</entry>
- *           <entry>Set</entry>
- *           <entry>$.store.book[0,1]</entry>
- *           <entry>The first two elements of the array contained in the
- *           book member of the store object</entry>
- *         </row>
- *         <row>
- *           <entry>[start:end:step]</entry>
- *           <entry>Slice</entry>
- *           <entry>$.store.book[:2]</entry>
- *           <entry>The first two elements of the array contained in the
- *           book member of the store object; the start and step are omitted
- *           and implied to be 0 and 1, respectively</entry>
- *         </row>
- *       </tbody>
- *     </tgroup>
- *   </table>
- *   <para>More information about JSONPath is available on Stefan Gössner's
- *   <ulink url="http://goessner.net/articles/JsonPath/">website</ulink>.</para>
- * </refsect2>
+ * ## Syntax of the JSONPath expressions ##
  *
- * <example id="json-path-example">
- *   <title>Example of JsonPath usage</title>
- *   <para>The following example shows some of the results of using #JsonPath
- *   on a JSON tree. We use the following JSON description of a
- *   bookstore:</para>
- * <programlisting><![CDATA[
-{ "store": {
-    "book": [
-      { "category": "reference",
-        "author": "Nigel Rees",
-        "title": "Sayings of the Century",
-        "price": "8.95"
-      },
-      { "category": "fiction",
-        "author": "Evelyn Waugh",
-        "title": "Sword of Honour",
-        "price": "12.99"
-      },
-      { "category": "fiction",
-        "author": "Herman Melville",
-        "title": "Moby Dick",
-        "isbn": "0-553-21311-3",
-        "price": "8.99"
-      },
-      { "category": "fiction",
-        "author": "J. R. R. Tolkien",
-        "title": "The Lord of the Rings",
-        "isbn": "0-395-19395-8",
-        "price": "22.99"
-      }
-    ],
-    "bicycle": {
-      "color": "red",
-      "price": "19.95"
-    }
-  }
-}
-]]></programlisting>
- *   <para>We can parse the JSON using #JsonParser:</para>
- *   <programlisting>
- * JsonParser *parser = json_parser_new ();
- * json_parser_load_from_data (parser, json_data, -1, NULL);
- *   </programlisting>
- *   <para>If we run the following code:</para>
- *   <programlisting>
- * JsonNode *result;
- * JsonPath *path = json_path_new ();
- * json_path_compile (path, "$.store..author", NULL);
- * result = json_path_match (path, json_parser_get_root (parser));
- *   </programlisting>
- *   <para>The <emphasis>result</emphasis> #JsonNode will contain an array
- *   with all values of the <emphasis>author</emphasis> member of the objects
- *   in the JSON tree. If we use a #JsonGenerator to convert the #JsonNode
- *   to a string and print it:</para>
- *   <programlisting>
- * JsonGenerator *generator = json_generator_new ();
- * char *str;
- * json_generator_set_pretty (generator, TRUE);
- * json_generator_set_root (generator, result);
- * str = json_generator_to_data (generator, NULL);
- * g_print ("Results: %s\n", str);
- *   </programlisting>
- *   <para>The output will be:</para>
- *   <programlisting><![CDATA[
-[
-  "Nigel Rees",
-  "Evelyn Waugh",
-  "Herman Melville",
-  "J. R. R. Tolkien"
-]
-]]></programlisting>
- * </example>
+ * A JSONPath expression is composed by path indices and operators.
+ * Each path index can either be a member name or an element index inside
+ * a JSON tree. A JSONPath expression must start with the '$' operator; each
+ * path index is separated using either the dot notation or the bracket
+ * notation, e.g.:
+ *
+ * |[
+ *   // dot notation
+ *   $.store.book[0].title
+ *
+ *   // bracket notation
+ *   $['store']['book'][0]['title']
+ * ]|
+ *
+ * The available operators are:
+ *
+ * * Root node
+ *   The '$' character represents the root node of the JSON tree, and
+ *   matches the entire document.
+ *
+ * * Child nodes can either be matched using '.' or '[]'. For instance,
+ *   both `$.store.book` and `$['store']['book'] match the contents of
+ *   the book member of the store object.
+ *
+ * * Child nodes can be reached without specifying the whole tree structure
+ *   through the recursive descent operator, or '..'. For instance,
+ *   `$..author` matches all author member in every object.
+ *
+ * * Child nodes can grouped through the wildcard operator, or '*'. For
+ *   instance, `$.store.book[*].author` matches all author members of any
+ *   object element contained in the book array of the store object.
+ *
+ * * Element nodes can be accessed using their index (starting from zero)
+ *   in the subscript operator '[]'. For instance, `$.store.book[0]` matches
+ *   the first element of the book array of the store object.
+ *
+ * * Subsets of element nodes can be accessed using the set notation
+ *   operator '[start,end]'. For instance, `$.store.book[0,2]` matches the
+ *   first, second, and third elements of the book array of the store
+ *   object.
+ *
+ * * Slices of element nodes can be accessed using the slice notation
+ *   operation '[start:end:step]'. If start is omitted, the starting index
+ *   of the slice is implied to be zero; if end is omitted, the ending index
+ *   of the slice is implied to be the length of the array; if step is
+ *   omitted, the step of the slice is implied to be 1. For instance,
+ *   `$.store.book[:2]` matches the first two elements of the book array
+ *   of the store object.
+ *
+ * More information about JSONPath is available on Stefan Gössner's
+ * [JSONPath website](http://goessner.net/articles/JsonPath/).
+ *
+ * ## Example of JSONPath matches
+ * The following example shows some of the results of using #JsonPath
+ * on a JSON tree. We use the following JSON description of a bookstore:
+ * |[
+ *   { "store": {
+ *       "book": [
+ *         { "category": "reference", "author": "Nigel Rees",
+ *           "title": "Sayings of the Century", "price": "8.95"  },
+ *         { "category": "fiction", "author": "Evelyn Waugh",
+ *           "title": "Sword of Honour", "price": "12.99" },
+ *         { "category": "fiction", "author": "Herman Melville",
+ *           "title": "Moby Dick", "isbn": "0-553-21311-3",
+ *           "price": "8.99" },
+ *         { "category": "fiction", "author": "J. R. R. Tolkien",
+ *           "title": "The Lord of the Rings", "isbn": "0-395-19395-8",
+ *           "price": "22.99" }
+ *       ],
+ *       "bicycle": { "color": "red", "price": "19.95" }
+ *     }
+ *   }
+ * ]|
+ *
+ * We can parse the JSON using #JsonParser:
+ *
+ * |[<!-- language="C" -->
+ *   JsonParser *parser = json_parser_new ();
+ *   json_parser_load_from_data (parser, json_data, -1, NULL);
+ * ]|
+ *
+ * If we run the following code:
+ *
+ * |[<!-- language="C" -->
+ *   JsonNode *result;
+ *   JsonPath *path = json_path_new ();
+ *   json_path_compile (path, "$.store..author", NULL);
+ *   result = json_path_match (path, json_parser_get_root (parser));
+ * ]|
+ *
+ * The result #JsonNode will contain an array with all values of the
+ * author member of the objects in the JSON tree. If we use a
+ * #JsonGenerator to convert the #JsonNode to a string and print it:
+ *
+ * |[<!-- language="C" -->
+ *   JsonGenerator *generator = json_generator_new ();
+ *   json_generator_set_root (generator, result);
+ *   char *str = json_generator_to_data (generator, NULL);
+ *   g_print ("Results: %s\n", str);
+ * ]|
+ *
+ * The output will be:
+ *
+ * |[
+ *   ["Nigel Rees","Evelyn Waugh","Herman Melville","J. R. R. Tolkien"]
+ * ]|
  *
  * #JsonPath is available since JSON-GLib 0.14
  */
@@ -981,11 +933,11 @@ walk_path_node (GList      *path,
  * Matches the JSON tree pointed by @root using the expression compiled
  * into the #JsonPath.
  *
- * The matching #JsonNode<!-- -->s will be copied into a #JsonArray and
+ * The matching #JsonNodes will be copied into a #JsonArray and
  * returned wrapped in a #JsonNode.
  *
  * Return value: (transfer full): a newly-created #JsonNode of type
- *   %JSON_NODE_ARRAY containing an array of matching #JsonNode<!-- -->s.
+ *   %JSON_NODE_ARRAY containing an array of matching #JsonNodes.
  *   Use json_node_free() when done
  *
  * Since: 0.14
@@ -1025,7 +977,7 @@ json_path_match (JsonPath *path,
  * matches it against the JSON tree pointed by @root.
  *
  * Return value: (transfer full): a newly-created #JsonNode of type
- *   %JSON_NODE_ARRAY containing an array of matching #JsonNode<!-- -->s.
+ *   %JSON_NODE_ARRAY containing an array of matching #JsonNodes.
  *   Use json_node_free() when done
  *
  * Since: 0.14

@@ -59,9 +59,8 @@ typedef enum {
 /**
  * JsonPath:
  *
- * The <structname>JsonPath</structname> structure is an opaque object
- * whose members cannot be directly accessed except through the provided
- * API.
+ * The `JsonPath` structure is an opaque object whose members cannot be
+ * directly accessed except through the provided API.
  *
  * Since: 0.14
  */
@@ -70,8 +69,8 @@ typedef struct _JsonPath        JsonPath;
 /**
  * JsonPathClass:
  *
- * The <structname>JsonPathClass</structname> structure is an opaque
- * object class whose members cannot be directly accessed.
+ * The `JsonPathClass` structure is an opaque object class whose members
+ * cannot be directly accessed.
  *
  * Since: 0.14
  */

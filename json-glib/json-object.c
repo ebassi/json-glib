@@ -35,9 +35,10 @@
  * SECTION:json-object
  * @short_description: a JSON object representation
  *
- * #JsonObject is the representation of the object type inside JSON. It contains
- * #JsonNode<!-- -->s, which may contain fundamental types, arrays or other
- * objects. Each member of an object is accessed using its name.
+ * #JsonObject is the representation of the object type inside JSON. It
+ * contains #JsonNodes, which may contain fundamental types, arrays or other
+ * objects; each node inside an object, or "member", is accessed using a
+ * unique string, or "name".
  *
  * Since objects can be expensive, they are reference counted. You can control
  * the lifetime of a #JsonObject using json_object_ref() and json_object_unref().
@@ -449,7 +450,7 @@ json_object_get_members (JsonObject *object)
  * Retrieves all the values of the members of a #JsonObject.
  *
  * Return value: (element-type JsonNode) (transfer container): a #GList of
- *   #JsonNode<!-- -->s. The content of the list is owned by the #JsonObject
+ *   #JsonNodes. The content of the list is owned by the #JsonObject
  *   and should never be modified or freed. When you have finished using the
  *   returned list, use g_list_free() to free the resources it has allocated.
  */

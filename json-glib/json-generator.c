@@ -547,7 +547,7 @@ dump_object (JsonGenerator *generator,
  * 
  * Creates a new #JsonGenerator. You can use this object to generate a
  * JSON data stream starting from a data object model composed by
- * #JsonNode<!-- -->s.
+ * #JsonNodes.
  *
  * Return value: the newly created #JsonGenerator instance
  */
@@ -686,14 +686,17 @@ json_generator_to_stream (JsonGenerator  *generator,
  * Sets @node as the root of the JSON data stream to be serialized by
  * the #JsonGenerator.
  *
- * <note>The node is copied by the generator object, so it can be safely
- * freed after calling this function.</note>
+ * The passed @node is copied by the generator object, so it can be
+ * safely freed after calling this function.
  */
 void
 json_generator_set_root (JsonGenerator *generator,
                          JsonNode      *node)
 {
   g_return_if_fail (JSON_IS_GENERATOR (generator));
+
+  if (generator->priv->root == node)
+    return;
 
   if (generator->priv->root != NULL)
     {

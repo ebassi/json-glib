@@ -50,7 +50,7 @@ typedef struct _JsonSerializableIface   JsonSerializableIface;
  * @set_property: virtual function for setting a property
  * @get_property: virtual function for getting a property
  *
- * Interface that allows serializing and deserializing #GObject<!-- -->s
+ * Interface that allows serializing and deserializing #GObject instances
  * with properties storing complex data types. The json_serialize_gobject()
  * function will check if the passed #GObject implements this interface,
  * so it can also be used to override the default property serialization
