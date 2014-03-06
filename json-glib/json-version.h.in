@@ -67,20 +67,22 @@
 /**
  * JSON_VERSION_S:
  *
- * Json version, encoded as a string, useful for printing and
+ * JSON-GLib version, encoded as a string, useful for printing and
  * concatenation.
  */
 #define JSON_VERSION_S                  "@JSON_VERSION@"
 
+#define JSON_ENCODE_VERSION(major,minor,micro) \
+        ((major) << 24 | (minor) << 16 | (micro) << 8)
+
 /**
  * JSON_VERSION_HEX:
  *
- * Json version, encoded as an hexadecimal number, useful for
+ * JSON-GLib version, encoded as an hexadecimal number, useful for
  * integer comparisons.
  */
-#define JSON_VERSION_HEX                (JSON_MAJOR_VERSION << 24 | \
-                                         JSON_MINOR_VERSION << 16 | \
-                                         JSON_MICRO_VERSION << 8)
+#define JSON_VERSION_HEX \
+        (JSON_ENCODE_VERSION (JSON_MAJOR_VERSION, JSON_MINOR_VERSION, JSON_MICRO_VERSION))
 
 /**
  * JSON_CHECK_VERSION:
