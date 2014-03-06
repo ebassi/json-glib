@@ -14,23 +14,6 @@ bin_PROGRAMS =
 SUBDIRS = . tests
 
 # main library
-AM_CPPFLAGS += \
-	-DPREFIX=\""$(prefix)"\" 		\
-	-DLIBDIR=\""$(libdir)"\" 		\
-	-DJSON_LOCALEDIR=\""$(localedir)"\" 	\
-	-DJSON_COMPILATION=1			\
-	-DG_LOG_DOMAIN=\"Json\" 		\
-	-I$(top_srcdir) 			\
-	-I$(top_builddir) 			\
-	$(JSON_DEBUG_CFLAGS) 			\
-	$(NULL)
-
-AM_CFLAGS += \
-	$(JSON_CFLAGS) \
-	$(MAINTAINER_CFLAGS) \
-	$(JSON_GCOV_CFLAGS) \
-	$(NULL)
-
 source_h = \
 	$(top_srcdir)/json-glib/json-builder.h		\
 	$(top_srcdir)/json-glib/json-generator.h 	\
@@ -40,6 +23,7 @@ source_h = \
 	$(top_srcdir)/json-glib/json-path.h		\
 	$(top_srcdir)/json-glib/json-reader.h		\
 	$(top_srcdir)/json-glib/json-types.h 		\
+	$(top_srcdir)/json-glib/json-version-macros.h	\
 	$(NULL)
 
 source_h_private = \
@@ -82,11 +66,20 @@ include $(top_srcdir)/build/autotools/Makefile.am.marshal
 
 lib_LTLIBRARIES += libjson-glib-1.0.la
 
+libjson_glib_1_0_la_CPPFLAGS = \
+	-DPREFIX=\""$(prefix)"\" \
+	-DLIBDIR=\""$(libdir)"\" \
+	-DJSON_LOCALEDIR=\""$(localedir)"\" \
+	-DJSON_COMPILATION=1 \
+	-DG_LOG_DOMAIN=\"Json\" \
+	-I$(top_srcdir) \
+	-I$(top_builddir) \
+	$(JSON_DEBUG_CFLAGS) \
+	$(NULL)
+libjson_glib_1_0_la_CFLAGS = $(JSON_CFLAGS) $(JSON_HIDDEN_VISIBILITY_CFLAG) $(MAINTAINER_CFLAGS) $(JSON_GCOV_CFLAGS)
 libjson_glib_1_0_la_LIBADD = $(JSON_LIBS)
 libjson_glib_1_0_la_SOURCES = $(source_c) $(source_h) $(source_h_private) $(BUILT_SOURCES)
-libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-symbols $(top_srcdir)/json-glib/json-glib.symbols
-
-EXTRA_DIST += json-glib.symbols
+libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-dynamic
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
@@ -108,20 +101,16 @@ pkgconfigdir = $(libdir)/pkgconfig
 CLEANFILES += $(pcfiles)
 EXTRA_DIST += json-glib.pc.in
 
-TESTS_ENVIRONMENT = srcdir="$(srcdir)" json_all_c_sources="$(source_c)"
-
-if OS_LINUX
-TESTS = abicheck.sh
-endif
-
-EXTRA_DIST += abicheck.sh
-
 # tools
 bin_PROGRAMS += json-glib-validate
+json_glib_validate_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir) -DJSON_LOCALEDIR=\""$(localedir)"\"
+json_glib_validate_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 json_glib_validate_SOURCES = json-glib-validate.c
 json_glib_validate_LDADD = $(JSON_LIBS) libjson-glib-1.0.la
 
 bin_PROGRAMS += json-glib-format
+json_glib_format_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir) -DJSON_LOCALEDIR=\""$(localedir)"\"
+json_glib_format_CFLAGS = $(JSON_CFLAGS) $(MAINTAINER_CFLAGS)
 json_glib_format_SOURCES = json-glib-format.c
 json_glib_format_LDADD = $(JSON_LIBS) libjson-glib-1.0.la
 
@@ -137,7 +126,7 @@ Json_1_0_gir_NAMESPACE = Json
 Json_1_0_gir_VERSION = 1.0
 Json_1_0_gir_LIBS = libjson-glib-1.0.la
 Json_1_0_gir_FILES = $(source_h) $(source_c)
-Json_1_0_gir_CFLAGS = $(AM_CPPFLAGS) $(JSON_CFLAGS)
+Json_1_0_gir_CFLAGS = -DJSON_COMPILATION=1 -I$(top_srcdir) -I$(top_builddir) $(JSON_CFLAGS)
 Json_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
 Json_1_0_gir_SCANNERFLAGS = --warn-all --pkg-export json-glib-1.0 --c-include "json-glib/json-glib.h"
 

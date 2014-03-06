@@ -28,7 +28,6 @@
 #error "Only <json-glib/json-glib.h> can be included directly."
 #endif
 
-#include <glib-object.h>
 #include <gio/gio.h>
 #include <json-glib/json-types.h>
 
@@ -141,34 +140,46 @@ struct _JsonParserClass
   void (* _json_reserved8) (void);
 };
 
+JSON_AVAILABLE_IN_1_0
 GQuark json_parser_error_quark (void);
+JSON_AVAILABLE_IN_1_0
 GType json_parser_get_type (void) G_GNUC_CONST;
 
+JSON_AVAILABLE_IN_1_0
 JsonParser *json_parser_new                     (void);
+JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_load_from_file          (JsonParser           *parser,
                                                  const gchar          *filename,
                                                  GError              **error);
+JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_load_from_data          (JsonParser           *parser,
                                                  const gchar          *data,
                                                  gssize                length,
                                                  GError              **error);
+JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_load_from_stream        (JsonParser           *parser,
                                                  GInputStream         *stream,
                                                  GCancellable         *cancellable,
                                                  GError              **error);
+JSON_AVAILABLE_IN_1_0
 void        json_parser_load_from_stream_async  (JsonParser           *parser,
                                                  GInputStream         *stream,
                                                  GCancellable         *cancellable,
                                                  GAsyncReadyCallback   callback,
                                                  gpointer              user_data);
+JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_load_from_stream_finish (JsonParser           *parser,
                                                  GAsyncResult         *result,
                                                  GError              **error);
 
+JSON_AVAILABLE_IN_1_0
 JsonNode *  json_parser_get_root                (JsonParser           *parser);
 
+JSON_AVAILABLE_IN_1_0
 guint       json_parser_get_current_line        (JsonParser           *parser);
+JSON_AVAILABLE_IN_1_0
 guint       json_parser_get_current_pos         (JsonParser           *parser);
+JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_has_assignment          (JsonParser           *parser,
                                                  gchar               **variable_name);
 

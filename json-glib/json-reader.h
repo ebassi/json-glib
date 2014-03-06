@@ -112,36 +112,58 @@ struct _JsonReaderClass
   void (*_json_padding4) (void);
 };
 
+JSON_AVAILABLE_IN_1_0
 GQuark json_reader_error_quark (void);
+JSON_AVAILABLE_IN_1_0
 GType json_reader_get_type (void) G_GNUC_CONST;
 
+JSON_AVAILABLE_IN_1_0
 JsonReader *           json_reader_new               (JsonNode     *node);
 
+JSON_AVAILABLE_IN_1_0
 void                   json_reader_set_root          (JsonReader   *reader,
                                                       JsonNode     *root);
 
+JSON_AVAILABLE_IN_1_0
 const GError *         json_reader_get_error         (JsonReader   *reader);
 
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_is_array          (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_read_element      (JsonReader   *reader,
                                                       guint         index_);
+JSON_AVAILABLE_IN_1_0
 void                   json_reader_end_element       (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gint                   json_reader_count_elements    (JsonReader   *reader);
 
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_is_object         (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_read_member       (JsonReader   *reader,
                                                       const gchar  *member_name);
+JSON_AVAILABLE_IN_1_0
 void                   json_reader_end_member        (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gint                   json_reader_count_members     (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gchar **               json_reader_list_members      (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 const gchar *          json_reader_get_member_name   (JsonReader   *reader);
 
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_is_value          (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 JsonNode *             json_reader_get_value         (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gint64                 json_reader_get_int_value     (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gdouble                json_reader_get_double_value  (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 const gchar *          json_reader_get_string_value  (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_get_boolean_value (JsonReader   *reader);
+JSON_AVAILABLE_IN_1_0
 gboolean               json_reader_get_null_value    (JsonReader   *reader);
 
 G_END_DECLS

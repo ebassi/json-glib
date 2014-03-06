@@ -119,6 +119,37 @@ JSON_LT_LDFLAGS="$JSON_LT_LDFLAGS $JSON_LINK_FLAGS"
 
 AC_SUBST(JSON_LT_LDFLAGS)
 
+dnl === Visibility ============================================================
+
+JSON_HIDDEN_VISIBILITY_CFLAGS=""
+case "$host" in
+  *-*-mingw*)
+    dnl on mingw32 we do -fvisibility=hidden and __declspec(dllexport)
+    AC_DEFINE([_JSON_EXTERN], [__attribute__((visibility("default"))) __declspec(dllexport) extern],
+              [defines how to decorate public symbols while building])
+    CFLAGS="${CFLAGS} -fvisibility=hidden"
+    ;;
+  *)
+    dnl on other compilers, check if we can do -fvisibility=hidden
+    SAVED_CFLAGS="${CFLAGS}"
+    CFLAGS="-fvisibility=hidden"
+    AC_MSG_CHECKING([for -fvisibility=hidden compiler flag])
+    AC_TRY_COMPILE([], [int main (void) { return 0; }],
+                   AC_MSG_RESULT(yes)
+                   enable_fvisibility_hidden=yes,
+                   AC_MSG_RESULT(no)
+                   enable_fvisibility_hidden=no)
+    CFLAGS="${SAVED_CFLAGS}"
+
+    AS_IF([test "${enable_fvisibility_hidden}" = "yes"], [
+      AC_DEFINE([_JSON_EXTERN], [__attribute__((visibility("default"))) extern],
+                [defines how to decorate public symbols while building])
+      JSON_HIDDEN_VISIBILITY_CFLAGS="-fvisibility=hidden"
+    ])
+    ;;
+esac
+AC_SUBST(JSON_HIDDEN_VISIBILITY_CFLAGS)
+
 dnl === Dependencies ==========================================================
 
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"

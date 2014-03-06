@@ -76,17 +76,23 @@ typedef struct _JsonPath        JsonPath;
  */
 typedef struct _JsonPathClass   JsonPathClass;
 
+JSON_AVAILABLE_IN_1_0
 GType json_path_get_type (void) G_GNUC_CONST;
+JSON_AVAILABLE_IN_1_0
 GQuark json_path_error_quark (void);
 
+JSON_AVAILABLE_IN_1_0
 JsonPath *      json_path_new           (void);
 
+JSON_AVAILABLE_IN_1_0
 gboolean        json_path_compile       (JsonPath    *path,
                                          const char  *expression,
                                          GError     **error);
+JSON_AVAILABLE_IN_1_0
 JsonNode *      json_path_match         (JsonPath    *path,
                                          JsonNode    *root);
 
+JSON_AVAILABLE_IN_1_0
 JsonNode *      json_path_query         (const char  *expression,
                                          JsonNode    *root,
                                          GError     **error);

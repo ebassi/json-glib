@@ -32,13 +32,17 @@
 
 G_BEGIN_DECLS
 
+JSON_AVAILABLE_IN_1_0
 JsonNode * json_gvariant_serialize        (GVariant *variant);
+JSON_AVAILABLE_IN_1_0
 gchar *    json_gvariant_serialize_data   (GVariant *variant,
                                            gsize    *length);
 
+JSON_AVAILABLE_IN_1_0
 GVariant * json_gvariant_deserialize      (JsonNode     *json_node,
                                            const gchar  *signature,
                                            GError      **error);
+JSON_AVAILABLE_IN_1_0
 GVariant * json_gvariant_deserialize_data (const gchar  *json,
                                            gssize        length,
                                            const gchar  *signature,
