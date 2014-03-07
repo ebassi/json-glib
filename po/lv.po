@@ -2,14 +2,14 @@
 # Copyright (C) 2012 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2013.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-15 01:00+0000\n"
-"PO-Revision-Date: 2013-03-17 20:23+0200\n"
+"POT-Creation-Date: 2014-03-07 10:18+0000\n"
+"PO-Revision-Date: 2014-03-07 16:52+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -18,112 +18,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: ../json-glib/json-gobject.c:925
+#: ../json-glib/json-glib-format.c:50
+msgid "Prettify output"
+msgstr "Izskaistināt izvadi"
+
+#: ../json-glib/json-glib-format.c:51
+msgid "Indentation spaces"
+msgstr "Atkāpes atstarpes"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
+#, c-format
+msgid "%s: %s: error opening file: %s\n"
+msgstr "%s: %s: kļūda, atverot datni: %s\n"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
+#, c-format
+msgid "%s: %s: error parsing file: %s\n"
+msgstr "%s: %s: kļūda, parsējot datni: %s\n"
+
+#. Translators: the first %s is the program name, the
+#. * second one is the URI of the file.
+#.
+#: ../json-glib/json-glib-format.c:108
+#, c-format
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s, kļūda, rakstot uz stdout"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
+#, c-format
+msgid "%s: %s: error closing: %s\n"
+msgstr "%s: %s: kļūda aizverot: %s\n"
+
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
+msgid "FILE"
+msgstr "DATNE"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-format.c:160
+msgid "Format JSON files."
+msgstr "Formatēt JSON datnes."
+
+#: ../json-glib/json-glib-format.c:161
+msgid "json-glib-format formats JSON resources."
+msgstr "json-glib-format formatē JSON resursus."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "Kļūda, parsējot komandrindas opcijas — %s\n"
+
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "Lietojiet “%s --help”, lai uzzinātu vairāk."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
+#, c-format
+msgid "%s: missing files"
+msgstr "%s: iztrūkstošas datnes"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-validate.c:118
+msgid "Validate JSON files."
+msgstr "Pārbaudīt JSON datnes."
+
+#: ../json-glib/json-glib-validate.c:119
+msgid "json-glib-validate validates JSON data at the given URI."
+msgstr "json-glib-validate pārbauda JSON datus dotajā URI."
+
+#: ../json-glib/json-gobject.c:917
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Gaidīja JSON objektu, bet saknes mezglam ir tips “%s”"
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Negaidīts tips “%s” JSON mezglā"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "JSON masīvā trūkst elementu, lai tas atbilstu kortežam"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "GVariant korteža tipā trūkst aizverošā simbola “%s”"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
 msgstr "JSON masīvā ir negaidīti papildu elementi"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "Pārveidojot uz GVariant, nederīga virknes vērtība"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
 "GVariant vārdnīcas ieraksts gaidīja JSON objektu ar tieši vienu locekli"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "GVariant klase “%c” nav atbalstīta"
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "Nederīgs GVariant paraksts"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "JSON dati ir tukši"
 
-#: ../json-glib/json-parser.c:825
+#: ../json-glib/json-parser.c:817
 #, c-format
-#| msgid "%s:%d: Parse error: %s"
 msgid "%s:%d:%d: Parse error: %s"
 msgstr "%s:%d:%d: parsēšanas kļūda — %s"
 
-#: ../json-glib/json-path.c:375
+#: ../json-glib/json-parser.c:885
+msgid "JSON data must be UTF-8 encoded"
+msgstr "JSON datiem ir jābūt UTF-8 kodējumā"
+
+#: ../json-glib/json-path.c:438
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "JSONPath izteiksmē ir atļauta tikai viens saknes mezgls"
 
-#: ../json-glib/json-path.c:384
+#: ../json-glib/json-path.c:447
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "Pēc saknes mezgla seko nederīga rakstzīme “%c”"
 
-#: ../json-glib/json-path.c:490
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "Trūkst locekļa nosaukums vai aizstājējzīme pēc . rakstzīmes"
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Slikti formēta gabala izteiksme “%*s”"
 
-#: ../json-glib/json-path.c:534
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Nederīga kopas definīcija “%*s”"
 
-#: ../json-glib/json-path.c:587
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Nederīga gabala definīcija “%*s”"
 
-#: ../json-glib/json-path.c:615
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Nederīga masīva indeksa definīcija “%*s”"
 
-#: ../json-glib/json-reader.c:464
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Nederīga pirmā rakstzīme “%c”"
+
+#: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr "Pašreizējam mezglam ir tips “%s”, bet tika gaidīts masīvs vai objekts."
 
-#: ../json-glib/json-reader.c:476
+#: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr "Indekss “%d” dotajā pozīcijā ir lielāks kā masīva izmērs."
 
-#: ../json-glib/json-reader.c:493
+#: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "Indekss “%d” dotajā pozīcijā ir lielāks kā objekta izmērs."
 
-#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:730
-#: ../json-glib/json-reader.c:781 ../json-glib/json-reader.c:819
-#: ../json-glib/json-reader.c:857 ../json-glib/json-reader.c:895
-#: ../json-glib/json-reader.c:933 ../json-glib/json-reader.c:978
-#: ../json-glib/json-reader.c:1014 ../json-glib/json-reader.c:1040
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:731
+#: ../json-glib/json-reader.c:782 ../json-glib/json-reader.c:820
+#: ../json-glib/json-reader.c:858 ../json-glib/json-reader.c:896
+#: ../json-glib/json-reader.c:934 ../json-glib/json-reader.c:979
+#: ../json-glib/json-reader.c:1015 ../json-glib/json-reader.c:1041
 msgid "No node available at the current position"
 msgstr "Šajā pozīcija nav pieejams neviens mezgls"
 
@@ -142,19 +242,19 @@ msgstr "Pašreizējam mezglam ir tips “%s”, bet tika gaidīts objekts."
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Šajā pozīcijā objektā loceklis “%s” nav definēts."
 
-#: ../json-glib/json-reader.c:737 ../json-glib/json-reader.c:788
+#: ../json-glib/json-reader.c:738 ../json-glib/json-reader.c:789
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Šajā pozīcijā ir “%s”, nevis objekts"
 
-#: ../json-glib/json-reader.c:828 ../json-glib/json-reader.c:866
-#: ../json-glib/json-reader.c:904 ../json-glib/json-reader.c:942
-#: ../json-glib/json-reader.c:987
+#: ../json-glib/json-reader.c:829 ../json-glib/json-reader.c:867
+#: ../json-glib/json-reader.c:905 ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:988
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Šajā pozīcijā ir “%s”, nevis vērtība"
 
-#: ../json-glib/json-reader.c:950
+#: ../json-glib/json-reader.c:951
 msgid "The current position does not hold a string type"
 msgstr "Šajā pozīcijā nav virknes tipa"
 
