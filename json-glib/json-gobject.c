@@ -553,6 +553,30 @@ json_deserialize_pspec (GValue     *value,
 	    }
           break;
 
+        case G_TYPE_LONG:
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_long (value, (glong) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
+          break;
+
+        case G_TYPE_ULONG:
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_ulong (value, (gulong) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
+          break;
+
+        case G_TYPE_UINT64:
+	  if (G_VALUE_HOLDS (&node_value, G_TYPE_INT64))
+	    {
+	      g_value_set_uint64 (value, (guint64) g_value_get_int64 (&node_value));
+	      retval = TRUE;
+	    }
+          break;
+
         case G_TYPE_DOUBLE:
 
 	  if (G_VALUE_HOLDS (&node_value, G_TYPE_DOUBLE))
@@ -693,6 +717,10 @@ json_serialize_pspec (const GValue *real_value,
 
     case G_TYPE_ULONG:
       retval = json_node_init_int (json_node_alloc (), g_value_get_ulong (real_value));
+      break;
+
+    case G_TYPE_UINT64:
+      retval = json_node_init_int (json_node_alloc (), g_value_get_uint64 (real_value));
       break;
 
     case G_TYPE_FLOAT:
