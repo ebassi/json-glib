@@ -1,15 +1,15 @@
 # Korean translation for json-glib.
 # Copyright (C) 2012 Seong-ho Cho et al.
 # This file is distributed under the same license as the json-glib package.
-# Seong-ho Cho <darkcircle.0426@gmail.com>, 2012, 2013.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-19 21:36+0000\n"
-"PO-Revision-Date: 2013-03-20 17:04+0900\n"
+"POT-Creation-Date: 2014-03-16 10:16+0000\n"
+"PO-Revision-Date: 2014-03-15 02:04+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -19,139 +19,240 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: ../json-glib/json-gobject.c:925
+#: ../json-glib/json-glib-format.c:50
+msgid "Prettify output"
+msgstr "출력 정돈"
+
+#: ../json-glib/json-glib-format.c:51
+msgid "Indentation spaces"
+msgstr "들여쓰기 공백"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
+#, c-format
+msgid "%s: %s: error opening file: %s\n"
+msgstr "%s: %s: 파일 여는 중 오류: %s\n"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
+#, c-format
+msgid "%s: %s: error parsing file: %s\n"
+msgstr "%s: %s: 파일 해석 중 오류: %s\n"
+
+#. Translators: the first %s is the program name, the
+#. * second one is the URI of the file.
+#.
+#: ../json-glib/json-glib-format.c:108
+#, c-format
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s: 표준 출력 쓰는 중 오류"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
+#, c-format
+msgid "%s: %s: error closing: %s\n"
+msgstr "%s: %s: 닫는 중 오류: %s\n"
+
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
+msgid "FILE"
+msgstr "<파일>"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-format.c:160
+msgid "Format JSON files."
+msgstr "JSON 파일의 코드를 정렬합니다."
+
+#: ../json-glib/json-glib-format.c:161
+msgid "json-glib-format formats JSON resources."
+msgstr "json-glib-format이 JSON 자료 코드를 정렬합니다."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "명령줄 옵션 해석 중 오류: %s\n"
+
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "더 많은 내용은 \"%s --help\"를 실행하십시오."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
+#, c-format
+msgid "%s: missing files"
+msgstr "%s: 파일이 빠졌습니다"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-validate.c:118
+msgid "Validate JSON files."
+msgstr "JSON 파일을 검증합니다."
+
+#: ../json-glib/json-glib-validate.c:119
+msgid "json-glib-validate validates JSON data at the given URI."
+msgstr "json-glib-validate는 주어진 URI의 JSON 데이터를 검증합니다."
+
+#: ../json-glib/json-gobject.c:917
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
-msgstr "JSON 객체를 예상했지만 최상위 노드는 `%s' 형식을 지니고 있습니다"
+msgstr "JSON 객체를 예상했지만 최상위 노드는 `%s' 형식입니다"
 
-#: ../json-glib/json-gvariant.c:540
+#: ../json-glib/json-gvariant.c:545
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
-msgstr "JSON 노드에서 예상치 못한 '%s' 형식입니다"
+msgstr "JSON 노드에 예상치 못한 '%s' 형식이 있습니다"
 
-#: ../json-glib/json-gvariant.c:610
+#: ../json-glib/json-gvariant.c:615
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "튜플에 따르기 위한 JSON 배열의 요소가 빠졌습니다"
 
-#: ../json-glib/json-gvariant.c:638
+#: ../json-glib/json-gvariant.c:643
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "GVariant 튜플 형식에서 ')' 닫음 심볼이 빠졌습니다"
 
-#: ../json-glib/json-gvariant.c:646
+#: ../json-glib/json-gvariant.c:651
 msgid "Unexpected extra elements in JSON array"
-msgstr "JSON 배열에 예기치 못한 추가 요소가 있습니다"
+msgstr "JSON 배열에 예상치 못한 추가 요소가 있습니다"
 
-#: ../json-glib/json-gvariant.c:925
+#: ../json-glib/json-gvariant.c:930
 msgid "Invalid string value converting to GVariant"
 msgstr "GVariant로 변환하려는 문자열 값이 잘못되었습니다"
 
-#: ../json-glib/json-gvariant.c:981
+#: ../json-glib/json-gvariant.c:986
 msgid ""
 "A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr ""
 "GVariant 딕셔너리 항목은 정확히 하나의 요소를 가진 JSON 객체를 요구합니다"
 
-#: ../json-glib/json-gvariant.c:1237
+#: ../json-glib/json-gvariant.c:1266
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "GVariant '%c' 클래스를 지원하지 않습니다"
 
-#: ../json-glib/json-gvariant.c:1285
+#: ../json-glib/json-gvariant.c:1314
 msgid "Invalid GVariant signature"
 msgstr "잘못된 GVariant 서명입니다"
 
-#: ../json-glib/json-gvariant.c:1333
+#: ../json-glib/json-gvariant.c:1362
 msgid "JSON data is empty"
 msgstr "JSON 데이터가 비었습니다"
 
-#: ../json-glib/json-parser.c:825
+#: ../json-glib/json-parser.c:817
 #, c-format
 msgid "%s:%d:%d: Parse error: %s"
 msgstr "%s:%d:%d: 해석 오류: %s"
 
-#: ../json-glib/json-path.c:375
+#: ../json-glib/json-parser.c:885
+msgid "JSON data must be UTF-8 encoded"
+msgstr "JSON 데이터는 UTF-8로 인코딩해야 합니다"
+
+#: ../json-glib/json-path.c:438
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "JSONPath 표현식에서는 단 하나만의 최상위 노드를 허용합니다"
 
-#: ../json-glib/json-path.c:384
+#: ../json-glib/json-path.c:447
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "최상위 노드에 잘못된 '%c' 문자가 따라옵니다"
 
-#: ../json-glib/json-path.c:490
+#: ../json-glib/json-path.c:487
+msgid "Missing member name or wildcard after . character"
+msgstr "멤버 이름 또는 구두점 문자 다음 와일드카드가 빠졌습니다"
+
+#: ../json-glib/json-path.c:561
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "잘못된 분배 표현식 '%*s'"
 
-#: ../json-glib/json-path.c:534
+#: ../json-glib/json-path.c:605
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "잘못된 셋 정의 '%*s'"
 
-#: ../json-glib/json-path.c:587
+#: ../json-glib/json-path.c:658
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "잘못된 분배 정의 '%*s'"
 
-#: ../json-glib/json-path.c:615
+#: ../json-glib/json-path.c:686
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "잘못된 배열 인덱스 정의 '%*s'"
 
-#: ../json-glib/json-reader.c:464
+#: ../json-glib/json-path.c:705
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "잘못된 첫번째 문자 '%c'"
+
+#: ../json-glib/json-reader.c:463
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
-msgstr "현재 노드는 '%s' 형식을 지니고 있지만, 배열 또는 객체를 요구합니다."
+msgstr "현재 노드는 '%s' 형식 이지만, 배열 또는 객체를 요구합니다."
 
-#: ../json-glib/json-reader.c:476
+#: ../json-glib/json-reader.c:475
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
-msgstr "현재 위치의 '%d'번 인덱스는 배열의 크기보다 큽니다."
+msgstr "현재 위치의 인덱스 '%d'번은 배열의 크기보다 큽니다."
 
-#: ../json-glib/json-reader.c:493
+#: ../json-glib/json-reader.c:492
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
 "position."
 msgstr "현재 위치의 '%d'번 인덱스는 객체의 크기보다 큽니다."
 
-#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:730
-#: ../json-glib/json-reader.c:781 ../json-glib/json-reader.c:819
-#: ../json-glib/json-reader.c:857 ../json-glib/json-reader.c:895
-#: ../json-glib/json-reader.c:933 ../json-glib/json-reader.c:978
-#: ../json-glib/json-reader.c:1014 ../json-glib/json-reader.c:1040
+#: ../json-glib/json-reader.c:577 ../json-glib/json-reader.c:731
+#: ../json-glib/json-reader.c:782 ../json-glib/json-reader.c:820
+#: ../json-glib/json-reader.c:858 ../json-glib/json-reader.c:896
+#: ../json-glib/json-reader.c:934 ../json-glib/json-reader.c:979
+#: ../json-glib/json-reader.c:1015 ../json-glib/json-reader.c:1041
 msgid "No node available at the current position"
 msgstr "현재 위치에 노드가 없습니다"
 
 #: ../json-glib/json-reader.c:584
 #, c-format
 msgid "The current position holds a '%s' and not an array"
-msgstr "현재 위치에 '%s'이(가) 있으며, 배열이 아닙니다"
+msgstr "현재 위치에 배열이 아닌 '%s'이(가) 있습니다"
 
 #: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
-msgstr "현재 노드는 '%s' 형식을 지니고 있지만 객체를 요구합니다."
+msgstr "현재 노드는 '%s' 형식이지만 객체를 요구합니다."
 
 #: ../json-glib/json-reader.c:654
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
-msgstr "현재 위치의 '%s' 구성원을 객체에 정의하지 않았습니다."
+msgstr "현재 위치 객체에 '%s' 구성원을 정의하지 않았습니다."
 
-#: ../json-glib/json-reader.c:737 ../json-glib/json-reader.c:788
+#: ../json-glib/json-reader.c:738 ../json-glib/json-reader.c:789
 #, c-format
 msgid "The current position holds a '%s' and not an object"
-msgstr "현재 위치에 '%s'을(를) 지니고 있으며 객체가 아닙니다"
+msgstr "현재 위치에 객체가 아닌 '%s'이(가) 있습니다"
 
-#: ../json-glib/json-reader.c:828 ../json-glib/json-reader.c:866
-#: ../json-glib/json-reader.c:904 ../json-glib/json-reader.c:942
-#: ../json-glib/json-reader.c:987
+#: ../json-glib/json-reader.c:829 ../json-glib/json-reader.c:867
+#: ../json-glib/json-reader.c:905 ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:988
 #, c-format
 msgid "The current position holds a '%s' and not a value"
-msgstr "현재 위치에 '%s'을(를) 지니고 있으며 값이 아닙니다"
+msgstr "현재 위치에 값이 아닌 '%s'이(가) 있습니다"
 
-#: ../json-glib/json-reader.c:950
+#: ../json-glib/json-reader.c:951
 msgid "The current position does not hold a string type"
-msgstr "현재 위치에서 문자열 값을 지니고 있지 않습니다"
+msgstr "현재 위치에 문자열 값이 없습니다"
