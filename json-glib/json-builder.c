@@ -37,9 +37,7 @@
  * most of functions, making it easy to chain function calls.
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include <stdlib.h>
 #include <string.h>

@@ -61,18 +61,14 @@
  * #JsonReader is available since JSON-GLib 0.12.
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include <string.h>
 
 #include <glib/gi18n-lib.h>
 
 #include "json-reader.h"
-
 #include "json-types-private.h"
-
 #include "json-debug.h"
 
 #define json_reader_return_if_error_set(r)      G_STMT_START {  \
