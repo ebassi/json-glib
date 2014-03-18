@@ -6,7 +6,9 @@ AM_CPPFLAGS = \
 	$(JSON_DEBUG_CFLAGS) \
 	-DG_LOG_DOMAIN=\"Json\" \
 	-I$(top_srcdir)	\
+	-I$(top_builddir) \
 	-I$(top_srcdir)/json-glib \
+	-I$(top_builddir)/json-glib \
 	$(NULL)
 
 dist_test_data = \
