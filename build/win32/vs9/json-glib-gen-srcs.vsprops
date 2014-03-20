@@ -9,11 +9,4 @@
 		Name="CopyConfigH"
 		Value="copy ..\config.h.win32 ..\..\..\config.h"
 	/>
-	<UserMacro
-		Name="JsonGlibGenerateDef"
-		Value="
-echo EXPORTS &gt;$(DefDir)\json-glib.def&#x0D;&#x0A;
-cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;$(DefDir)\json-glib.def
-		      "
-	/>
 </VisualStudioPropertySheet>

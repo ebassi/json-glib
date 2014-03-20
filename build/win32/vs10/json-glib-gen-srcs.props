@@ -5,10 +5,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <CopyConfigH>copy ..\config.h.win32 ..\..\..\config.h</CopyConfigH>
-    <JsonGlibGenerateDef>
-echo EXPORTS &gt;$(DefDir)\json-glib.def
-cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;$(DefDir)\json-glib.def
-    </JsonGlibGenerateDef>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibgensrcsprops</_PropertySheetDisplayName>
@@ -16,9 +12,6 @@ cl /EP ..\..\..\json-glib\json-glib.symbols &gt;&gt;$(DefDir)\json-glib.def
   <ItemGroup>
     <BuildMacro Include="CopyConfigH">
       <Value>$(CopyConfigH)</Value>
-    </BuildMacro>
-    <BuildMacro Include="JsonGlibGenerateDef">
-      <Value>$(JsonGlibGenerateDef)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

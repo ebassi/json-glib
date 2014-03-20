@@ -19,6 +19,5 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\config.h.win32"><Filter>Resource Files</Filter></CustomBuild>
-    <CustomBuild Include="..\..\..\json-glib\json-glib.symbols"><Filter>Resource Files</Filter></CustomBuild>
   </ItemGroup>
 </Project>

@@ -91,3 +91,10 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
+
+/* defines how to decorate public symbols while building */
+#ifdef _MSC_VER
+#define _JSON_EXTERN __declspec(dllexport) extern
+#else
+#define _JSON_EXTERN __attribute__((visibility("default"))) __declspec(dllexport) extern
+#endif
