@@ -11,7 +11,8 @@ import optparse
 def gen_jsonglib_filelist(srcroot, subdir, dest):
     vars = read_vars_from_AM(os.path.join(srcroot, subdir, 'Makefile.am'),
                              vars = {'srcdir':'../json-glib',
-                                     'top_srcdir':'..'},
+                                     'top_srcdir':'..',
+                                     'top_builddir':'..'},
                              conds = {'HAVE_INTROSPECTION':True},
                              filters = ['Json_1_0_gir_FILES'])
 
