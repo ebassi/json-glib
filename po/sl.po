@@ -1,163 +1,260 @@
-# Slovenian translations for nemiver.
 # Slovenian translation for json-glib.
 # Copyright (C) 2011 json-glib's COPYRIGHT HOLDER
 # This file is distributed under the same license as the json-glib package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011.
+# Matej Urbančič <mateju@svn.gnome.org>, 2011-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: json-glib master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-10-25 17:15+0000\n"
-"PO-Revision-Date: 2012-10-25 19:20+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-03-31 09:49+0000\n"
+"PO-Revision-Date: 2014-04-03 20:37+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
+"Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
-"X-Poedit-Country: SLOVENIA\n"
-"X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ../json-glib/json-gobject.c:934
+#: ../json-glib/json-glib-format.c:50
+msgid "Prettify output"
+msgstr "Olepšaj odvod"
+
+#: ../json-glib/json-glib-format.c:51
+msgid "Indentation spaces"
+msgstr "Presledki zamika"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
+#, c-format
+msgid "%s: %s: error opening file: %s\n"
+msgstr "%s: %s: napaka odpiranja datoteke: %s\n"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
+#, c-format
+msgid "%s: %s: error parsing file: %s\n"
+msgstr "%s: %s: napaka razčlenjevanja datoteke: %s\n"
+
+#. Translators: the first %s is the program name, the
+#. * second one is the URI of the file.
+#.
+#: ../json-glib/json-glib-format.c:108
+#, c-format
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s: napaka pisanja na standardni odvod"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
+#, c-format
+msgid "%s: %s: error closing: %s\n"
+msgstr "%s: %s: napaka zapiranja: %s\n"
+
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
+msgid "FILE"
+msgstr "DATOTEKA"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-format.c:160
+msgid "Format JSON files."
+msgstr "Oblikuj datoteke JSON."
+
+#: ../json-glib/json-glib-format.c:161
+msgid "json-glib-format formats JSON resources."
+msgstr "Možnost json-glib-format oblikuje zapis virov JSON."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "Napaka med razčlenjevanjem možnosti ukazne vrstice: %s\n"
+
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "Poskusite \"%s --help\" za več podrobnosti."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
+#, c-format
+msgid "%s: missing files"
+msgstr "%s: manjkajoče datoteke"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-validate.c:118
+msgid "Validate JSON files."
+msgstr "Overi datoteke JSON."
+
+#: ../json-glib/json-glib-validate.c:119
+msgid "json-glib-validate validates JSON data at the given URI."
+msgstr "Možnost json-glib-validate overi podatke JSON za podani naslov URI."
+
+#: ../json-glib/json-gobject.c:915
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
 msgstr "Pričakovan je predmet JSON, vendar pa je korensko vozlišče vrste `%s'"
 
-#: ../json-glib/json-gvariant.c:539
+#: ../json-glib/json-gvariant.c:523
 #, c-format
 msgid "Unexpected type '%s' in JSON node"
 msgstr "Nepričakovana vrsta '%s' v vozlišču JSON"
 
-#: ../json-glib/json-gvariant.c:609
+#: ../json-glib/json-gvariant.c:593
 msgid "Missing elements in JSON array to conform to a tuple"
 msgstr "Manjkajo predmeti v polju JSON za skladnost z n-terico."
 
-#: ../json-glib/json-gvariant.c:637
+#: ../json-glib/json-gvariant.c:621
 msgid "Missing closing symbol ')' in the GVariant tuple type"
 msgstr "Manjka zaključni znak ')' v vrsti n-terice GVariant"
 
-#: ../json-glib/json-gvariant.c:645
+#: ../json-glib/json-gvariant.c:629
 msgid "Unexpected extra elements in JSON array"
 msgstr "Nepričakovan dodatni predmet polja JSON"
 
-#: ../json-glib/json-gvariant.c:924
+#: ../json-glib/json-gvariant.c:908
 msgid "Invalid string value converting to GVariant"
 msgstr "Neveljavna vrednost niza med pretvarjanjem v GVariant"
 
-#: ../json-glib/json-gvariant.c:980
-msgid "A GVariant dictionary entry expects a JSON object with exactly one member"
+#: ../json-glib/json-gvariant.c:964
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
 msgstr "Slovar GVariant pričakuje predmet JSON z natanko enim določilom"
 
-#: ../json-glib/json-gvariant.c:1236
+#: ../json-glib/json-gvariant.c:1244
 #, c-format
 msgid "GVariant class '%c' not supported"
 msgstr "Razred GVariant '%c' ni podprt."
 
-#: ../json-glib/json-gvariant.c:1281
+#: ../json-glib/json-gvariant.c:1292
 msgid "Invalid GVariant signature"
 msgstr "Neveljaven podpis GVariant"
 
-#: ../json-glib/json-gvariant.c:1326
+#: ../json-glib/json-gvariant.c:1340
 msgid "JSON data is empty"
 msgstr "Podatki JSON so prazni"
 
-#: ../json-glib/json-parser.c:810
+#: ../json-glib/json-parser.c:815
 #, c-format
 msgid "%s:%d:%d: Parse error: %s"
 msgstr "%s:%d:%d: napaka razčlenjevanje: %s"
 
-#: ../json-glib/json-path.c:375
+#: ../json-glib/json-parser.c:883
+msgid "JSON data must be UTF-8 encoded"
+msgstr "Podatki JSON morajo biti kodirani v naboru UTF-8"
+
+#: ../json-glib/json-path.c:388
 msgid "Only one root node is allowed in a JSONPath expression"
 msgstr "Le eno korensko vozlišče je dovoljeno v izrazu JSONPath"
 
-#: ../json-glib/json-path.c:384
+#: ../json-glib/json-path.c:397
 #, c-format
 msgid "Root node followed by invalid character '%c'"
 msgstr "Korensko vozlišče se konča z neveljavnim znakom '%c'"
 
-#: ../json-glib/json-path.c:490
+#: ../json-glib/json-path.c:437
+msgid "Missing member name or wildcard after . character"
+msgstr "Manjka ime člana ali pa nadomestni znak po znaku . (pika)"
+
+#: ../json-glib/json-path.c:511
 #, c-format
 msgid "Malformed slice expression '%*s'"
 msgstr "Napačno oblikovan izraz rezine '%*s'"
 
-#: ../json-glib/json-path.c:534
+#: ../json-glib/json-path.c:555
 #, c-format
 msgid "Invalid set definition '%*s'"
 msgstr "Neveljavno določilo '%*s'"
 
-#: ../json-glib/json-path.c:587
+#: ../json-glib/json-path.c:608
 #, c-format
 msgid "Invalid slice definition '%*s'"
 msgstr "Neveljavno določilo rezine '%*s'"
 
-#: ../json-glib/json-path.c:615
+#: ../json-glib/json-path.c:636
 #, c-format
 msgid "Invalid array index definition '%*s'"
 msgstr "Neveljavno določilo kazala polja '%*s'"
 
-#: ../json-glib/json-reader.c:463
+#: ../json-glib/json-path.c:655
 #, c-format
-msgid "The current node is of type '%s', but an array or an object was expected."
+msgid "Invalid first character '%c'"
+msgstr "Neveljaven prvi znak '%c'"
+
+#: ../json-glib/json-reader.c:456
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
 msgstr "Trenutno vozlišče je vrste '%s', pričakovano pa je polje ali predmet."
 
-#: ../json-glib/json-reader.c:475
+#: ../json-glib/json-reader.c:468
 #, c-format
-msgid "The index '%d' is greater than the size of the array at the current position."
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
 msgstr "Kazalo '%d' je večje od velikosti polja na trenutnem položaju."
 
-#: ../json-glib/json-reader.c:492
+#: ../json-glib/json-reader.c:485
 #, c-format
-msgid "The index '%d' is greater than the size of the object at the current position."
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
 msgstr "Kazalo '%d' je večje od velikosti predmeta na trenutnem položaju."
 
-#: ../json-glib/json-reader.c:576
-#: ../json-glib/json-reader.c:729
-#: ../json-glib/json-reader.c:780
-#: ../json-glib/json-reader.c:818
-#: ../json-glib/json-reader.c:856
-#: ../json-glib/json-reader.c:894
-#: ../json-glib/json-reader.c:932
-#: ../json-glib/json-reader.c:977
-#: ../json-glib/json-reader.c:1013
-#: ../json-glib/json-reader.c:1039
+#: ../json-glib/json-reader.c:570 ../json-glib/json-reader.c:724
+#: ../json-glib/json-reader.c:775 ../json-glib/json-reader.c:813
+#: ../json-glib/json-reader.c:851 ../json-glib/json-reader.c:889
+#: ../json-glib/json-reader.c:927 ../json-glib/json-reader.c:972
+#: ../json-glib/json-reader.c:1008 ../json-glib/json-reader.c:1034
 msgid "No node available at the current position"
 msgstr "Na trenutnem položaju ni razpoložljivega vozlišča."
 
-#: ../json-glib/json-reader.c:583
+#: ../json-glib/json-reader.c:577
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Trenutni položaj vsebuje '%s' in ne polja"
 
-#: ../json-glib/json-reader.c:646
+#: ../json-glib/json-reader.c:640
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "Trenutno vozlišče je vrste '%s', pričakovan pa je predmet."
 
-#: ../json-glib/json-reader.c:653
+#: ../json-glib/json-reader.c:647
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Določilo '%s' ni določan v predmetu na trenutnem položaju."
 
-#: ../json-glib/json-reader.c:736
-#: ../json-glib/json-reader.c:787
+#: ../json-glib/json-reader.c:731 ../json-glib/json-reader.c:782
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Trenutni položaj vsebuje '%s' in ne predmeta"
 
-#: ../json-glib/json-reader.c:827
-#: ../json-glib/json-reader.c:865
-#: ../json-glib/json-reader.c:903
-#: ../json-glib/json-reader.c:941
-#: ../json-glib/json-reader.c:986
+#: ../json-glib/json-reader.c:822 ../json-glib/json-reader.c:860
+#: ../json-glib/json-reader.c:898 ../json-glib/json-reader.c:936
+#: ../json-glib/json-reader.c:981
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Trenutni položaj vsebuje '%s' in ne vrednosti"
 
-#: ../json-glib/json-reader.c:949
+#: ../json-glib/json-reader.c:944
 msgid "The current position does not hold a string type"
 msgstr "Trenutni položaj ne vsebuje niza"
 
