@@ -47,6 +47,8 @@ copy ..\..\..\json-glib\json-parser.h $(CopyDir)\include\json-glib-$(ApiVersion)
 copy ..\..\..\json-glib\json-reader.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
 
 copy ..\..\..\json-glib\json-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
+
+copy ..\..\..\json-glib\json-version-macros.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
 </JsonGlibDoInstall>
   </PropertyGroup>
   <PropertyGroup>
