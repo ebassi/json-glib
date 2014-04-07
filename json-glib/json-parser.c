@@ -876,7 +876,7 @@ json_parser_load (JsonParser   *parser,
 
   json_parser_clear (parser);
 
-  if (!g_utf8_validate (data, -1, NULL))
+  if (!g_utf8_validate (data, length, NULL))
     {
       g_set_error_literal (error, JSON_PARSER_ERROR,
                            JSON_PARSER_ERROR_INVALID_DATA,
