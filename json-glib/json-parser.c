@@ -1238,7 +1238,7 @@ json_parser_load_from_stream (JsonParser    *parser,
   content->data[pos] = 0;
 
   internal_error = NULL;
-  retval = json_parser_load (parser, (const gchar *) content->data, content->len, &internal_error);
+  retval = json_parser_load (parser, (const gchar *) content->data, pos, &internal_error);
 
   if (internal_error != NULL)
     g_propagate_error (error, internal_error);
@@ -1388,7 +1388,7 @@ json_parser_load_from_stream_finish (JsonParser    *parser,
   data->content->data[data->pos] = 0;
 
   internal_error = NULL;
-  res = json_parser_load (parser, (const gchar *) data->content->data, data->content->len, &internal_error);
+  res = json_parser_load (parser, (const gchar *) data->content->data, data->pos, &internal_error);
 
   if (internal_error != NULL)
     g_propagate_error (error, internal_error);
