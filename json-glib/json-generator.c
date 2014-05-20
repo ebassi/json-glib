@@ -286,7 +286,7 @@ dump_value (JsonGenerator *generator,
         g_string_append_c (buffer, priv->indent_char);
     }
 
-  if (name && name[0] != '\0')
+  if (name)
     {
       if (pretty)
         g_string_append_printf (buffer, "\"%s\" : ", name);
@@ -365,7 +365,7 @@ dump_array (JsonGenerator *generator,
         g_string_append_c (buffer, priv->indent_char);
     }
 
-  if (name && name[0] != '\0')
+  if (name)
     {
       if (pretty)
         g_string_append_printf (buffer, "\"%s\" : ", name);
@@ -458,7 +458,7 @@ dump_object (JsonGenerator *generator,
         g_string_append_c (buffer, priv->indent_char);
     }
 
-  if (name && name[0] != '\0')
+  if (name)
     {
       if (pretty)
         g_string_append_printf (buffer, "\"%s\" : ", name);
@@ -476,6 +476,7 @@ dump_object (JsonGenerator *generator,
   for (l = members; l != NULL; l = l->next)
     {
       const gchar *member_name = l->data;
+      gchar *escaped_name = json_strescape (member_name);
       JsonNode *cur = json_object_get_member (object, member_name);
       guint sub_level = level + 1;
       guint j;
@@ -488,29 +489,29 @@ dump_object (JsonGenerator *generator,
             {
               for (j = 0; j < (sub_level * indent); j++)
                 g_string_append_c (buffer, priv->indent_char);
-              g_string_append_printf (buffer, "\"%s\" : null", member_name);
+              g_string_append_printf (buffer, "\"%s\" : null", escaped_name);
             }
           else
             {
-              g_string_append_printf (buffer, "\"%s\":null", member_name);
+              g_string_append_printf (buffer, "\"%s\":null", escaped_name);
             }
           break;
 
         case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, member_name, cur, NULL);
+          value = dump_value (generator, sub_level, escaped_name, cur, NULL);
           g_string_append (buffer, value);
           g_free (value);
           break;
 
         case JSON_NODE_ARRAY:
-          value = dump_array (generator, sub_level, member_name,
+          value = dump_array (generator, sub_level, escaped_name,
                               json_node_get_array (cur), NULL);
           g_string_append (buffer, value);
           g_free (value);
           break;
 
         case JSON_NODE_OBJECT:
-          value = dump_object (generator, sub_level, member_name,
+          value = dump_object (generator, sub_level, escaped_name,
                                json_node_get_object (cur), NULL);
           g_string_append (buffer, value);
           g_free (value);
@@ -522,6 +523,8 @@ dump_object (JsonGenerator *generator,
 
       if (pretty)
         g_string_append_c (buffer, '\n');
+
+      g_free (escaped_name);
     }
 
   g_list_free (members);
