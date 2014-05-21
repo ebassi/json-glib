@@ -375,10 +375,48 @@ test_pretty (void)
   g_object_unref (parser);
 }
 
+typedef struct {
+    const gchar *str;
+    const gchar *expect;
+} FixtureString;
+
+static const FixtureString string_fixtures[] = {
+  { "abc", "\"abc\"" },
+  { "a\x7fxc", "\"a\\u007fxc\"" },
+  { "a\033xc", "\"a\\u001bxc\"" },
+  { "a\nxc", "\"a\\nxc\"" },
+  { "a\\xc", "\"a\\\\xc\"" },
+  { "Barney B\303\244r", "\"Barney B\303\244r\"" },
+};
+
+static void
+test_string_encode (gconstpointer data)
+{
+  const FixtureString *fixture = data;
+  JsonGenerator *generator = json_generator_new ();
+  JsonNode *node;
+  gsize length;
+  gchar *output;
+
+  node = json_node_init_string (json_node_alloc (), fixture->str);\
+  json_generator_set_root (generator, node);
+
+  output = json_generator_to_data (generator, &length);
+  g_assert_cmpstr (output, ==, fixture->expect);
+  g_assert_cmpuint (length, ==, strlen (fixture->expect));
+  g_free (output);
+  json_node_free (node);
+
+  g_object_unref (generator);
+}
 int
 main (int   argc,
       char *argv[])
 {
+  gchar *escaped;
+  gchar *name;
+  gint i;
+
   g_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/generator/empty-array", test_empty_array);
@@ -389,6 +427,15 @@ main (int   argc,
   g_test_add_func ("/generator/nested-object", test_nested_object);
   g_test_add_func ("/generator/decimal-separator", test_decimal_separator);
   g_test_add_func ("/generator/pretty", test_pretty);
+
+  for (i = 0; i < G_N_ELEMENTS (string_fixtures); i++)
+    {
+      escaped = g_strescape (string_fixtures[i].str, NULL);
+      name = g_strdup_printf ("/generator/string/%s", escaped);
+      g_test_add_data_func (name, string_fixtures + i, test_string_encode);
+      g_free (escaped);
+      g_free (name);
+    }
 
   return g_test_run ();
 }
