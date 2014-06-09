@@ -4,6 +4,9 @@
     <Import Project="json-glib-build-defines.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
+    <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
+    <InstalledDlls>$(BinDir)\$(JsonGlibDllPrefix)json-glib(JsonGlibDllSuffix).dll</InstalledDlls>
+    <InstalledBins>$(BinDir)\json-glib-format.exe;$(BinDir)\json-glib-validate.exe</InstalledBins>
     <JsonGlibDoInstall>
 mkdir $(CopyDir)
 
@@ -12,14 +15,14 @@ mkdir $(CopyDir)\bin
 mkdir $(CopyDir)\lib
 
 
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-$(ApiVersion).lib $(CopyDir)\lib
+copy $(BinDir)\json-glib-$(ApiVersion).lib $(CopyDir)\lib
 
 
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin
+copy $(BinDir)\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin
 
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-format.exe $(CopyDir)\bin
+copy $(BinDir)\json-glib-format.exe $(CopyDir)\bin
 
-copy $(SolutionDir)$(Configuration)\$(Platform)\bin\json-glib-validate.exe $(CopyDir)\bin
+copy $(BinDir)\json-glib-validate.exe $(CopyDir)\bin
 
 
 mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
@@ -55,6 +58,15 @@ copy ..\..\..\json-glib\json-version-macros.h $(CopyDir)\include\json-glib-$(Api
     <_PropertySheetDisplayName>jsonglibinstallprops</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemGroup>
+    <BuildMacro Include="BinDir">
+      <Value>$(BinDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledDlls">
+      <Value>$(InstalledDlls)</Value>
+    </BuildMacro>
+    <BuildMacro Include="InstalledBins">
+      <Value>$(InstalledBins)</Value>
+    </BuildMacro>
     <BuildMacro Include="JsonGlibDoInstall">
       <Value>$(JsonGlibDoInstall)</Value>
     </BuildMacro>
