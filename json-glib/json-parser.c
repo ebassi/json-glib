@@ -168,7 +168,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, parse_start),
                   NULL, NULL,
-                  _json_marshal_VOID__VOID,
+                  json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::parse-end:
@@ -183,7 +183,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, parse_end),
                   NULL, NULL,
-                  _json_marshal_VOID__VOID,
+                  json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::object-start:
@@ -198,7 +198,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_start),
                   NULL, NULL,
-                  _json_marshal_VOID__VOID,
+                  json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::object-member:
@@ -216,7 +216,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_member),
                   NULL, NULL,
-                  _json_marshal_VOID__BOXED_STRING,
+                  json_marshal_VOID__BOXED_STRING,
                   G_TYPE_NONE, 2,
                   JSON_TYPE_OBJECT,
                   G_TYPE_STRING);
@@ -234,7 +234,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_end),
                   NULL, NULL,
-                  _json_marshal_VOID__BOXED,
+                  json_marshal_VOID__BOXED,
                   G_TYPE_NONE, 1,
                   JSON_TYPE_OBJECT);
   /**
@@ -250,7 +250,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_start),
                   NULL, NULL,
-                  _json_marshal_VOID__VOID,
+                  json_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::array-element:
@@ -268,7 +268,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_element),
                   NULL, NULL,
-                  _json_marshal_VOID__BOXED_INT,
+                  json_marshal_VOID__BOXED_INT,
                   G_TYPE_NONE, 2,
                   JSON_TYPE_ARRAY,
                   G_TYPE_INT);
@@ -286,7 +286,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_end),
                   NULL, NULL,
-                  _json_marshal_VOID__BOXED,
+                  json_marshal_VOID__BOXED,
                   G_TYPE_NONE, 1,
                   JSON_TYPE_ARRAY);
   /**
@@ -303,7 +303,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, error),
                   NULL, NULL,
-                  _json_marshal_VOID__POINTER,
+                  json_marshal_VOID__POINTER,
                   G_TYPE_NONE, 1,
                   G_TYPE_POINTER);
 }

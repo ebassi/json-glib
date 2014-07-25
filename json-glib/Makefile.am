@@ -61,7 +61,7 @@ include $(top_srcdir)/build/autotools/Makefile.am.enums
 
 # glib-genmarshal rules
 glib_marshal_list = json-marshal.list
-glib_marshal_prefix = _json_marshal
+glib_marshal_prefix = json_marshal
 include $(top_srcdir)/build/autotools/Makefile.am.marshal
 
 lib_LTLIBRARIES += libjson-glib-1.0.la
