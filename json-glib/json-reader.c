@@ -86,7 +86,8 @@ struct _JsonReaderPrivate
   JsonNode *current_node;
   JsonNode *previous_node;
 
-  gchar *current_member;
+  /* Stack of member names. */
+  GPtrArray *members;
 
   GError *error;
 };
@@ -117,7 +118,8 @@ json_reader_finalize (GObject *gobject)
   if (priv->error != NULL)
     g_clear_error (&priv->error);
 
-  g_free (priv->current_member);
+  if (priv->members != NULL)
+    g_ptr_array_unref (priv->members);
 
   G_OBJECT_CLASS (json_reader_parent_class)->finalize (gobject);
 }
@@ -189,6 +191,7 @@ static void
 json_reader_init (JsonReader *self)
 {
   self->priv = json_reader_get_instance_private (self);
+  self->priv->members = g_ptr_array_new_with_free_func (g_free);
 }
 
 /**
@@ -487,13 +490,12 @@ json_reader_read_element (JsonReader *reader,
                                         index_);
 
         priv->previous_node = priv->current_node;
-        g_free (priv->current_member);
 
         members = json_object_get_members (object);
         name = g_list_nth_data (members, index_);
 
         priv->current_node = json_object_get_member (object, name);
-        priv->current_member = g_strdup (name);
+        g_ptr_array_add (priv->members, g_strdup (name));
 
         g_list_free (members);
       }
@@ -536,8 +538,8 @@ json_reader_end_element (JsonReader *reader)
   else
     tmp = NULL;
 
-  g_free (priv->current_member);
-  priv->current_member = NULL;
+  if (json_node_get_node_type (priv->previous_node) == JSON_NODE_OBJECT)
+    g_ptr_array_remove_index (priv->members, priv->members->len - 1);
 
   priv->current_node = priv->previous_node;
   priv->previous_node = tmp;
@@ -648,11 +650,9 @@ json_reader_read_member (JsonReader  *reader,
                                     "object at the current position."),
                                   member_name);
 
-  g_free (priv->current_member);
-
   priv->previous_node = priv->current_node;
   priv->current_node = json_object_get_member (object, member_name);
-  priv->current_member = g_strdup (member_name);
+  g_ptr_array_add (priv->members, g_strdup (member_name));
 
   return TRUE;
 }
@@ -686,8 +686,7 @@ json_reader_end_member (JsonReader *reader)
   else
     tmp = NULL;
 
-  g_free (priv->current_member);
-  priv->current_member = NULL;
+  g_ptr_array_remove_index (priv->members, priv->members->len - 1);
 
   priv->current_node = priv->previous_node;
   priv->previous_node = tmp;
@@ -1032,8 +1031,12 @@ json_reader_get_member_name (JsonReader *reader)
     {
       json_reader_set_error (reader, JSON_READER_ERROR_INVALID_NODE,
                              _("No node available at the current position"));
-      return FALSE;
+      return NULL;
     }
 
-  return reader->priv->current_member;
+  if (reader->priv->members->len == 0)
+    return NULL;
+
+  return g_ptr_array_index (reader->priv->members,
+                            reader->priv->members->len - 1);
 }

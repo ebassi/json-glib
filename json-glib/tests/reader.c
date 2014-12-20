@@ -153,24 +153,37 @@ test_reader_level (void)
 
   /* Grab the list */
   g_assert (json_reader_read_member (reader, "list"));
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "list");
 
   members = json_reader_list_members (reader);
   g_assert (members != NULL);
   g_strfreev (members);
 
   g_assert (json_reader_read_member (reader, "181195771"));
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "181195771");
 
   g_assert (!json_reader_read_member (reader, "resolved_url"));
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, NULL);
   g_assert (json_reader_get_error (reader) != NULL);
   json_reader_end_member (reader);
 
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "181195771");
+
   g_assert (json_reader_read_member (reader, "given_url"));
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "given_url");
   g_assert_cmpstr (json_reader_get_string_value (reader), ==, "http://www.gnome.org/json-glib-test");
   json_reader_end_member (reader);
 
-  json_reader_end_member (reader);
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "181195771");
 
   json_reader_end_member (reader);
+
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, "list");
+
+  json_reader_end_member (reader);
+
+  g_assert_cmpstr (json_reader_get_member_name (reader), ==, NULL);
+
   g_clear_object (&reader);
   g_clear_object (&parser);
 }
