@@ -422,11 +422,13 @@ json_builder_set_member_name (JsonBuilder *builder,
 /**
  * json_builder_add_value:
  * @builder: a #JsonBuilder
- * @node: the value of the member or element
+ * @node: (transfer full): the value of the member or element
  *
  * If called after json_builder_set_member_name(), sets @node as member of the
  * most recent opened object, otherwise @node is added as element of the most
  * recent opened array.
+ *
+ * The builder will take ownership of the #JsonNode.
  *
  * Return value: (transfer none): the #JsonBuilder, or %NULL if the call was inconsistent
  */
