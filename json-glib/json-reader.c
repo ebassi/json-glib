@@ -433,7 +433,21 @@ json_reader_is_value (JsonReader *reader)
  *
  * If @reader is not currently on an array or an object, or if the @index_ is
  * bigger than the size of the array or the object, the #JsonReader will be
- * put in an error state until json_reader_end_element() is called.
+ * put in an error state until json_reader_end_element() is called. This means
+ * that if used conditionally, json_reader_end_element() must be called on both
+ * code paths:
+ *
+ * |[
+ * if (!json_reader_read_element (reader, 1))
+ *   {
+ *     json_reader_end_element (reader);
+ *     g_set_error (error, …);
+ *     return FALSE;
+ *   }
+ *
+ * str_value = json_reader_get_string_value (reader);
+ * json_reader_end_element (reader);
+ * ]|
  *
  * Return value: %TRUE on success, and %FALSE otherwise
  *
@@ -615,7 +629,20 @@ json_reader_count_elements (JsonReader *reader)
  *
  * If @reader is not currently on an object, or if the @member_name is not
  * defined in the object, the #JsonReader will be put in an error state until
- * json_reader_end_member() is called.
+ * json_reader_end_member() is called. This means that if used conditionally,
+ * json_reader_end_member() must be called on both code paths:
+ *
+ * |[
+ * if (!json_reader_read_member (reader, "title"))
+ *   {
+ *     json_reader_end_member (reader);
+ *     g_set_error (error, …);
+ *     return FALSE;
+ *   }
+ *
+ * str_value = json_reader_get_string_value (reader);
+ * json_reader_end_member (reader);
+ * ]|
  *
  * Return value: %TRUE on success, and %FALSE otherwise
  *
