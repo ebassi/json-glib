@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="install"
+	Name="json-glib-install"
 	ProjectGUID="{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}"
-	RootNamespace="install"
+	RootNamespace="jsonglibinstall"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-glib-validate", "json-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-glib-format", "json-glib-format.vcxproj", "{FF640D73-9BCD-4B75-B63F-75175A3C9F69}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "install", "install.vcxproj", "{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json-glib-install", "json-glib-install.vcxproj", "{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "array", "array.vcxproj", "{9B2921C9-577F-418D-8341-6D79771DDCEC}"
 EndProject

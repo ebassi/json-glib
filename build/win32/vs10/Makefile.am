@@ -24,7 +24,7 @@ EXTRA_DIST =	\
 	generator.vcxproj.filters	\
 	gvariant.vcxproj		\
 	gvariant.vcxproj.filters	\
-	install.vcxproj			\
+	json-glib-install.vcxproj	\
 	node.vcxproj		\
 	node.vcxproj.filters	\
 	object.vcxproj		\

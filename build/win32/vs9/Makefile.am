@@ -10,7 +10,7 @@ EXTRA_DIST =	\
 	json-glib.vcprojin		\
 	json-glib-validate.vcproj	\
 	json-glib-format.vcproj	\
-	install.vcproj			\
+	json-glib-install.vcproj	\
 	README.txt			\
 	array.vcproj			\
 	boxed.vcproj			\

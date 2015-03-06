@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{41ABBEB6-693A-4E63-9DD7-EAAC437BC173}</ProjectGuid>
-    <RootNamespace>install</RootNamespace>
+    <RootNamespace>jsonglibinstall</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
