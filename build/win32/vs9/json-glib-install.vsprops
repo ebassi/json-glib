@@ -15,8 +15,9 @@ mkdir $(CopyDir)\lib&#x0D;&#x0A;
 copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\*.lib $(CopyDir)\lib&#x0D;&#x0A;
 
 copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin&#x0D;&#x0A;
-copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-format.exe $(CopyDir)\bin&#x0D;&#x0A;
-copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-validate.exe $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).pdb $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-*.exe $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-*.pdb $(CopyDir)\bin&#x0D;&#x0A;
 
 mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
 

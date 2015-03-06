@@ -15,8 +15,9 @@ mkdir $(CopyDir)\lib
 copy $(BinDir)\json-glib-$(ApiVersion).lib $(CopyDir)\lib
 
 copy $(BinDir)\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin
-copy $(BinDir)\json-glib-format.exe $(CopyDir)\bin
-copy $(BinDir)\json-glib-validate.exe $(CopyDir)\bin
+copy $(BinDir)\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).pdb $(CopyDir)\bin
+copy $(BinDir)\json-glib-*.exe $(CopyDir)\bin
+copy $(BinDir)\json-glib-*.pdb $(CopyDir)\bin
 
 mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
 copy ..\..\..\json-glib\json-enum-types.h $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
