@@ -1,50 +1,19 @@
-# This is a blank Makefile.am for using gtk-doc.
-# Copy this to your project's API docs directory and modify the variables to
-# suit your project. See the GTK+ Makefiles in gtk+/docs/reference for examples
-# of using the various options.
-
-# The name of the module, e.g. 'glib'.
 DOC_MODULE = json-glib
-
-# The top-level XML file. You can change this if you want to.
 DOC_MAIN_SGML_FILE = $(DOC_MODULE)-docs.xml
+DOC_SOURCE_DIR = $(top_srcdir)/json-glib $(top_builddir)/json-glib
 
-# The directory containing the source code. Relative to $(srcdir).
-# gtk-doc will search all .c & .h files beneath here for inline comments
-# documenting the functions and macros.
-# e.g. DOC_SOURCE_DIR=../../../gtk
-DOC_SOURCE_DIR = ../../json-glib
-
-# Extra options to pass to gtkdoc-scangobj. Not normally needed.
 SCANGOBJ_OPTIONS =
-
-# Extra options to supply to gtkdoc-scan.
-# e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED" 
-SCAN_OPTIONS = --deprecated-guards="JSON_DISABLE_DEPRECATED"
-
-# Extra options to supply to gtkdoc-mkdb.
-# e.g. MKDB_OPTIONS=--sgml-mode --output-format=xml
+SCAN_OPTIONS = --deprecated-guards="JSON_DISABLE_DEPRECATED" --rebuild-types
 MKDB_OPTIONS = --output-format=xml --name-space=json
-
-# Extra options to supply to gtkdoc-mktmpl
-# e.g. MKTMPL_OPTIONS=--only-section-tmpl
 MKTMPL_OPTIONS =
-
-# Extra options to supply to gtkdoc-fixref. Not normally needed.
-# e.g. FIXXREF_OPTIONS=--extra-dir=../gdk-pixbuf/html --extra-dir=../gdk/html
 FIXXREF_OPTIONS = \
 	--extra-dir=$(GLIB_PREFIX)/share/gtk-doc/html/glib \
 	--extra-dir=$(GLIB_PREFIX)/share/gtk-doc/html/gobject \
 	--extra-dir=$(GLIB_PREFIX)/share/gtk-doc/html/gio
 
-# Used for dependencies. The docs will be rebuilt if any of these change.
-# e.g. HFILE_GLOB=$(top_srcdir)/gtk/*.h
-# e.g. CFILE_GLOB=$(top_srcdir)/gtk/*.c
 HFILE_GLOB = $(top_srcdir)/json-glib/*.h $(top_builddir)/json-glib/*.h
 CFILE_GLOB = $(top_srcdir)/json-glib/*.c
 
-# Header files to ignore when scanning.
-# e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
 IGNORE_HFILES = \
 	json-scanner.h 		\
 	json-types-private.h 	\
