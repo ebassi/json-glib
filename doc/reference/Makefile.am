@@ -26,37 +26,33 @@ IGNORE_HFILES = \
 
 EXTRA_HFILES =
 
-# Images to copy into HTML directory.
-# e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
 HTML_IMAGES =
 
-# Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
-# e.g. content_files=running.sgml building.sgml changes-2.0.sgml
 content_files = \
 	json-glib-format.xml \
 	json-glib-validate.xml \
 	version.xml
 
-# SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
-# These files must be listed here *and* in content_files
-# e.g. expand_content_files=running.sgml
 expand_content_files =
-
-# CFLAGS and LDFLAGS for compiling gtkdoc-scangobj with your library.
-# Only needed if you are using gtkdoc-scangobj to dynamically query widget
-# signals and properties.
-# e.g. INCLUDES=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
-# e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir) $(JSON_CFLAGS)
 GTKDOC_LIBS = $(top_builddir)/json-glib/libjson-glib-1.0.la $(JSON_LIBS)
 
-# This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make
 
 EXTRA_DIST += version.xml.in
 
 man_MANS =
+
+if ENABLE_GTK_DOC
+TESTS_ENVIRONMENT = \
+	DOC_MODULE=$(DOC_MODULE) \
+	DOC_MAIN_SGML_FILE=$(DOC_MAIN_SGML_FILE) \
+	SRCDIR=$(abs_srcdir) \
+	BUILDDIR=$(abs_builddir)
+
+TESTS = $(GTKDOC_CHECK)
+endif
 
 if ENABLE_MAN
 man_MANS += \

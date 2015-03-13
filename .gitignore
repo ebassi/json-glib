@@ -23,6 +23,9 @@ depcomp
 /doc/reference/version.xml
 /doc/reference/json-glib-format.1
 /doc/reference/json-glib-validate.1
+/doc/reference/json-glib.types
+/doc/reference/gtkdoc-check.*
+/doc/reference/test-suite.log
 gtk-doc.make
 install-sh
 json-glib-1.0.pc
