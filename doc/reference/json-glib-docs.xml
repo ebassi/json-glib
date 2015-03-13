@@ -180,6 +180,16 @@
     <xi:include href="xml/api-index-0.14.xml"><xi:fallback/></xi:include>
   </index>
 
+  <index role="0.16">
+    <title>Index of new symbols in 0.16</title>
+    <xi:include href="xml/api-index-0.16.xml"><xi:fallback/></xi:include>
+  </index>
+
+  <index role="1.0">
+    <title>Index of new symbols in 1.0</title>
+    <xi:include href="xml/api-index-1.0.xml"><xi:fallback/></xi:include>
+  </index>
+
   <xi:include href="xml/annotation-glossary.xml"><xi:fallback/></xi:include>
 
   <appendix id="license">
