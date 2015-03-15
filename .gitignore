@@ -34,6 +34,7 @@ json-glib.pc
 /json-lcov
 .deps
 .libs
+.dirstamp
 *.o
 *.lo
 *.test

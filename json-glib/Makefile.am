@@ -15,40 +15,40 @@ SUBDIRS = . tests
 
 # main library
 source_h = \
-	$(top_srcdir)/json-glib/json-builder.h		\
-	$(top_srcdir)/json-glib/json-generator.h 	\
-	$(top_srcdir)/json-glib/json-gobject.h 		\
-	$(top_srcdir)/json-glib/json-gvariant.h		\
-	$(top_srcdir)/json-glib/json-parser.h 		\
-	$(top_srcdir)/json-glib/json-path.h		\
-	$(top_srcdir)/json-glib/json-reader.h		\
-	$(top_srcdir)/json-glib/json-types.h 		\
-	$(top_srcdir)/json-glib/json-version-macros.h	\
+	json-builder.h		\
+	json-generator.h 	\
+	json-gobject.h 		\
+	json-gvariant.h		\
+	json-parser.h 		\
+	json-path.h		\
+	json-reader.h		\
+	json-types.h 		\
+	json-version-macros.h	\
 	$(NULL)
 
 source_h_private = \
-	$(top_srcdir)/json-glib/json-debug.h		\
-	$(top_srcdir)/json-glib/json-gobject-private.h	\
-	$(top_srcdir)/json-glib/json-scanner.h 		\
-	$(top_srcdir)/json-glib/json-types-private.h	\
+	json-debug.h		\
+	json-gobject-private.h	\
+	json-scanner.h 		\
+	json-types-private.h	\
 	$(NULL)
 
 source_c = \
-	$(srcdir)/json-array.c 		\
-	$(srcdir)/json-builder.c	\
-	$(srcdir)/json-debug.c		\
-	$(srcdir)/json-gboxed.c		\
-	$(srcdir)/json-generator.c 	\
-	$(srcdir)/json-gobject.c 	\
-	$(srcdir)/json-gvariant.c	\
-	$(srcdir)/json-node.c 		\
-	$(srcdir)/json-object.c 	\
-	$(srcdir)/json-parser.c 	\
-	$(srcdir)/json-path.c		\
-	$(srcdir)/json-reader.c		\
-	$(srcdir)/json-scanner.c 	\
-	$(srcdir)/json-serializable.c	\
-	$(srcdir)/json-value.c		\
+	json-array.c 		\
+	json-builder.c	\
+	json-debug.c		\
+	json-gboxed.c		\
+	json-generator.c 	\
+	json-gobject.c 	\
+	json-gvariant.c	\
+	json-node.c 		\
+	json-object.c 	\
+	json-parser.c 	\
+	json-path.c		\
+	json-reader.c		\
+	json-scanner.c 	\
+	json-serializable.c	\
+	json-value.c		\
 	$(NULL)
 
 DISTCLEANFILES += json-version.h
@@ -83,10 +83,10 @@ libjson_glib_1_0_la_LDFLAGS = $(JSON_LT_LDFLAGS) $(JSON_GCOV_LDADD) -export-dyna
 
 jsonincludedir = $(includedir)/json-glib-1.0/json-glib
 jsoninclude_DATA = \
-	$(source_h) 					\
-	$(top_builddir)/json-glib/json-enum-types.h 	\
-	$(top_builddir)/json-glib/json-version.h	\
-	$(top_srcdir)/json-glib/json-glib.h		\
+	$(source_h) \
+	json-enum-types.h \
+	json-version.h \
+	json-glib.h \
 	$(NULL)
 
 EXTRA_DIST += json-version.h.in json-glib.h json-version.h
@@ -123,9 +123,9 @@ INTROSPECTION_GIRS = Json-1.0.gir
 introspection_source = \
 	$(source_c) \
 	$(source_h) \
-	$(top_builddir)/json-glib/json-enum-types.h \
-	$(top_builddir)/json-glib/json-enum-types.c \
-	$(top_builddir)/json-glib/json-version.h
+	json-enum-types.h \
+	json-enum-types.c \
+	json-version.h
 
 Json-1.0.gir: libjson-glib-1.0.la Makefile
 

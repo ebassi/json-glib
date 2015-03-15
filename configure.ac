@@ -35,7 +35,7 @@ AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
-AM_INIT_AUTOMAKE([1.11 no-define foreign -Wno-portability dist-xz no-dist-gzip tar-ustar])
+AM_INIT_AUTOMAKE([1.11 no-define foreign -Wno-portability dist-xz no-dist-gzip tar-ustar subdir-objects])
 
 AM_SILENT_RULES([yes])
 AM_PATH_GLIB_2_0
