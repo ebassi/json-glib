@@ -1,8 +1,7 @@
-/* json-glib.h: Main header
- *
+/* json-utils.h - JSON utility API
+ * 
  * This file is part of JSON-GLib
- * Copyright (C) 2007  OpenedHand Ltd.
- * Copyright (C) 2009  Intel Corp.
+ * Copyright 2015  Emmanuele Bassi
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,33 +15,26 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
- *
- * Author:
- *   Emmanuele Bassi  <ebassi@linux.intel.com>
  */
 
-#ifndef __JSON_GLIB_H__
-#define __JSON_GLIB_H__
+#ifndef __JSON_UTILS_H__
+#define __JSON_UTILS_H__
 
-#define __JSON_GLIB_INSIDE__
+#if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
+#error "Only <json-glib/json-glib.h> can be included directly."
+#endif
 
 #include <json-glib/json-types.h>
 
-#include <json-glib/json-builder.h>
-#include <json-glib/json-generator.h>
-#include <json-glib/json-parser.h>
-#include <json-glib/json-path.h>
-#include <json-glib/json-reader.h>
-#include <json-glib/json-utils.h>
-#include <json-glib/json-version.h>
-#include <json-glib/json-version-macros.h>
+G_BEGIN_DECLS
 
-#include <json-glib/json-enum-types.h>
+JSON_AVAILABLE_IN_1_2
+JsonNode *      json_from_string        (const char  *str,
+                                         GError     **error);
+JSON_AVAILABLE_IN_1_2
+char *          json_to_string          (JsonNode    *node,
+                                         gboolean     pretty);
 
-#include <json-glib/json-gobject.h>
+G_END_DECLS
 
-#include <json-glib/json-gvariant.h>
-
-#undef __JSON_GLIB_INSIDE__
-
-#endif /* __JSON_GLIB_H__ */
+#endif /* __JSON_UTILS_H__ */

@@ -407,3 +407,9 @@ JSON_IS_PATH
 json_path_get_type
 json_path_error_quark
 </SECTION>
+
+<SECTION>
+<FILE>json-utils</FILE>
+json_from_string
+json_to_string
+</SECTION>

@@ -112,6 +112,11 @@
       <xi:include href="xml/json-builder.xml"/>
     </chapter>
 
+    <chapter>
+      <title>General Purpose API</title>
+      <xi:include href="xml/json-utils.xml"/>
+    </chapter>
+
   </part>
 
   <part id="json-advanced">

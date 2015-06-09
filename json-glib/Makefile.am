@@ -23,6 +23,7 @@ source_h = \
 	json-path.h		\
 	json-reader.h		\
 	json-types.h 		\
+	json-utils.h		\
 	json-version-macros.h	\
 	$(NULL)
 
@@ -48,6 +49,7 @@ source_c = \
 	json-reader.c		\
 	json-scanner.c 	\
 	json-serializable.c	\
+	json-utils.c		\
 	json-value.c		\
 	$(NULL)
 
