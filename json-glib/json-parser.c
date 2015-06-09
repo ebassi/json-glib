@@ -1249,94 +1249,22 @@ out:
   return retval;
 }
 
-typedef struct _LoadStreamData
-{
-  JsonParser *parser;
-  GError *error;
-  GCancellable *cancellable;
-  GAsyncReadyCallback callback;
-  gpointer user_data;
+typedef struct {
+  GInputStream *stream;
   GByteArray *content;
   gsize pos;
-} LoadStreamData;
+} LoadData;
 
 static void
-load_stream_data_free (gpointer data)
+load_data_free (gpointer data_)
 {
-  LoadStreamData *closure;
-
-  if (G_UNLIKELY (data == NULL))
-    return;
-
-  closure = data;
-
-  if (closure->error)
-    g_error_free (closure->error);
-
-  if (closure->cancellable)
-    g_object_unref (closure->cancellable);
-
-  if (closure->content)
-    g_byte_array_free (closure->content, TRUE);
-
-  g_object_unref (closure->parser);
-
-  g_free (closure);
-}
-
-static void
-load_stream_data_read_callback (GObject      *object,
-                                GAsyncResult *read_res,
-                                gpointer      user_data)
-{
-  GInputStream *stream = G_INPUT_STREAM (object);
-  LoadStreamData *data = user_data;
-  GError *error = NULL;
-  gssize read_size;
-
-  read_size = g_input_stream_read_finish (stream, read_res, &error);
-  if (read_size < 0)
+  if (data_ != NULL)
     {
-      if (error != NULL)
-        data->error = error;
-      else
-        {
-          GSimpleAsyncResult *res;
+      LoadData *data = data_;
 
-          /* EOF */
-          res = g_simple_async_result_new (G_OBJECT (data->parser),
-                                           data->callback,
-                                           data->user_data,
-                                           json_parser_load_from_stream_async);
-          g_simple_async_result_set_op_res_gpointer (res, data, load_stream_data_free);
-          g_simple_async_result_complete (res);
-          g_object_unref (res);
-        }
-    }
-  else if (read_size > 0)
-    {
-      data->pos += read_size;
-
-      g_byte_array_set_size (data->content, data->pos + GET_DATA_BLOCK_SIZE);
-
-      g_input_stream_read_async (stream, data->content->data + data->pos,
-                                 GET_DATA_BLOCK_SIZE,
-                                 0,
-                                 data->cancellable,
-                                 load_stream_data_read_callback,
-                                 data);
-    }
-  else
-    {
-      GSimpleAsyncResult *res;
-
-      res = g_simple_async_result_new (G_OBJECT (data->parser),
-                                       data->callback,
-                                       data->user_data,
-                                       json_parser_load_from_stream_async);
-      g_simple_async_result_set_op_res_gpointer (res, data, load_stream_data_free);
-      g_simple_async_result_complete (res);
-      g_object_unref (res);
+      g_object_unref (data->stream);
+      g_byte_array_unref (data->content);
+      g_free (data);
     }
 }
 
@@ -1360,40 +1288,61 @@ json_parser_load_from_stream_finish (JsonParser    *parser,
                                      GAsyncResult  *result,
                                      GError       **error)
 {
-  GSimpleAsyncResult *simple;
-  GError *internal_error;
-  LoadStreamData *data;
   gboolean res;
 
   g_return_val_if_fail (JSON_IS_PARSER (parser), FALSE);
-  g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+  g_return_val_if_fail (g_task_is_valid (result, parser), FALSE);
 
-  simple = G_SIMPLE_ASYNC_RESULT (result);
-
-  if (g_simple_async_result_propagate_error (simple, error))
-    return FALSE;
-
-  g_warn_if_fail (g_simple_async_result_get_source_tag (simple) == json_parser_load_from_stream_async);
-
-  data = g_simple_async_result_get_op_res_gpointer (simple);
-
-  if (data->error)
+  res = g_task_propagate_boolean (G_TASK (result), error);
+  if (res)
     {
-      g_propagate_error (error, data->error);
-      data->error = NULL;
-      return FALSE;
+      LoadData *data = g_task_get_task_data (G_TASK (result));
+      GError *internal_error = NULL;
+
+      /* We need to do this inside the finis() function because JsonParser will emit
+       * signals, and we need to ensure that the signals are emitted in the right
+       * context; it's easier to do that if we just rely on the async callback being
+       * called in the right context, even if it means making the finish() function
+       * necessary to complete the async operation.
+       */
+      res = json_parser_load (parser, (const gchar *) data->content->data, data->pos, &internal_error);
+      if (internal_error != NULL)
+        g_propagate_error (error, internal_error);
     }
 
-  g_byte_array_set_size (data->content, data->pos + 1);
-  data->content->data[data->pos] = 0;
-
-  internal_error = NULL;
-  res = json_parser_load (parser, (const gchar *) data->content->data, data->pos, &internal_error);
-
-  if (internal_error != NULL)
-    g_propagate_error (error, internal_error);
-
   return res;
+}
+
+static void
+read_from_stream (GTask *task,
+                  gpointer source_obj,
+                  gpointer task_data,
+                  GCancellable *cancellable)
+{
+  LoadData *data = task_data;
+  GError *error = NULL;
+  gssize res;
+
+  data->pos = 0;
+  g_byte_array_set_size (data->content, data->pos + GET_DATA_BLOCK_SIZE + 1);
+  while ((res = g_input_stream_read (data->stream,
+                                     data->content->data + data->pos,
+                                     GET_DATA_BLOCK_SIZE,
+                                     cancellable, &error)) > 0)
+    {
+      data->pos += res;
+      g_byte_array_set_size (data->content, data->pos + GET_DATA_BLOCK_SIZE + 1);
+    }
+
+  if (res < 0)
+    {
+      g_task_return_error (task, error);
+      return;
+    }
+
+  /* zero-terminate the content; we allocated an extra byte for this */
+  data->content->data[data->pos] = 0;
+  g_task_return_boolean (task, TRUE);
 }
 
 /**
@@ -1422,26 +1371,21 @@ json_parser_load_from_stream_async (JsonParser          *parser,
                                     GAsyncReadyCallback  callback,
                                     gpointer             user_data)
 {
-  LoadStreamData *data;
+  LoadData *data;
+  GTask *task;
 
   g_return_if_fail (JSON_IS_PARSER (parser));
   g_return_if_fail (G_IS_INPUT_STREAM (stream));
   g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
-  data = g_new0 (LoadStreamData, 1);
-
-  if (cancellable != NULL)
-    data->cancellable = g_object_ref (cancellable);
-
-  data->callback = callback;
-  data->user_data = user_data;
+  data = g_new (LoadData, 1);
+  data->stream = g_object_ref (stream);
   data->content = g_byte_array_new ();
-  data->parser = g_object_ref (parser);
+  data->pos = 0;
 
-  g_byte_array_set_size (data->content, data->pos + GET_DATA_BLOCK_SIZE);
-  g_input_stream_read_async (stream, data->content->data + data->pos,
-                             GET_DATA_BLOCK_SIZE, 0,
-                             data->cancellable,
-                             load_stream_data_read_callback,
-                             data);
+  task = g_task_new (parser, cancellable, callback, user_data);
+  g_task_set_task_data (task, data, load_data_free);
+
+  g_task_run_in_thread (task, read_from_stream);
+  g_object_unref (task);
 }
