@@ -551,7 +551,7 @@ json_array_add_string_element (JsonArray   *array,
 
   node = json_node_alloc ();
 
-  if (value != NULL && *value != '\0')
+  if (value != NULL)
     json_node_init_string (node, value);
   else
     json_node_init_null (node);
