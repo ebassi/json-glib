@@ -335,6 +335,27 @@ test_decimal_separator (void)
   json_node_free (node);
 }
 
+
+static void
+test_double_stays_double (void)
+{
+  gchar *str;
+  JsonNode *node = json_node_new (JSON_NODE_VALUE);
+  JsonGenerator *generator = json_generator_new ();
+
+  json_node_set_double (node, 1.0);
+
+  json_generator_set_root (generator, node);
+
+  str = json_generator_to_data (generator, NULL);
+  g_assert_cmpstr (str, ==, "1.0");
+
+  g_free (str);
+  g_object_unref (generator);
+  json_node_free (node);
+}
+
+
 static void
 test_pretty (void)
 {
@@ -427,6 +448,7 @@ main (int   argc,
   g_test_add_func ("/generator/simple-object", test_simple_object);
   g_test_add_func ("/generator/nested-object", test_nested_object);
   g_test_add_func ("/generator/decimal-separator", test_decimal_separator);
+  g_test_add_func ("/generator/double-stays-double", test_double_stays_double);
   g_test_add_func ("/generator/pretty", test_pretty);
 
   for (i = 0; i < G_N_ELEMENTS (string_fixtures); i++)

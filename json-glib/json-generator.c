@@ -342,6 +342,11 @@ dump_value (JsonGenerator *generator,
         g_string_append (buffer,
                          g_ascii_dtostr (buf, sizeof (buf),
                                          json_value_get_double (value)));
+	/* ensure doubles don't become ints */
+	if (g_strstr_len (buf, G_ASCII_DTOSTR_BUF_SIZE, ".") == NULL)
+	  {
+	    g_string_append (buffer, ".0");
+          }
       }
       break;
 
