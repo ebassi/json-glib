@@ -410,9 +410,11 @@ json_node_copy (JsonNode *node)
 /**
  * json_node_set_object:
  * @node: a #JsonNode initialized to %JSON_NODE_OBJECT
- * @object: a #JsonObject
+ * @object: (nullable): a #JsonObject
  *
  * Sets @objects inside @node. The reference count of @object is increased.
+ *
+ * If @object is %NULL, the node’s existing object is cleared.
  */
 void
 json_node_set_object (JsonNode   *node,

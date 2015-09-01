@@ -722,11 +722,13 @@ json_object_get_array_member (JsonObject  *object,
  * @member_name: the name of the member
  *
  * Convenience function that retrieves the object
- * stored in @member_name of @object
+ * stored in @member_name of @object. It is an error to specify a @member_name
+ * which does not exist.
  *
  * See also: json_object_get_member()
  *
- * Return value: (transfer none): the object inside the object's member
+ * Return value: (transfer none) (nullable): the object inside the object’s
+ *    member, or %NULL if the value for the member is `null`
  *
  * Since: 0.8
  */
