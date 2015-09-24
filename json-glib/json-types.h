@@ -368,6 +368,32 @@ void                  json_object_foreach_member     (JsonObject  *object,
                                                       JsonObjectForeach func,
                                                       gpointer     data);
 
+/**
+ * JsonObjectIter:
+ *
+ * An iterator used to iterate over the members of a #JsonObject. This must
+ * be allocated on the stack and initialised using json_object_iter_init().
+ * The order in which members are returned by the iterator is undefined. The
+ * iterator is invalidated if its #JsonObject is modified during iteration.
+ *
+ * All the fields in the #JsonObjectIter structure are private and should
+ * never be accessed directly.
+ *
+ * Since: UNRELEASED
+ */
+typedef struct {
+	/*< private >*/
+	gpointer priv[8];
+} JsonObjectIter;
+
+JSON_AVAILABLE_IN_1_2
+void                  json_object_iter_init          (JsonObjectIter  *iter,
+                                                      JsonObject      *object);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_object_iter_next          (JsonObjectIter  *iter,
+                                                      const gchar    **member_name,
+                                                      JsonNode       **member_node);
+
 JSON_AVAILABLE_IN_1_0
 GType                 json_array_get_type            (void) G_GNUC_CONST;
 JSON_AVAILABLE_IN_1_0

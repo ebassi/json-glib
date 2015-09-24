@@ -95,6 +95,15 @@ struct _JsonObject
   volatile gint ref_count;
 };
 
+typedef struct
+{
+  JsonObject *object;  /* unowned */
+  GHashTableIter members_iter;  /* iterator over @members */
+  gpointer padding[2];  /* for future expansion */
+} JsonObjectIterReal;
+
+G_STATIC_ASSERT (sizeof (JsonObjectIterReal) == sizeof (JsonObjectIter));
+
 G_GNUC_INTERNAL
 const gchar *   json_node_type_get_name         (JsonNodeType     node_type);
 G_GNUC_INTERNAL

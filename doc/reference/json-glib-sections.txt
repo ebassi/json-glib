@@ -18,6 +18,9 @@ json_object_get_size
 json_object_remove_member
 JsonObjectForeach
 json_object_foreach_member
+JsonObjectIter
+json_object_iter_init
+json_object_iter_next
 
 <SUBSECTION>
 json_object_set_array_member

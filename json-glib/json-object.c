@@ -851,3 +851,74 @@ json_object_foreach_member (JsonObject        *object,
       func (object, member_name, member_node, data);
     }
 }
+
+/**
+ * json_object_iter_init:
+ * @iter: an uninitialised #JsonObjectIter
+ * @object: the #JsonObject to iterate over
+ *
+ * Initialise the @iter and associate it with @object.
+ *
+ * |[<!-- language="C" -->
+ * JsonObjectIter iter;
+ * const gchar *member_name;
+ * JsonNode *member_node;
+ *
+ * json_object_iter_init (&iter, some_object);
+ * while (json_object_iter_next (&iter, &member_name, &member_node))
+ *   {
+ *     // Do something with @member_name and @member_node.
+ *   }
+ * ]|
+ *
+ * Since: UNRELEASED
+ */
+void
+json_object_iter_init (JsonObjectIter  *iter,
+                       JsonObject      *object)
+{
+  JsonObjectIterReal *iter_real = (JsonObjectIterReal *) iter;;
+
+  g_return_if_fail (iter != NULL);
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (object->ref_count > 0);
+
+  iter_real->object = object;
+  g_hash_table_iter_init (&iter_real->members_iter, object->members);
+}
+
+/**
+ * json_object_iter_next:
+ * @iter: a #JsonObjectIter
+ * @member_name: (out callee-allocates) (transfer none) (optional): return
+ *    location for the member name, or %NULL to ignore
+ * @member_node: (out callee-allocates) (transfer none) (optional): return
+ *    location for the member value, or %NULL to ignore
+ *
+ * Advance @iter and retrieve the next member in the object. If the end of the
+ * object is reached, %FALSE is returned and @member_name and @member_node are
+ * set to invalid values. After that point, the @iter is invalid.
+ *
+ * The order in which members are returned by the iterator is undefined. The
+ * iterator is invalidated if its #JsonObject is modified during iteration.
+ *
+ * Returns: %TRUE if @member_name and @member_node are valid; %FALSE if the end
+ *    of the object has been reached
+ *
+ * Since: UNRELEASED
+ */
+gboolean
+json_object_iter_next (JsonObjectIter  *iter,
+                       const gchar    **member_name,
+                       JsonNode       **member_node)
+{
+  JsonObjectIterReal *iter_real = (JsonObjectIterReal *) iter;
+
+  g_return_val_if_fail (iter != NULL, FALSE);
+  g_return_val_if_fail (iter_real->object != NULL, FALSE);
+  g_return_val_if_fail (iter_real->object->ref_count > 0, FALSE);
+
+  return g_hash_table_iter_next (&iter_real->members_iter,
+                                 (gpointer *) member_name,
+                                 (gpointer *) member_node);
+}
