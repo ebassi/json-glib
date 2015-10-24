@@ -1,0 +1,265 @@
+# Romanian translation for json-glib.
+# Copyright (C) 2015 json-glib's COPYRIGHT HOLDER
+# This file is distributed under the same license as the json-glib package.
+# Daniel Șerbănescu <daniel@serbanescu.dk>, 2015.
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: json-glib master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
+"glib&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-08-18 13:12+0000\n"
+"PO-Revision-Date: 2015-06-19 19:17+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"Language-Team: Gnome Romanian Translation Team\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../json-glib/json-glib-format.c:50
+msgid "Prettify output"
+msgstr "Înfrumusețează rezultatul"
+
+#: ../json-glib/json-glib-format.c:51
+msgid "Indentation spaces"
+msgstr "Spații de indentare"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:77 ../json-glib/json-glib-validate.c:63
+#, c-format
+msgid "%s: %s: error opening file: %s\n"
+msgstr "%s: %s: eroare la deschiderea fișierului: %s\n"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:89 ../json-glib/json-glib-validate.c:75
+#, c-format
+msgid "%s: %s: error parsing file: %s\n"
+msgstr "%s: %s: eroare la parsarea fișierului: %s\n"
+
+#. Translators: the first %s is the program name, the
+#. * second one is the URI of the file.
+#.
+#: ../json-glib/json-glib-format.c:108
+#, c-format
+msgid "%s: %s: error writing to stdout"
+msgstr "%s: %s: eroare la scrierea în stdout"
+
+#. Translators: the first %s is the program name, the second one
+#. * is the URI of the file, the third is the error message.
+#.
+#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
+#, c-format
+msgid "%s: %s: error closing: %s\n"
+msgstr "%s: %s: eroare la închidere: %s\n"
+
+#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
+msgid "FILE"
+msgstr "FIȘIER"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-format.c:160
+msgid "Format JSON files."
+msgstr "Formatează fișiere JSON."
+
+#: ../json-glib/json-glib-format.c:161
+msgid "json-glib-format formats JSON resources."
+msgstr "json-glib-format formatează resurse JSON."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "Eroare la parsarea opțiunilor din linia de comandă: %s\n"
+
+#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "Încercați „%s --help” pentru mai multe informații."
+
+#. Translators: the %s is the program name. This error message
+#. * means the user is calling json-glib-validate without any
+#. * argument.
+#.
+#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
+#, c-format
+msgid "%s: missing files"
+msgstr "%s: lipsesc fișiere"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../json-glib/json-glib-validate.c:118
+msgid "Validate JSON files."
+msgstr "Validează fișiere JSON."
+
+#: ../json-glib/json-glib-validate.c:119
+msgid "json-glib-validate validates JSON data at the given URI."
+msgstr "json-glib-validate validează date JSON la URI-ul dat."
+
+#: ../json-glib/json-gobject.c:943
+#, c-format
+msgid "Expecting a JSON object, but the root node is of type `%s'"
+msgstr "Se așteaptă un obiect JSON, dar nodul rădăcină este de tip „%s”"
+
+#: ../json-glib/json-gvariant.c:523
+#, c-format
+msgid "Unexpected type '%s' in JSON node"
+msgstr "Tip neașteptat „%s” în nodul JSON"
+
+#: ../json-glib/json-gvariant.c:593
+msgid "Missing elements in JSON array to conform to a tuple"
+msgstr "Lipsesc elemente în matricea JSON pentru a fi în acord cu un tuplu"
+
+#: ../json-glib/json-gvariant.c:621
+msgid "Missing closing symbol ')' in the GVariant tuple type"
+msgstr "Lipsește simbolul de închidere „)” în tipul de tuplu GVariant"
+
+#: ../json-glib/json-gvariant.c:629
+msgid "Unexpected extra elements in JSON array"
+msgstr "Elemente adiționale neașteptate în matricea JSON"
+
+#: ../json-glib/json-gvariant.c:908
+msgid "Invalid string value converting to GVariant"
+msgstr "Valoare de șir nevalidă în timpul convertirii la GVariant"
+
+#: ../json-glib/json-gvariant.c:964
+msgid ""
+"A GVariant dictionary entry expects a JSON object with exactly one member"
+msgstr ""
+"O înregistrate de dicționar GVariant presupune un obiect JSON cu exact un "
+"membru"
+
+#: ../json-glib/json-gvariant.c:1248
+#, c-format
+msgid "GVariant class '%c' not supported"
+msgstr "Clasă GVariant „%c” nesuportată"
+
+#: ../json-glib/json-gvariant.c:1296
+msgid "Invalid GVariant signature"
+msgstr "Semnătură GVariant nevalidă"
+
+#: ../json-glib/json-gvariant.c:1344
+msgid "JSON data is empty"
+msgstr "Datele JSON sunt goale"
+
+#: ../json-glib/json-parser.c:815
+#, c-format
+msgid "%s:%d:%d: Parse error: %s"
+msgstr "%s:%d:%d: Eroare la parsare: %s"
+
+#: ../json-glib/json-parser.c:883
+msgid "JSON data must be UTF-8 encoded"
+msgstr "Datele JSON trebuie să fie codate UTF-8"
+
+#: ../json-glib/json-path.c:388
+msgid "Only one root node is allowed in a JSONPath expression"
+msgstr "Doar un nod rădăcină este permis într-o expresie JSONPath"
+
+#: ../json-glib/json-path.c:397
+#, c-format
+msgid "Root node followed by invalid character '%c'"
+msgstr "Nod rădăcină urmat de caracterul nevalid „%c”"
+
+#: ../json-glib/json-path.c:437
+msgid "Missing member name or wildcard after . character"
+msgstr "Lipsește un nume de membru sau metacaracter după caracterul „.”"
+
+#: ../json-glib/json-path.c:511
+#, c-format
+msgid "Malformed slice expression '%*s'"
+msgstr "Expresie slice eronată „%*s”"
+
+#: ../json-glib/json-path.c:555
+#, c-format
+msgid "Invalid set definition '%*s'"
+msgstr "Definiție de set nevalidă „%*s”"
+
+#: ../json-glib/json-path.c:608
+#, c-format
+msgid "Invalid slice definition '%*s'"
+msgstr "Definiție slice nevalidă „%*s”"
+
+#: ../json-glib/json-path.c:636
+#, c-format
+msgid "Invalid array index definition '%*s'"
+msgstr "Definiția indexului matricii nevalidă „%*s”"
+
+#: ../json-glib/json-path.c:655
+#, c-format
+msgid "Invalid first character '%c'"
+msgstr "Primul caracter nevalid „%c”"
+
+#: ../json-glib/json-reader.c:473
+#, c-format
+msgid ""
+"The current node is of type '%s', but an array or an object was expected."
+msgstr ""
+"Nodul curent deste de tipul „%s”, dar o matrice sau un obiect a fost "
+"așteptat."
+
+#: ../json-glib/json-reader.c:485
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the array at the current position."
+msgstr ""
+"Indexul „%d” este mai mare decât dimensiunea matricii la poziția curentă."
+
+#: ../json-glib/json-reader.c:502
+#, c-format
+msgid ""
+"The index '%d' is greater than the size of the object at the current "
+"position."
+msgstr ""
+"Indexul „%d” este mai mare decât dimensiunea obiectului la poziția curentă."
+
+#: ../json-glib/json-reader.c:586 ../json-glib/json-reader.c:750
+#: ../json-glib/json-reader.c:801 ../json-glib/json-reader.c:839
+#: ../json-glib/json-reader.c:877 ../json-glib/json-reader.c:915
+#: ../json-glib/json-reader.c:953 ../json-glib/json-reader.c:998
+#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
+msgid "No node available at the current position"
+msgstr "Niciun nod disponibil la poziția curentă"
+
+#: ../json-glib/json-reader.c:593
+#, c-format
+msgid "The current position holds a '%s' and not an array"
+msgstr "Poziția curentă ține un „%s” ci nu o matrice"
+
+#: ../json-glib/json-reader.c:669
+#, c-format
+msgid "The current node is of type '%s', but an object was expected."
+msgstr "Nodul curent deste de tipul „%s”, dar un obiect a fost așteptat."
+
+#: ../json-glib/json-reader.c:676
+#, c-format
+msgid "The member '%s' is not defined in the object at the current position."
+msgstr "Membrul „%s” nu este definit în obiectul de la poziția curentă."
+
+#: ../json-glib/json-reader.c:757 ../json-glib/json-reader.c:808
+#, c-format
+msgid "The current position holds a '%s' and not an object"
+msgstr "Poziția curentă ține un „%s” ci nu un obiect"
+
+#: ../json-glib/json-reader.c:848 ../json-glib/json-reader.c:886
+#: ../json-glib/json-reader.c:924 ../json-glib/json-reader.c:962
+#: ../json-glib/json-reader.c:1007
+#, c-format
+msgid "The current position holds a '%s' and not a value"
+msgstr "Poziția curentă ține un „%s” ci nu o valoare"
+
+#: ../json-glib/json-reader.c:970
+msgid "The current position does not hold a string type"
+msgstr "Poziția curentă nu ține un șir"
