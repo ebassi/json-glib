@@ -382,8 +382,10 @@ void                  json_object_foreach_member     (JsonObject  *object,
  * Since: UNRELEASED
  */
 typedef struct {
-	/*< private >*/
-	gpointer priv[8];
+  /*< private >*/
+  gpointer priv_pointer[6];
+  int      priv_int[2];
+  gboolean priv_boolean[1];
 } JsonObjectIter;
 
 JSON_AVAILABLE_IN_1_2
