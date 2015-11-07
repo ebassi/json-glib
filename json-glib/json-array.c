@@ -100,7 +100,7 @@ json_array_ref (JsonArray *array)
   g_return_val_if_fail (array != NULL, NULL);
   g_return_val_if_fail (array->ref_count > 0, NULL);
 
-  g_atomic_int_add (&array->ref_count, 1);
+  array->ref_count++;
 
   return array;
 }
@@ -119,7 +119,7 @@ json_array_unref (JsonArray *array)
   g_return_if_fail (array != NULL);
   g_return_if_fail (array->ref_count > 0);
 
-  if (g_atomic_int_dec_and_test (&array->ref_count))
+  if (--array->ref_count == 0)
     {
       guint i;
 

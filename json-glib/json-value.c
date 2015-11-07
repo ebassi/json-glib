@@ -109,7 +109,7 @@ json_value_ref (JsonValue *value)
 {
   g_return_val_if_fail (value != NULL, NULL);
 
-  g_atomic_int_add (&value->ref_count, 1);
+  value->ref_count++;
 
   return value;
 }
@@ -119,7 +119,7 @@ json_value_unref (JsonValue *value)
 {
   g_return_if_fail (value != NULL);
 
-  if (g_atomic_int_dec_and_test (&value->ref_count))
+  if (--value->ref_count == 0)
     json_value_free (value);
 }
 
