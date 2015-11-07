@@ -440,7 +440,7 @@ json_gvariant_serialize_data (GVariant *variant, gsize *length)
 
   g_object_unref (generator);
 
-  json_node_free (json_node);
+  json_node_unref (json_node);
 
   return json;
 }

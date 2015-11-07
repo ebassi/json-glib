@@ -66,7 +66,7 @@ json_object_new (void)
   object->ref_count = 1;
   object->members = g_hash_table_new_full (g_str_hash, g_str_equal,
                                            g_free,
-                                           (GDestroyNotify) json_node_free);
+                                           (GDestroyNotify) json_node_unref);
   object->members_ordered = NULL;
 
   return object;
@@ -525,7 +525,7 @@ json_object_get_values (JsonObject *object)
  * inside a #JsonObject
  *
  * Return value: (transfer full): a copy of the node for the requested
- *   object member or %NULL. Use json_node_free() when done.
+ *   object member or %NULL. Use json_node_unref() when done.
  *
  * Since: 0.6
  */

@@ -125,7 +125,7 @@ json_builder_free_all_state (JsonBuilder *builder)
 
   if (builder->priv->root)
     {
-      json_node_free (builder->priv->root);
+      json_node_unref (builder->priv->root);
       builder->priv->root = NULL;
     }
 }
@@ -272,7 +272,7 @@ json_builder_new_immutable (void)
  * (ie: all opened objects, object members and arrays are being closed).
  *
  * Return value: (transfer full): the #JsonNode, or %NULL if the build is not complete.
- *   Free the returned value with json_node_free().
+ *   Free the returned value with json_node_unref().
  */
 JsonNode *
 json_builder_get_root (JsonBuilder *builder)

@@ -839,7 +839,7 @@ json_gobject_deserialize (GType     gtype,
  * map to a property of the #GObject
  *
  * Return value: (transfer full): the newly created #JsonNode
- *   of type %JSON_NODE_OBJECT. Use json_node_free() to free
+ *   of type %JSON_NODE_OBJECT. Use json_node_unref() to free
  *   the resources allocated by this function
  *
  * Since: 0.10
@@ -1012,7 +1012,7 @@ json_gobject_to_data (GObject *gobject,
   data = json_generator_to_data (gen, length);
   g_object_unref (gen);
 
-  json_node_free (root);
+  json_node_unref (root);
 
   return data;
 }

@@ -936,7 +936,7 @@ walk_path_node (GList      *path,
  *
  * Return value: (transfer full): a newly-created #JsonNode of type
  *   %JSON_NODE_ARRAY containing an array of matching #JsonNodes.
- *   Use json_node_free() when done
+ *   Use json_node_unref() when done
  *
  * Since: 0.14
  */
@@ -976,7 +976,7 @@ json_path_match (JsonPath *path,
  *
  * Return value: (transfer full): a newly-created #JsonNode of type
  *   %JSON_NODE_ARRAY containing an array of matching #JsonNodes.
- *   Use json_node_free() when done
+ *   Use json_node_unref() when done
  *
  * Since: 0.14
  */

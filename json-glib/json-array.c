@@ -124,7 +124,7 @@ json_array_unref (JsonArray *array)
       guint i;
 
       for (i = 0; i < array->elements->len; i++)
-        json_node_free (g_ptr_array_index (array->elements, i));
+        json_node_unref (g_ptr_array_index (array->elements, i));
 
       g_ptr_array_free (array->elements, TRUE);
       array->elements = NULL;
@@ -217,7 +217,7 @@ json_array_get_elements (JsonArray *array)
  * element at @index_ inside a #JsonArray
  *
  * Return value: (transfer full): a copy of the #JsonNode at the requested
- *   index. Use json_node_free() when done.
+ *   index. Use json_node_unref() when done.
  *
  * Since: 0.6
  */
@@ -706,7 +706,7 @@ json_array_remove_element (JsonArray *array,
   g_return_if_fail (array != NULL);
   g_return_if_fail (index_ < array->elements->len);
 
-  json_node_free (g_ptr_array_remove_index (array->elements, index_));
+  json_node_unref (g_ptr_array_remove_index (array->elements, index_));
 }
 
 /**

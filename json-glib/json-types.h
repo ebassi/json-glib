@@ -213,6 +213,11 @@ JsonNode *            json_node_copy            (JsonNode     *node);
 JSON_AVAILABLE_IN_1_0
 void                  json_node_free            (JsonNode     *node);
 
+JSON_AVAILABLE_IN_1_2
+JsonNode *            json_node_ref             (JsonNode     *node);
+JSON_AVAILABLE_IN_1_2
+void                  json_node_unref           (JsonNode     *node);
+
 JSON_AVAILABLE_IN_1_0
 JsonNodeType          json_node_get_node_type   (JsonNode     *node);
 JSON_AVAILABLE_IN_1_0

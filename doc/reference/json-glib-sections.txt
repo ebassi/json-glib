@@ -110,6 +110,8 @@ json_node_init_array
 json_node_new
 json_node_copy
 json_node_free
+json_node_ref
+json_node_unref
 json_node_is_immutable
 json_node_seal
 

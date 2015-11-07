@@ -140,7 +140,7 @@ json_generator_finalize (GObject *gobject)
 
   priv = json_generator_get_instance_private ((JsonGenerator *) gobject);
   if (priv->root != NULL)
-    json_node_free (priv->root);
+    json_node_unref (priv->root);
 
   G_OBJECT_CLASS (json_generator_parent_class)->finalize (gobject);
 }
@@ -722,7 +722,7 @@ json_generator_set_root (JsonGenerator *generator,
 
   if (generator->priv->root != NULL)
     {
-      json_node_free (generator->priv->root);
+      json_node_unref (generator->priv->root);
       generator->priv->root = NULL;
     }
 

@@ -134,7 +134,7 @@ json_parser_clear (JsonParser *parser)
 
   if (priv->root)
     {
-      json_node_free (priv->root);
+      json_node_unref (priv->root);
       priv->root = NULL;
     }
 }
@@ -553,7 +553,7 @@ json_parse_array (JsonParser   *parser,
         {
           /* the json_parse_* functions will have set the error code */
           json_array_unref (array);
-          json_node_free (priv->current_node);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return token;
@@ -585,8 +585,8 @@ json_parse_array (JsonParser   *parser,
               priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
 
               json_array_unref (array);
-              json_node_free (priv->current_node);
-              json_node_free (element);
+              json_node_unref (priv->current_node);
+              json_node_unref (element);
               priv->current_node = old_current;
 
               return G_TOKEN_RIGHT_BRACE;
@@ -669,7 +669,7 @@ json_parse_object (JsonParser   *parser,
           priv->error_code = JSON_PARSER_ERROR_INVALID_BAREWORD;
 
           json_object_unref (object);
-          json_node_free (priv->current_node);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return G_TOKEN_STRING;
@@ -685,7 +685,7 @@ json_parse_object (JsonParser   *parser,
           priv->error_code = JSON_PARSER_ERROR_EMPTY_MEMBER_NAME;
 
           json_object_unref (object);
-          json_node_free (priv->current_node);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return G_TOKEN_STRING;
@@ -703,7 +703,7 @@ json_parse_object (JsonParser   *parser,
 
           g_free (name);
           json_object_unref (object);
-          json_node_free (priv->current_node);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return ':';
@@ -739,7 +739,7 @@ json_parse_object (JsonParser   *parser,
           /* the json_parse_* functions will have set the error code */
           g_free (name);
           json_object_unref (object);
-          json_node_free (priv->current_node);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return token;
@@ -757,8 +757,8 @@ json_parse_object (JsonParser   *parser,
               priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
 
               json_object_unref (object);
-              json_node_free (member);
-              json_node_free (priv->current_node);
+              json_node_unref (member);
+              json_node_unref (priv->current_node);
               priv->current_node = old_current;
 
               return G_TOKEN_RIGHT_BRACE;
@@ -769,8 +769,8 @@ json_parse_object (JsonParser   *parser,
           priv->error_code = JSON_PARSER_ERROR_MISSING_COMMA;
 
           json_object_unref (object);
-          json_node_free (member);
-          json_node_free (priv->current_node);
+          json_node_unref (member);
+          json_node_unref (priv->current_node);
           priv->current_node = old_current;
 
           return G_TOKEN_COMMA;

@@ -113,7 +113,7 @@ json_reader_finalize (GObject *gobject)
   JsonReaderPrivate *priv = JSON_READER (gobject)->priv;
 
   if (priv->root != NULL)
-    json_node_free (priv->root);
+    json_node_unref (priv->root);
 
   if (priv->error != NULL)
     g_clear_error (&priv->error);
@@ -258,7 +258,7 @@ json_reader_set_root (JsonReader *reader,
 
   if (priv->root != NULL)
     {
-      json_node_free (priv->root);
+      json_node_unref (priv->root);
       priv->root = NULL;
       priv->current_node = NULL;
       priv->previous_node = NULL;
