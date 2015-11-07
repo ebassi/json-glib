@@ -43,6 +43,7 @@ struct _JsonNode
 {
   /*< private >*/
   JsonNodeType type;
+  gboolean immutable : 1;
 
   union {
     JsonObject *object;
@@ -69,6 +70,7 @@ struct _JsonValue
   JsonValueType type;
 
   volatile gint ref_count;
+  gboolean immutable : 1;
 
   union {
     gint64 v_int;
@@ -83,6 +85,7 @@ struct _JsonArray
   GPtrArray *elements;
 
   volatile gint ref_count;
+  gboolean immutable : 1;
 };
 
 struct _JsonObject
@@ -93,6 +96,7 @@ struct _JsonObject
   GList *members_ordered;
 
   volatile gint ref_count;
+  gboolean immutable : 1;
 };
 
 typedef struct
@@ -145,6 +149,9 @@ void            json_value_set_string           (JsonValue       *value,
                                                  const gchar     *v_str);
 G_GNUC_INTERNAL
 const gchar *   json_value_get_string           (const JsonValue *value);
+
+G_GNUC_INTERNAL
+void            json_value_seal                 (JsonValue       *value);
 
 G_END_DECLS
 

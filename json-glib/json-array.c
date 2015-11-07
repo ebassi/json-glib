@@ -134,6 +134,54 @@ json_array_unref (JsonArray *array)
 }
 
 /**
+ * json_array_seal:
+ * @array: a #JsonArray
+ *
+ * Seals the #JsonArray, making it immutable to further changes. This will
+ * recursively seal all elements in the array too.
+ *
+ * If the @array is already immutable, this is a no-op.
+ *
+ * Since: UNRELEASED
+ */
+void
+json_array_seal (JsonArray *array)
+{
+  guint i;
+
+  g_return_if_fail (array != NULL);
+  g_return_if_fail (array->ref_count > 0);
+
+  if (array->immutable)
+    return;
+
+  /* Propagate to all members. */
+  for (i = 0; i < array->elements->len; i++)
+    json_node_seal (g_ptr_array_index (array->elements, i));
+
+  array->immutable = TRUE;
+}
+
+/**
+ * json_array_is_immutable:
+ * @array: a #JsonArray
+ *
+ * Check whether the given @array has been marked as immutable by calling
+ * json_array_seal() on it.
+ *
+ * Since: UNRELEASED
+ * Returns: %TRUE if the @array is immutable
+ */
+gboolean
+json_array_is_immutable (JsonArray *array)
+{
+  g_return_val_if_fail (array != NULL, FALSE);
+  g_return_val_if_fail (array->ref_count > 0, FALSE);
+
+  return array->immutable;
+}
+
+/**
  * json_array_get_elements:
  * @array: a #JsonArray
  *

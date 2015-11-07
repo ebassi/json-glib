@@ -147,6 +147,8 @@ GType json_parser_get_type (void) G_GNUC_CONST;
 
 JSON_AVAILABLE_IN_1_0
 JsonParser *json_parser_new                     (void);
+JSON_AVAILABLE_IN_1_2
+JsonParser *json_parser_new_immutable           (void);
 JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_load_from_file          (JsonParser           *parser,
                                                  const gchar          *filename,

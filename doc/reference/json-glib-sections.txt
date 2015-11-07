@@ -5,6 +5,8 @@ JsonObject
 json_object_new
 json_object_ref
 json_object_unref
+json_object_seal
+json_object_is_immutable
 
 <SUBSECTION>
 json_object_add_member
@@ -51,6 +53,8 @@ json_array_new
 json_array_sized_new
 json_array_ref
 json_array_unref
+json_array_seal
+json_array_is_immutable
 
 <SUBSECTION>
 json_array_add_element
@@ -106,6 +110,8 @@ json_node_init_array
 json_node_new
 json_node_copy
 json_node_free
+json_node_is_immutable
+json_node_seal
 
 <SUBSECTION>
 json_node_set_array
@@ -156,6 +162,7 @@ JsonParserError
 JsonParser
 JsonParserClass
 json_parser_new
+json_parser_new_immutable
 json_parser_load_from_file
 json_parser_load_from_data
 json_parser_load_from_stream
@@ -325,6 +332,7 @@ _JSON_EXTERN
 JsonBuilder
 JsonBuilderClass
 json_builder_new
+json_builder_new_immutable
 json_builder_get_root
 json_builder_reset
 <SUBSECTION>

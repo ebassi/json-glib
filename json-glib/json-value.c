@@ -2,6 +2,7 @@
  * 
  * This file is part of JSON-GLib
  * Copyright (C) 2012  Emmanuele Bassi <ebassi@gnome.org>
+ * Copyright (C) 2015 Collabora Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,7 @@
  *
  * Author:
  *   Emmanuele Bassi  <ebassi@linux.intel.com>
+ *   Philip Withnall  <philip.withnall@collabora.co.uk>
  */
 
 #include "config.h"
@@ -165,12 +167,32 @@ json_value_free (JsonValue *value)
     }
 }
 
+/**
+ * json_value_seal:
+ * @value: a #JsonValue
+ *
+ * Seals the #JsonValue, making it immutable to further changes.
+ *
+ * If the @value is already immutable, this is a no-op.
+ *
+ * Since: UNRELEASED
+ */
+void
+json_value_seal (JsonValue *value)
+{
+  g_return_if_fail (JSON_VALUE_IS_VALID (value));
+  g_return_if_fail (value->ref_count > 0);
+
+  value->immutable = TRUE;
+}
+
 #define _JSON_VALUE_DEFINE_SET(Type,EType,CType,VField) \
 void \
 json_value_set_##Type (JsonValue *value, CType VField) \
 { \
   g_return_if_fail (JSON_VALUE_IS_VALID (value)); \
   g_return_if_fail (JSON_VALUE_HOLDS (value, JSON_VALUE_##EType)); \
+  g_return_if_fail (!value->immutable); \
 \
   value->data.VField = VField; \
 \
@@ -202,6 +224,7 @@ json_value_set_string (JsonValue *value,
 {
   g_return_if_fail (JSON_VALUE_IS_VALID (value));
   g_return_if_fail (JSON_VALUE_HOLDS_STRING (value));
+  g_return_if_fail (!value->immutable);
 
   g_free (value->data.v_str);
   value->data.v_str = g_strdup (v_str);

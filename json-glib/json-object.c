@@ -117,6 +117,57 @@ json_object_unref (JsonObject *object)
     }
 }
 
+/**
+ * json_object_seal:
+ * @object: a #JsonObject
+ *
+ * Seals the #JsonObject, making it immutable to further changes. This will
+ * recursively seal all members of the object too.
+ *
+ * If the @object is already immutable, this is a no-op.
+ *
+ * Since: UNRELEASED
+ */
+void
+json_object_seal (JsonObject *object)
+{
+  JsonObjectIter iter;
+  JsonNode *node;
+
+  g_return_if_fail (object != NULL);
+  g_return_if_fail (object->ref_count > 0);
+
+  if (object->immutable)
+    return;
+
+  /* Propagate to all members. */
+  json_object_iter_init (&iter, object);
+
+  while (json_object_iter_next (&iter, NULL, &node))
+    json_node_seal (node);
+
+  object->immutable = TRUE;
+}
+
+/**
+ * json_object_is_immutable:
+ * @object: a #JsonObject
+ *
+ * Check whether the given @object has been marked as immutable by calling
+ * json_object_seal() on it.
+ *
+ * Since: UNRELEASED
+ * Returns: %TRUE if the @object is immutable
+ */
+gboolean
+json_object_is_immutable (JsonObject *object)
+{
+  g_return_val_if_fail (object != NULL, FALSE);
+  g_return_val_if_fail (object->ref_count > 0, FALSE);
+
+  return object->immutable;
+}
+
 static inline void
 object_set_member_internal (JsonObject  *object,
                             const gchar *member_name,

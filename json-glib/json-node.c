@@ -3,6 +3,7 @@
  * This file is part of JSON-GLib
  * Copyright (C) 2007  OpenedHand Ltd.
  * Copyright (C) 2009  Intel Corp.
+ * Copyright (C) 2015  Collabora Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,6 +20,7 @@
  *
  * Author:
  *   Emmanuele Bassi  <ebassi@linux.intel.com>
+ *   Philip Withnall  <philip.withnall@collabora.co.uk>
  */
 
 #include "config.h"
@@ -44,6 +46,15 @@
  * #JsonObject or the #JsonArray using json_node_get_object() or
  * json_node_get_array() respectively, and then retrieve the nodes
  * they contain.
+ *
+ * A #JsonNode may be marked as immutable using json_node_seal(). This marks the
+ * node and all its descendents as read-only, and means that subsequent calls to
+ * setter functions (such as json_node_set_array()) on them will abort as a
+ * programmer error. By marking a node tree as immutable, it may be referenced
+ * in multiple places and its hash value cached for fast lookups, without the
+ * possibility of a value deep within the tree changing and affecting hash
+ * values. Immutable #JsonNodes may be passed to functions which retain a
+ * reference to them without needing to take a copy.
  */
 
 G_DEFINE_BOXED_TYPE (JsonNode, json_node, json_node_copy, json_node_free);
@@ -367,8 +378,12 @@ json_node_new (JsonNodeType type)
  * json_node_copy:
  * @node: a #JsonNode
  *
- * Copies @node. If the node contains complex data types then the reference
- * count of the objects is increased.
+ * Copies @node. If the node contains complex data types, their reference
+ * counts are increased, regardless of whether the node is mutable or
+ * immutable.
+ *
+ * The copy will be immutable if, and only if, @node is immutable. However,
+ * there should be no need to copy an immutable node.
  *
  * Return value: (transfer full): the copied #JsonNode
  */
@@ -381,6 +396,10 @@ json_node_copy (JsonNode *node)
 
   copy = g_slice_new0 (JsonNode);
   copy->type = node->type;
+  copy->immutable = node->immutable;
+
+  if (node->immutable)
+    g_debug ("Copying immutable JsonNode %p", node);
 
   switch (copy->type)
     {
@@ -415,6 +434,8 @@ json_node_copy (JsonNode *node)
  * Sets @objects inside @node. The reference count of @object is increased.
  *
  * If @object is %NULL, the node’s existing object is cleared.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_object (JsonNode   *node,
@@ -422,6 +443,7 @@ json_node_set_object (JsonNode   *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.object != NULL)
     json_object_unref (node->data.object);
@@ -438,6 +460,8 @@ json_node_set_object (JsonNode   *node,
  * @object: (transfer full): a #JsonObject
  *
  * Sets @object inside @node. The reference count of @object is not increased.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_take_object (JsonNode   *node,
@@ -445,6 +469,7 @@ json_node_take_object (JsonNode   *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_OBJECT);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.object)
     {
@@ -499,7 +524,9 @@ json_node_dup_object (JsonNode *node)
  * @node: a #JsonNode initialized to %JSON_NODE_ARRAY
  * @array: a #JsonArray
  *
- * Sets @array inside @node and increases the #JsonArray reference count
+ * Sets @array inside @node and increases the #JsonArray reference count.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_array (JsonNode  *node,
@@ -507,6 +534,7 @@ json_node_set_array (JsonNode  *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_ARRAY);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.array)
     json_array_unref (node->data.array);
@@ -523,6 +551,8 @@ json_node_set_array (JsonNode  *node,
  * @array: (transfer full): a #JsonArray
  *
  * Sets @array into @node without increasing the #JsonArray reference count.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_take_array (JsonNode  *node,
@@ -530,6 +560,7 @@ json_node_take_array (JsonNode  *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_ARRAY);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.array)
     {
@@ -627,7 +658,9 @@ json_node_get_value (JsonNode *node,
  * @node: a #JsonNode initialized to %JSON_NODE_VALUE
  * @value: the #GValue to set
  *
- * Sets @value inside @node. The passed #GValue is copied into the #JsonNode
+ * Sets @value inside @node. The passed #GValue is copied into the #JsonNode.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_value (JsonNode     *node,
@@ -636,6 +669,7 @@ json_node_set_value (JsonNode     *node,
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
   g_return_if_fail (G_VALUE_TYPE (value) != G_TYPE_INVALID);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.value == NULL)
     node->data.value = json_value_alloc ();
@@ -697,6 +731,72 @@ json_node_free (JsonNode *node)
 }
 
 /**
+ * json_node_seal:
+ * @node: a #JsonNode
+ *
+ * Seals the #JsonNode, making it immutable to further changes. In order to be
+ * sealed, the @node must have a type and value set. The value will be
+ * recursively sealed — if the node holds an object, that #JsonObject will be
+ * sealed, etc.
+ *
+ * If the @node is already immutable, this is a no-op.
+ *
+ * Since: UNRELEASED
+ */
+void
+json_node_seal (JsonNode *node)
+{
+  g_return_if_fail (node != NULL);
+  g_return_if_fail (node->type >= JSON_NODE_OBJECT &&
+                    node->type <= JSON_NODE_NULL);
+
+  if (node->immutable)
+    return;
+
+  switch (node->type)
+    {
+    case JSON_NODE_OBJECT:
+      g_return_if_fail (node->data.object != NULL);
+      json_object_seal (node->data.object);
+      break;
+    case JSON_NODE_ARRAY:
+      g_return_if_fail (node->data.array != NULL);
+      json_array_seal (node->data.array);
+      break;
+    case JSON_NODE_NULL:
+      break;
+    case JSON_NODE_VALUE:
+      g_return_if_fail (node->data.value != NULL);
+      json_value_seal (node->data.value);
+      break;
+    default:
+      g_assert_not_reached ();
+    }
+
+  node->immutable = TRUE;
+}
+
+/**
+ * json_node_is_immutable:
+ * @node: a #JsonNode
+ *
+ * Check whether the given @node has been marked as immutable by calling
+ * json_node_seal() on it.
+ *
+ * Since: UNRELEASED
+ * Returns: %TRUE if the @node is immutable
+ */
+gboolean
+json_node_is_immutable (JsonNode *node)
+{
+  g_return_val_if_fail (node != NULL, FALSE);
+  g_return_val_if_fail (node->type >= JSON_NODE_OBJECT &&
+                        node->type <= JSON_NODE_NULL, FALSE);
+
+  return node->immutable;
+}
+
+/**
  * json_node_type_name:
  * @node: a #JsonNode
  *
@@ -755,7 +855,10 @@ json_node_type_get_name (JsonNodeType node_type)
  * @node: a #JsonNode
  * @parent: (transfer none): the parent #JsonNode of @node
  *
- * Sets the parent #JsonNode of @node
+ * Sets the parent #JsonNode of @node.
+ *
+ * It is an error to call this with an immutable @parent. @node may be
+ * immutable.
  *
  * Since: 0.8
  */
@@ -764,6 +867,8 @@ json_node_set_parent (JsonNode *node,
                       JsonNode *parent)
 {
   g_return_if_fail (node != NULL);
+  g_return_if_fail (parent == NULL ||
+                    !json_node_is_immutable (parent));
 
   node->parent = parent;
 }
@@ -792,6 +897,8 @@ json_node_get_parent (JsonNode *node)
  *
  * Sets @value as the string content of the @node, replacing any existing
  * content.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_string (JsonNode    *node,
@@ -799,6 +906,7 @@ json_node_set_string (JsonNode    *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.value == NULL)
     node->data.value = json_value_init (json_value_alloc (), JSON_VALUE_STRING);
@@ -854,6 +962,8 @@ json_node_dup_string (JsonNode *node)
  *
  * Sets @value as the integer content of the @node, replacing any existing
  * content.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_int (JsonNode *node,
@@ -861,6 +971,7 @@ json_node_set_int (JsonNode *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.value == NULL)
     node->data.value = json_value_init (json_value_alloc (), JSON_VALUE_INT);
@@ -905,6 +1016,8 @@ json_node_get_int (JsonNode *node)
  *
  * Sets @value as the double content of the @node, replacing any existing
  * content.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_double (JsonNode *node,
@@ -912,6 +1025,7 @@ json_node_set_double (JsonNode *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.value == NULL)
     node->data.value = json_value_init (json_value_alloc (), JSON_VALUE_DOUBLE);
@@ -956,6 +1070,8 @@ json_node_get_double (JsonNode *node)
  *
  * Sets @value as the boolean content of the @node, replacing any existing
  * content.
+ *
+ * It is an error to call this on an immutable node.
  */
 void
 json_node_set_boolean (JsonNode *node,
@@ -963,6 +1079,7 @@ json_node_set_boolean (JsonNode *node,
 {
   g_return_if_fail (node != NULL);
   g_return_if_fail (JSON_NODE_TYPE (node) == JSON_NODE_VALUE);
+  g_return_if_fail (!node->immutable);
 
   if (node->data.value == NULL)
     node->data.value = json_value_init (json_value_alloc (), JSON_VALUE_BOOLEAN);

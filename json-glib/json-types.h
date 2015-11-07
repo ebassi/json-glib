@@ -276,6 +276,10 @@ gboolean              json_node_get_boolean     (JsonNode     *node);
 JSON_AVAILABLE_IN_1_0
 gboolean              json_node_is_null         (JsonNode     *node);
 
+JSON_AVAILABLE_IN_1_2
+void                  json_node_seal            (JsonNode     *node);
+gboolean              json_node_is_immutable    (JsonNode     *node);
+
 /*
  * JsonObject
  */
@@ -367,6 +371,11 @@ JSON_AVAILABLE_IN_1_0
 void                  json_object_foreach_member     (JsonObject  *object,
                                                       JsonObjectForeach func,
                                                       gpointer     data);
+
+JSON_AVAILABLE_IN_1_2
+void                  json_object_seal               (JsonObject  *object);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_object_is_immutable       (JsonObject  *object);
 
 /**
  * JsonObjectIter:
@@ -467,6 +476,10 @@ JSON_AVAILABLE_IN_1_0
 void                  json_array_foreach_element     (JsonArray   *array,
                                                       JsonArrayForeach func,
                                                       gpointer     data);
+JSON_AVAILABLE_IN_1_2
+void                  json_array_seal                (JsonArray   *array);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_array_is_immutable        (JsonArray   *array);
 
 #ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonArray, json_array_unref)

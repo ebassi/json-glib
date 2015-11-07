@@ -80,6 +80,8 @@ GType json_builder_get_type (void) G_GNUC_CONST;
 
 JSON_AVAILABLE_IN_1_0
 JsonBuilder *json_builder_new                (void);
+JSON_AVAILABLE_IN_1_2
+JsonBuilder *json_builder_new_immutable      (void);
 JSON_AVAILABLE_IN_1_0
 JsonNode    *json_builder_get_root           (JsonBuilder  *builder);
 JSON_AVAILABLE_IN_1_0

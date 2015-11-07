@@ -2,6 +2,7 @@
  *
  * This file is part of JSON-GLib
  * Copyright (C) 2010  Luca Bruno <lethalman88@gmail.com>
+ * Copyright (C) 2015  Collabora Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,7 @@
  *
  * Author:
  *   Luca Bruno  <lethalman88@gmail.com>
+ *   Philip Withnall  <philip.withnall@collabora.co.uk>
  */
 
 /**
@@ -50,7 +52,16 @@ struct _JsonBuilderPrivate
 {
   GQueue *stack;
   JsonNode *root;
+  gboolean immutable;
 };
+
+enum
+{
+  PROP_IMMUTABLE = 1,
+  PROP_LAST
+};
+
+static GParamSpec *builder_props[PROP_LAST] = { NULL, };
 
 typedef enum
 {
@@ -133,11 +144,70 @@ json_builder_finalize (GObject *gobject)
 }
 
 static void
+json_builder_set_property (GObject      *gobject,
+                           guint         prop_id,
+                           const GValue *value,
+                           GParamSpec   *pspec)
+{
+  JsonBuilderPrivate *priv = JSON_BUILDER (gobject)->priv;
+
+  switch (prop_id)
+    {
+    case PROP_IMMUTABLE:
+      /* Construct-only. */
+      priv->immutable = g_value_get_boolean (value);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
+json_builder_get_property (GObject    *gobject,
+                           guint       prop_id,
+                           GValue     *value,
+                           GParamSpec *pspec)
+{
+  JsonBuilderPrivate *priv = JSON_BUILDER (gobject)->priv;
+
+  switch (prop_id)
+    {
+    case PROP_IMMUTABLE:
+      g_value_set_boolean (value, priv->immutable);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
 json_builder_class_init (JsonBuilderClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
+  /**
+   * JsonBuilder:immutable:
+   *
+   * Whether the #JsonNode tree built by the #JsonBuilder should be immutable
+   * when created. Making the output immutable on creation avoids the expense
+   * of traversing it to make it immutable later.
+   *
+   * Since: UNRELEASED
+   */
+  builder_props[PROP_IMMUTABLE] =
+    g_param_spec_boolean ("immutable",
+                          "Immutable Output",
+                          "Whether the builder output is immutable.",
+                          FALSE,
+                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
+
+  gobject_class->set_property = json_builder_set_property;
+  gobject_class->get_property = json_builder_get_property;
   gobject_class->finalize = json_builder_finalize;
+
+  g_object_class_install_properties (gobject_class, PROP_LAST, builder_props);
 }
 
 static void
@@ -180,6 +250,21 @@ json_builder_new (void)
 }
 
 /**
+ * json_builder_new_immutable:
+ *
+ * Creates a new #JsonBuilder instance with its #JsonBuilder:immutable property
+ * set to %TRUE to create immutable output trees.
+ *
+ * Since: UNRELEASED
+ * Returns: (transfer full): a new #JsonBuilder
+ */
+JsonBuilder *
+json_builder_new_immutable (void)
+{
+  return g_object_new (JSON_TYPE_BUILDER, "immutable", TRUE, NULL);
+}
+
+/**
  * json_builder_get_root:
  * @builder: a #JsonBuilder
  *
@@ -198,6 +283,11 @@ json_builder_get_root (JsonBuilder *builder)
 
   if (builder->priv->root)
     root = json_node_copy (builder->priv->root);
+
+  /* Sanity check. */
+  g_return_val_if_fail (!builder->priv->immutable ||
+                        root == NULL ||
+                        json_node_is_immutable (root), NULL);
 
   return root;
 }
@@ -292,10 +382,16 @@ json_builder_end_object (JsonBuilder *builder)
 
   state = g_queue_pop_head (builder->priv->stack);
 
+  if (builder->priv->immutable)
+    json_object_seal (state->data.object);
+
   if (g_queue_is_empty (builder->priv->stack))
     {
       builder->priv->root = json_node_new (JSON_NODE_OBJECT);
       json_node_take_object (builder->priv->root, json_object_ref (state->data.object));
+
+      if (builder->priv->immutable)
+        json_node_seal (builder->priv->root);
     }
 
   json_builder_state_free (state);
@@ -378,10 +474,16 @@ json_builder_end_array (JsonBuilder *builder)
 
   state = g_queue_pop_head (builder->priv->stack);
 
+  if (builder->priv->immutable)
+    json_array_seal (state->data.array);
+
   if (g_queue_is_empty (builder->priv->stack))
     {
       builder->priv->root = json_node_new (JSON_NODE_ARRAY);
       json_node_take_array (builder->priv->root, json_array_ref (state->data.array));
+
+      if (builder->priv->immutable)
+        json_node_seal (builder->priv->root);
     }
 
   json_builder_state_free (state);
@@ -444,6 +546,10 @@ json_builder_add_value (JsonBuilder *builder,
   g_return_val_if_fail (json_builder_is_valid_add_mode (builder), NULL);
 
   state = g_queue_peek_head (builder->priv->stack);
+
+  if (builder->priv->immutable)
+    json_node_seal (node);
+
   switch (state->mode)
     {
     case JSON_BUILDER_MODE_MEMBER:

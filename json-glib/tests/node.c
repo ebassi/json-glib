@@ -242,6 +242,311 @@ test_gvalue_autopromotion (void)
   json_node_free (node);
 }
 
+/* Test that creating then sealing a node containing an int causes it to be
+ * immutable. */
+static void
+test_seal_int (void)
+{
+  JsonNode *node = NULL;
+
+  node = json_node_init_int (json_node_alloc (), 1);
+
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  json_node_free (node);
+}
+
+/* Test that creating then sealing a node containing a double causes it to be
+ * immutable. */
+static void
+test_seal_double (void)
+{
+  JsonNode *node = NULL;
+
+  node = json_node_init_double (json_node_alloc (), 15.2);
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  json_node_free (node);
+}
+
+/* Test that creating then sealing a node containing a boolean causes it to be
+ * immutable. */
+static void
+test_seal_boolean (void)
+{
+  JsonNode *node = NULL;
+
+  node = json_node_init_boolean (json_node_alloc (), TRUE);
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  json_node_free (node);
+}
+
+/* Test that creating then sealing a node containing a string causes it to be
+ * immutable. */
+static void
+test_seal_string (void)
+{
+  JsonNode *node = NULL;
+
+  node = json_node_init_string (json_node_alloc (), "hi there");
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  json_node_free (node);
+}
+
+/* Test that creating then sealing a node containing a null causes it to be
+ * immutable. */
+static void
+test_seal_null (void)
+{
+  JsonNode *node = NULL;
+
+  node = json_node_init_null (json_node_alloc ());
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  json_node_free (node);
+}
+
+/* Test that creating then sealing a node containing an object causes it to be
+ * immutable. */
+static void
+test_seal_object (void)
+{
+  JsonNode *node = NULL;
+  JsonObject *object = NULL;
+
+  object = json_object_new ();
+  node = json_node_init_object (json_node_alloc (), object);
+
+  g_assert_false (json_object_is_immutable (object));
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  g_assert_true (json_object_is_immutable (object));
+
+  json_node_free (node);
+  json_object_unref (object);
+}
+
+/* Test that creating then sealing a node containing an array causes it to be
+ * immutable. */
+static void
+test_seal_array (void)
+{
+  JsonNode *node = NULL;
+  JsonArray *array = NULL;
+
+  array = json_array_new ();
+  node = json_node_init_array (json_node_alloc (), array);
+
+  g_assert_false (json_array_is_immutable (array));
+  g_assert_false (json_node_is_immutable (node));
+  json_node_seal (node);
+  g_assert_true (json_node_is_immutable (node));
+  g_assert_true (json_array_is_immutable (array));
+
+  json_node_free (node);
+  json_array_unref (array);
+}
+
+/* Test that an immutable node containing an int cannot be modified. */
+static void
+test_immutable_int (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_int (json_node_alloc (), 5);
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_int (node, 1);
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_int: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing a double cannot be modified. */
+static void
+test_immutable_double (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_double (json_node_alloc (), 5.6);
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_double (node, 1.1);
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_double: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing a boolean cannot be modified. */
+static void
+test_immutable_boolean (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_boolean (json_node_alloc (), TRUE);
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_boolean (node, FALSE);
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_boolean: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing a string cannot be modified. */
+static void
+test_immutable_string (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_string (json_node_alloc (), "bonghits");
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_string (node, "asdasd");
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_string: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing an object cannot be modified. */
+static void
+test_immutable_object (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_object (json_node_alloc (), json_object_new ());
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_object (node, json_object_new ());
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_object: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing an array cannot be modified. */
+static void
+test_immutable_array (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+
+      node = json_node_init_array (json_node_alloc (), json_array_new ());
+      json_node_seal (node);
+
+      /* Boom. */
+      json_node_set_array (node, json_array_new ());
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_array: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node containing a value cannot be modified. */
+static void
+test_immutable_value (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+      GValue val = G_VALUE_INIT;
+
+      node = json_node_init_int (json_node_alloc (), 5);
+      json_node_seal (node);
+
+      /* Boom. */
+      g_value_init (&val, G_TYPE_INT);
+      g_value_set_int (&val, 50);
+      json_node_set_value (node, &val);
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_value: "
+                             "assertion '!node->immutable' failed*");
+}
+
+/* Test that an immutable node can be reparented but not to an immutable
+ * parent. */
+static void
+test_immutable_parent (void)
+{
+  if (g_test_subprocess ())
+    {
+      JsonNode *node = NULL;
+      JsonNode *parent_mutable = NULL;
+      JsonNode *parent_immutable = NULL;
+      JsonObject *object_mutable = NULL;
+      JsonObject *object_immutable = NULL;
+
+      node = json_node_init_int (json_node_alloc (), 5);
+      json_node_seal (node);
+
+      object_mutable = json_object_new ();
+      object_immutable = json_object_new ();
+
+      parent_mutable = json_node_init_object (json_node_alloc (),
+                                              object_mutable);
+      parent_immutable = json_node_init_object (json_node_alloc (),
+                                                object_immutable);
+
+      json_node_seal (parent_immutable);
+
+      /* Can we reparent the immutable node? */
+      json_object_set_member (object_mutable, "test", node);
+      json_node_set_parent (node, parent_mutable);
+
+      json_object_remove_member (object_mutable, "test");
+      json_node_set_parent (node, NULL);
+
+      /* Boom. */
+      json_node_set_parent (node, parent_immutable);
+    }
+
+  g_test_trap_subprocess (NULL, 0, 0);
+  g_test_trap_assert_failed ();
+  g_test_trap_assert_stderr ("*Json-CRITICAL **: json_node_set_parent: *");
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -260,6 +565,21 @@ main (int   argc,
   g_test_add_func ("/nodes/get/double", test_get_double);
   g_test_add_func ("/nodes/gvalue", test_gvalue);
   g_test_add_func ("/nodes/gvalue/autopromotion", test_gvalue_autopromotion);
+  g_test_add_func ("/nodes/seal/int", test_seal_int);
+  g_test_add_func ("/nodes/seal/double", test_seal_double);
+  g_test_add_func ("/nodes/seal/boolean", test_seal_boolean);
+  g_test_add_func ("/nodes/seal/string", test_seal_string);
+  g_test_add_func ("/nodes/seal/null", test_seal_null);
+  g_test_add_func ("/nodes/seal/object", test_seal_object);
+  g_test_add_func ("/nodes/seal/array", test_seal_array);
+  g_test_add_func ("/nodes/immutable/int", test_immutable_int);
+  g_test_add_func ("/nodes/immutable/double", test_immutable_double);
+  g_test_add_func ("/nodes/immutable/boolean", test_immutable_boolean);
+  g_test_add_func ("/nodes/immutable/string", test_immutable_string);
+  g_test_add_func ("/nodes/immutable/object", test_immutable_object);
+  g_test_add_func ("/nodes/immutable/array", test_immutable_array);
+  g_test_add_func ("/nodes/immutable/value", test_immutable_value);
+  g_test_add_func ("/nodes/immutable/parent", test_immutable_parent);
 
   return g_test_run ();
 }

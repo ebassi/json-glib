@@ -4,6 +4,7 @@
  *
  * Copyright © 2007, 2008, 2009 OpenedHand Ltd
  * Copyright © 2009, 2010 Intel Corp.
+ * Copyright © 2015 Collabora Ltd.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,6 +21,7 @@
  *
  * Author:
  *   Emmanuele Bassi  <ebassi@linux.intel.com>
+ *   Philip Withnall  <philip.withnall@collabora.co.uk>
  */
 
 /**
@@ -58,6 +60,7 @@ struct _JsonParserPrivate
 
   guint has_assignment : 1;
   guint is_filename    : 1;
+  gboolean immutable   : 1;
 };
 
 static const gchar symbol_names[] =
@@ -95,6 +98,14 @@ enum
 };
 
 static guint parser_signals[LAST_SIGNAL] = { 0, };
+
+enum
+{
+  PROP_IMMUTABLE = 1,
+  PROP_LAST
+};
+
+static GParamSpec *parser_props[PROP_LAST] = { NULL, };
 
 G_DEFINE_QUARK (json-parser-error-quark, json_parser_error)
 
@@ -148,12 +159,71 @@ json_parser_finalize (GObject *gobject)
 }
 
 static void
+json_parser_set_property (GObject      *gobject,
+                          guint         prop_id,
+                          const GValue *value,
+                          GParamSpec   *pspec)
+{
+  JsonParserPrivate *priv = JSON_PARSER (gobject)->priv;
+
+  switch (prop_id)
+    {
+    case PROP_IMMUTABLE:
+      /* Construct-only. */
+      priv->immutable = g_value_get_boolean (value);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
+json_parser_get_property (GObject    *gobject,
+                          guint       prop_id,
+                          GValue     *value,
+                          GParamSpec *pspec)
+{
+  JsonParserPrivate *priv = JSON_PARSER (gobject)->priv;
+
+  switch (prop_id)
+    {
+    case PROP_IMMUTABLE:
+      g_value_set_boolean (value, priv->immutable);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
+      break;
+    }
+}
+
+static void
 json_parser_class_init (JsonParserClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
+  gobject_class->set_property = json_parser_set_property;
+  gobject_class->get_property = json_parser_get_property;
   gobject_class->dispose = json_parser_dispose;
   gobject_class->finalize = json_parser_finalize;
+
+  /**
+   * JsonParser:immutable:
+   *
+   * Whether the #JsonNode tree built by the #JsonParser should be immutable
+   * when created. Making the output immutable on creation avoids the expense
+   * of traversing it to make it immutable later.
+   *
+   * Since: UNRELEASED
+   */
+  parser_props[PROP_IMMUTABLE] =
+    g_param_spec_boolean ("immutable",
+                          "Immutable Output",
+                          "Whether the parser output is immutable.",
+                          FALSE,
+                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
+
+  g_object_class_install_properties (gobject_class, PROP_LAST, parser_props);
 
   /**
    * JsonParser::parse-start:
@@ -424,6 +494,9 @@ json_parse_value (JsonParser   *parser,
       break;
     }
 
+  if (priv->immutable && *node != NULL)
+    json_node_seal (*node);
+
   return G_TOKEN_NONE;
 }
 
@@ -522,6 +595,8 @@ json_parse_array (JsonParser   *parser,
 
       JSON_NOTE (PARSER, "Array element %d completed", idx);
       json_node_set_parent (element, priv->current_node);
+      if (priv->immutable)
+        json_node_seal (element);
       json_array_add_element (array, element);
 
       g_signal_emit (parser, parser_signals[ARRAY_ELEMENT], 0,
@@ -535,7 +610,13 @@ json_parse_array (JsonParser   *parser,
 array_done:
   json_scanner_get_next_token (scanner);
 
+  /* We can guarantee that all the array elements are immutable, so we
+   * can skip the formal loop over them to seal them again. */
+  array->immutable = TRUE;
+
   json_node_take_array (priv->current_node, array);
+  if (priv->immutable)
+    json_node_seal (priv->current_node);
   json_node_set_parent (priv->current_node, old_current);
 
   g_signal_emit (parser, parser_signals[ARRAY_END], 0, array);
@@ -697,6 +778,8 @@ json_parse_object (JsonParser   *parser,
 
       JSON_NOTE (PARSER, "Object member '%s' completed", name);
       json_node_set_parent (member, priv->current_node);
+      if (priv->immutable)
+        json_node_seal (member);
       json_object_set_member (object, name, member);
 
       g_signal_emit (parser, parser_signals[OBJECT_MEMBER], 0,
@@ -710,7 +793,13 @@ json_parse_object (JsonParser   *parser,
 
   json_scanner_get_next_token (scanner);
 
+  /* We can guarantee that all the object members are immutable, so we
+   * can skip the formal loop over them to seal them again. */
+  object->immutable = TRUE;
+
   json_node_take_object (priv->current_node, object);
+  if (priv->immutable)
+    json_node_seal (priv->current_node);
   json_node_set_parent (priv->current_node, old_current);
 
   g_signal_emit (parser, parser_signals[OBJECT_END], 0, object);
@@ -874,6 +963,21 @@ JsonParser *
 json_parser_new (void)
 {
   return g_object_new (JSON_TYPE_PARSER, NULL);
+}
+
+/**
+ * json_parser_new_immutable:
+ *
+ * Creates a new #JsonParser instance with its #JsonParser:immutable property
+ * set to %TRUE to create immutable output trees.
+ *
+ * Since: UNRELEASED
+ * Returns: (transfer full): a new #JsonParser
+ */
+JsonParser *
+json_parser_new_immutable (void)
+{
+  return g_object_new (JSON_TYPE_PARSER, "immutable", TRUE, NULL);
 }
 
 static gboolean
@@ -1096,6 +1200,10 @@ JsonNode *
 json_parser_get_root (JsonParser *parser)
 {
   g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
+
+  /* Sanity check. */
+  g_return_val_if_fail (!parser->priv->immutable ||
+                        json_node_is_immutable (parser->priv->root), NULL);
 
   return parser->priv->root;
 }
