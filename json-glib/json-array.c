@@ -56,7 +56,7 @@ json_array_new (void)
 {
   JsonArray *array;
 
-  array = g_slice_new (JsonArray);
+  array = g_slice_new0 (JsonArray);
 
   array->ref_count = 1;
   array->elements = g_ptr_array_new ();
@@ -77,7 +77,7 @@ json_array_sized_new (guint n_elements)
 {
   JsonArray *array;
 
-  array = g_slice_new (JsonArray);
+  array = g_slice_new0 (JsonArray);
   
   array->ref_count = 1;
   array->elements = g_ptr_array_sized_new (n_elements);
