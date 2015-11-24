@@ -843,7 +843,7 @@ json_reader_get_value (JsonReader *reader)
 
   node = reader->priv->current_node;
 
-  if (!JSON_NODE_HOLDS_VALUE (node))
+  if (!JSON_NODE_HOLDS_VALUE (node) && !JSON_NODE_HOLDS_NULL (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
                              _("The current position holds a “%s” and not a value"),
