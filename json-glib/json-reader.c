@@ -327,7 +327,7 @@ json_reader_set_error (JsonReader      *reader,
 const GError *
 json_reader_get_error (JsonReader *reader)
 {
-  g_return_val_if_fail (JSON_IS_READER (reader), FALSE);
+  g_return_val_if_fail (JSON_IS_READER (reader), NULL);
 
   return reader->priv->error;
 }
