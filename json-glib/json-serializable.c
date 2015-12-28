@@ -276,7 +276,7 @@ json_serializable_default_deserialize_property (JsonSerializable *serializable,
  * Calls the #JsonSerializableIface.find_property() implementation on
  * the @serializable instance. *
  *
- * Return value: (transfer none): the #GParamSpec for the property
+ * Return value: (nullable) (transfer none): the #GParamSpec for the property
  *   or %NULL if no property was found
  *
  * Since: 0.14

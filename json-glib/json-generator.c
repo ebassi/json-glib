@@ -623,8 +623,8 @@ json_generator_set_root (JsonGenerator *generator,
  * Retrieves a pointer to the root #JsonNode set using
  * json_generator_set_root().
  *
- * Return value: (transfer none): a #JsonNode, or %NULL. The returned node
- *   is owned by the #JsonGenerator and it should not be freed
+ * Return value: (nullable) (transfer none): a #JsonNode, or %NULL. The returned
+ * node is owned by the #JsonGenerator and it should not be freed
  *
  * Since: 0.14
  */

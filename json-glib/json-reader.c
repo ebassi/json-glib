@@ -321,7 +321,7 @@ json_reader_set_error (JsonReader      *reader,
  * Retrieves the #GError currently set on @reader, if the #JsonReader
  * is in error state
  *
- * Return value: (transfer none): the pointer to the error, or %NULL
+ * Return value: (nullable) (transfer none): the pointer to the error, or %NULL
  *
  * Since: 0.12
  */
@@ -820,9 +820,9 @@ json_reader_count_members (JsonReader *reader)
  *
  * Retrieves the #JsonNode of the current position of @reader
  *
- * Return value: (transfer none): a #JsonNode, or %NULL. The returned node
- *   is owned by the #JsonReader and it should not be modified or freed
- *   directly
+ * Return value: (nullable) (transfer none): a #JsonNode, or %NULL. The
+ * returned node is owned by the #JsonReader and it should not be
+ * modified or freed directly
  *
  * Since: 0.12
  */
@@ -1045,7 +1045,7 @@ json_reader_get_null_value (JsonReader *reader)
  *
  * Retrieves the name of the current member.
  *
- * Return value: (transfer none): the name of the member, or %NULL
+ * Return value: (nullable) (transfer none): the name of the member, or %NULL
  *
  * Since: 0.14
  */

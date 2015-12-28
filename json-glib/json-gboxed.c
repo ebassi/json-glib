@@ -296,8 +296,8 @@ json_boxed_can_deserialize (GType        gboxed_type,
  * Serializes @boxed, a pointer to a #GBoxed of type @gboxed_type,
  * into a #JsonNode
  *
- * Return value: (transfer full): a #JsonNode with the serialization of the
- *   boxed type, or %NULL if serialization either failed or was not possible
+ * Return value: (nullable) (transfer full): a #JsonNode with the serialization of
+ *   the boxed type, or %NULL if serialization either failed or was not possible
  *
  * Since: 0.10
  */
