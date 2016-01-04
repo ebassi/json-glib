@@ -161,6 +161,28 @@ json_glib_HEADERS_EXCLUDES = jgdummy
 
 include $(top_srcdir)/build/Makefile.msvcproj
 
+# NMake/MSVC introspection
+if HAVE_INTROSPECTION
+NMAKE_INTROSPECTION_FILES = \
+	$(top_builddir)/build/win32/Json-1.0.gir.msvc.introspect	\
+	$(top_builddir)/build/win32/Json_1_0_gir_list
+
+MSVC_INTROSPECT_GIRS = Json-1.0.gir
+
+Json_1_0_gir_MSVC_FILES = $(Json_1_0_gir_FILES)
+
+Json_1_0_gir_MSVC_INCLUDE_GIRS = $(Json_1_0_gir_INCLUDES)
+Json_1_0_gir_MSVC_LIBS = json-glib-1.0
+Json_1_0_gir_MSVC_CFLAGS = -DJSON_COMPILATION=1 -I..\\..
+
+Json_1_0_gir_MSVC_SCANNERFLAGS = $(Json_1_0_gir_SCANNERFLAGS)
+
+include $(top_srcdir)/build/Makefile.msvc-introspection
+else
+NMAKE_INTROSPECTION_FILES =
+endif
+
 dist-hook:	\
-	$(top_builddir)/build/win32/vs9/json-glib.vcproj	\
-	$(top_builddir)/build/win32/vs9/json-glib.headers
+	$(top_builddir)/build/win32/vs9/json-glib.vcproj		\
+	$(top_builddir)/build/win32/vs9/json-glib.headers	\
+	$(NMAKE_INTROSPECTION_FILES)
