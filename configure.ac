@@ -375,6 +375,9 @@ AC_CONFIG_FILES([
         build/win32/config.h.win32
         build/win32/vs9/Makefile
         build/win32/vs10/Makefile
+        build/win32/vs11/Makefile
+        build/win32/vs12/Makefile
+        build/win32/vs14/Makefile
 
         json-glib/Makefile
         json-glib/json-glib.pc
