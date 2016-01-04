@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="jsonglibinstallprops"
+	InheritedPropertySheets=".\json-glib-build-defines.vsprops"
+	>
+	<UserMacro
+		Name="JsonGlibDoInstall"
+		Value="
+mkdir $(CopyDir)&#x0D;&#x0A;
+mkdir $(CopyDir)\bin&#x0D;&#x0A;
+mkdir $(CopyDir)\lib&#x0D;&#x0A;
+
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\*.lib $(CopyDir)\lib&#x0D;&#x0A;
+
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).dll $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\$(JsonGlibDllPrefix)json-glib$(JsonGlibDllSuffix).pdb $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-*.exe $(CopyDir)\bin&#x0D;&#x0A;
+copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-*.pdb $(CopyDir)\bin&#x0D;&#x0A;
+
+mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
+#include "json-glib.headers"
+"
+	/>
+</VisualStudioPropertySheet>

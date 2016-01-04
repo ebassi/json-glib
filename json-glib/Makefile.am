@@ -149,39 +149,18 @@ CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
 endif # HAVE_INTROSPECTION
 
 # visual studio
-dist-hook: ../build/win32/vs9/json-glib.vcproj ../build/win32/vs10/json-glib.vcxproj ../build/win32/vs10/json-glib.vcxproj.filters
 
-../build/win32/vs9/json-glib.vcproj: $(top_srcdir)/build/win32/vs9/json-glib.vcprojin
-	for F in $(libjson_glib_1_0_la_SOURCES); do \
-		case $$F in \
-		*.c)	echo '   <File RelativePath="..\..\..\json-glib\'$$F'" />' \
-			;; \
-		esac; \
-	done >jsonglib.sourcefiles
-	$(CPP) -P - <$(top_srcdir)/build/win32/vs9/json-glib.vcprojin >$@
-	rm jsonglib.sourcefiles
-	
-../build/win32/vs10/json-glib.vcxproj: $(top_srcdir)/build/win32/vs10/json-glib.vcxprojin
-	for F in $(libjson_glib_1_0_la_SOURCES); do \
-		case $$F in \
-		*.c)	echo '    <ClCompile Include="..\..\..\json-glib\'$$F'" />' \
-			;; \
-		esac; \
-	done >jsonglib.vs10.sourcefiles
-	$(CPP) -P - <$(top_srcdir)/build/win32/vs10/json-glib.vcxprojin >$@
-	rm jsonglib.vs10.sourcefiles
-	
-../build/win32/vs10/json-glib.vcxproj.filters: $(top_srcdir)/build/win32/vs10/json-glib.vcxproj.filtersin
-	for F in $(libjson_glib_1_0_la_SOURCES); do \
-		case $$F in \
-		*.c)	echo '    <ClCompile Include="..\..\..\json-glib\'$$F'"><Filter>Sources</Filter></ClCompile>' \
-			;; \
-		esac; \
-	done >jsonglib.vs10.sourcefiles.filters
-	$(CPP) -P - <$(top_srcdir)/build/win32/vs10/json-glib.vcxproj.filtersin >$@
-	rm jsonglib.vs10.sourcefiles.filters
+MSVCPROJS = json-glib
 
-# Let the VS9/VS10 Project files be cleared out before they are re-expanded...
-DISTCLEANFILES += ../build/win32/vs9/json-glib.vcproj	\
-		  ../build/win32/vs10/json-glib.vcxproj	\
-		  ../build/win32/vs10/json-glib.vcxproj.filters
+json_glib_FILES = $(libjson_glib_1_0_la_SOURCES)
+json_glib_EXCLUDES = jgdummy
+
+json_glib_HEADERS_DIR = $(jsonincludedir)
+json_glib_HEADERS_INST = $(jsoninclude_DATA)
+json_glib_HEADERS_EXCLUDES = jgdummy
+
+include $(top_srcdir)/build/Makefile.msvcproj
+
+dist-hook:	\
+	$(top_builddir)/build/win32/vs9/json-glib.vcproj	\
+	$(top_builddir)/build/win32/vs9/json-glib.headers
