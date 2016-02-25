@@ -143,6 +143,33 @@ test_invalid_object (gconstpointer user_data)
 }
 
 static void
+test_missing_comma (gconstpointer user_data)
+{
+  const char *json = user_data;
+  GError *error = NULL;
+  JsonParser *parser;
+  gboolean res;
+
+  parser = json_parser_new ();
+  g_assert (JSON_IS_PARSER (parser));
+
+  if (g_test_verbose ())
+    g_print ("invalid data: '%s'...", json);
+
+  res = json_parser_load_from_data (parser, json, -1, &error);
+
+  g_assert (!res);
+  g_assert_error (error, JSON_PARSER_ERROR, JSON_PARSER_ERROR_MISSING_COMMA);
+
+  if (g_test_verbose ())
+    g_print ("expected error: %s\n", error->message);
+
+  g_clear_error (&error);
+
+  g_object_unref (parser);
+}
+
+static void
 test_trailing_comma (gconstpointer user_data)
 {
   const char *json = user_data;
@@ -205,6 +232,10 @@ static const struct
   { "object-5", "{ \"blah\" }", test_invalid_object },
   { "object-6", "{ \"a\" : 0 \"b\" : 1 }", test_invalid_object },
   { "object-7", "{ \"\" : false }", test_invalid_object },
+
+  /* missing commas */
+  { "missing-comma-1", "[ true false ]", test_missing_comma },
+  { "missing-comma-2", "{ \"foo\" : 42 \"bar\": null }", test_missing_comma },
 
   /* trailing commas */
   { "trailing-comma-1", "[ true, ]", test_trailing_comma },

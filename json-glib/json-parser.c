@@ -488,12 +488,25 @@ json_parse_array (JsonParser   *parser,
 
       next_token = json_scanner_peek_next_token (scanner);
 
+      /* look for missing commas */
+      if (next_token != G_TOKEN_COMMA && next_token != G_TOKEN_RIGHT_BRACE)
+        {
+          priv->error_code = JSON_PARSER_ERROR_MISSING_COMMA;
+
+          json_array_unref (array);
+          json_node_free (priv->current_node);
+          json_node_free (element);
+          priv->current_node = old_current;
+
+          return G_TOKEN_COMMA;
+        }
+
+      /* look for trailing commas */
       if (next_token == G_TOKEN_COMMA)
         {
           token = json_scanner_get_next_token (scanner);
           next_token = json_scanner_peek_next_token (scanner);
 
-          /* look for trailing commas */
           if (next_token == G_TOKEN_RIGHT_BRACE)
             {
               priv->error_code = JSON_PARSER_ERROR_TRAILING_COMMA;
