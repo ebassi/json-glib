@@ -507,7 +507,7 @@ json_parse_array (JsonParser   *parser,
             }
         }
 
-      JSON_NOTE (PARSER, "Array element %d completed", idx + 1);
+      JSON_NOTE (PARSER, "Array element %d completed", idx);
       json_node_set_parent (element, priv->current_node);
       json_array_add_element (array, element);
 
@@ -515,6 +515,7 @@ json_parse_array (JsonParser   *parser,
                      array,
                      idx);
 
+      idx += 1;
       token = next_token;
     }
 
