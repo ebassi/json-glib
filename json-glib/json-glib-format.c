@@ -114,7 +114,8 @@ format (JsonParser    *parser,
       p += written;
     }
 
-  write (STDOUT_FILENO, "\n", 1);
+  if (write (STDOUT_FILENO, "\n", 1) < 0)
+    g_error ("%s: %s", g_get_prgname (), g_strerror (errno));
 
   g_free (data);
 
