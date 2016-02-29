@@ -468,6 +468,12 @@ void                  json_array_foreach_element     (JsonArray   *array,
                                                       JsonArrayForeach func,
                                                       gpointer     data);
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonArray, json_array_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonObject, json_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonNode, json_node_free)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_TYPES_H__ */

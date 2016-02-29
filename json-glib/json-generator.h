@@ -115,6 +115,10 @@ gboolean        json_generator_to_stream        (JsonGenerator  *generator,
                                                  GCancellable   *cancellable,
                                                  GError        **error);
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonGenerator, g_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_GENERATOR_H__ */

@@ -115,6 +115,10 @@ JsonBuilder *json_builder_add_string_value   (JsonBuilder  *builder,
 JSON_AVAILABLE_IN_1_0
 JsonBuilder *json_builder_add_null_value     (JsonBuilder  *builder);
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonBuilder, g_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_BUILDER_H__ */

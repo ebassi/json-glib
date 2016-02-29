@@ -97,6 +97,10 @@ JsonNode *      json_path_query         (const char  *expression,
                                          JsonNode    *root,
                                          GError     **error);
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonPath, g_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_PATH_H__ */

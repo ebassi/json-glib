@@ -183,6 +183,10 @@ JSON_AVAILABLE_IN_1_0
 gboolean    json_parser_has_assignment          (JsonParser           *parser,
                                                  gchar               **variable_name);
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonParser, g_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_PARSER_H__ */
