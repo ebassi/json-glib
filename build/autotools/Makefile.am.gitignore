@@ -3,28 +3,25 @@
 # generator of Git ignore files, and it's not meant to be used as
 # the top-level Git ignore file generator.
 
-$(srcdir)/.gitignore: Makefile.am
-	$(AM_V_GEN)( \
-	  echo "*.o" ; \
-	  echo ".gitignore" ; \
-	  echo "*.trs" ; \
-	  echo "*.log" ; \
-	) > $(srcdir)/.gitignore ; \
-	for p in $(noinst_PROGRAMS); do \
-		echo "/$$p" >> $(srcdir)/.gitignore ; \
-	done ; \
-	for p in $(check_PROGRAMS); do \
-		echo "/$$p" >> $(srcdir)/.gitignore ; \
-	done
+GIT_IGNORE_FILES = $(noinst_PROGRAMS) $(check_PROGRAMS) $(check_SCRIPTS) $(GIT_IGNORE_EXTRA)
 
+.gitignore: Makefile.am
+	$(QUIET_GEN)if test -d "$(top_srcdir)/.git"; then \
+		( echo "*.o" ; \
+		  echo ".gitignore" ; \
+		) > .gitignore ; \
+		for p in $(GIT_IGNORE_FILES); do \
+			echo "/$$p" >> .gitignore ; \
+		done \
+	fi
 
-gitignore: $(srcdir)/.gitignore
+gitignore: .gitignore
 
 gitignore-clean:
-	@rm -f $(srcdir)/.gitignore
+	$(QUIET_RM)rm -f .gitignore
 
 .PHONY: gitignore gitignore-clean
 
-all: gitignore
+all-am: gitignore
 
 maintainer-clean: gitignore-clean
