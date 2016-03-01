@@ -60,7 +60,7 @@ struct _JsonParserPrivate
 
   guint has_assignment : 1;
   guint is_filename    : 1;
-  gboolean immutable   : 1;
+  guint is_immutable   : 1;
 };
 
 static const gchar symbol_names[] =
@@ -170,7 +170,7 @@ json_parser_set_property (GObject      *gobject,
     {
     case PROP_IMMUTABLE:
       /* Construct-only. */
-      priv->immutable = g_value_get_boolean (value);
+      priv->is_immutable = g_value_get_boolean (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -189,7 +189,7 @@ json_parser_get_property (GObject    *gobject,
   switch (prop_id)
     {
     case PROP_IMMUTABLE:
-      g_value_set_boolean (value, priv->immutable);
+      g_value_set_boolean (value, priv->is_immutable);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -494,7 +494,7 @@ json_parse_value (JsonParser   *parser,
       break;
     }
 
-  if (priv->immutable && *node != NULL)
+  if (priv->is_immutable && *node != NULL)
     json_node_seal (*node);
 
   return G_TOKEN_NONE;
@@ -595,7 +595,7 @@ json_parse_array (JsonParser   *parser,
 
       JSON_NOTE (PARSER, "Array element %d completed", idx);
       json_node_set_parent (element, priv->current_node);
-      if (priv->immutable)
+      if (priv->is_immutable)
         json_node_seal (element);
       json_array_add_element (array, element);
 
@@ -613,7 +613,7 @@ array_done:
   json_array_seal (array);
 
   json_node_take_array (priv->current_node, array);
-  if (priv->immutable)
+  if (priv->is_immutable)
     json_node_seal (priv->current_node);
   json_node_set_parent (priv->current_node, old_current);
 
@@ -776,7 +776,7 @@ json_parse_object (JsonParser   *parser,
 
       JSON_NOTE (PARSER, "Object member '%s' completed", name);
       json_node_set_parent (member, priv->current_node);
-      if (priv->immutable)
+      if (priv->is_immutable)
         json_node_seal (member);
       json_object_set_member (object, name, member);
 
@@ -794,7 +794,7 @@ json_parse_object (JsonParser   *parser,
   json_object_seal (object);
 
   json_node_take_object (priv->current_node, object);
-  if (priv->immutable)
+  if (priv->is_immutable)
     json_node_seal (priv->current_node);
   json_node_set_parent (priv->current_node, old_current);
 
@@ -1198,7 +1198,7 @@ json_parser_get_root (JsonParser *parser)
   g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
 
   /* Sanity check. */
-  g_return_val_if_fail (!parser->priv->immutable ||
+  g_return_val_if_fail (!parser->priv->is_immutable ||
                         json_node_is_immutable (parser->priv->root), NULL);
 
   return parser->priv->root;
