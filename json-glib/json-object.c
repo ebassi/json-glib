@@ -61,7 +61,7 @@ json_object_new (void)
 {
   JsonObject *object;
 
-  object = g_slice_new (JsonObject);
+  object = g_slice_new0 (JsonObject);
   
   object->ref_count = 1;
   object->members = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -146,6 +146,7 @@ json_object_seal (JsonObject *object)
   while (json_object_iter_next (&iter, NULL, &node))
     json_node_seal (node);
 
+  object->immutable_hash = json_object_hash (object);
   object->immutable = TRUE;
 }
 
@@ -901,6 +902,102 @@ json_object_foreach_member (JsonObject        *object,
 
       func (object, member_name, member_node, data);
     }
+}
+
+/**
+ * json_object_hash:
+ * @key: (type JsonObject): a JSON object to hash
+ *
+ * Calculate a hash value for the given @key (a #JsonObject).
+ *
+ * The hash is calculated over the object and all its members, recursively. If
+ * the object is immutable, this is a fast operation; otherwise, it scales
+ * proportionally with the number of members in the object.
+ *
+ * Returns: hash value for @key
+ * Since: UNRELEASED
+ */
+guint
+json_object_hash (gconstpointer key)
+{
+  JsonObject *object = (JsonObject *) key;
+  guint hash = 0;
+  JsonObjectIter iter;
+  const gchar *member_name;
+  JsonNode *node;
+
+  g_return_val_if_fail (object != NULL, 0);
+
+  /* If the object is immutable, use the cached hash. */
+  if (object->immutable)
+    return object->immutable_hash;
+
+  /* Otherwise, calculate from scratch. */
+  json_object_iter_init (&iter, object);
+
+  while (json_object_iter_next (&iter, &member_name, &node))
+    hash ^= (json_string_hash (member_name) ^ json_node_hash (node));
+
+  return hash;
+}
+
+/**
+ * json_object_equal:
+ * @a: (type JsonObject): a JSON object
+ * @b: (type JsonObject): another JSON object
+ *
+ * Check whether @a and @b are equal #JsonObjects, meaning they have the same
+ * set of members, and the values of corresponding members are equal.
+ *
+ * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
+ * Since: UNRELEASED
+ */
+gboolean
+json_object_equal (gconstpointer  a,
+                   gconstpointer  b)
+{
+  JsonObject *object_a, *object_b;
+  guint size_a, size_b;
+  JsonObjectIter iter_a;
+  JsonNode *child_a, *child_b;  /* unowned */
+  const gchar *member_name;
+
+  object_a = (JsonObject *) a;
+  object_b = (JsonObject *) b;
+
+  /* Identity comparison. */
+  if (object_a == object_b)
+    return TRUE;
+
+  /* Check sizes. */
+  size_a = json_object_get_size (object_a);
+  size_b = json_object_get_size (object_b);
+
+  if (size_a != size_b)
+    return FALSE;
+
+  /* Check member names and values. Check the member names first
+   * to avoid expensive recursive value comparisons which might
+   * be unnecessary. */
+  json_object_iter_init (&iter_a, object_a);
+
+  while (json_object_iter_next (&iter_a, &member_name, NULL))
+    {
+      if (!json_object_has_member (object_b, member_name))
+        return FALSE;
+    }
+
+  json_object_iter_init (&iter_a, object_a);
+
+  while (json_object_iter_next (&iter_a, &member_name, &child_a))
+    {
+      child_b = json_object_get_member (object_b, member_name);
+
+      if (!json_node_equal (child_a, child_b))
+        return FALSE;
+    }
+
+  return TRUE;
 }
 
 /**

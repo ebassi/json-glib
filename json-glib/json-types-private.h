@@ -93,6 +93,7 @@ struct _JsonArray
 {
   GPtrArray *elements;
 
+  guint immutable_hash;  /* valid iff immutable */
   volatile gint ref_count;
   gboolean immutable : 1;
 };
@@ -104,6 +105,7 @@ struct _JsonObject
   /* the members of the object, ordered in reverse */
   GList *members_ordered;
 
+  guint immutable_hash;  /* valid iff immutable */
   volatile gint ref_count;
   gboolean immutable : 1;
 };
@@ -161,6 +163,9 @@ const gchar *   json_value_get_string           (const JsonValue *value);
 
 G_GNUC_INTERNAL
 void            json_value_seal                 (JsonValue       *value);
+
+G_GNUC_INTERNAL
+guint           json_value_hash                 (gconstpointer    key);
 
 G_END_DECLS
 

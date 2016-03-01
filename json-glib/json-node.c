@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#include "json-types.h"
 #include "json-types-private.h"
 
 /**
@@ -1215,4 +1216,248 @@ json_node_is_null (JsonNode *node)
   g_return_val_if_fail (JSON_NODE_IS_VALID (node), TRUE);
 
   return node->type == JSON_NODE_NULL;
+}
+
+/**
+ * json_type_is_a:
+ * @sub: sub-type
+ * @super: super-type
+ *
+ * Check whether @sub is a sub-type of, or equal to, @super. The only sub-type
+ * relationship in the JSON Schema type system is that
+ * %WBL_PRIMITIVE_TYPE_INTEGER is a sub-type of %WBL_PRIMITIVE_TYPE_NUMBER.
+ *
+ * Formally, this function calculates: `@sub <: @super`.
+ *
+ * Reference: http://json-schema.org/latest/json-schema-core.html#rfc.section.3.5
+ *
+ * Returns: %TRUE if @sub is a sub-type of, or equal to, @super; %FALSE
+ *    otherwise
+ * Since: UNRELEASED
+ */
+static gboolean
+json_type_is_a (JsonNode  *sub,
+                JsonNode  *super)
+{
+  if (super->type == JSON_NODE_VALUE && sub->type == JSON_NODE_VALUE)
+    {
+      JsonValueType super_value_type, sub_value_type;
+
+      if (super->data.value == NULL || sub->data.value == NULL)
+        return FALSE;
+
+      super_value_type = super->data.value->type;
+      sub_value_type = sub->data.value->type;
+
+      return (super_value_type == sub_value_type ||
+              (super_value_type == JSON_VALUE_DOUBLE &&
+	       sub_value_type == JSON_VALUE_INT));
+    }
+
+  return (super->type == sub->type);
+}
+
+/**
+ * json_string_hash:
+ * @key: (type utf8): a JSON string to hash
+ *
+ * Calculate a hash value for the given @key (a UTF-8 JSON string).
+ *
+ * Note: Member names are compared byte-wise, without applying any Unicode
+ * decomposition or normalisation. This is not explicitly mentioned in the JSON
+ * standard (ECMA-404), but is assumed.
+ *
+ * Returns: hash value for @key
+ * Since: UNRELEASED
+ */
+guint
+json_string_hash (gconstpointer key)
+{
+  return g_str_hash (key);
+}
+
+/**
+ * json_string_equal:
+ * @a: (type utf8): a JSON string
+ * @b: (type utf8): another JSON string
+ *
+ * Check whether @a and @b are equal UTF-8 JSON strings.
+ *
+ * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
+ * Since: UNRELEASED
+ */
+gboolean
+json_string_equal (gconstpointer  a,
+                   gconstpointer  b)
+{
+  return g_str_equal (a, b);
+}
+
+/**
+ * json_string_compare:
+ * @a: (type utf8): a JSON string
+ * @b: (type utf8): another JSON string
+ *
+ * Check whether @a and @b are equal UTF-8 JSON strings and return an ordering
+ * over them in strcmp() style.
+ *
+ * Returns: an integer less than zero if @a < @b, equal to zero if @a == @b, and
+ *    greater than zero if @a > @b
+ * Since: UNRELEASED
+ */
+gint
+json_string_compare (gconstpointer  a,
+                     gconstpointer  b)
+{
+  return g_strcmp0 (a, b);
+}
+
+/**
+ * json_node_hash:
+ * @key: (type JsonNode): a JSON node to hash
+ *
+ * Calculate a hash value for the given @key (a #JsonNode).
+ *
+ * The hash is calculated over the node and its value, recursively. If the node
+ * is immutable, this is a fast operation; otherwise, it scales proportionally
+ * with the size of the node’s value (for example, with the number of members
+ * in the #JsonObject if this node contains an object).
+ *
+ * Returns: hash value for @key
+ * Since: UNRELEASED
+ */
+guint
+json_node_hash (gconstpointer key)
+{
+  JsonNode *node;  /* unowned */
+
+  /* These are all randomly generated and arbitrary. */
+  const guint value_hash = 0xc19e75ad;
+  const guint array_hash = 0x865acfc2;
+  const guint object_hash = 0x3c8f3135;
+
+  node = (JsonNode *) key;
+
+  /* XOR the hash values with a (constant) random number depending on the node’s
+   * type so that empty values, arrays and objects do not all collide at the
+   * hash value 0. */
+  switch (node->type)
+    {
+    case JSON_NODE_NULL:
+      return 0;
+    case JSON_NODE_VALUE:
+      return value_hash ^ json_value_hash (node->data.value);
+    case JSON_NODE_ARRAY:
+      return array_hash ^ json_array_hash (json_node_get_array (node));
+    case JSON_NODE_OBJECT:
+      return object_hash ^ json_object_hash (json_node_get_object (node));
+    default:
+      g_assert_not_reached ();
+    }
+}
+
+/**
+ * json_node_equal:
+ * @a: (type JsonNode): a JSON node
+ * @b: (type JsonNode): another JSON node
+ *
+ * Check whether @a and @b are equal #JsonNodes, meaning they have the same
+ * type and same values (checked recursively). Note that integer values are
+ * compared numerically, ignoring type, so a double value 4.0 is equal to the
+ * integer value 4.
+ *
+ * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
+ * Since: UNRELEASED
+ */
+gboolean
+json_node_equal (gconstpointer  a,
+                 gconstpointer  b)
+{
+  JsonNode *node_a, *node_b;  /* unowned */
+
+  node_a = (JsonNode *) a;
+  node_b = (JsonNode *) b;
+
+  /* Identity comparison. */
+  if (node_a == node_b)
+    return TRUE;
+
+  /* Eliminate mismatched types rapidly. */
+  if (!json_type_is_a (node_a, node_b) &&
+      !json_type_is_a (node_b, node_a))
+    {
+      return FALSE;
+    }
+
+  switch (node_a->type)
+    {
+    case JSON_NODE_NULL:
+      /* Types match already. */
+      return TRUE;
+    case JSON_NODE_ARRAY:
+      return json_array_equal (json_node_get_array (node_a),
+                               json_node_get_array (node_b));
+    case JSON_NODE_OBJECT:
+      return json_object_equal (json_node_get_object (node_a),
+                                json_node_get_object (node_b));
+    case JSON_NODE_VALUE:
+      /* Handled below. */
+      break;
+    default:
+      g_assert_not_reached ();
+    }
+
+  /* Handle values. */
+  switch (node_a->data.value->type)
+    {
+    case JSON_VALUE_NULL:
+      /* Types already match. */
+      return TRUE;
+    case JSON_VALUE_BOOLEAN:
+      return (json_node_get_boolean (node_a) == json_node_get_boolean (node_b));
+    case JSON_VALUE_STRING:
+      return json_string_equal (json_node_get_string (node_a),
+                                json_node_get_string (node_b));
+    case JSON_VALUE_DOUBLE:
+    case JSON_VALUE_INT: {
+      gdouble val_a, val_b;
+      JsonValueType value_type_a, value_type_b;
+
+      value_type_a = node_a->data.value->type;
+      value_type_b = node_b->data.value->type;
+
+      /* Integer comparison doesn’t need to involve doubles… */
+      if (value_type_a == JSON_VALUE_INT &&
+          value_type_b == JSON_VALUE_INT)
+        {
+          return (json_node_get_int (node_a) ==
+                  json_node_get_int (node_b));
+        }
+
+      /* …but everything else does. We can use bitwise double equality here,
+       * since we’re not doing any calculations which could introduce floating
+       * point error. We expect that the doubles in the JSON nodes come directly
+       * from strtod() or similar, so should be bitwise equal for equal string
+       * representations.
+       *
+       * Interesting background reading:
+       * http://randomascii.wordpress.com/2012/06/26/\
+       *   doubles-are-not-floats-so-dont-compare-them/
+       */
+      if (value_type_a == JSON_VALUE_INT)
+        val_a = json_node_get_int (node_a);
+      else
+        val_a = json_node_get_double (node_a);
+
+      if (value_type_b == JSON_VALUE_INT)
+        val_b = json_node_get_int (node_b);
+      else
+        val_b = json_node_get_double (node_b);
+
+      return (val_a == val_b);
+    }
+    case JSON_VALUE_INVALID:
+    default:
+      g_assert_not_reached ();
+    }
 }

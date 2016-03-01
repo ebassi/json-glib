@@ -610,9 +610,7 @@ json_parse_array (JsonParser   *parser,
 array_done:
   json_scanner_get_next_token (scanner);
 
-  /* We can guarantee that all the array elements are immutable, so we
-   * can skip the formal loop over them to seal them again. */
-  array->immutable = TRUE;
+  json_array_seal (array);
 
   json_node_take_array (priv->current_node, array);
   if (priv->immutable)
@@ -793,9 +791,7 @@ json_parse_object (JsonParser   *parser,
 
   json_scanner_get_next_token (scanner);
 
-  /* We can guarantee that all the object members are immutable, so we
-   * can skip the formal loop over them to seal them again. */
-  object->immutable = TRUE;
+  json_object_seal (object);
 
   json_node_take_object (priv->current_node, object);
   if (priv->immutable)

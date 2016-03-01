@@ -285,6 +285,21 @@ JSON_AVAILABLE_IN_1_2
 void                  json_node_seal            (JsonNode     *node);
 gboolean              json_node_is_immutable    (JsonNode     *node);
 
+JSON_AVAILABLE_IN_1_2
+guint                 json_string_hash            (gconstpointer  key);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_string_equal           (gconstpointer  a,
+                                                   gconstpointer  b);
+JSON_AVAILABLE_IN_1_2
+gint                  json_string_compare         (gconstpointer  a,
+                                                   gconstpointer  b);
+
+JSON_AVAILABLE_IN_1_2
+guint                 json_node_hash              (gconstpointer  key);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_node_equal             (gconstpointer  a,
+                                                   gconstpointer  b);
+
 /*
  * JsonObject
  */
@@ -381,6 +396,12 @@ JSON_AVAILABLE_IN_1_2
 void                  json_object_seal               (JsonObject  *object);
 JSON_AVAILABLE_IN_1_2
 gboolean              json_object_is_immutable       (JsonObject  *object);
+
+JSON_AVAILABLE_IN_1_2
+guint                 json_object_hash               (gconstpointer key);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_object_equal              (gconstpointer a,
+                                                      gconstpointer b);
 
 /**
  * JsonObjectIter:
@@ -485,6 +506,12 @@ JSON_AVAILABLE_IN_1_2
 void                  json_array_seal                (JsonArray   *array);
 JSON_AVAILABLE_IN_1_2
 gboolean              json_array_is_immutable        (JsonArray   *array);
+
+JSON_AVAILABLE_IN_1_2
+guint                 json_array_hash                (gconstpointer key);
+JSON_AVAILABLE_IN_1_2
+gboolean              json_array_equal               (gconstpointer a,
+                                                      gconstpointer b);
 
 #ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonArray, json_array_unref)

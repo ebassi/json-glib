@@ -186,6 +186,51 @@ json_value_seal (JsonValue *value)
   value->immutable = TRUE;
 }
 
+guint
+json_value_hash (gconstpointer key)
+{
+  JsonValue *value;
+  guint value_hash;
+  guint type_hash;
+
+  value = (JsonValue *) key;
+
+  /* Hash the type and value separately.
+   * Use the top 3 bits to store the type. */
+  type_hash = value->type << (sizeof (guint) * 8 - 3);
+
+  switch (value->type)
+    {
+    case JSON_VALUE_NULL:
+      value_hash = 0;
+      break;
+    case JSON_VALUE_BOOLEAN:
+      value_hash = json_value_get_boolean (value) ? 1 : 0;
+      break;
+    case JSON_VALUE_STRING:
+      value_hash = json_string_hash (json_value_get_string (value));
+      break;
+    case JSON_VALUE_INT: {
+      gint64 v = json_value_get_int (value);
+      value_hash = g_int64_hash (&v);
+      break;
+    }
+    case JSON_VALUE_DOUBLE: {
+      gdouble v = json_value_get_double (value);
+      value_hash = g_double_hash (&v);
+      break;
+    }
+    case JSON_VALUE_INVALID:
+    default:
+      g_assert_not_reached ();
+    }
+
+  /* Mask out the top 3 bits of the @value_hash. */
+  value_hash &= ~(7 << (sizeof (guint) * 8 - 3));
+
+  return (type_hash | value_hash);
+}
+
 #define _JSON_VALUE_DEFINE_SET(Type,EType,CType,VField) \
 void \
 json_value_set_##Type (JsonValue *value, CType VField) \

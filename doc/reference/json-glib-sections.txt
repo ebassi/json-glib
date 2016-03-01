@@ -7,6 +7,8 @@ json_object_ref
 json_object_unref
 json_object_seal
 json_object_is_immutable
+json_object_hash
+json_object_equal
 
 <SUBSECTION>
 json_object_add_member
@@ -55,6 +57,8 @@ json_array_ref
 json_array_unref
 json_array_seal
 json_array_is_immutable
+json_array_hash
+json_array_equal
 
 <SUBSECTION>
 json_array_add_element
@@ -114,6 +118,8 @@ json_node_ref
 json_node_unref
 json_node_is_immutable
 json_node_seal
+json_node_hash
+json_node_equal
 
 <SUBSECTION>
 json_node_set_array
@@ -147,6 +153,11 @@ json_node_type_name
 json_node_get_value_type
 json_node_get_node_type
 json_node_is_null
+
+<SUBSECTION>
+json_string_hash
+json_string_equal
+json_string_compare
 
 <SUBSECTION Private>
 JSON_DEPRECATED
