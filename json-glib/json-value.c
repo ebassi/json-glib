@@ -175,7 +175,7 @@ json_value_free (JsonValue *value)
  *
  * If the @value is already immutable, this is a no-op.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_value_seal (JsonValue *value)

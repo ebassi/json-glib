@@ -451,7 +451,7 @@ json_node_copy (JsonNode *node)
  *
  * Increment the reference count of @node.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: (transfer full): a pointer to @node
  */
 JsonNode *
@@ -471,7 +471,7 @@ json_node_ref (JsonNode *node)
  * Decrement the reference count of @node. If it reaches zero, the node is
  * freed.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_node_unref (JsonNode *node)
@@ -807,7 +807,7 @@ json_node_free (JsonNode *node)
  *
  * If the @node is already immutable, this is a no-op.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_node_seal (JsonNode *node)
@@ -847,7 +847,7 @@ json_node_seal (JsonNode *node)
  * Check whether the given @node has been marked as immutable by calling
  * json_node_seal() on it.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: %TRUE if the @node is immutable
  */
 gboolean
@@ -1233,7 +1233,7 @@ json_node_is_null (JsonNode *node)
  *
  * Returns: %TRUE if @sub is a sub-type of, or equal to, @super; %FALSE
  *    otherwise
- * Since: UNRELEASED
+ * Since: 1.2
  */
 static gboolean
 json_type_is_a (JsonNode  *sub,
@@ -1268,7 +1268,7 @@ json_type_is_a (JsonNode  *sub,
  * standard (ECMA-404), but is assumed.
  *
  * Returns: hash value for @key
- * Since: UNRELEASED
+ * Since: 1.2
  */
 guint
 json_string_hash (gconstpointer key)
@@ -1284,7 +1284,7 @@ json_string_hash (gconstpointer key)
  * Check whether @a and @b are equal UTF-8 JSON strings.
  *
  * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gboolean
 json_string_equal (gconstpointer  a,
@@ -1303,7 +1303,7 @@ json_string_equal (gconstpointer  a,
  *
  * Returns: an integer less than zero if @a < @b, equal to zero if @a == @b, and
  *    greater than zero if @a > @b
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gint
 json_string_compare (gconstpointer  a,
@@ -1324,7 +1324,7 @@ json_string_compare (gconstpointer  a,
  * in the #JsonObject if this node contains an object).
  *
  * Returns: hash value for @key
- * Since: UNRELEASED
+ * Since: 1.2
  */
 guint
 json_node_hash (gconstpointer key)
@@ -1367,7 +1367,7 @@ json_node_hash (gconstpointer key)
  * integer value 4.
  *
  * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gboolean
 json_node_equal (gconstpointer  a,

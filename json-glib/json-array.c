@@ -142,7 +142,7 @@ json_array_unref (JsonArray *array)
  *
  * If the @array is already immutable, this is a no-op.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_array_seal (JsonArray *array)
@@ -170,7 +170,7 @@ json_array_seal (JsonArray *array)
  * Check whether the given @array has been marked as immutable by calling
  * json_array_seal() on it.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: %TRUE if the @array is immutable
  */
 gboolean
@@ -756,7 +756,7 @@ json_array_foreach_element (JsonArray        *array,
  * proportionally with the length of the array.
  *
  * Returns: hash value for @key
- * Since: UNRELEASED
+ * Since: 1.2
  */
 guint
 json_array_hash (gconstpointer key)
@@ -793,7 +793,7 @@ json_array_hash (gconstpointer key)
  * are equal.
  *
  * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gboolean
 json_array_equal (gconstpointer a,

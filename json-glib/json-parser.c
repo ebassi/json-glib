@@ -214,7 +214,7 @@ json_parser_class_init (JsonParserClass *klass)
    * when created. Making the output immutable on creation avoids the expense
    * of traversing it to make it immutable later.
    *
-   * Since: UNRELEASED
+   * Since: 1.2
    */
   parser_props[PROP_IMMUTABLE] =
     g_param_spec_boolean ("immutable",
@@ -967,7 +967,7 @@ json_parser_new (void)
  * Creates a new #JsonParser instance with its #JsonParser:immutable property
  * set to %TRUE to create immutable output trees.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: (transfer full): a new #JsonParser
  */
 JsonParser *

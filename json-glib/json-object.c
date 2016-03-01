@@ -126,7 +126,7 @@ json_object_unref (JsonObject *object)
  *
  * If the @object is already immutable, this is a no-op.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_object_seal (JsonObject *object)
@@ -157,7 +157,7 @@ json_object_seal (JsonObject *object)
  * Check whether the given @object has been marked as immutable by calling
  * json_object_seal() on it.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: %TRUE if the @object is immutable
  */
 gboolean
@@ -915,7 +915,7 @@ json_object_foreach_member (JsonObject        *object,
  * proportionally with the number of members in the object.
  *
  * Returns: hash value for @key
- * Since: UNRELEASED
+ * Since: 1.2
  */
 guint
 json_object_hash (gconstpointer key)
@@ -950,7 +950,7 @@ json_object_hash (gconstpointer key)
  * set of members, and the values of corresponding members are equal.
  *
  * Returns: %TRUE if @a and @b are equal; %FALSE otherwise
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gboolean
 json_object_equal (gconstpointer  a,
@@ -1019,7 +1019,7 @@ json_object_equal (gconstpointer  a,
  *   }
  * ]|
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 void
 json_object_iter_init (JsonObjectIter  *iter,
@@ -1053,7 +1053,7 @@ json_object_iter_init (JsonObjectIter  *iter,
  * Returns: %TRUE if @member_name and @member_node are valid; %FALSE if the end
  *    of the object has been reached
  *
- * Since: UNRELEASED
+ * Since: 1.2
  */
 gboolean
 json_object_iter_next (JsonObjectIter  *iter,

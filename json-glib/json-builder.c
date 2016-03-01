@@ -194,7 +194,7 @@ json_builder_class_init (JsonBuilderClass *klass)
    * when created. Making the output immutable on creation avoids the expense
    * of traversing it to make it immutable later.
    *
-   * Since: UNRELEASED
+   * Since: 1.2
    */
   builder_props[PROP_IMMUTABLE] =
     g_param_spec_boolean ("immutable",
@@ -255,7 +255,7 @@ json_builder_new (void)
  * Creates a new #JsonBuilder instance with its #JsonBuilder:immutable property
  * set to %TRUE to create immutable output trees.
  *
- * Since: UNRELEASED
+ * Since: 1.2
  * Returns: (transfer full): a new #JsonBuilder
  */
 JsonBuilder *
