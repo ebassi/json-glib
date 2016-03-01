@@ -414,7 +414,7 @@ gboolean              json_object_equal              (gconstpointer a,
  * All the fields in the #JsonObjectIter structure are private and should
  * never be accessed directly.
  *
- * Since: UNRELEASED
+ * Since: 1.2 
  */
 typedef struct {
   /*< private >*/
