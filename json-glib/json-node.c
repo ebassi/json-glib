@@ -29,6 +29,7 @@
 
 #include "json-types.h"
 #include "json-types-private.h"
+#include "json-debug.h"
 
 /**
  * SECTION:json-node
@@ -417,8 +418,14 @@ json_node_copy (JsonNode *node)
   copy->type = node->type;
   copy->immutable = node->immutable;
 
+#ifdef JSON_ENABLE_DEBUG
   if (node->immutable)
-    g_debug ("Copying immutable JsonNode %p", node);
+    {
+      JSON_NOTE (NODE, "Copying immutable JsonNode %p of type %s",
+                 node,
+                 json_node_type_name (node));
+    }
+#endif
 
   switch (copy->type)
     {
