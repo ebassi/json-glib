@@ -8,7 +8,8 @@ static unsigned int json_debug_flags = 0;
 static const GDebugKey json_debug_keys[] = {
   { "parser", JSON_DEBUG_PARSER },
   { "gobject", JSON_DEBUG_GOBJECT },
-  { "path", JSON_DEBUG_PATH }
+  { "path", JSON_DEBUG_PATH },
+  { "node", JSON_DEBUG_NODE },
 };
 #endif /* JSON_ENABLE_DEBUG */
 

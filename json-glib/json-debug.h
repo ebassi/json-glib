@@ -8,7 +8,8 @@ G_BEGIN_DECLS
 typedef enum {
   JSON_DEBUG_PARSER  = 1 << 0,
   JSON_DEBUG_GOBJECT = 1 << 1,
-  JSON_DEBUG_PATH    = 1 << 2
+  JSON_DEBUG_PATH    = 1 << 2,
+  JSON_DEBUG_NODE    = 1 << 3
 } JsonDebugFlags;
 
 #define JSON_HAS_DEBUG(flag)    (json_get_debug_flags () & JSON_DEBUG_##flag)
