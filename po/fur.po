@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-23 13:09+0000\n"
-"PO-Revision-Date: 2016-03-23 17:45+0100\n"
+"POT-Creation-Date: 2016-04-02 12:14+0000\n"
+"PO-Revision-Date: 2016-04-03 01:32+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -162,7 +162,7 @@ msgstr "I dâts JSON a scugnin sedi codificâts in UTF-8"
 
 #: ../json-glib/json-path.c:388
 msgid "Only one root node is allowed in a JSONPath expression"
-msgstr "A si amet dome un grop lidrîs intune espression JSON"
+msgstr "Si amet dome un grop lidrîs intune espression JSON"
 
 #: ../json-glib/json-path.c:397
 #, c-format
