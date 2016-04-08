@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: json-glib master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-02 12:14+0000\n"
-"PO-Revision-Date: 2016-04-03 01:32+0200\n"
+"POT-Creation-Date: 2016-04-08 00:23+0000\n"
+"PO-Revision-Date: 2016-04-08 10:15+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -109,7 +109,7 @@ msgstr "json-glib-validate al convalide dâts JSON cjatâts al URI furnît."
 #: ../json-glib/json-gobject.c:943
 #, c-format
 msgid "Expecting a JSON object, but the root node is of type `%s'"
-msgstr "Si spiete un ogjet JSON, ma il grop lidrîs al è dal tipo \"%s\""
+msgstr "Si spiete un ogjet JSON, ma il grop lidrîs al è dal gjenar \"%s\""
 
 #: ../json-glib/json-gvariant.c:523
 #, c-format
@@ -158,7 +158,7 @@ msgstr "%s:%d:%d: erôr di analisi: %s"
 
 #: ../json-glib/json-parser.c:997
 msgid "JSON data must be UTF-8 encoded"
-msgstr "I dâts JSON a scugnin sedi codificâts in UTF-8"
+msgstr "I dâts JSON a scugnin jessi codificâts in UTF-8"
 
 #: ../json-glib/json-path.c:388
 msgid "Only one root node is allowed in a JSONPath expression"
@@ -229,7 +229,7 @@ msgstr "Nissun grop disponibil ae posizion atuâl."
 #: ../json-glib/json-reader.c:593
 #, c-format
 msgid "The current position holds a '%s' and not an array"
-msgstr "La posizion atuâl a ten un \"%s\" e no un array"
+msgstr "La posizion atuâl e ten un \"%s\" e no un array"
 
 #: ../json-glib/json-reader.c:669
 #, c-format
@@ -244,14 +244,14 @@ msgstr "Nol è definît il membri \"%s\" tal ogjet ae posizion atuâl."
 #: ../json-glib/json-reader.c:757 ../json-glib/json-reader.c:808
 #, c-format
 msgid "The current position holds a '%s' and not an object"
-msgstr "La posizion atuâl a ten un \"%s\" e no un ogjet"
+msgstr "La posizion atuâl e ten un \"%s\" e no un ogjet"
 
 #: ../json-glib/json-reader.c:848 ../json-glib/json-reader.c:886
 #: ../json-glib/json-reader.c:924 ../json-glib/json-reader.c:962
 #: ../json-glib/json-reader.c:1007
 #, c-format
 msgid "The current position holds a '%s' and not a value"
-msgstr "La posizion atuâl a ten un \"%s\" e no un valôr"
+msgstr "La posizion atuâl e ten un \"%s\" e no un valôr"
 
 #: ../json-glib/json-reader.c:970
 msgid "The current position does not hold a string type"
