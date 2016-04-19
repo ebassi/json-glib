@@ -283,6 +283,7 @@ gboolean              json_node_is_null         (JsonNode     *node);
 
 JSON_AVAILABLE_IN_1_2
 void                  json_node_seal            (JsonNode     *node);
+JSON_AVAILABLE_IN_1_2
 gboolean              json_node_is_immutable    (JsonNode     *node);
 
 JSON_AVAILABLE_IN_1_2
