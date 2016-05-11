@@ -55,7 +55,6 @@ json_from_string (const char  *str,
 
   g_return_val_if_fail (str != NULL, NULL);
 
-  error = NULL;
   parser = json_parser_new ();
   if (!json_parser_load_from_data (parser, str, -1, error))
     {
