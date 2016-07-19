@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: json-glib\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=json-"
 "glib&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-08-09 10:18+0000\n"
-"PO-Revision-Date: 2015-08-09 23:38+0200\n"
+"POT-Creation-Date: 2016-05-05 12:39+0000\n"
+"PO-Revision-Date: 2016-07-19 23:27+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.3\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: ../json-glib/json-glib-format.c:50
 msgid "Prettify output"
@@ -56,22 +56,22 @@ msgstr "%s: %s: misslyckades att skriva till stdout"
 #. Translators: the first %s is the program name, the second one
 #. * is the URI of the file, the third is the error message.
 #.
-#: ../json-glib/json-glib-format.c:128 ../json-glib/json-glib-validate.c:87
+#: ../json-glib/json-glib-format.c:129 ../json-glib/json-glib-validate.c:87
 #, c-format
 msgid "%s: %s: error closing: %s\n"
 msgstr "%s: %s: misslyckades att stänga: %s\n"
 
-#: ../json-glib/json-glib-format.c:157 ../json-glib/json-glib-validate.c:115
+#: ../json-glib/json-glib-format.c:158 ../json-glib/json-glib-validate.c:115
 msgid "FILE"
 msgstr "FIL"
 
 #. Translators: this message will appear after the usage string
 #. and before the list of options.
-#: ../json-glib/json-glib-format.c:160
+#: ../json-glib/json-glib-format.c:161
 msgid "Format JSON files."
 msgstr "Formatera JSON-filer."
 
-#: ../json-glib/json-glib-format.c:161
+#: ../json-glib/json-glib-format.c:162
 msgid "json-glib-format formats JSON resources."
 msgstr "json-glib-format formaterar JSON-resurser."
 
@@ -79,12 +79,12 @@ msgstr "json-glib-format formaterar JSON-resurser."
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:178 ../json-glib/json-glib-validate.c:136
+#: ../json-glib/json-glib-format.c:179 ../json-glib/json-glib-validate.c:136
 #, c-format
 msgid "Error parsing commandline options: %s\n"
 msgstr "Misslyckades att tolka kommandoradsflaggor: %s\n"
 
-#: ../json-glib/json-glib-format.c:180 ../json-glib/json-glib-format.c:194
+#: ../json-glib/json-glib-format.c:181 ../json-glib/json-glib-format.c:195
 #: ../json-glib/json-glib-validate.c:138 ../json-glib/json-glib-validate.c:152
 #, c-format
 msgid "Try \"%s --help\" for more information."
@@ -94,7 +94,7 @@ msgstr "Prova ”%s --help” för mer information."
 #. * means the user is calling json-glib-validate without any
 #. * argument.
 #.
-#: ../json-glib/json-glib-format.c:192 ../json-glib/json-glib-validate.c:150
+#: ../json-glib/json-glib-format.c:193 ../json-glib/json-glib-validate.c:150
 #, c-format
 msgid "%s: missing files"
 msgstr "%s: saknar fil"
@@ -121,7 +121,7 @@ msgstr "Oväntad typ ”%s” i JSON-nod"
 
 #: ../json-glib/json-gvariant.c:593
 msgid "Missing elements in JSON array to conform to a tuple"
-msgstr "Saknar element i JSON-vektor för att överrensstämma med en tupel"
+msgstr "Saknar element i JSON-vektor för att överensstämma med en tupel"
 
 #: ../json-glib/json-gvariant.c:621
 msgid "Missing closing symbol ')' in the GVariant tuple type"
@@ -155,12 +155,12 @@ msgstr "Ogiltig GVariant-signatur"
 msgid "JSON data is empty"
 msgstr "JSON-datan är tom"
 
-#: ../json-glib/json-parser.c:815
+#: ../json-glib/json-parser.c:914
 #, c-format
 msgid "%s:%d:%d: Parse error: %s"
 msgstr "%s:%d:%d: Tolkningsfel: %s"
 
-#: ../json-glib/json-parser.c:883
+#: ../json-glib/json-parser.c:997
 msgid "JSON data must be UTF-8 encoded"
 msgstr "JSON-data måste vara UTF-8-kodad"
 
@@ -202,21 +202,21 @@ msgstr "Ogiltig vektorindexdefinition ”%*s”"
 msgid "Invalid first character '%c'"
 msgstr "Ogiltigt första tecken ”%c”"
 
-#: ../json-glib/json-reader.c:459
+#: ../json-glib/json-reader.c:473
 #, c-format
 msgid ""
 "The current node is of type '%s', but an array or an object was expected."
 msgstr ""
 "Aktuell nod är av typen ”%s”, men en vektor eller ett objekt var förväntat."
 
-#: ../json-glib/json-reader.c:471
+#: ../json-glib/json-reader.c:485
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the array at the current position."
 msgstr ""
 "Indexet ”%d” är större än storleken på vektorn på den aktuella positionen."
 
-#: ../json-glib/json-reader.c:488
+#: ../json-glib/json-reader.c:502
 #, c-format
 msgid ""
 "The index '%d' is greater than the size of the object at the current "
@@ -224,41 +224,41 @@ msgid ""
 msgstr ""
 "Indexet ”%d” är större än storleken på objektet på den aktuella positionen."
 
-#: ../json-glib/json-reader.c:572 ../json-glib/json-reader.c:723
-#: ../json-glib/json-reader.c:774 ../json-glib/json-reader.c:812
-#: ../json-glib/json-reader.c:850 ../json-glib/json-reader.c:888
-#: ../json-glib/json-reader.c:926 ../json-glib/json-reader.c:971
-#: ../json-glib/json-reader.c:1007 ../json-glib/json-reader.c:1033
+#: ../json-glib/json-reader.c:586 ../json-glib/json-reader.c:750
+#: ../json-glib/json-reader.c:801 ../json-glib/json-reader.c:839
+#: ../json-glib/json-reader.c:877 ../json-glib/json-reader.c:915
+#: ../json-glib/json-reader.c:953 ../json-glib/json-reader.c:998
+#: ../json-glib/json-reader.c:1034 ../json-glib/json-reader.c:1060
 msgid "No node available at the current position"
 msgstr "Ingen nod tillgänglig på aktuell position"
 
-#: ../json-glib/json-reader.c:579
+#: ../json-glib/json-reader.c:593
 #, c-format
 msgid "The current position holds a '%s' and not an array"
 msgstr "Aktuell position innehåller en ”%s” och inte en vektor"
 
-#: ../json-glib/json-reader.c:642
+#: ../json-glib/json-reader.c:669
 #, c-format
 msgid "The current node is of type '%s', but an object was expected."
 msgstr "Aktuell nod är av typen ”%s”, men ett objekt var förväntat."
 
-#: ../json-glib/json-reader.c:649
+#: ../json-glib/json-reader.c:676
 #, c-format
 msgid "The member '%s' is not defined in the object at the current position."
 msgstr "Medlemmen ”%s” är inte definierad i objektet på aktuell position."
 
-#: ../json-glib/json-reader.c:730 ../json-glib/json-reader.c:781
+#: ../json-glib/json-reader.c:757 ../json-glib/json-reader.c:808
 #, c-format
 msgid "The current position holds a '%s' and not an object"
 msgstr "Aktuell position innehåller en ”%s” och inte ett objekt"
 
-#: ../json-glib/json-reader.c:821 ../json-glib/json-reader.c:859
-#: ../json-glib/json-reader.c:897 ../json-glib/json-reader.c:935
-#: ../json-glib/json-reader.c:980
+#: ../json-glib/json-reader.c:848 ../json-glib/json-reader.c:886
+#: ../json-glib/json-reader.c:924 ../json-glib/json-reader.c:962
+#: ../json-glib/json-reader.c:1007
 #, c-format
 msgid "The current position holds a '%s' and not a value"
 msgstr "Aktuell position innehåller en ”%s” och inte ett värde"
 
-#: ../json-glib/json-reader.c:943
+#: ../json-glib/json-reader.c:970
 msgid "The current position does not hold a string type"
 msgstr "Aktuell position innehåller inte en strängtyp"
