@@ -474,11 +474,11 @@ json_object_set_object_member (JsonObject  *object,
  * Retrieves all the names of the members of a #JsonObject. You can
  * obtain the value for each member using json_object_get_member().
  *
- * Return value: (element-type utf8) (transfer container): a #GList
- *   of member names. The content of the list is owned by the #JsonObject
- *   and should never be modified or freed. When you have finished using
- *   the returned list, use g_list_free() to free the resources it has
- *   allocated.
+ * Return value: (element-type utf8) (transfer container) (nullable): a
+ *   #GList of member names, or %NULL. The content of the list is owned
+ *   by the #JsonObject and should never be modified or freed. When you
+ *   have finished using the returned list, use g_list_free() to free
+ *   the resources it has allocated.
  */
 GList *
 json_object_get_members (JsonObject *object)
@@ -498,10 +498,11 @@ json_object_get_members (JsonObject *object)
  *
  * Retrieves all the values of the members of a #JsonObject.
  *
- * Return value: (element-type JsonNode) (transfer container): a #GList of
- *   #JsonNodes. The content of the list is owned by the #JsonObject
- *   and should never be modified or freed. When you have finished using the
- *   returned list, use g_list_free() to free the resources it has allocated.
+ * Return value: (element-type JsonNode) (transfer container) (nullable): a
+ *   #GList of #JsonNodes, or %NULL. The content of the list is owned by the
+ *   #JsonObject and should never be modified or freed. When you have finished
+ *   using the returned list, use g_list_free() to free the resources it has
+ *   allocated.
  */
 GList *
 json_object_get_values (JsonObject *object)
@@ -525,8 +526,8 @@ json_object_get_values (JsonObject *object)
  * Retrieves a copy of the #JsonNode containing the value of @member_name
  * inside a #JsonObject
  *
- * Return value: (transfer full): a copy of the node for the requested
- *   object member or %NULL. Use json_node_unref() when done.
+ * Return value: (transfer full) (nullable): a copy of the node for the
+ *   requested object member or %NULL. Use json_node_unref() when done.
  *
  * Since: 0.6
  */
@@ -561,8 +562,8 @@ object_get_member_internal (JsonObject  *object,
  * Retrieves the #JsonNode containing the value of @member_name inside
  * a #JsonObject.
  *
- * Return value: (transfer none): a pointer to the node for the requested object
- *   member, or %NULL
+ * Return value: (transfer none) (nullable): a pointer to the node for the
+ *   requested object member, or %NULL
  */
 JsonNode *
 json_object_get_member (JsonObject  *object,
