@@ -12,6 +12,7 @@ Overview of changes for 1.2
 • Add support for g_auto* macros
 • Allow making JSON types optionally immutable, in order to allow
   efficient hashing and equality tests [Philip Withnal - #756121]
+• Improve the build under MSVC [Chun-wei Fan]
 
 Overview of changes for 1.0
 ==============================
