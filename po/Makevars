@@ -1,5 +1,5 @@
 DOMAIN = json-glib-1.0
-XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ --keyword=P_ --keyword=C_
+XGETTEXT_OPTIONS = --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --keyword=P_ --add-comments
 COPYRIGHT_HOLDER = Intel Corporation
 MSGID_BUGS_ADDRESS = http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib
 EXTRA_LOCALE_CATEGORIES =
