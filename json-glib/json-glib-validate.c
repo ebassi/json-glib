@@ -135,7 +135,7 @@ main (int   argc,
        */
       g_printerr (_("Error parsing commandline options: %s\n"), error->message);
       g_printerr ("\n");
-      g_printerr (_("Try \"%s --help\" for more information."), g_get_prgname ());
+      g_printerr (_("Try “%s --help” for more information."), g_get_prgname ());
       g_printerr ("\n");
       g_error_free (error);
       return 1;
@@ -149,7 +149,7 @@ main (int   argc,
        */
       g_printerr (_("%s: missing files"), g_get_prgname ());
       g_printerr ("\n");
-      g_printerr (_("Try \"%s --help\" for more information."), g_get_prgname ());
+      g_printerr (_("Try “%s --help” for more information."), g_get_prgname ());
       g_printerr ("\n");
       return 1;
     }

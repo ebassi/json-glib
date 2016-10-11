@@ -520,7 +520,7 @@ json_node_assert_type (JsonNode       *json_node,
                    G_IO_ERROR,
                    G_IO_ERROR_INVALID_DATA,
                    /* translators: the '%s' is the type name */
-                   _("Unexpected type '%s' in JSON node"),
+                   _("Unexpected type “%s” in JSON node"),
                    g_type_name (json_node_get_value_type (json_node)));
       return FALSE;
     }
@@ -618,7 +618,7 @@ json_to_gvariant_tuple (JsonNode     *json_node,
           g_set_error_literal (error,
                                G_IO_ERROR,
                                G_IO_ERROR_INVALID_DATA,
-                               _("Missing closing symbol ')' in the GVariant tuple type"));
+                               _("Missing closing symbol “)” in the GVariant tuple type"));
           roll_back = TRUE;
         }
       else if (json_array_get_length (array) >= i)
@@ -1245,7 +1245,7 @@ json_to_gvariant_recurse (JsonNode      *json_node,
       g_set_error (error,
                    G_IO_ERROR,
                    G_IO_ERROR_INVALID_DATA,
-                   _("GVariant class '%c' not supported"), class);
+                   _("GVariant class “%c” not supported"), class);
       break;
     }
 

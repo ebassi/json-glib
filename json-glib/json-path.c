@@ -395,7 +395,7 @@ json_path_compile (JsonPath    *path,
                 g_set_error (error, JSON_PATH_ERROR,
                              JSON_PATH_ERROR_INVALID_QUERY,
                              /* translators: the %c is the invalid character */
-                             _("Root node followed by invalid character '%c'"),
+                             _("Root node followed by invalid character “%c”"),
                              *(p + 1));
                 return FALSE;
               }
@@ -509,7 +509,7 @@ json_path_compile (JsonPath    *path,
                           {
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
-                                         _("Malformed slice expression '%*s'"),
+                                         _("Malformed slice expression “%*s”"),
                                          (int)(end_p - p),
                                          p + 1);
                             goto fail;
@@ -553,7 +553,7 @@ json_path_compile (JsonPath    *path,
                             g_array_unref (indices);
                             g_set_error (error, JSON_PATH_ERROR,
                                          JSON_PATH_ERROR_INVALID_QUERY,
-                                         _("Invalid set definition '%*s'"),
+                                         _("Invalid set definition “%*s”"),
                                          (int)(end_p - p),
                                          p + 1);
                             goto fail;
@@ -606,7 +606,7 @@ json_path_compile (JsonPath    *path,
                       {
                         g_set_error (error, JSON_PATH_ERROR,
                                      JSON_PATH_ERROR_INVALID_QUERY,
-                                     _("Invalid slice definition '%*s'"),
+                                     _("Invalid slice definition “%*s”"),
                                      (int)(end_p - p),
                                      p + 1);
                         goto fail;
@@ -634,7 +634,7 @@ json_path_compile (JsonPath    *path,
                   {
                     g_set_error (error, JSON_PATH_ERROR,
                                  JSON_PATH_ERROR_INVALID_QUERY,
-                                 _("Invalid array index definition '%*s'"),
+                                 _("Invalid array index definition “%*s”"),
                                  (int)(end_p - p),
                                  p + 1);
                     goto fail;
@@ -653,7 +653,7 @@ json_path_compile (JsonPath    *path,
             {
               g_set_error(error, JSON_PATH_ERROR,
                           JSON_PATH_ERROR_INVALID_QUERY,
-                          _("Invalid first character '%c'"),
+                          _("Invalid first character “%c”"),
                           *p);
               return FALSE;
             }

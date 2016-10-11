@@ -940,7 +940,7 @@ json_gobject_from_data (GType         gtype,
       g_set_error (error, JSON_PARSER_ERROR,
                    JSON_PARSER_ERROR_PARSE,
                    /* translators: the %s is the name of the data structure */
-                   _("Expecting a JSON object, but the root node is of type `%s'"),
+                   _("Expecting a JSON object, but the root node is of type “%s”"),
                    json_node_type_name (root));
       g_object_unref (parser);
       return NULL;

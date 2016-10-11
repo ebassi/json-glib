@@ -471,7 +471,7 @@ json_reader_read_element (JsonReader *reader,
   if (!(JSON_NODE_HOLDS_ARRAY (priv->current_node) ||
         JSON_NODE_HOLDS_OBJECT (priv->current_node)))
     return json_reader_set_error (reader, JSON_READER_ERROR_NO_ARRAY,
-                                  _("The current node is of type '%s', but "
+                                  _("The current node is of type “%s”, but "
                                     "an array or an object was expected."),
                                   json_node_type_name (priv->current_node));
 
@@ -483,7 +483,7 @@ json_reader_read_element (JsonReader *reader,
 
         if (index_ >= json_array_get_length (array))
           return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
-                                        _("The index '%d' is greater than the size "
+                                        _("The index “%d” is greater than the size "
                                           "of the array at the current position."),
                                         index_);
 
@@ -500,7 +500,7 @@ json_reader_read_element (JsonReader *reader,
 
         if (index_ >= json_object_get_size (object))
           return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_INDEX,
-                                        _("The index '%d' is greater than the size "
+                                        _("The index “%d” is greater than the size "
                                           "of the object at the current position."),
                                         index_);
 
@@ -591,7 +591,7 @@ json_reader_count_elements (JsonReader *reader)
   if (!JSON_NODE_HOLDS_ARRAY (priv->current_node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_ARRAY,
-                             _("The current position holds a '%s' and not an array"),
+                             _("The current position holds a “%s” and not an array"),
                              json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
       return -1;
     }
@@ -667,14 +667,14 @@ json_reader_read_member (JsonReader  *reader,
 
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
     return json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
-                                  _("The current node is of type '%s', but "
+                                  _("The current node is of type “%s”, but "
                                     "an object was expected."),
                                   json_node_type_name (priv->current_node));
 
   object = json_node_get_object (priv->current_node);
   if (!json_object_has_member (object, member_name))
     return json_reader_set_error (reader, JSON_READER_ERROR_INVALID_MEMBER,
-                                  _("The member '%s' is not defined in the "
+                                  _("The member “%s” is not defined in the "
                                     "object at the current position."),
                                   member_name);
 
@@ -755,7 +755,7 @@ json_reader_list_members (JsonReader *reader)
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
-                             _("The current position holds a '%s' and not an object"),
+                             _("The current position holds a “%s” and not an object"),
                              json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
       return NULL;
     }
@@ -806,7 +806,7 @@ json_reader_count_members (JsonReader *reader)
   if (!JSON_NODE_HOLDS_OBJECT (priv->current_node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_OBJECT,
-                             _("The current position holds a '%s' and not an object"),
+                             _("The current position holds a “%s” and not an object"),
                              json_node_type_get_name (JSON_NODE_TYPE (priv->current_node)));
       return -1;
     }
@@ -846,7 +846,7 @@ json_reader_get_value (JsonReader *reader)
   if (!JSON_NODE_HOLDS_VALUE (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
-                             _("The current position holds a '%s' and not a value"),
+                             _("The current position holds a “%s” and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
       return NULL;
     }
@@ -884,7 +884,7 @@ json_reader_get_int_value (JsonReader *reader)
   if (!JSON_NODE_HOLDS_VALUE (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
-                             _("The current position holds a '%s' and not a value"),
+                             _("The current position holds a “%s” and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
       return 0;
     }
@@ -922,7 +922,7 @@ json_reader_get_double_value (JsonReader *reader)
   if (!JSON_NODE_HOLDS_VALUE (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
-                             _("The current position holds a '%s' and not a value"),
+                             _("The current position holds a “%s” and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
       return 0.0;
     }
@@ -960,7 +960,7 @@ json_reader_get_string_value (JsonReader *reader)
   if (!JSON_NODE_HOLDS_VALUE (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
-                             _("The current position holds a '%s' and not a value"),
+                             _("The current position holds a “%s” and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
       return NULL;
     }
@@ -1005,7 +1005,7 @@ json_reader_get_boolean_value (JsonReader *reader)
   if (!JSON_NODE_HOLDS_VALUE (node))
     {
       json_reader_set_error (reader, JSON_READER_ERROR_NO_VALUE,
-                             _("The current position holds a '%s' and not a value"),
+                             _("The current position holds a “%s” and not a value"),
                              json_node_type_get_name (JSON_NODE_TYPE (node)));
       return FALSE;
     }
