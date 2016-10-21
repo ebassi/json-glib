@@ -60,37 +60,32 @@ enum
   PROP_LAST
 };
 
-static gchar *dump_value  (JsonGenerator *generator,
+static void   dump_value  (GString       *buffer,
                            gint           level,
-                           const gchar   *name,
-                           JsonNode      *node,
-                           gsize         *length);
-static gchar *dump_array  (JsonGenerator *generator,
+                           JsonNode      *node);
+static void   dump_array  (JsonGenerator *generator,
+                           GString       *buffer,
                            gint           level,
-                           const gchar   *name,
-                           JsonArray     *array,
-                           gsize         *length);
-static gchar *dump_object (JsonGenerator *generator,
+                           JsonArray     *array);
+static void   dump_object (JsonGenerator *generator,
+                           GString       *buffer,
                            gint           level,
-                           const gchar   *name,
-                           JsonObject    *object,
-                           gsize         *length);
+                           JsonObject    *object);
 
 static GParamSpec *generator_props[PROP_LAST] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (JsonGenerator, json_generator, G_TYPE_OBJECT)
 
-static gchar *
-json_strescape (const gchar *str)
+static void
+json_strescape (GString     *output,
+                const gchar *str)
 {
   const gchar *p;
   const gchar *end;
-  GString *output;
   gsize len;
 
   len = strlen (str);
   end = str + len;
-  output = g_string_sized_new (len);
 
   for (p = str; p < end; p++)
     {
@@ -128,8 +123,6 @@ json_strescape (const gchar *str)
           g_string_append_c (output, *p);
         }
     }
-
-  return g_string_free (output, FALSE);
 }
 
 static void
@@ -283,20 +276,16 @@ json_generator_init (JsonGenerator *generator)
   priv->indent_char = ' ';
 }
 
-static gchar *
-dump_value (JsonGenerator *generator,
-            gint           level,
-            const gchar   *name,
-            JsonNode      *node,
-            gsize         *length)
+static void
+dump_node (JsonGenerator *generator,
+           GString       *buffer,
+           gint           level,
+           const gchar   *name,
+           JsonNode      *node)
 {
   JsonGeneratorPrivate *priv = generator->priv;
   gboolean pretty = priv->pretty;
   guint indent = priv->indent;
-  const JsonValue *value;
-  GString *buffer;
-
-  buffer = g_string_new ("");
 
   if (pretty)
     {
@@ -308,11 +297,44 @@ dump_value (JsonGenerator *generator,
 
   if (name)
     {
+      g_string_append_c (buffer, '"');
+      json_strescape (buffer, name);
+      g_string_append_c (buffer, '"');
+
       if (pretty)
-        g_string_append_printf (buffer, "\"%s\" : ", name);
+        g_string_append (buffer, " : ");
       else
-        g_string_append_printf (buffer, "\"%s\":", name);
+        g_string_append_c (buffer, ':');
     }
+
+  switch (JSON_NODE_TYPE (node))
+    {
+    case JSON_NODE_NULL:
+      g_string_append (buffer, "null");
+      break;
+
+    case JSON_NODE_VALUE:
+      dump_value (buffer, level, node);
+      break;
+
+    case JSON_NODE_ARRAY:
+      dump_array (generator, buffer, level,
+                  json_node_get_array (node));
+      break;
+
+    case JSON_NODE_OBJECT:
+      dump_object (generator, buffer, level,
+                   json_node_get_object (node));
+      break;
+    }
+}
+
+static void
+dump_value (GString  *buffer,
+            gint      level,
+            JsonNode *node)
+{
+  const JsonValue *value;
 
   value = node->data.value;
 
@@ -324,14 +346,9 @@ dump_value (JsonGenerator *generator,
 
     case JSON_VALUE_STRING:
       {
-        gchar *tmp;
-
-        tmp = json_strescape (json_value_get_string (value));
         g_string_append_c (buffer, '"');
-        g_string_append (buffer, tmp);
+        json_strescape (buffer, json_value_get_string (value));
         g_string_append_c (buffer, '"');
-
-        g_free (tmp);
       }
       break;
 
@@ -361,42 +378,19 @@ dump_value (JsonGenerator *generator,
     default:
       break;
     }
-
-  if (length)
-    *length = buffer->len;
-
-  return g_string_free (buffer, FALSE);
 }
 
-static gchar *
+static void
 dump_array (JsonGenerator *generator,
+            GString       *buffer,
             gint           level,
-            const gchar   *name,
-            JsonArray     *array,
-            gsize         *length)
+            JsonArray     *array)
 {
   JsonGeneratorPrivate *priv = generator->priv;
   guint array_len = json_array_get_length (array);
   guint i;
-  GString *buffer;
   gboolean pretty = priv->pretty;
   guint indent = priv->indent;
-
-  buffer = g_string_new ("");
-
-  if (pretty)
-    {
-      for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, priv->indent_char);
-    }
-
-  if (name)
-    {
-      if (pretty)
-        g_string_append_printf (buffer, "\"%s\" : ", name);
-      else
-        g_string_append_printf (buffer, "\"%s\":", name);
-    }
 
   g_string_append_c (buffer, '[');
 
@@ -406,39 +400,8 @@ dump_array (JsonGenerator *generator,
   for (i = 0; i < array_len; i++)
     {
       JsonNode *cur = json_array_get_element (array, i);
-      guint sub_level = level + 1;
-      guint j;
-      gchar *value; 
 
-      switch (JSON_NODE_TYPE (cur))
-        {
-        case JSON_NODE_NULL:
-          if (pretty)
-            {
-              for (j = 0; j < (sub_level * indent); j++)
-                g_string_append_c (buffer, priv->indent_char);
-            }
-          g_string_append (buffer, "null");
-          break;
-
-        case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, NULL, cur, NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-
-        case JSON_NODE_ARRAY:
-          value = dump_array (generator, sub_level, NULL, json_node_get_array (cur), NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-
-        case JSON_NODE_OBJECT:
-          value = dump_object (generator, sub_level, NULL, json_node_get_object (cur), NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-        }
+      dump_node (generator, buffer, level + 1, NULL, cur);
 
       if ((i + 1) != array_len)
         g_string_append_c (buffer, ',');
@@ -454,42 +417,19 @@ dump_array (JsonGenerator *generator,
     }
 
   g_string_append_c (buffer, ']');
-
-  if (length)
-    *length = buffer->len;
-
-  return g_string_free (buffer, FALSE);
 }
 
-static gchar *
+static void
 dump_object (JsonGenerator *generator,
+             GString       *buffer,
              gint           level,
-             const gchar   *name,
-             JsonObject    *object,
-             gsize         *length)
+             JsonObject    *object)
 {
   JsonGeneratorPrivate *priv = generator->priv;
   GList *members, *l;
-  GString *buffer;
   gboolean pretty = priv->pretty;
   guint indent = priv->indent;
   guint i;
-
-  buffer = g_string_new ("");
-
-  if (pretty)
-    {
-      for (i = 0; i < (level * indent); i++)
-        g_string_append_c (buffer, priv->indent_char);
-    }
-
-  if (name)
-    {
-      if (pretty)
-        g_string_append_printf (buffer, "\"%s\" : ", name);
-      else
-        g_string_append_printf (buffer, "\"%s\":", name);
-    }
 
   g_string_append_c (buffer, '{');
 
@@ -501,55 +441,15 @@ dump_object (JsonGenerator *generator,
   for (l = members; l != NULL; l = l->next)
     {
       const gchar *member_name = l->data;
-      gchar *escaped_name = json_strescape (member_name);
       JsonNode *cur = json_object_get_member (object, member_name);
-      guint sub_level = level + 1;
-      guint j;
-      gchar *value;
 
-      switch (JSON_NODE_TYPE (cur))
-        {
-        case JSON_NODE_NULL:
-          if (pretty)
-            {
-              for (j = 0; j < (sub_level * indent); j++)
-                g_string_append_c (buffer, priv->indent_char);
-              g_string_append_printf (buffer, "\"%s\" : null", escaped_name);
-            }
-          else
-            {
-              g_string_append_printf (buffer, "\"%s\":null", escaped_name);
-            }
-          break;
-
-        case JSON_NODE_VALUE:
-          value = dump_value (generator, sub_level, escaped_name, cur, NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-
-        case JSON_NODE_ARRAY:
-          value = dump_array (generator, sub_level, escaped_name,
-                              json_node_get_array (cur), NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-
-        case JSON_NODE_OBJECT:
-          value = dump_object (generator, sub_level, escaped_name,
-                               json_node_get_object (cur), NULL);
-          g_string_append (buffer, value);
-          g_free (value);
-          break;
-        }
+      dump_node (generator, buffer, level + 1, member_name, cur);
 
       if (l->next != NULL)
         g_string_append_c (buffer, ',');
 
       if (pretty)
         g_string_append_c (buffer, '\n');
-
-      g_free (escaped_name);
     }
 
   g_list_free (members);
@@ -561,11 +461,6 @@ dump_object (JsonGenerator *generator,
     }
 
   g_string_append_c (buffer, '}');
-
-  if (length)
-    *length = buffer->len;
-
-  return g_string_free (buffer, FALSE);
 }
 
 /**
@@ -600,7 +495,7 @@ json_generator_to_data (JsonGenerator *generator,
                         gsize         *length)
 {
   JsonNode *root;
-  gchar *retval = NULL;
+  GString *string;
 
   g_return_val_if_fail (JSON_IS_GENERATOR (generator), NULL);
 
@@ -613,28 +508,13 @@ json_generator_to_data (JsonGenerator *generator,
       return NULL;
     }
 
-  switch (JSON_NODE_TYPE (root))
-    {
-    case JSON_NODE_ARRAY:
-      retval = dump_array (generator, 0, NULL, json_node_get_array (root), length);
-      break;
+  string = g_string_new ("");
+  dump_node (generator, string, 0, NULL, root);
 
-    case JSON_NODE_OBJECT:
-      retval = dump_object (generator, 0, NULL, json_node_get_object (root), length);
-      break;
+  if (length)
+    *length = string->len;
 
-    case JSON_NODE_NULL:
-      retval = g_strdup ("null");
-      if (length)
-        *length = 4;
-      break;
-
-    case JSON_NODE_VALUE:
-      retval = dump_value (generator, 0, NULL, root, length);
-      break;
-    }
-
-  return retval;
+  return g_string_free (string, FALSE);
 }
 
 /**
