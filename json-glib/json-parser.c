@@ -41,7 +41,6 @@
 #include "json-types-private.h"
 
 #include "json-debug.h"
-#include "json-marshal.h"
 #include "json-parser.h"
 #include "json-scanner.h"
 
@@ -238,7 +237,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, parse_start),
                   NULL, NULL,
-                  json_marshal_VOID__VOID,
+                  NULL,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::parse-end:
@@ -252,13 +251,12 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, parse_end),
-                  NULL, NULL,
-                  json_marshal_VOID__VOID,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::object-start:
    * @parser: the #JsonParser that received the signal
-   * 
+   *
    * The ::object-start signal is emitted each time the #JsonParser
    * starts parsing a #JsonObject.
    */
@@ -267,8 +265,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_start),
-                  NULL, NULL,
-                  json_marshal_VOID__VOID,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::object-member:
@@ -285,8 +282,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_member),
-                  NULL, NULL,
-                  json_marshal_VOID__BOXED_STRING,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 2,
                   JSON_TYPE_OBJECT,
                   G_TYPE_STRING);
@@ -303,8 +299,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, object_end),
-                  NULL, NULL,
-                  json_marshal_VOID__BOXED,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 1,
                   JSON_TYPE_OBJECT);
   /**
@@ -319,8 +314,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_start),
-                  NULL, NULL,
-                  json_marshal_VOID__VOID,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 0);
   /**
    * JsonParser::array-element:
@@ -337,8 +331,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_element),
-                  NULL, NULL,
-                  json_marshal_VOID__BOXED_INT,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 2,
                   JSON_TYPE_ARRAY,
                   G_TYPE_INT);
@@ -355,8 +348,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, array_end),
-                  NULL, NULL,
-                  json_marshal_VOID__BOXED,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 1,
                   JSON_TYPE_ARRAY);
   /**
@@ -372,8 +364,7 @@ json_parser_class_init (JsonParserClass *klass)
                   G_OBJECT_CLASS_TYPE (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (JsonParserClass, error),
-                  NULL, NULL,
-                  json_marshal_VOID__POINTER,
+                  NULL, NULL, NULL,
                   G_TYPE_NONE, 1,
                   G_TYPE_POINTER);
 }

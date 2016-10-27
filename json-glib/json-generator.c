@@ -1,5 +1,5 @@
 /* json-generator.c - JSON streams generator
- * 
+ *
  * This file is part of JSON-GLib
  * Copyright (C) 2007  OpenedHand Ltd.
  * Copyright (C) 2009  Intel Corp.
@@ -36,7 +36,6 @@
 
 #include "json-types-private.h"
 
-#include "json-marshal.h"
 #include "json-generator.h"
 
 struct _JsonGeneratorPrivate
