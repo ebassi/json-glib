@@ -1,4 +1,8 @@
 /*** BEGIN file-header ***/
+#ifndef JSON_COMPILATION
+#define JSON_COMPILATION
+#endif
+
 #include "config.h"
 #include "json-enum-types.h"
 /*** END file-header ***/
