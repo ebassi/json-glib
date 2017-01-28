@@ -391,9 +391,9 @@ json_path_compile (JsonPath    *path,
 
             if (!(*(p + 1) == '.' || *(p + 1) == '[' || *(p + 1) == '\0'))
               {
-                /* translators: the %c is the invalid character */
                 g_set_error (error, JSON_PATH_ERROR,
                              JSON_PATH_ERROR_INVALID_QUERY,
+                             /* translators: the %c is the invalid character */
                              _("Root node followed by invalid character '%c'"),
                              *(p + 1));
                 return FALSE;

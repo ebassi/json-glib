@@ -516,10 +516,10 @@ json_node_assert_type (JsonNode       *json_node,
       (type == JSON_NODE_VALUE &&
        (json_node_get_value_type (json_node) != sub_type)))
     {
-      /* translators: the '%s' is the type name */
       g_set_error (error,
                    G_IO_ERROR,
                    G_IO_ERROR_INVALID_DATA,
+                   /* translators: the '%s' is the type name */
                    _("Unexpected type '%s' in JSON node"),
                    g_type_name (json_node_get_value_type (json_node)));
       return FALSE;

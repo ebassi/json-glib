@@ -905,12 +905,12 @@ json_scanner_msg_handler (JsonScanner *scanner,
   JsonParserPrivate *priv = parser->priv;
   GError *error = NULL;
 
-  /* translators: %s: is the file name, the first %d is the line
-   * number, the second %d is the position on the line, and %s is
-   * the error message
-   */
   g_set_error (&error, JSON_PARSER_ERROR,
                priv->error_code,
+               /* translators: %s: is the file name, the first %d is the line
+                * number, the second %d is the position on the line, and %s is
+                * the error message
+                */
                _("%s:%d:%d: Parse error: %s"),
                priv->is_filename ? priv->filename : "<data>",
                scanner->line,
