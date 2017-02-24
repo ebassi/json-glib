@@ -361,6 +361,10 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],
                    [The prefix for our gettext translation domains.])
 AS_ALL_LINGUAS
 
+dnl === MSVC toolset ==========================================================
+AM_CONDITIONAL(MSVC_BASE_NO_TOOLSET_SET, [test x$MSVC_BASE_TOOLSET = x])
+AM_CONDITIONAL(MSVC_NO_TOOLSET_SET, [test x$MSVC_TOOLSET = x])
+
 dnl === Output ================================================================
 
 AC_SUBST(JSON_CFLAGS)
@@ -378,6 +382,7 @@ AC_CONFIG_FILES([
         build/win32/vs11/Makefile
         build/win32/vs12/Makefile
         build/win32/vs14/Makefile
+        build/win32/vs15/Makefile
 
         json-glib/Makefile
         json-glib/json-glib.pc
