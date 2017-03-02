@@ -552,9 +552,10 @@ json_node_take_object (JsonNode   *node,
  * json_node_get_object:
  * @node: a #JsonNode
  *
- * Retrieves the #JsonObject stored inside a #JsonNode
+ * Retrieves the #JsonObject stored inside a #JsonNode. If the node does not
+ * hold an object value, %NULL is returned.
  *
- * Return value: (transfer none): the #JsonObject
+ * Return value: (transfer none) (nullable): the #JsonObject
  */
 JsonObject *
 json_node_get_object (JsonNode *node)
@@ -570,9 +571,10 @@ json_node_get_object (JsonNode *node)
  * @node: a #JsonNode
  *
  * Retrieves the #JsonObject inside @node. The reference count of
- * the returned object is increased.
+ * the returned object is increased. If the node does not hold an object value,
+ * %NULL is returned.
  *
- * Return value: (transfer full): the #JsonObject
+ * Return value: (transfer full) (nullable): the #JsonObject
  */
 JsonObject *
 json_node_dup_object (JsonNode *node)
@@ -643,9 +645,10 @@ json_node_take_array (JsonNode  *node,
  * json_node_get_array:
  * @node: a #JsonNode
  *
- * Retrieves the #JsonArray stored inside a #JsonNode
+ * Retrieves the #JsonArray stored inside a #JsonNode. If the node does not
+ * hold an array value, %NULL is returned.
  *
- * Return value: (transfer none): the #JsonArray
+ * Return value: (transfer none) (nullable): the #JsonArray
  */
 JsonArray *
 json_node_get_array (JsonNode *node)
@@ -661,9 +664,10 @@ json_node_get_array (JsonNode *node)
  * @node: a #JsonNode
  *
  * Retrieves the #JsonArray stored inside a #JsonNode and returns it
- * with its reference count increased by one.
+ * with its reference count increased by one. If the node does not hold an
+ * array value, %NULL is returned.
  *
- * Return value: (transfer full): the #JsonArray with its reference
+ * Return value: (transfer full) (nullable): the #JsonArray with its reference
  *   count increased.
  */
 JsonArray *
@@ -684,7 +688,8 @@ json_node_dup_array (JsonNode *node)
  * @value: (out caller-allocates): return location for an uninitialized value
  *
  * Retrieves a value from a #JsonNode and copies into @value. When done
- * using it, call g_value_unset() on the #GValue.
+ * using it, call g_value_unset() on the #GValue. If the node does not hold a
+ * scalar value, @value is not modified.
  */
 void
 json_node_get_value (JsonNode *node,
@@ -948,8 +953,8 @@ json_node_set_parent (JsonNode *node,
  *
  * Retrieves the parent #JsonNode of @node.
  *
- * Return value: (transfer none): the parent node, or %NULL if @node is
- *   the root node
+ * Return value: (transfer none) (nullable): the parent node, or %NULL if @node
+ *   is the root node
  */
 JsonNode *
 json_node_get_parent (JsonNode *node)
@@ -989,9 +994,10 @@ json_node_set_string (JsonNode    *node,
  * json_node_get_string:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  *
- * Gets the string value stored inside a #JsonNode
+ * Gets the string value stored inside a #JsonNode. If the node does not hold a
+ * string value, %NULL is returned.
  *
- * Return value: a string value.
+ * Return value: (nullable): a string value.
  */
 const gchar *
 json_node_get_string (JsonNode *node)
@@ -1011,10 +1017,12 @@ json_node_get_string (JsonNode *node)
  * json_node_dup_string:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  *
- * Gets a copy of the string value stored inside a #JsonNode
+ * Gets a copy of the string value stored inside a #JsonNode. If the node does
+ * not hold a string value, %NULL is returned.
  *
- * Return value: (transfer full): a newly allocated string containing a copy
- *   of the #JsonNode contents. Use g_free() to free the allocated resources
+ * Return value: (transfer full) (nullable): a newly allocated string
+ *   containing a copy of the #JsonNode contents. Use g_free() to free the
+ *   allocated resources
  */
 gchar *
 json_node_dup_string (JsonNode *node)
@@ -1054,7 +1062,11 @@ json_node_set_int (JsonNode *node,
  * json_node_get_int:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  *
- * Gets the integer value stored inside a #JsonNode
+ * Gets the integer value stored inside a #JsonNode. If the node holds a double
+ * value, its integer component is returned. If the node holds a %FALSE boolean
+ * value, `0` is returned; otherwise a non-zero integer is returned. If the
+ * node holds a %JSON_NODE_NULL value or a value of another non-integer type,
+ * `0` is returned.
  *
  * Return value: an integer value.
  */
@@ -1108,7 +1120,11 @@ json_node_set_double (JsonNode *node,
  * json_node_get_double:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  *
- * Gets the double value stored inside a #JsonNode
+ * Gets the double value stored inside a #JsonNode. If the node holds an integer
+ * value, it is returned as a double. If the node holds a %FALSE boolean value,
+ * `0.0` is returned; otherwise a non-zero double is returned. If the node holds
+ * a %JSON_NODE_NULL value or a value of another non-double type, `0.0` is
+ * returned.
  *
  * Return value: a double value.
  */
@@ -1162,7 +1178,10 @@ json_node_set_boolean (JsonNode *node,
  * json_node_get_boolean:
  * @node: a #JsonNode of type %JSON_NODE_VALUE
  *
- * Gets the boolean value stored inside a #JsonNode
+ * Gets the boolean value stored inside a #JsonNode. If the node holds an
+ * integer or double value which is zero, %FALSE is returned; otherwise %TRUE
+ * is returned. If the node holds a %JSON_NODE_NULL value or a value of another
+ * non-boolean type, %FALSE is returned.
  *
  * Return value: a boolean value.
  */
