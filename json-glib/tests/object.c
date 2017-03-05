@@ -64,6 +64,9 @@ test_set_member (void)
   json_object_set_object_member (object, "Object", NULL);
   g_assert (json_object_get_null_member (object, "Object") == TRUE);
 
+  json_object_set_object_member (object, "", NULL);
+  g_assert (json_object_get_null_member (object, "") == TRUE);
+
   json_object_unref (object);
 }
 
@@ -95,7 +98,8 @@ static const struct {
   { "boolean", JSON_NODE_VALUE, G_TYPE_BOOLEAN },
   { "string", JSON_NODE_VALUE, G_TYPE_STRING },
   { "double", JSON_NODE_VALUE, G_TYPE_DOUBLE },
-  { "null", JSON_NODE_NULL, G_TYPE_INVALID }
+  { "null", JSON_NODE_NULL, G_TYPE_INVALID },
+  { "", JSON_NODE_VALUE, G_TYPE_INT64 }
 };
 
 static void
@@ -131,6 +135,7 @@ test_foreach_member (void)
   json_object_set_string_member (object, "string", "hello");
   json_object_set_double_member (object, "double", 3.14159);
   json_object_set_null_member (object, "null");
+  json_object_set_int_member (object, "", 0);
 
   json_object_foreach_member (object, verify_foreach, &fixture);
 
@@ -155,6 +160,7 @@ test_iter (void)
   json_object_set_string_member (object, "string", "hello");
   json_object_set_double_member (object, "double", 3.14159);
   json_object_set_null_member (object, "null");
+  json_object_set_int_member (object, "", 0);
 
   json_object_iter_init (&iter, object);
 

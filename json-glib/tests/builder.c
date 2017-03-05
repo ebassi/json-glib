@@ -6,7 +6,7 @@
 
 #include <json-glib/json-glib.h>
 
-static const gchar *complex_object = "{\"depth1\":[1,{\"depth2\":[3,[null,false],\"after array\"],\"value2\":true}],\"object1\":{},\"value3\":null,\"value4\":42}";
+static const gchar *complex_object = "{\"depth1\":[1,{\"depth2\":[3,[null,false],\"after array\"],\"value2\":true}],\"object1\":{},\"value3\":null,\"value4\":42,\"\":54}";
 
 static const gchar *empty_object = "{\"a\":{}}";
 
@@ -57,6 +57,9 @@ test_builder_complex (void)
 
   json_builder_set_member_name (builder, "value4");
   json_builder_add_int_value (builder, 42);
+
+  json_builder_set_member_name (builder, "");
+  json_builder_add_int_value (builder, 54);
 
   json_builder_end_object (builder);
 

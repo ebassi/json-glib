@@ -16,7 +16,7 @@ static const gchar *empty_object = "{}";
 static const gchar *simple_array = "[true,false,null,42,\"foo\"]";
 static const gchar *nested_array = "[true,[false,null],42]";
 
-static const gchar *simple_object = "{\"Bool1\":true,\"Bool2\":false,\"Null\":null,\"Int\":42,\"String\":\"foo\"}";
+static const gchar *simple_object = "{\"Bool1\":true,\"Bool2\":false,\"Null\":null,\"Int\":42,\"\":54,\"String\":\"foo\"}";
 /* taken from the RFC 4627, Examples section */
 static const gchar *nested_object =
 "{"
@@ -209,6 +209,7 @@ test_simple_object (void)
   json_object_set_boolean_member (object, "Bool2", FALSE);
   json_object_set_null_member (object, "Null");
   json_object_set_int_member (object, "Int", 42);
+  json_object_set_int_member (object, "", 54);
   json_object_set_string_member (object, "String", "foo");
 
   json_node_take_object (root, object);

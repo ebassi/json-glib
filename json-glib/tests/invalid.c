@@ -231,7 +231,7 @@ static const struct
   { "object-4", "{ \"foo\" : 42 ]", test_invalid_object },
   { "object-5", "{ \"blah\" }", test_invalid_object },
   { "object-6", "{ \"a\" : 0 \"b\" : 1 }", test_invalid_object },
-  { "object-7", "{ \"\" : false }", test_invalid_object },
+  { "object-7", "{ null: false }", test_invalid_object },
 
   /* missing commas */
   { "missing-comma-1", "[ true false ]", test_missing_comma },

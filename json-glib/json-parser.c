@@ -676,7 +676,7 @@ json_parse_object (JsonParser   *parser,
       /* member name */
       token = json_scanner_get_next_token (scanner);
       name = g_strdup (scanner->value.v_string);
-      if (name == NULL || *name == '\0')
+      if (name == NULL)
         {
           JSON_NOTE (PARSER, "Empty object member name");
 
