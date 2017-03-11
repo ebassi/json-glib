@@ -194,6 +194,10 @@ JSON_DEPRECATED_IN_1_0_FOR(json_gobject_to_data)
 gchar *   json_serialize_gobject               (GObject                 *gobject,
                                                 gsize                   *length) G_GNUC_MALLOC;
 
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (JsonSerializable, g_object_unref)
+#endif
+
 G_END_DECLS
 
 #endif /* __JSON_GOBJECT_H__ */
