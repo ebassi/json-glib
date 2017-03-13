@@ -9,8 +9,14 @@
 
 <book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
   <bookinfo>
-    <title>JSON-GLib Reference Manual</title>
-    <releaseinfo>for JSON-GLib &package_version;</releaseinfo>
+    <title>&package_name; Reference Manual</title>
+    <releaseinfo>
+      <para>This document is the API reference for for &package_name; &package_version;.</para>
+      <para>
+        The latest version of this API reference is also available
+        <ulink role="online-location" url="https://developer.gnome.org/json-glib/">online</ulink>.
+      </para>
+    </releaseinfo>
 
     <copyright>
       <year>2007, 2008</year>
@@ -46,7 +52,7 @@
 
     </bookinfo>
 
-  <part id="json-glib">
+  <part id="json-overview">
     <title>JSON-GLib Overview</title>
 
     <partintro>
@@ -55,6 +61,12 @@
     JSON-GLib is a library aimed at providing an API for efficient parsing
     and writing of JSON (JavaScript Object Notation) streams, using GLib's
     data types and API.
+    </para>
+
+    <para>
+    JSON (JavaScript Object Notation) is a lightweight data-interchange
+    format. More information on the grammar is <ulink type="http"
+    url="http://json.org">available on json.org</ulink>.
     </para>
 
     </partintro>
@@ -136,9 +148,9 @@
     <title>JSON-GLib Additional Reference</title>
 
     <chapter id="tools">
-        <title>JSON-GLib Tools</title>
-        <xi:include href="json-glib-format.xml"/>
-        <xi:include href="json-glib-validate.xml"/>
+      <title>JSON-GLib Tools</title>
+      <xi:include href="json-glib-format.xml"/>
+      <xi:include href="json-glib-validate.xml"/>
     </chapter>
 
     <chapter>
