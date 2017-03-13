@@ -1,8 +1,10 @@
-project('json-glib', 'c',
-  version: '1.2.3',
-  meson_version: '>= 0.37.1',
-  default_options: [ 'warning_level=1',
-                      'buildtype=debugoptimized' ])
+project('json-glib', 'c', version: '1.2.3',
+        license: 'LGPLv2.1+',
+        default_options: [
+          'warning_level=1',
+          'buildtype=debugoptimized',
+        ],
+        meson_version: '>= 0.37.1')
 
 
 # Versionning
@@ -60,12 +62,10 @@ if get_option('default_library') != 'static'
       extra_args += ['-fvisibility=hidden']
     endif
   else
-    cdata.set('_JSON_EXTERN', '__attribute__((visibility("default")))')
+    cdata.set('_JSON_EXTERN', '__attribute__((visibility("default"))) extern')
     extra_args += ['-fvisibility=hidden']
   endif
 endif
-
-configure_file(output: 'config.h', configuration: cdata)
 
 root_dir = include_directories('.')
 gnome = import('gnome')
