@@ -32,3 +32,35 @@ gnome.gtkdoc('json-glib',
                '--extra-dir=@0@'.format(join_paths(glib_docpath, 'gio')),
              ],
              install: true)
+
+xsltproc = find_program('xsltproc', required: false)
+if get_option('enable-man') and xsltproc.found()
+  xlstproc_flags = [
+    '--nonet',
+    '--stringparam', 'man.output.quietly', '1',
+    '--stringparam', 'funcsynopsis.style', 'ansi',
+    '--stringparam', 'man.th.extra1.suppress', '1',
+    '--stringparam', 'man.authors.section.enabled', '1',
+    '--stringparam', 'man.copyright.section.enabled', '1',
+  ]
+
+  man_files = [
+    'json-glib-format',
+    'json-glib-validate',
+  ]
+
+  foreach m: man_files
+    custom_target(m + ' man page',
+                  input: '@0@.xml'.format(m),
+                  output: '@0@.1'.format(m),
+                  command: [
+                    xsltproc,
+                    xlstproc_flags,
+                    '-o', '@OUTPUT@',
+                    'http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl',
+                    '@INPUT@',
+                  ],
+                  install: true,
+                  install_dir: join_paths(json_mandir, 'man1'))
+  endforeach
+endif

@@ -34,6 +34,7 @@ libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
 # Paths
 json_includedir = join_paths(get_option('prefix'), get_option('includedir'))
 json_datadir = join_paths(get_option('prefix'), get_option('datadir'))
+json_mandir = join_paths(get_option('prefix'), get_option('mandir'))
 
 # Dependencies
 glib_req_version = '>= 2.37.6'

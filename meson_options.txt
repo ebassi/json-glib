@@ -4,3 +4,6 @@ option('disable_introspection',
 option('enable-gtk-doc',
        type: 'boolean', value: false,
        description: 'Whether to generate the API reference for JSON-GLib')
+option('enable-man',
+       type: 'boolean', value: false,
+       description: 'Whether to generate the man pages for JSON-GLib tools')
