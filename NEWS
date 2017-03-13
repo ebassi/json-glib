@@ -13,6 +13,10 @@ Overview of changes for 1.2
 • Allow making JSON types optionally immutable, in order to allow
   efficient hashing and equality tests [Philip Withnal - #756121]
 • Improve the build under MSVC [Chun-wei Fan]
+• Add Meson build system [Thibault Saunier - #773603]
+• Support Visual Studio 2017 [Chun-wei Fan]
+• Allow using G_DECLARE_INTERFACE with JsonSerializable
+• Allow empty strings as JsonObject member names [Dr. David Alan Gilbert - #747279]
 
 Overview of changes for 1.0
 ==============================
