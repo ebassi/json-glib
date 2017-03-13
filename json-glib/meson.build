@@ -121,7 +121,7 @@ foreach t: tools
   bin_name = t[0]
   bin_sources = t[1]
 
-  executable(bin_name, bin_sources, c_args: json_c_args, dependencies: json_glib_dep)
+  executable(bin_name, bin_sources, c_args: json_c_args, dependencies: json_glib_dep, install: true)
 endforeach
 
 subdir('tests')
