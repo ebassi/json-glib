@@ -55,19 +55,32 @@ version_h = configure_file(input: 'json-version.h.in',
 
 install_headers(source_h, subdir: install_header_subdir)
 
-localedir = join_paths(get_option('prefix'), get_option('localedir'))
 json_c_args = [
   '-DJSON_COMPILATION',
   '-DG_LOG_DOMAIN="Json"',
-  '-DJSON_LOCALEDIR="@0@"'.format(localedir)
+  '-DJSON_LOCALEDIR="@0@"'.format(json_localedir)
 ]
+
+common_ldflags = []
+
+if host_system == 'linux'
+  common_ldflags = [ '-Wl,-Bsymbolic', '-Wl,-z,relro', '-Wl,-z,now', ]
+endif
+
+# Maintain compatibility with autotools
+if host_system == 'darwin'
+  common_ldflags += [ '-compatibility_version=1', '-current_version=1.0', ]
+endif
+
+
 json_lib = library('json-glib-1.0',
                    source_c,
                    version: libversion,
                    soversion: soversion,
                    include_directories: root_dir,
                    dependencies: [ gio_dep, gobject_dep, ],
-                   c_args: json_c_args + extra_args,
+                   c_args: json_c_args + common_cflags + extra_args,
+                   link_args: common_ldflags,
                    install: true)
 
 pkgg = import('pkgconfig')

@@ -35,6 +35,7 @@ libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
 json_includedir = join_paths(get_option('prefix'), get_option('includedir'))
 json_datadir = join_paths(get_option('prefix'), get_option('datadir'))
 json_mandir = join_paths(get_option('prefix'), get_option('mandir'))
+json_localedir = join_paths(get_option('prefix'), get_option('localedir'))
 
 # Dependencies
 glib_req_version = '>= 2.37.6'
@@ -43,6 +44,7 @@ gio_dep = dependency('gio-2.0', version: glib_req_version)
 
 # Configurations
 cc = meson.get_compiler('c')
+host_system = host_machine.system()
 extra_args = []
 
 cdata = configuration_data()
@@ -57,8 +59,76 @@ foreach h: check_headers
 endforeach
 cdata.set_quoted('GETTEXT_PACKAGE', 'json-glib-1.0')
 
+if cc.get_id() == 'msvc'
+  # Compiler options taken from msvc_recommended_pragmas.h
+  # in GLib, based on _Win32_Programming_ by Rector and Newcomer
+  test_cflags = [
+    '-we4002', # too many actual parameters for macro
+    '-we4003', # not enough actual parameters for macro
+    '-w14010', # single-line comment contains line-continuation character
+    '-we4013', # 'function' undefined; assuming extern returning int
+    '-w14016', # no function return type; using int as default
+    '-we4020', # too many actual parameters
+    '-we4021', # too few actual parameters
+    '-we4027', # function declared without formal parameter list
+    '-we4029', # declared formal parameter list different from definition
+    '-we4033', # 'function' must return a value
+    '-we4035', # 'function' : no return value
+    '-we4045', # array bounds overflow
+    '-we4047', # different levels of indirection
+    '-we4049', # terminating line number emission
+    '-we4053', # an expression of type void was used as an operand
+    '-we4071', # no function prototype given
+    '-we4819', # the file contains a character that cannot be represented in the current code page
+  ]
+elif cc.get_id() == 'gcc' or cc.get_id() == 'clang'
+  test_cflags = [
+    '-Wpointer-arith',
+    '-Wmissing-declarations',
+    '-Wformat=2',
+    '-Wstrict-prototypes',
+    '-Wmissing-prototypes',
+    '-Wnested-externs',
+    '-Wold-style-definition',
+    '-Wdeclaration-after-statement',
+    '-Wunused',
+    '-Wno-uninitialized',
+    '-Wshadow',
+    '-Wcast-align',
+    '-Wmissing-noreturn',
+    '-Wmissing-format-attribute',
+    '-Wlogical-op',
+    '-Wno-discarded-qualifiers',
+    '-Werror=implicit',
+    '-Werror=nonnull',
+    '-Werror=init-self',
+    '-Werror=main',
+    '-Werror=missing-braces',
+    '-Werror=sequence-point',
+    '-Werror=return-type',
+    '-Werror=trigraphs',
+    '-Werror=array-bounds',
+    '-Werror=write-strings',
+    '-Werror=address',
+    '-Werror=int-to-pointer-cast',
+    '-Werror=pointer-to-int-cast',
+    '-Werror=empty-body',
+    '-fno-strict-aliasing',
+    '-Wno-int-conversion',
+  ]
+else
+  test_cflags = []
+endif
+
+common_cflags = []
+foreach cflag: test_cflags
+  if cc.has_argument(cflag)
+    common_cflags += [ cflag ]
+  endif
+endforeach
+
 if get_option('default_library') != 'static'
-  if host_machine.system() == 'windows'
+  if host_system == 'windows'
     cdata.set('DLL_EXPORT', true)
     if cc.get_id() == 'msvc'
       cdata.set('_JSON_EXTERN', '__declspec(dllexport) extern')
