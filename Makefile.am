@@ -1,6 +1,15 @@
 ACLOCAL_AMFLAGS = -I build/autotools
 
-EXTRA_DIST =
+EXTRA_DIST = \
+	meson.build \
+	meson_options.txt \
+	doc/reference/meson.build \
+	doc/reference/xml/meson.build \
+	doc/reference/xml/gtkdocentities.ent.in \
+	json-glib/meson.build \
+	json-glib/tests/meson.build \
+	po/meson.build \
+	$()
 
 SUBDIRS = json-glib doc build po
 
