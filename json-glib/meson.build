@@ -6,7 +6,6 @@ configure_file(output: 'config.h', configuration: cdata)
 source_h = [
   'json-builder.h',
   'json-generator.h',
-  'json-glib.h',
   'json-gobject.h',
   'json-gvariant.h',
   'json-parser.h',
@@ -55,7 +54,7 @@ json_version_h = configure_file(input: 'json-version.h.in',
                                 install: true,
                                 configuration: version_data)
 
-install_headers(source_h, subdir: install_header_subdir)
+install_headers(source_h + [ 'json-glib.h', ], subdir: install_header_subdir)
 
 json_c_args = [
   '-DJSON_COMPILATION',
@@ -94,9 +93,13 @@ pkgg.generate(libraries: [ json_lib ],
               description: 'JSON Parser for GLib.',
               requires: 'glib-2.0 gio-2.0')
 
+# Generated headers, used to declare the dependency for internal
+# targets
+json_gen_headers = [ json_version_h, json_glib_enums.get(1), ]
+
 if build_gir
     gnome.generate_gir(json_lib,
-                       sources: source_c + source_h,
+                       sources: source_c + source_h + json_glib_enums + [ json_version_h ],
                        namespace: 'Json',
                        nsversion: apiversion,
                        identifier_prefix: 'Json',
@@ -107,9 +110,6 @@ if build_gir
                        extra_args: ['-DJSON_COMPILATION'])
 endif
 
-# Generated headers, used to declare the dependency for internal
-# targets
-json_gen_headers = [ json_version_h, json_glib_enums.get(1), ]
 json_glib_dep = declare_dependency(link_with: json_lib,
                                    include_directories: root_dir,
                                    dependencies: [ gobject_dep, gio_dep, ],
