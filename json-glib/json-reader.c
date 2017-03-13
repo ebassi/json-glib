@@ -287,6 +287,7 @@ json_reader_set_root (JsonReader *reader,
  * Return value: %FALSE, to be used to return immediately from
  *   the caller function
  */
+G_GNUC_PRINTF (3, 4)
 static gboolean
 json_reader_set_error (JsonReader      *reader,
                        JsonReaderError  error_code,
