@@ -1,6 +1,8 @@
 subdir('xml')
 
 private_headers = [
+  'config.h',
+
   'json-debug.h',
   'json-enum-types.h',
   'json-glib.h',

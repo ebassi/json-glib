@@ -15,6 +15,7 @@ HFILE_GLOB = $(top_srcdir)/json-glib/*.h $(top_builddir)/json-glib/*.h
 CFILE_GLOB = $(top_srcdir)/json-glib/*.c
 
 IGNORE_HFILES = \
+	config.h		\
 	json-scanner.h 		\
 	json-types-private.h 	\
 	json-gobject-private.h	\
