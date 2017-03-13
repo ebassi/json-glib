@@ -610,7 +610,8 @@ json_parse_array (JsonParser   *parser,
 array_done:
   json_scanner_get_next_token (scanner);
 
-  json_array_seal (array);
+  if (priv->is_immutable)
+    json_array_seal (array);
 
   json_node_take_array (priv->current_node, array);
   if (priv->is_immutable)
@@ -791,7 +792,8 @@ json_parse_object (JsonParser   *parser,
 
   json_scanner_get_next_token (scanner);
 
-  json_object_seal (object);
+  if (priv->is_immutable)
+    json_object_seal (object);
 
   json_node_take_object (priv->current_node, object);
   if (priv->is_immutable)
