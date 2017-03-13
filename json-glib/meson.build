@@ -91,7 +91,7 @@ pkgg.generate(libraries: [ json_lib ],
               name: 'JSON-GLib',
               filebase: 'json-glib-@0@'.format(apiversion),
               description: 'JSON Parser for GLib.',
-              requires: 'glib-2.0 gio-2.0')
+              requires: 'gobject-2.0 gio-2.0')
 
 # Generated headers, used to declare the dependency for internal
 # targets
