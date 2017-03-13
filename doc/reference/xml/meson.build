@@ -1,0 +1,11 @@
+ent_conf = configuration_data()
+ent_conf.set('PACKAGE', 'JSON-GLib')
+ent_conf.set('PACKAGE_BUGREPORT', 'https://bugzilla.gnome.org/enter_bug.cgi?product=json-glib')
+ent_conf.set('PACKAGE_NAME', 'JSON-GLib')
+ent_conf.set('PACKAGE_STRING', 'json-glib')
+ent_conf.set('PACKAGE_TARNAME', 'json-glib-' + meson.project_version())
+ent_conf.set('PACKAGE_URL', 'http://wiki.gnome.org/Project/JsonGlib')
+ent_conf.set('PACKAGE_VERSION', meson.project_version())
+ent_conf.set('PACKAGE_API_VERSION', apiversion)
+configure_file(input: 'gtkdocentities.ent.in', output: 'gtkdocentities.ent', configuration: ent_conf)
+

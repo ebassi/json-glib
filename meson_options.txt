@@ -1,4 +1,6 @@
 option('disable_introspection',
-        type : 'boolean', value : false,
-        description : 'Whether to disable the introspection generation')
-
+        type: 'boolean', value: false,
+        description: 'Whether to disable the introspection generation')
+option('enable-gtk-doc',
+       type: 'boolean', value: false,
+       description: 'Whether to generate the API reference for JSON-GLib')

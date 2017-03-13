@@ -1,5 +1,5 @@
 install_header_subdir = 'json-glib-1.0/json-glib'
-install_header_dir = join_paths(get_option('includedir'), install_header_subdir)
+install_header_dir = join_paths(json_includedir, install_header_subdir)
 
 configure_file(output: 'config.h', configuration: cdata)
 

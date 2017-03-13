@@ -31,6 +31,10 @@ current = json_version_minor.to_int() * 100 + json_version_micro.to_int() - json
 revision = json_interface_age
 libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
 
+# Paths
+json_includedir = join_paths(get_option('prefix'), get_option('includedir'))
+json_datadir = join_paths(get_option('prefix'), get_option('datadir'))
+
 # Dependencies
 glib_req_version = '>= 2.37.6'
 gobject_dep = dependency('gobject-2.0', version: glib_req_version)
@@ -73,3 +77,7 @@ gir = find_program('g-ir-scanner', required: false)
 build_gir = gir.found() and not meson.is_cross_build() and not get_option('disable_introspection')
 
 subdir('json-glib')
+
+if get_option('enable-gtk-doc')
+  subdir('doc/reference')
+endif
