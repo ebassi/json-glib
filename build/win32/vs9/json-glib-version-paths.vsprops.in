@@ -21,6 +21,18 @@
 		Value="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj\$(ProjectName)"
 	/>
 	<UserMacro
+		Name="JsonGlibMajorVersion"
+		Value="@JSON_MAJOR_VERSION@"
+	/>
+	<UserMacro
+		Name="JsonGlibMinorVersion"
+		Value="@JSON_MINOR_VERSION@"
+	/>
+	<UserMacro
+		Name="JsonGlibMicroVersion"
+		Value="@JSON_MICRO_VERSION@"
+	/>
+	<UserMacro
 		Name="ApiVersion"
 		Value="1.0"
 	/>
