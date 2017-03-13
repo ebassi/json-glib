@@ -21,6 +21,12 @@ copy $(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin\json-glib-*.pdb $(Co
 
 mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib&#x0D;&#x0A;
 #include "json-glib.headers"
+
+if exist ..\json-glib.pc copy ..\json-glib.pc $(CopyDir)\lib\pkgconfig&#x0D;&#x0A;
 "
+	/>
+	<UserMacro
+		Name="GenJSONGLibPC"
+		Value="if exist $(PythonPath)\python.exe ((if not exist $(CopyDir)\lib\pkgconfig mkdir $(CopyDir)\lib\pkgconfig) &amp; ($(PythonPath)\python.exe ..\jsonglibpc.py --prefix=$(CopyDir) --version=$(JsonGlibMajorVersion).$(JsonGlibMinorVersion).$(JsonGlibMicroVersion)))"
 	/>
 </VisualStudioPropertySheet>

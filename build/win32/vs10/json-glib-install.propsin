@@ -5,8 +5,6 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <BinDir>$(SolutionDir)$(Configuration)\$(Platform)\bin</BinDir>
-    <InstalledDlls>$(BinDir)\$(JsonGlibDllPrefix)json-glib(JsonGlibDllSuffix).dll</InstalledDlls>
-    <InstalledBins>$(BinDir)\json-glib-format.exe;$(BinDir)\json-glib-validate.exe</InstalledBins>
     <JsonGlibDoInstall>
 mkdir $(CopyDir)
 mkdir $(CopyDir)\bin
@@ -21,7 +19,11 @@ copy $(BinDir)\json-glib-*.pdb $(CopyDir)\bin
 
 mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
 #include "json-glib.vs10.headers"
-</JsonGlibDoInstall>
+
+if exist ..\json-glib.pc copy ..\json-glib.pc $(CopyDir)\lib\pkgconfig
+    </JsonGlibDoInstall>
+    <JSONGLibPCFiles>..\json-glib.pc</JSONGLibPCFiles>
+    <GenJSONGLibPC>if exist $(PythonPath)\python.exe ((if not exist $(CopyDir)\lib\pkgconfig mkdir $(CopyDir)\lib\pkgconfig) &amp; ($(PythonPath)\python.exe ..\jsonglibpc.py --prefix=$(CopyDir) --version=$(JsonGlibMajorVersion).$(JsonGlibMinorVersion).$(JsonGlibMicroVersion)))</GenJSONGLibPC>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibinstallprops</_PropertySheetDisplayName>
@@ -30,14 +32,14 @@ mkdir $(CopyDir)\include\json-glib-$(ApiVersion)\json-glib
     <BuildMacro Include="BinDir">
       <Value>$(BinDir)</Value>
     </BuildMacro>
-    <BuildMacro Include="InstalledDlls">
-      <Value>$(InstalledDlls)</Value>
-    </BuildMacro>
-    <BuildMacro Include="InstalledBins">
-      <Value>$(InstalledBins)</Value>
-    </BuildMacro>
     <BuildMacro Include="JsonGlibDoInstall">
       <Value>$(JsonGlibDoInstall)</Value>
+    </BuildMacro>
+    <BuildMacro Include="JSONGLibPCFiles">
+      <Value>$(JSONGLibPCFiles)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GenJSONGLibPC">
+      <Value>$(GenJSONGLibPC)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

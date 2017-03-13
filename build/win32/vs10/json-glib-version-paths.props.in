@@ -15,6 +15,7 @@
     <JsonGlibSeparateVSDllSuffix>-1-vs$(VSVer)</JsonGlibSeparateVSDllSuffix>
     <JsonGlibDllPrefix>$(JsonGlibSeparateVSDllPrefix)</JsonGlibDllPrefix>
     <JsonGlibDllSuffix>$(JsonGlibSeparateVSDllSuffix)</JsonGlibDllSuffix>
+    <PythonPath>c:\python34</PythonPath>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>jsonglibversionpathsprops</_PropertySheetDisplayName>
@@ -61,6 +62,9 @@
     </BuildMacro>
     <BuildMacro Include="DefDir">
       <Value>$(DefDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PythonPath">
+      <Value>$(PythonPath)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

@@ -36,6 +36,7 @@ EXTRA_DIST =	\
 	gvariant.vcxproj		\
 	gvariant.vcxproj.filters	\
 	json-glib-install.vcxproj	\
+	json-glib-install.vcxproj.filters	\
 	node.vcxproj		\
 	node.vcxproj.filters	\
 	object.vcxproj		\

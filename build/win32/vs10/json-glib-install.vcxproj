@@ -75,19 +75,23 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="..\config.h.win32">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Installing Build Results...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(JsonGlibDoInstall)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(InstalledDlls);$(InstalledBins);%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Installing Build Results...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(JsonGlibDoInstall)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(InstalledDlls);$(InstalledBins);%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Installing Build Results...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(JsonGlibDoInstall)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(InstalledDlls);$(InstalledBins);%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Installing Build Results...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(JsonGlibDoInstall)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(InstalledDlls);$(InstalledBins);%(Outputs)</Outputs>
+    <CustomBuild Include="install_holder">
+      <Message Condition="'$(Configuration)'=='Debug'">Installing Build Results...</Message>
+      <AdditionalInputs Condition="'$(Configuration)'=='Debug'">$(JSONGLibPCFiles)</AdditionalInputs>
+      <Command Condition="'$(Configuration)'=='Debug'">$(JsonGlibDoInstall)</Command>
+      <Outputs Condition="'$(Configuration)'=='Debug'">file_holder;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)'=='Release'">Installing Build Results...</Message>
+      <AdditionalInputs Condition="'$(Configuration)'=='Release'">$(JSONGLibPCFiles)</AdditionalInputs>
+      <Command Condition="'$(Configuration)'=='Release'">$(JsonGlibDoInstall)</Command>
+      <Outputs Condition="'$(Configuration)'=='Release'">file_holder;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\..\json-glib.pc.in">
+      <Message Condition="'$(Configuration)'=='Debug'">Generating .pc file(s)...</Message>
+      <Command Condition="'$(Configuration)'=='Debug'">$(GenJSONGLibPC)</Command>
+      <Outputs Condition="'$(Configuration)'=='Debug'">$(JSONGLibPCFiles);%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)'=='Release'">Generating .pc file(s)...</Message>
+      <Command Condition="'$(Configuration)'=='Release'">$(GenJSONGLibPC)</Command>
+      <Outputs Condition="'$(Configuration)'=='Release'">$(JSONGLibPCFiles);%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
