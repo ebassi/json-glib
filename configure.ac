@@ -30,7 +30,7 @@ AC_INIT([json-glib],
         [json-glib],
         [http://live.gnome.org/JsonGlib])
 
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADER([json-glib/config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
 AC_CONFIG_AUX_DIR([build])
 AC_CONFIG_MACRO_DIR([build/autotools])
