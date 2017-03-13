@@ -66,10 +66,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)'=='Debug'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)'=='Release'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -92,6 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -115,6 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -141,6 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -163,6 +164,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(TargetDir)$(ProjectName)-$(ApiVersion).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(OutDir)$(JsonGlibDllPrefix)$(ProjectName)$(JsonGlibDllSuffix).pdb</ProgramDatabaseFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -171,18 +173,12 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\config.h.win32">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying config.h from config.h.win32...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying config.h from config.h.win32...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\config.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying config.h from config.h.win32...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\config.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying config.h from config.h.win32...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)'=='Debug'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)'=='Debug'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)'=='Debug'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)'=='Release'">Copying config.h from config.h.win32...</Message>
+      <Command Condition="'$(Configuration)'=='Release'">$(CopyConfigH)</Command>
+      <Outputs Condition="'$(Configuration)'=='Release'">..\..\..\config.h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
