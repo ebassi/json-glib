@@ -761,7 +761,7 @@ json_to_gvariant_array (JsonNode     *json_node,
   JsonArray *array;
   GList *children = NULL;
   gboolean roll_back = FALSE;
-  const gchar *orig_signature;
+  const gchar *orig_signature = NULL;
   gchar *child_signature;
 
   array = json_node_get_array (json_node);
