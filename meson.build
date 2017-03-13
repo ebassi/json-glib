@@ -73,11 +73,14 @@ if get_option('default_library') != 'static'
 endif
 
 root_dir = include_directories('.')
+
 gnome = import('gnome')
 gir = find_program('g-ir-scanner', required: false)
 build_gir = gir.found() and not meson.is_cross_build() and not get_option('disable_introspection')
 
 subdir('json-glib')
+
+subdir('po')
 
 if get_option('enable-gtk-doc')
   subdir('doc/reference')
