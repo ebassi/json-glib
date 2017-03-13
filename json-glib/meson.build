@@ -93,18 +93,18 @@ pkgg.generate(libraries: [ json_lib ],
               description: 'JSON Parser for GLib.',
               requires: 'glib-2.0 gio-2.0')
 
-json_gen_sources = [ json_glib_enums, version_h ]
+json_gen_sources = [ json_glib_enums ]
 if build_gir
-    json_gen_sources += gnome.generate_gir(json_lib,
-                                           sources: source_c + source_h,
-                                           namespace: 'Json',
-                                           nsversion: apiversion,
-                                           identifier_prefix: 'Json',
-                                           symbol_prefix: 'json',
-                                           export_packages: 'json-glib-1.0',
-                                           includes: [ 'GObject-2.0', 'Gio-2.0', ],
-                                           install: true,
-                                           extra_args: ['-DJSON_COMPILATION'])
+    gnome.generate_gir(json_lib,
+                       sources: source_c + source_h,
+                       namespace: 'Json',
+                       nsversion: apiversion,
+                       identifier_prefix: 'Json',
+                       symbol_prefix: 'json',
+                       export_packages: 'json-glib-1.0',
+                       includes: [ 'GObject-2.0', 'Gio-2.0', ],
+                       install: true,
+                       extra_args: ['-DJSON_COMPILATION'])
 endif
 
 json_glib_dep = declare_dependency(link_with: json_lib,
