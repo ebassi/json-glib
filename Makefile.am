@@ -8,6 +8,7 @@ EXTRA_DIST = \
 	doc/reference/xml/gtkdocentities.ent.in \
 	json-glib/meson.build \
 	json-glib/tests/meson.build \
+	json-glib/tests/gen-installed-test.py \
 	po/meson.build \
 	$()
 

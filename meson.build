@@ -36,6 +36,7 @@ json_includedir = join_paths(get_option('prefix'), get_option('includedir'))
 json_datadir = join_paths(get_option('prefix'), get_option('datadir'))
 json_mandir = join_paths(get_option('prefix'), get_option('mandir'))
 json_localedir = join_paths(get_option('prefix'), get_option('localedir'))
+json_libexecdir = join_paths(get_option('prefix'), get_option('libexecdir'))
 
 # Dependencies
 glib_req_version = '>= 2.37.6'
