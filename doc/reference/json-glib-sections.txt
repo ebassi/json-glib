@@ -1,3 +1,5 @@
+<INCLUDE>json-glib/json-glib.h</INCLUDE>
+
 <SECTION>
 <FILE>json-object</FILE>
 <TITLE>JSON Object</TITLE>
