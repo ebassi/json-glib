@@ -20,7 +20,7 @@ soversion = 0
 if json_version_micro.to_int().is_odd()
   json_interface_age = 0
 else
-  json_interface_age = json_version_micro
+  json_interface_age = json_version_micro.to_int()
 endif
 
 # maintaining compatibility with the previous libtool versioning
