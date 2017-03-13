@@ -1,0 +1,6 @@
+.gitattributes          export-ignore
+.gitignore              export-ignore
+
+json-glib.doap          export-ignore
+
+make_release.sh         export-ignore
