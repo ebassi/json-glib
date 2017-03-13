@@ -24,6 +24,9 @@ EXTRA_DIST = \
 	detectenv-msvc.mak			\
 	introspection-msvc.mak		\
 	json-glib-introspection-msvc.mak	\
+	jsonglibpc.py			\
+	pc_base.py			\
+	replace.py			\
 	$(GENERATED_ITEMS)
 
 DISTCLEANFILES = $(GENERATED_ITEMS)
