@@ -6,6 +6,7 @@ configure_file(output: 'config.h', configuration: cdata)
 source_h = [
   'json-builder.h',
   'json-generator.h',
+  'json-glib.h',
   'json-gobject.h',
   'json-gvariant.h',
   'json-parser.h',
