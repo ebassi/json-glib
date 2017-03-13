@@ -49,10 +49,11 @@ version_data.set('JSON_MINOR_VERSION', json_version_minor)
 version_data.set('JSON_MICRO_VERSION', json_version_micro)
 version_data.set('JSON_VERSION', meson.project_version())
 
-version_h = configure_file(input: 'json-version.h.in',
-                           output: 'json-version.h',
-                           install_dir: install_header_dir,
-                           configuration: version_data)
+json_version_h = configure_file(input: 'json-version.h.in',
+                                output: 'json-version.h',
+                                install_dir: install_header_dir,
+                                install: true,
+                                configuration: version_data)
 
 install_headers(source_h, subdir: install_header_subdir)
 
@@ -73,9 +74,8 @@ if host_system == 'darwin'
   common_ldflags += [ '-compatibility_version=1', '-current_version=1.0', ]
 endif
 
-
 json_lib = library('json-glib-1.0',
-                   source_c,
+                   source_c + json_glib_enums,
                    version: libversion,
                    soversion: soversion,
                    include_directories: root_dir,
@@ -94,7 +94,6 @@ pkgg.generate(libraries: [ json_lib ],
               description: 'JSON Parser for GLib.',
               requires: 'glib-2.0 gio-2.0')
 
-json_gen_sources = [ json_glib_enums ]
 if build_gir
     gnome.generate_gir(json_lib,
                        sources: source_c + source_h,
@@ -108,10 +107,13 @@ if build_gir
                        extra_args: ['-DJSON_COMPILATION'])
 endif
 
+# Generated headers, used to declare the dependency for internal
+# targets
+json_gen_headers = [ json_version_h, json_glib_enums.get(1), ]
 json_glib_dep = declare_dependency(link_with: json_lib,
                                    include_directories: root_dir,
                                    dependencies: [ gobject_dep, gio_dep, ],
-                                   sources: json_gen_sources)
+                                   sources: json_gen_headers)
 
 tools = [
   [ 'json-glib-validate', [ 'json-glib-validate.c', ] ],
