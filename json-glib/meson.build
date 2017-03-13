@@ -86,7 +86,7 @@ json_lib = library('json-glib-1.0',
 pkgg = import('pkgconfig')
 
 pkgg.generate(libraries: [ json_lib ],
-              subdirs: '.',
+              subdirs: 'json-glib-@0@'.format(apiversion),
               version: json_version,
               name: 'JSON-GLib',
               filebase: 'json-glib-@0@'.format(apiversion),
