@@ -163,7 +163,7 @@
 						Name="VCCustomBuildTool"
 						Description="Copying config.h from config.h.win32..."
 						CommandLine="$(CopyConfigH)"
-						Outputs="..\..\..\config.h"
+						Outputs="..\..\..\json-glib\config.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration Name="Release|Win32">
@@ -171,7 +171,7 @@
 						Name="VCCustomBuildTool"
 						Description="Copying config.h from config.h.win32..."
 						CommandLine="$(CopyConfigH)"
-						Outputs="..\..\..\config.h"
+						Outputs="..\..\..\json-glib\config.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration Name="Debug|x64">
@@ -179,7 +179,7 @@
 						Name="VCCustomBuildTool"
 						Description="Copying config.h from config.h.win32..."
 						CommandLine="$(CopyConfigH)"
-						Outputs="..\..\..\config.h"
+						Outputs="..\..\..\json-glib\config.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration Name="Release|x64">
@@ -187,7 +187,7 @@
 						Name="VCCustomBuildTool"
 						Description="Copying config.h from config.h.win32..."
 						CommandLine="$(CopyConfigH)"
-						Outputs="..\..\..\config.h"
+						Outputs="..\..\..\json-glib\config.h"
 					/>
 				</FileConfiguration>
 			</File>

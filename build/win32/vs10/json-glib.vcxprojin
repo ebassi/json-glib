@@ -175,10 +175,10 @@
     <CustomBuild Include="..\config.h.win32">
       <Message Condition="'$(Configuration)'=='Debug'">Copying config.h from config.h.win32...</Message>
       <Command Condition="'$(Configuration)'=='Debug'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)'=='Debug'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)'=='Debug'">..\..\..\json-glib\config.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)'=='Release'">Copying config.h from config.h.win32...</Message>
       <Command Condition="'$(Configuration)'=='Release'">$(CopyConfigH)</Command>
-      <Outputs Condition="'$(Configuration)'=='Release'">..\..\..\config.h;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)'=='Release'">..\..\..\json-glib\config.h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

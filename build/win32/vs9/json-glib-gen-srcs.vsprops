@@ -7,6 +7,6 @@
 	>
 	<UserMacro
 		Name="CopyConfigH"
-		Value="copy ..\config.h.win32 ..\..\..\config.h"
+		Value="copy ..\config.h.win32 ..\..\..\json-glib\config.h"
 	/>
 </VisualStudioPropertySheet>
