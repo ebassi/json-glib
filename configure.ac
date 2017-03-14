@@ -392,8 +392,6 @@ AC_CONFIG_FILES([
         json-glib/tests/Makefile
 
         doc/Makefile
-        doc/reference/Makefile
-        doc/reference/version.xml
 
         po/Makefile.in
 ])

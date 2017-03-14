@@ -3,9 +3,9 @@ ACLOCAL_AMFLAGS = -I build/autotools
 EXTRA_DIST = \
 	meson.build \
 	meson_options.txt \
-	doc/reference/meson.build \
-	doc/reference/xml/meson.build \
-	doc/reference/xml/gtkdocentities.ent.in \
+	doc/meson.build \
+	doc/xml/meson.build \
+	doc/xml/gtkdocentities.ent.in \
 	json-glib/meson.build \
 	json-glib/tests/meson.build \
 	json-glib/tests/gen-installed-test.py \

@@ -154,5 +154,5 @@ subdir('json-glib')
 subdir('po')
 
 if get_option('enable-gtk-doc')
-  subdir('doc/reference')
+  subdir('doc')
 endif
