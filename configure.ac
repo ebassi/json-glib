@@ -24,11 +24,11 @@ m4_define([glib_req_version], [2.37.6])
 
 AC_PREREQ([2.63])
 
-AC_INIT([json-glib],
+AC_INIT([JSON-GLib],
         [json_version],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=json-glib],
         [json-glib],
-        [http://live.gnome.org/JsonGlib])
+        [http://wiki.gnome.org/Project/JsonGlib])
 
 AC_CONFIG_HEADER([json-glib/config.h])
 AC_CONFIG_SRCDIR([json-glib/json-glib.h])
