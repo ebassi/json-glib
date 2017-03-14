@@ -11,11 +11,17 @@ m4_define([json_release_status],
                  [m4_if(m4_eval(json_minor_version % 2), [1], [snapshot],
                                                               [release])])])
 
-# bump up by 1 for every micro release with no API changes, otherwise
-# set to 0. after release, bump up by 1
-m4_define([json_interface_age], [7])
-m4_define([json_binary_age], [m4_eval(100 * json_minor_version + json_micro_version)])
+# Only development cycles are allowed to add API
+m4_define([json_interface_age],
+          [m4_if(m4_eval(json_minor_version % 2), [1],
+                 [0],
+                 [json_micro_version])])
 
+# Binary age increases with every release
+m4_define([json_binary_age],
+          [m4_eval(100 * json_minor_version + json_micro_version)])
+
+# Keep the soname compatible between micro releases of the same stable cycle
 m4_define([lt_current], [m4_eval(100 * json_minor_version + json_micro_version - json_interface_age)])
 m4_define([lt_revision], [json_interface_age])
 m4_define([lt_age], [m4_eval(json_binary_age - json_interface_age)])
