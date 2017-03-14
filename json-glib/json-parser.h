@@ -176,6 +176,8 @@ gboolean    json_parser_load_from_stream_finish (JsonParser           *parser,
 
 JSON_AVAILABLE_IN_1_0
 JsonNode *  json_parser_get_root                (JsonParser           *parser);
+JSON_AVAILABLE_IN_1_4
+JsonNode *  json_parser_steal_root              (JsonParser           *parser);
 
 JSON_AVAILABLE_IN_1_0
 guint       json_parser_get_current_line        (JsonParser           *parser);

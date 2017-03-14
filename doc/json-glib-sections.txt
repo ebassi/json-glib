@@ -186,6 +186,7 @@ json_parser_load_from_stream_finish
 
 <SUBSECTION>
 json_parser_get_root
+json_parser_steal_root
 
 <SUBSECTION>
 json_parser_get_current_line

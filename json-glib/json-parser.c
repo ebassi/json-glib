@@ -1198,6 +1198,32 @@ json_parser_get_root (JsonParser *parser)
 }
 
 /**
+ * json_parser_steal_root:
+ * @parser: a #JsonParser
+ *
+ * Steals the top level node from the parsed JSON stream.
+ *
+ * Returns: (transfer full): the top level #JsonNode
+ *
+ * Since: 1.4
+ */
+JsonNode *
+json_parser_steal_root (JsonParser *parser)
+{
+  JsonParserPrivate *priv;
+  JsonNode *root;
+
+  g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
+
+  priv = parser->priv;
+
+  root = priv->root;
+  priv->root = NULL;
+
+  return root;
+}
+
+/**
  * json_parser_get_current_line:
  * @parser: a #JsonParser
  *
