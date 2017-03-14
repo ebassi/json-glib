@@ -10,24 +10,24 @@ project('json-glib', 'c', version: '1.2.7',
 # Versionning
 json_version = meson.project_version()
 version_arr = json_version.split('.')
-json_version_major = version_arr[0]
-json_version_minor = version_arr[1]
-json_version_micro = version_arr[2]
+json_version_major = version_arr[0].to_int()
+json_version_minor = version_arr[1].to_int()
+json_version_micro = version_arr[2].to_int()
 
 apiversion = '1.0'
 soversion = 0
 
-if json_version_micro.to_int().is_odd()
+if json_version_minor.is_odd()
   json_interface_age = 0
 else
-  json_interface_age = json_version_micro.to_int()
+  json_interface_age = json_version_micro
 endif
 
 # maintaining compatibility with the previous libtool versioning
 # current = minor * 100 + micro - interface
 # revision = interface
 soversion = 0
-current = json_version_minor.to_int() * 100 + json_version_micro.to_int() - json_interface_age
+current = json_version_minor * 100 + json_version_micro - json_interface_age
 revision = json_interface_age
 libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
 
