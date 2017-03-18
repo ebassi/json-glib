@@ -48,7 +48,7 @@
  * path index is separated using either the dot notation or the bracket
  * notation, e.g.:
  *
- * |[
+ * |[<!-- language="plain" -->
  *   // dot notation
  *   $.store.book[0].title
  *
@@ -97,7 +97,8 @@
  * ## Example of JSONPath matches
  * The following example shows some of the results of using #JsonPath
  * on a JSON tree. We use the following JSON description of a bookstore:
- * |[
+ *
+ * |[<!-- language="plain" -->
  *   { "store": {
  *       "book": [
  *         { "category": "reference", "author": "Nigel Rees",
@@ -145,7 +146,7 @@
  *
  * The output will be:
  *
- * |[
+ * |[<!-- language="plain" -->
  *   ["Nigel Rees","Evelyn Waugh","Herman Melville","J. R. R. Tolkien"]
  * ]|
  *
