@@ -39,7 +39,7 @@ json_localedir = join_paths(get_option('prefix'), get_option('localedir'))
 json_libexecdir = join_paths(get_option('prefix'), get_option('libexecdir'))
 
 # Dependencies
-glib_req_version = '>= 2.37.6'
+glib_req_version = '>= 2.44.0'
 gobject_dep = dependency('gobject-2.0', version: glib_req_version)
 gio_dep = dependency('gio-2.0', version: glib_req_version)
 
