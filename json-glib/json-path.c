@@ -79,8 +79,8 @@
  *   the first element of the book array of the store object.
  *
  * * Subsets of element nodes can be accessed using the set notation
- *   operator `[start,end]`. For instance, `$.store.book[0,2]` matches the
- *   first, second, and third elements of the book array of the store
+ *   operator `[i,j,...]`. For instance, `$.store.book[0,2]` matches the
+ *   elements 0 and 2 (the first and third) of the book array of the store
  *   object.
  *
  * * Slices of element nodes can be accessed using the slice notation
