@@ -1,3 +1,7 @@
+Overview of changes for 1.4
+==============================
+• Use Meson as the only build system
+
 Overview of changes for 1.2
 ==============================
 • Add simple wrapper functions for JsonGenerator and JsonParser to
