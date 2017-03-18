@@ -124,6 +124,6 @@ Copyright 2013  Emmanuele Bassi
 [json-glib]: https://wiki.gnome.org/Projects/JsonGlib "JSON-GLib wiki"
 [gnome]: https://www.gnome.org "GNOME"
 [bugzilla]: https://bugzilla.gnome.org "GNOME Bugzilla"
-[bugzilla-bug-page]: https://http://bugzilla.gnome.org/browse.cgi?product=json-glib "GNOME Bugzilla - Browse: json-glib"
+[bugzilla-bug-page]: https://bugzilla.gnome.org/page.cgi?id=browse.html&product=json-glib "GNOME Bugzilla - Browse: json-glib"
 [bugzilla-enter-bug]: https://bugzilla.gnome.org/enter_bug.cgi?product=json-glib "GNOME Bugzilla - Enter bug: json-glib"
 [git-bz]: http://blog.fishsoup.net/2008/11/16/git-bz-bugzilla-subcommand-for-git/
