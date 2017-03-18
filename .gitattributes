@@ -4,3 +4,6 @@
 json-glib.doap          export-ignore
 
 make_release.sh         export-ignore
+
+draft-zyp-json-schema-02.txt    export-ignore
+rfc4627.txt                     export-ignore
