@@ -1210,17 +1210,11 @@ json_parser_get_root (JsonParser *parser)
 JsonNode *
 json_parser_steal_root (JsonParser *parser)
 {
-  JsonParserPrivate *priv;
-  JsonNode *root;
+  JsonParserPrivate *priv = json_parser_get_instance_private (parser);
 
   g_return_val_if_fail (JSON_IS_PARSER (parser), NULL);
 
-  priv = parser->priv;
-
-  root = priv->root;
-  priv->root = NULL;
-
-  return root;
+  return g_steal_pointer (&priv->root);
 }
 
 /**
