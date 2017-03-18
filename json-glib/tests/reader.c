@@ -14,6 +14,10 @@ static const gchar *test_base_object_data =
 static const gchar *test_reader_level_data =
 " { \"list\": { \"181195771\": { \"given_url\": \"http://www.gnome.org/json-glib-test\" } } }";
 
+/* https://bugzilla.gnome.org/show_bug.cgi?id=758580 */
+static const char *test_reader_null_value_data =
+"{ \"v\": null }";
+
 static const gchar *expected_member_name[] = {
   "text",
   "foo",
@@ -188,6 +192,29 @@ test_reader_level (void)
   g_clear_object (&parser);
 }
 
+static void
+test_reader_null_value (void)
+{
+  JsonParser *parser = json_parser_new ();
+  JsonReader *reader = json_reader_new (NULL);
+  GError *error = NULL;
+
+  g_test_bug ("758580");
+
+  json_parser_load_from_data (parser, test_reader_null_value_data, -1, &error);
+  g_assert_no_error (error);
+
+  json_reader_set_root (reader, json_parser_get_root (parser));
+
+  json_reader_read_member (reader, "v");
+  g_assert_true (json_reader_is_value (reader));
+  g_assert_no_error (json_reader_get_error (reader));
+  g_assert_nonnull (json_reader_get_value (reader));
+
+  g_object_unref (reader);
+  g_object_unref (parser);
+}
+
 int
 main (int   argc,
       char *argv[])
@@ -198,6 +225,7 @@ main (int   argc,
   g_test_add_func ("/reader/base-array", test_base_array);
   g_test_add_func ("/reader/base-object", test_base_object);
   g_test_add_func ("/reader/level", test_reader_level);
+  g_test_add_func ("/reader/null-value", test_reader_null_value);
 
   return g_test_run ();
 }
