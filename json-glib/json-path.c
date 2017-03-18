@@ -59,32 +59,32 @@
  * The available operators are:
  *
  * * Root node
- *   The '$' character represents the root node of the JSON tree, and
+ *   The `$` character represents the root node of the JSON tree, and
  *   matches the entire document.
  *
- * * Child nodes can either be matched using '.' or '[]'. For instance,
- *   both `$.store.book` and `$['store']['book'] match the contents of
+ * * Child nodes can either be matched using `.` or `[]`. For instance,
+ *   both `$.store.book` and `$['store']['book']` match the contents of
  *   the book member of the store object.
  *
  * * Child nodes can be reached without specifying the whole tree structure
- *   through the recursive descent operator, or '..'. For instance,
+ *   through the recursive descent operator, or `..`. For instance,
  *   `$..author` matches all author member in every object.
  *
- * * Child nodes can grouped through the wildcard operator, or '*'. For
+ * * Child nodes can grouped through the wildcard operator, or `*`. For
  *   instance, `$.store.book[*].author` matches all author members of any
  *   object element contained in the book array of the store object.
  *
  * * Element nodes can be accessed using their index (starting from zero)
- *   in the subscript operator '[]'. For instance, `$.store.book[0]` matches
+ *   in the subscript operator `[]`. For instance, `$.store.book[0]` matches
  *   the first element of the book array of the store object.
  *
  * * Subsets of element nodes can be accessed using the set notation
- *   operator '[start,end]'. For instance, `$.store.book[0,2]` matches the
+ *   operator `[start,end]`. For instance, `$.store.book[0,2]` matches the
  *   first, second, and third elements of the book array of the store
  *   object.
  *
  * * Slices of element nodes can be accessed using the slice notation
- *   operation '[start:end:step]'. If start is omitted, the starting index
+ *   operation `[start:end:step]`. If start is omitted, the starting index
  *   of the slice is implied to be zero; if end is omitted, the ending index
  *   of the slice is implied to be the length of the array; if step is
  *   omitted, the step of the slice is implied to be 1. For instance,
